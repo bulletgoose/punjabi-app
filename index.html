@@ -146,8 +146,23 @@
     margin-left:auto; background:none; border:1px solid var(--border); color:var(--teal);
     font-size:13px; font-weight:600; padding:6px 12px; border-radius:100px; cursor:pointer;
   }
-  .breakdown{margin-top:16px; padding-top:16px; border-top:1px solid var(--border); display:none; flex-wrap:wrap; gap:8px;}
+  .breakdown{margin-top:16px; padding-top:16px; border-top:1px solid var(--border); display:none; flex-direction:column; gap:18px; min-width:0;}
   .breakdown.open{display:flex;}
+  .breakdown-section{min-width:0;}
+  .breakdown-heading{font-size:13px; margin:0 0 9px; color:var(--ink); text-transform:uppercase; letter-spacing:.055em;}
+  .building-block-list{display:flex; flex-wrap:wrap; gap:8px;}
+  .sentence-breakdown-list{display:grid; gap:8px;}
+  .sentence-breakdown-row{display:grid; grid-template-columns:minmax(0,2fr) auto minmax(150px,1.2fr); gap:12px; align-items:center; min-width:0; padding:11px 12px; border:1px solid var(--border); border-radius:10px; background:var(--bg);}
+  .sentence-breakdown-row.single-column{grid-template-columns:minmax(0,1fr);}
+  .breakdown-scripts{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:10px; min-width:0;}
+  .breakdown-roman,.breakdown-gurmukhi,.breakdown-english{min-width:0; overflow-wrap:anywhere; line-height:1.45;}
+  .breakdown-roman{font-weight:650; color:var(--teal-deep);}
+  .breakdown-gurmukhi{font-size:18px; font-weight:600;}
+  .breakdown-arrow{color:var(--muted); font-weight:700;}
+  .breakdown-english{font-size:14px;}
+  .breakdown-category{display:block; margin-top:3px; color:var(--muted); font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;}
+  .breakdown-note{display:block; margin-top:3px; color:var(--muted); font-size:12px; font-weight:400;}
+  .flash-breakdown-actions{display:flex; justify-content:center; margin-top:14px;}
   .chip{
     font-size:13px; padding:6px 10px; border-radius:8px; background:var(--surface-2);
     border-left:3px solid var(--teal);
@@ -311,6 +326,8 @@
     .flash-card{padding:20px 12px;min-height:220px}.rating-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}
     .flash-navigation button{flex:1 1 120px}.summary-counts{grid-template-columns:repeat(2,minmax(0,1fr))}
     .add-form{grid-template-columns:minmax(0,1fr)}.breakdown-toggle{margin-left:0}
+    .sentence-breakdown-row{grid-template-columns:minmax(0,1fr);gap:3px;padding:12px}
+    .breakdown-arrow{display:none}.breakdown-gurmukhi{font-size:19px}.breakdown-english{margin-top:4px}
   }
 
 </style>
@@ -969,7 +986,7 @@
         puTokens.push(who.p);
         enTokens.push(capitalizeFirst(who.e, enTokens.length===0));
         englishParts.push({t:'WHO', text:who.e});
-        breakdown.push({label:'Who', value:who.p, type:'WHO'});
+        breakdown.push({label:'Who', value:who.p, type:'WHO', meaning:who.e});
         sigParts.push('WHO:'+who.id);
       }
       else if(slot.t === 'WHEN'){
@@ -979,7 +996,7 @@
         puTokens.push(item.p);
         enTokens.push(item.e);
         englishParts.push({t:'WHEN', text:item.e});
-        breakdown.push({label:'When', value:item.p, type:'WHEN'});
+        breakdown.push({label:'When', value:item.p, type:'WHEN', meaning:item.e});
         sigParts.push('WHEN:'+item.id);
       }
       else if(slot.t === 'WHERE'){
@@ -989,7 +1006,7 @@
         puTokens.push(item.p);
         enTokens.push(item.e);
         englishParts.push({t:'WHERE', text:item.e});
-        breakdown.push({label:'Where', value:item.p, type:'WHERE'});
+        breakdown.push({label:'Where', value:item.p, type:'WHERE', meaning:item.e});
         sigParts.push('WHERE:'+item.id);
       }
       else if(slot.t === 'HOW'){
@@ -999,7 +1016,7 @@
         puTokens.push(item.p);
         enTokens.push(item.e);
         englishParts.push({t:'HOW', text:item.e});
-        breakdown.push({label:'How', value:item.p, type:'HOW'});
+        breakdown.push({label:'How', value:item.p, type:'HOW', meaning:item.e});
         sigParts.push('HOW:'+item.id);
       }
       else if(slot.t === 'ABOUT'){
@@ -1009,7 +1026,7 @@
         puTokens.push(item.p);
         enTokens.push(item.e);
         englishParts.push({t:'ABOUT', text:item.e});
-        breakdown.push({label:'About', value:item.p, type:'ABOUT'});
+        breakdown.push({label:'About', value:item.p, type:'ABOUT', meaning:item.e});
         sigParts.push('ABOUT:'+item.id);
       }
       else if(slot.t === 'QUESTION'){
@@ -1020,7 +1037,7 @@
         puTokens.push(item.p);
         enTokens.push(item.e);
         englishParts.push({t:'QUESTION', text:item.e});
-        breakdown.push({label:'Question', value:item.p, type:'QUESTION'});
+        breakdown.push({label:'Question', value:item.p, type:'QUESTION', meaning:item.e});
         sigParts.push('Q:'+item.id);
       }
       else if(slot.t === 'WHY'){
@@ -1030,7 +1047,7 @@
         puTokens.push(item.p);
         enTokens.push(item.e);
         englishParts.push({t:'WHY', text:item.e});
-        breakdown.push({label:'Why', value:item.p, type:'WHY'});
+        breakdown.push({label:'Why', value:item.p, type:'WHY', meaning:item.e});
         sigParts.push('WHY:'+item.id);
       }
       else if(slot.t === 'WHAT'){
@@ -1043,7 +1060,7 @@
         puTokens.push(item.p);
         enTokens.push(item.e);
         englishParts.push({t:'WHAT', text:item.e});
-        breakdown.push({label:'What', value:item.p, type:'WHAT'});
+        breakdown.push({label:'What', value:item.p, type:'WHAT', meaning:item.e});
         sigParts.push('WHAT:'+item.id);
       }
       else if(slot.t === 'VERB'){
@@ -1065,7 +1082,7 @@
           const modalEn = conjugateEnglish(modal.base, person);
           enTokens.push(modalEn + ' to ' + pair.verb.base);
           englishParts.push({t:'VERB', text:modalEn + ' to ' + pair.verb.base});
-          breakdown.push({label:'Verb', value: complementPu + ' ' + modalConjugated, type:'VERB'});
+          breakdown.push({label:'Verb', value: complementPu + ' ' + modalConjugated, type:'VERB', meaning:modalEn + ' to ' + pair.verb.base});
           sigParts.push('VERB:'+modal.id+':'+pair.verb.id);
         } else {
           const pair=linkedVerbPair[i];if(!pair)return null;
@@ -1074,7 +1091,7 @@
           puTokens.push(conjugated);
           enTokens.push(conjugateEnglish(verb.base, person));
           englishParts.push({t:'VERB', text:conjugateEnglish(verb.base, person)});
-          breakdown.push({label:'Verb', value:conjugated, type:'VERB'});
+          breakdown.push({label:'Verb', value:conjugated, type:'VERB', meaning:conjugateEnglish(verb.base, person)});
           sigParts.push('VERB:'+verb.id);
         }
       }
@@ -1093,6 +1110,7 @@
       templateName: template.name,
       difficulty: template.difficulty,
       breakdown: breakdown,
+      phraseBreakdown: breakdown.map(function(part){return {value:part.value,english:part.meaning||part.label,category:part.type,grammarNote:''};}),
       signature: sigParts.join('|')
     };
   }
@@ -1158,9 +1176,14 @@
       breakdown.push({label:label,value:value,type:type});
       if(id) sig.push(type+':'+id);
     }
-    function result(pu,en,isQuestion){
+    function phrase(value,english,category,grammarNote){
+      return {value:String(value||'').replace(/\s+/g,' ').trim(),english:english||'',category:category||'',grammarNote:grammarNote||''};
+    }
+    function result(parts,en,isQuestion){
       const punc=isQuestion?'?':'.';
-      return {punjabi:pu.replace(/\s+/g,' ').trim()+punc,english:capitalizeSentence(en)+punc,templateId:template.id,templateName:template.name,difficulty:template.difficulty,breakdown:breakdown,signature:sig.join('|')};
+      const phrases=parts.filter(function(part){return part&&part.value;});
+      const pu=phrases.map(function(part){return part.value;}).join(' ');
+      return {punjabi:pu.replace(/\s+/g,' ').trim()+punc,english:capitalizeSentence(en)+punc,templateId:template.id,templateName:template.name,difficulty:template.difficulty,breakdown:breakdown,phraseBreakdown:phrases,signature:sig.join('|')};
     }
     function pickPair(){ return pickCompatibleWhatAndComplement(); }
     function bareVerb(exclude){
@@ -1190,6 +1213,10 @@
     function englishPastBe(subject){ const p=subject.englishPerson||subject.person;return (p==='1sg'||p==='3sg'||!p)?'was':'were'; }
     function englishSubject(subject){ return subject.e==='he/she'?(subject.gender==='f'?'she':'he'):(subject.e||'someone'); }
     function englishObject(item){ return item.e||item.p; }
+    function objectiveSubject(subject){
+      const text=englishSubject(subject);
+      return ({I:'me',he:'him',she:'her',we:'us',they:'them'})[text]||text;
+    }
     function bareEnglishObject(item){ return englishObject(item).replace(/^(a|an|the)\s+/i,''); }
     function englishExistenceIs(item){ return (item.englishNumber||item.number)!=='pl'; }
     function thirdSingular(subject){ return (subject.englishPerson||subject.person||'3sg')==='3sg'; }
@@ -1227,77 +1254,83 @@
     function capitalizeSentence(s){ s=String(s||'').trim(); return s.charAt(0).toUpperCase()+s.slice(1); }
     function noteWho(subject){ add('Who',subject.p,'WHO',subject.id); }
     function notePair(pair){ add('What',pair.what.p,'WHAT',pair.what.id); add('Action',pair.verb.infinitive,'VERB',pair.verb.id); }
+    function subjectPart(subject,value,meaning,note){return phrase(value||subject.p,meaning||englishSubject(subject),'WHO',note);}
+    function objectPart(value,item,meaning,note){return phrase(value,meaning||englishObject(item),'WHAT',note);}
+    function habitualMeaning(verb,subject){return englishSubject(subject)+' '+conjugateEnglish(verb.base,subject.englishPerson||subject.person||'3sg');}
+    function progressiveMeaning(verb,subject){return englishSubject(subject)+' '+englishBe(subject)+' '+englishGerund(verb.base);}
+    function pastProgressiveMeaning(verb,subject){return englishSubject(subject)+' '+englishPastBe(subject)+' '+englishGerund(verb.base);}
 
     let pair,verb,item,place,time,how,topic,reason,who2,pair2,pu,en;
     switch(template.pattern){
       case 'habitObject':
         pair=pickPair(); if(!pair)return null; noteWho(who);notePair(pair);
-        return result(who.p+' '+pair.what.p+' '+habitual(pair.verb,who),englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what));
+        return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(habitual(pair.verb,who),habitualMeaning(pair.verb,who),'VERB','habitual present; agrees with the subject')],englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what));
       case 'habitBare':
         verb=bareVerb();if(!verb)return null;noteWho(who);add('Action',verb.infinitive,'VERB',verb.id);
-        return result(who.p+' '+habitual(verb,who),englishSubject(who)+' '+conjugateEnglish(verb.base,person));
+        return result([subjectPart(who),phrase(habitual(verb,who),habitualMeaning(verb,who),'VERB','habitual present; agrees with the subject')],englishSubject(who)+' '+conjugateEnglish(verb.base,person));
       case 'habitDetailed':
         pair=pickPair();place=pickRandom(wherePool);time=timeFor('habit');if(!pair||!place||!time)return null;noteWho(who);add('When',time.p,'WHEN',time.id);add('Where',place.p,'WHERE',place.id);notePair(pair);
-        return result(who.p+' '+time.p+' '+place.p+' '+pair.what.p+' '+habitual(pair.verb,who),englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' '+place.e+' '+time.e);
+        return result([subjectPart(who),phrase(time.p,time.e,'WHEN'),phrase(place.p,place.e,'WHERE'),objectPart(pair.what.p,pair.what),phrase(habitual(pair.verb,who),habitualMeaning(pair.verb,who),'VERB','habitual present; agrees with the subject')],englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' '+place.e+' '+time.e);
       case 'habitNegative':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Negative',L('nahī̃'),'CONNECTOR');
-        return result(who.p+' '+pair.what.p+L(' nahī̃ ')+habitual(pair.verb,who),englishSubject(who)+' '+englishNegative(who,pair.verb)+' '+englishObject(pair.what));
+        return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(L('nahī̃ ')+habitual(pair.verb,who),englishSubject(who)+' '+englishNegative(who,pair.verb),'VERB','negative habitual present')],englishSubject(who)+' '+englishNegative(who,pair.verb)+' '+englishObject(pair.what));
       case 'habitQuestion':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Question',L('kī'),'QUESTION');
-        return result(L('kī ')+who.p+' '+pair.what.p+' '+habitual(pair.verb,who),englishQuestionAux(who)+' '+englishSubject(who)+' '+pair.verb.base+' '+englishObject(pair.what),true);
+        return result([phrase(L('kī'),'yes/no question marker','QUESTION'),subjectPart(who),objectPart(pair.what.p,pair.what),phrase(habitual(pair.verb,who),englishQuestionAux(who).toLowerCase()+' '+englishSubject(who)+' '+pair.verb.base,'VERB','habitual present in a yes/no question')],englishQuestionAux(who)+' '+englishSubject(who)+' '+pair.verb.base+' '+englishObject(pair.what),true);
       case 'progressObject':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);
-        return result(who.p+' '+pair.what.p+' '+progressive(pair.verb,who),englishSubject(who)+' '+englishBe(who)+' '+englishGerund(pair.verb.base)+' '+englishObject(pair.what));
+        return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(progressive(pair.verb,who),progressiveMeaning(pair.verb,who),'VERB','present progressive; gender, number and person agreement')],englishSubject(who)+' '+englishBe(who)+' '+englishGerund(pair.verb.base)+' '+englishObject(pair.what));
       case 'progressBare':
         verb=bareVerb();if(!verb)return null;noteWho(who);add('Action',verb.infinitive,'VERB',verb.id);
-        return result(who.p+' '+progressive(verb,who),englishSubject(who)+' '+englishBe(who)+' '+englishGerund(verb.base));
+        return result([subjectPart(who),phrase(progressive(verb,who),progressiveMeaning(verb,who),'VERB','present progressive; gender, number and person agreement')],englishSubject(who)+' '+englishBe(who)+' '+englishGerund(verb.base));
       case 'progressNegative':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Negative',L('nahī̃'),'CONNECTOR');
-        return result(who.p+' '+pair.what.p+L(' nahī̃ ')+progressive(pair.verb,who),englishSubject(who)+' '+englishBe(who)+' not '+englishGerund(pair.verb.base)+' '+englishObject(pair.what));
+        return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(L('nahī̃ ')+progressive(pair.verb,who),englishSubject(who)+' '+englishBe(who)+' not '+englishGerund(pair.verb.base),'VERB','negative present progressive')],englishSubject(who)+' '+englishBe(who)+' not '+englishGerund(pair.verb.base)+' '+englishObject(pair.what));
       case 'whatDoing':
         noteWho(who);add('Question',L('kī'),'QUESTION');verb=byId('v-karna');
-        return result(who.p+L(' kī ')+progressive(verb,who),'what '+englishBe(who)+' '+englishSubject(who)+' doing',true);
+        return result([subjectPart(who),phrase(L('kī'),'what','QUESTION'),phrase(progressive(verb,who),englishBe(who)+' '+englishSubject(who)+' doing','VERB','present progressive question')],'what '+englishBe(who)+' '+englishSubject(who)+' doing',true);
       case 'whereGoing':
         noteWho(who);add('Question',L('kithē'),'QUESTION');verb=byId('v-jana');
-        return result(who.p+L(' kithē ')+progressive(verb,who),'where '+englishBe(who)+' '+englishSubject(who)+' going',true);
+        return result([subjectPart(who),phrase(L('kithē'),'where','QUESTION'),phrase(progressive(verb,who),englishBe(who)+' '+englishSubject(who)+' going','VERB','present progressive question')],'where '+englishBe(who)+' '+englishSubject(who)+' going',true);
       case 'whenComing':
         noteWho(who);add('Question',L('kadō̃'),'QUESTION');verb=byId('v-auna');
-        return result(who.p+L(' kadō̃ ')+progressive(verb,who),'when '+englishBe(who)+' '+englishSubject(who)+' coming',true);
+        return result([subjectPart(who),phrase(L('kadō̃'),'when','QUESTION'),phrase(progressive(verb,who),englishBe(who)+' '+englishSubject(who)+' coming','VERB','present progressive question')],'when '+englishBe(who)+' '+englishSubject(who)+' coming',true);
       case 'whyDoing':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Question',L('kiũ'),'QUESTION');
-        return result(who.p+' '+pair.what.p+L(' kiũ ')+progressive(pair.verb,who),'why '+englishBe(who)+' '+englishSubject(who)+' '+englishGerund(pair.verb.base)+' '+englishObject(pair.what),true);
+        return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(L('kiũ'),'why','QUESTION'),phrase(progressive(pair.verb,who),englishBe(who)+' '+englishSubject(who)+' '+englishGerund(pair.verb.base),'VERB','present progressive question')],'why '+englishBe(who)+' '+englishSubject(who)+' '+englishGerund(pair.verb.base)+' '+englishObject(pair.what),true);
       case 'howDoing':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Question',L('kivẽ'),'QUESTION');
-        return result(who.p+' '+pair.what.p+L(' kivẽ ')+habitual(pair.verb,who),'how '+englishQuestionAux(who).toLowerCase()+' '+englishSubject(who)+' '+pair.verb.base+' '+englishObject(pair.what),true);
+        return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(L('kivẽ'),'how','QUESTION'),phrase(habitual(pair.verb,who),englishQuestionAux(who).toLowerCase()+' '+englishSubject(who)+' '+pair.verb.base,'VERB','habitual present question')],'how '+englishQuestionAux(who).toLowerCase()+' '+englishSubject(who)+' '+pair.verb.base+' '+englishObject(pair.what),true);
       case 'wantObject':
       case 'wantNegative':
         pair=pickPair();verb=byId('v-chahuna');if(!pair||!verb)return null;noteWho(who);notePair(pair);add('Modal',verb.infinitive,'VERB',verb.id);
         pu=who.p+' '+pair.what.p+' '+agreedInfinitive(pair.verb,pair.what)+' '+(template.pattern==='wantNegative'?L('nahī̃ '):'')+habitual(verb,who);
         en=englishSubject(who)+' '+(template.pattern==='wantNegative'?(thirdSingular(who)?'does not want':'do not want'):(thirdSingular(who)?'wants':'want'))+' to '+pair.verb.base+' '+englishObject(pair.what);
-        return result(pu,en);
+        return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(agreedInfinitive(pair.verb,pair.what)+' '+(template.pattern==='wantNegative'?L('nahī̃ '):'')+habitual(verb,who),englishSubject(who)+' '+(template.pattern==='wantNegative'?(thirdSingular(who)?'does not want':'do not want'):(thirdSingular(who)?'wants':'want'))+' to '+pair.verb.base,'VERB','infinitive plus agreeing form of “want”')],en);
       case 'wantGo':
         place=pickRandom(wherePool);verb=byId('v-chahuna');item=byId('v-jana');if(!place||!verb||!item)return null;noteWho(who);add('Destination',place.dest,'WHERE',place.id);add('Action',item.infinitive,'VERB',item.id);
-        return result(who.p+' '+place.dest+' '+item.infinitive+' '+habitual(verb,who),englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to go '+englishDestination(place));
+        return result([subjectPart(who),phrase(place.dest,englishDestination(place),'WHERE'),phrase(item.infinitive+' '+habitual(verb,who),englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to go','VERB','infinitive plus agreeing form of “want”')],englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to go '+englishDestination(place));
       case 'canObject':
       case 'cannotObject':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);
-        return result(who.p+' '+pair.what.p+' '+canPhrase(pair.verb,who,template.pattern==='cannotObject'),englishSubject(who)+' '+(template.pattern==='cannotObject'?'cannot ':'can ')+pair.verb.base+' '+englishObject(pair.what));
+        return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(canPhrase(pair.verb,who,template.pattern==='cannotObject'),englishSubject(who)+' '+(template.pattern==='cannotObject'?'cannot ':'can ')+pair.verb.base,'VERB','ability construction; agrees with the subject')],englishSubject(who)+' '+(template.pattern==='cannotObject'?'cannot ':'can ')+pair.verb.base+' '+englishObject(pair.what));
       case 'canYou':
         who2=whoPool.find(function(x){return x.id==='who-tusi';});if(!who2)return null;pair=pickPair();if(!pair)return null;noteWho(who2);notePair(pair);add('Question',L('kī'),'QUESTION');
-        return result(L('kī ')+who2.p+' '+pair.what.p+' '+canPhrase(pair.verb,who2,false),'can you '+pair.verb.base+' '+englishObject(pair.what),true);
+        return result([phrase(L('kī'),'yes/no question marker','QUESTION'),subjectPart(who2),objectPart(pair.what.p,pair.what),phrase(canPhrase(pair.verb,who2,false),'can you '+pair.verb.base,'VERB','ability construction in a question')],'can you '+pair.verb.base+' '+englishObject(pair.what),true);
       case 'politeRequest':
         pair=pickPair();if(!pair)return null;notePair(pair);add('Politeness',L('kirpā karke'),'HOW');
-        return result(L('kirpā karke ')+pair.what.p+' '+pair.verb.imperative,'please '+pair.verb.base+' '+englishObject(pair.what));
+        return result([phrase(L('kirpā karke'),'please','HOW'),objectPart(pair.what.p,pair.what),phrase(pair.verb.imperative,pair.verb.base,'VERB','polite imperative')],'please '+pair.verb.base+' '+englishObject(pair.what));
       case 'needTo':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);
-        return result((who.dative||who.p+L(' nū̃'))+' '+pair.what.p+' '+agreedInfinitive(pair.verb,pair.what)+' '+(pair.what.number==='pl'?(pair.what.gender==='f'?L('paiṇdīā̃ han'):L('paiṇde han')):(pair.what.gender==='f'?L('paiṇdī hai'):L('paiṇdā hai'))),englishSubject(who)+' '+(thirdSingular(who)?'has':'have')+' to '+pair.verb.base+' '+englishObject(pair.what));
+        pu=pair.what.number==='pl'?(pair.what.gender==='f'?L('paiṇdīā̃ han'):L('paiṇde han')):(pair.what.gender==='f'?L('paiṇdī hai'):L('paiṇdā hai'));
+        return result([subjectPart(who,who.dative||who.p+L(' nū̃'),'to '+objectiveSubject(who),'dative subject in an obligation construction'),objectPart(pair.what.p,pair.what),phrase(agreedInfinitive(pair.verb,pair.what)+' '+pu,englishSubject(who)+' '+(thirdSingular(who)?'has':'have')+' to '+pair.verb.base,'VERB','obligation; agrees with the object')],englishSubject(who)+' '+(thirdSingular(who)?'has':'have')+' to '+pair.verb.base+' '+englishObject(pair.what));
       case 'shouldDo':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);
-        return result((who.dative||who.p+L(' nū̃'))+' '+pair.what.p+' '+agreedInfinitive(pair.verb,pair.what)+' '+chahida(pair.what),englishSubject(who)+' should '+pair.verb.base+' '+englishObject(pair.what));
+        return result([subjectPart(who,who.dative||who.p+L(' nū̃'),'to '+objectiveSubject(who),'dative subject in an advice construction'),objectPart(pair.what.p,pair.what),phrase(agreedInfinitive(pair.verb,pair.what)+' '+chahida(pair.what),englishSubject(who)+' should '+pair.verb.base,'VERB','advice/necessity; agrees with the object')],englishSubject(who)+' should '+pair.verb.base+' '+englishObject(pair.what));
       case 'likes':
       case 'dislikes':
         item=pickRandom(whatPool.filter(function(x){return (x.tags||[]).indexOf('likeable')!==-1;}));if(!item)return null;noteWho(who);add('What',item.p,'WHAT',item.id);
-        return result((who.dative||who.p+L(' nū̃'))+' '+item.p+' '+(template.pattern==='dislikes'?L('pasand nahī̃ '):L('pasand '))+existsAux(item),englishSubject(who)+' '+(template.pattern==='dislikes'?(thirdSingular(who)?'does not like':'do not like'):(thirdSingular(who)?'likes':'like'))+' '+englishObject(item));
+        return result([subjectPart(who,who.dative||who.p+L(' nū̃'),'to '+objectiveSubject(who),'dative experiencer'),objectPart(item.p,item),phrase((template.pattern==='dislikes'?L('pasand nahī̃ '):L('pasand '))+existsAux(item),englishSubject(who)+' '+(template.pattern==='dislikes'?(thirdSingular(who)?'does not like':'do not like'):(thirdSingular(who)?'likes':'like')),'VERB','liking construction; auxiliary agrees with the liked item')],englishSubject(who)+' '+(template.pattern==='dislikes'?(thirdSingular(who)?'does not like':'do not like'):(thirdSingular(who)?'likes':'like'))+' '+englishObject(item));
       case 'hasObject':
       case 'hasNegative':
       case 'haveQuestion':
@@ -1305,63 +1338,64 @@
         pu=(template.pattern==='haveQuestion'?L('kī '):'')+(who.withPossession||who.p+L(' kol'))+' '+item.p+' '+(template.pattern==='hasNegative'?L('nahī̃ '):'')+existsAux(item);
         if(template.pattern==='haveQuestion')en=(thirdSingular(who)?'does':'do')+' '+englishSubject(who)+' have '+englishObject(item);
         else en=englishSubject(who)+' '+(template.pattern==='hasNegative'?(thirdSingular(who)?'does not have':'do not have'):(thirdSingular(who)?'has':'have'))+' '+englishObject(item);
-        return result(pu,en,template.pattern==='haveQuestion');
+        return result([template.pattern==='haveQuestion'?phrase(L('kī'),'yes/no question marker','QUESTION'):null,subjectPart(who,who.withPossession||who.p+L(' kol'),'with '+objectiveSubject(who),'possession is expressed with “with/near”'),objectPart(item.p,item),phrase((template.pattern==='hasNegative'?L('nahī̃ '):'')+existsAux(item),template.pattern==='haveQuestion'?(thirdSingular(who)?'does ':'do ')+englishSubject(who)+' have':englishSubject(who)+' '+(template.pattern==='hasNegative'?(thirdSingular(who)?'does not have':'do not have'):(thirdSingular(who)?'has':'have')),'VERB','together with the possession phrase, expresses “have”')],en,template.pattern==='haveQuestion');
       case 'state':
       case 'stateNegative':
       case 'stateQuestion':
         item=pickRandom(statePool);if(!item)return null;noteWho(who);add('State',stateForm(who,item),'HOW',item.id);
         pu=(template.pattern==='stateQuestion'?L('kī '):'')+who.p+' '+stateForm(who,item)+' '+(template.pattern==='stateNegative'?L('nahī̃ '):'')+aux(who);
         en=(template.pattern==='stateQuestion'?englishBe(who)+' '+englishSubject(who):englishSubject(who)+' '+englishBe(who)+(template.pattern==='stateNegative'?' not':''))+' '+item.e;
-        return result(pu,en,template.pattern==='stateQuestion');
+        return result([template.pattern==='stateQuestion'?phrase(L('kī'),'yes/no question marker','QUESTION'):null,subjectPart(who),phrase(stateForm(who,item)+' '+(template.pattern==='stateNegative'?L('nahī̃ '):'')+aux(who),template.pattern==='stateQuestion'?englishBe(who)+' '+englishSubject(who)+' '+item.e:englishSubject(who)+' '+englishBe(who)+(template.pattern==='stateNegative'?' not ':' ')+item.e,'HOW','state/adjective plus agreeing auxiliary')],en,template.pattern==='stateQuestion');
       case 'thereIs':
       case 'thereIsNot':
         place=pickRandom(wherePool);item=pickRandom(whatPool.filter(function(x){return (x.tags||[]).indexOf('possessable')!==-1;}));if(!place||!item)return null;add('Where',place.p,'WHERE',place.id);add('What',item.p,'WHAT',item.id);
         en=template.pattern==='thereIsNot'?'there '+(englishExistenceIs(item)?'is':'are')+' no '+bareEnglishObject(item)+' '+place.e:'there '+(englishExistenceIs(item)?'is':'are')+' '+englishObject(item)+' '+place.e;
-        return result(place.p+' '+item.p+' '+(template.pattern==='thereIsNot'?L('nahī̃ '):'')+existsAux(item),en);
+        return result([phrase(place.p,place.e,'WHERE'),objectPart(item.p,item),phrase((template.pattern==='thereIsNot'?L('nahī̃ '):'')+existsAux(item),template.pattern==='thereIsNot'?'there is/are not':'there is/are','VERB','existence construction; auxiliary agrees with the item')],en);
       case 'plannedFuture':
         pair=pickPair();time=timeFor('future');if(!pair||!time)return null;noteWho(who);add('When',time.p,'WHEN',time.id);notePair(pair);
-        return result(who.p+' '+time.p+' '+pair.what.p+' '+planPhrase(pair.verb,who),englishSubject(who)+' '+englishBe(who)+' going to '+pair.verb.base+' '+englishObject(pair.what)+' '+timeEnglish(time,'future'));
+        return result([subjectPart(who),phrase(time.p,timeEnglish(time,'future'),'WHEN'),objectPart(pair.what.p,pair.what),phrase(planPhrase(pair.verb,who),englishSubject(who)+' '+englishBe(who)+' going to '+pair.verb.base,'VERB','planned future; agrees with the subject')],englishSubject(who)+' '+englishBe(who)+' going to '+pair.verb.base+' '+englishObject(pair.what)+' '+timeEnglish(time,'future'));
       case 'talkAbout':
         topic=pickRandom(aboutPool);verb=byId('v-gallkarna');if(!topic||!verb)return null;noteWho(who);add('About',topic.p,'ABOUT',topic.id);add('Action',verb.infinitive,'VERB',verb.id);
-        return result(who.p+' '+topic.p+' '+habitual(verb,who),englishSubject(who)+' '+(thirdSingular(who)?'talks':'talk')+' '+topic.e);
+        return result([subjectPart(who),phrase(topic.p,topic.e,'ABOUT'),phrase(habitual(verb,who),englishSubject(who)+' '+(thirdSingular(who)?'talks':'talk'),'VERB','habitual present')],englishSubject(who)+' '+(thirdSingular(who)?'talks':'talk')+' '+topic.e);
       case 'askAbout':
         topic=pickRandom(aboutPool);verb=byId('v-chahuna');item=byId('v-gallkarna');if(!topic||!verb||!item)return null;noteWho(who);add('About',topic.p,'ABOUT',topic.id);
-        return result(who.p+' '+topic.p+' '+item.infinitive+' '+habitual(verb,who),englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to talk '+topic.e);
+        return result([subjectPart(who),phrase(topic.p,topic.e,'ABOUT'),phrase(item.infinitive+' '+habitual(verb,who),englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to talk','VERB','infinitive plus agreeing form of “want”')],englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to talk '+topic.e);
       case 'because':
         pair=pickPair();reason=pickRandom(reasonPool);if(!pair||!reason)return null;noteWho(who);notePair(pair);add('Reason',reason.p,'WHY',reason.id);
-        return result(who.p+' '+pair.what.p+' '+habitual(pair.verb,who)+' '+reason.p,englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' '+reason.e);
+        return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(habitual(pair.verb,who),habitualMeaning(pair.verb,who),'VERB','habitual present'),phrase(reason.p,reason.e,'WHY')],englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' '+reason.e);
       case 'andActions':
       case 'butContrast':
         pair=pickPair();pair2=pickPair();if(!pair||!pair2)return null;for(let tries=0;tries<8&&pair2.what.id===pair.what.id&&pair2.verb.id===pair.verb.id;tries++)pair2=pickPair();noteWho(who);notePair(pair);notePair(pair2);
-        if(template.pattern==='andActions')return result(who.p+' '+pair.what.p+' '+habitual(pair.verb,who)+L(' ate ')+pair2.what.p+' '+habitual(pair2.verb,who),englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' and '+conjugateEnglish(pair2.verb.base,person)+' '+englishObject(pair2.what));
-        return result(who.p+' '+pair.what.p+' '+habitual(pair.verb,who)+L(' par ')+pair2.what.p+L(' nahī̃ ')+habitual(pair2.verb,who),englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' but '+englishNegative(who,pair2.verb)+' '+englishObject(pair2.what));
+        if(template.pattern==='andActions')return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(habitual(pair.verb,who),habitualMeaning(pair.verb,who),'VERB'),phrase(L('ate'),'and','CONNECTOR'),objectPart(pair2.what.p,pair2.what),phrase(habitual(pair2.verb,who),habitualMeaning(pair2.verb,who),'VERB')],englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' and '+conjugateEnglish(pair2.verb.base,person)+' '+englishObject(pair2.what));
+        return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(habitual(pair.verb,who),habitualMeaning(pair.verb,who),'VERB'),phrase(L('par'),'but','CONNECTOR'),objectPart(pair2.what.p,pair2.what),phrase(L('nahī̃ ')+habitual(pair2.verb,who),englishSubject(who)+' '+englishNegative(who,pair2.verb),'VERB','negative habitual present')],englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' but '+englishNegative(who,pair2.verb)+' '+englishObject(pair2.what));
       case 'conditional':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Connector',L('je … tā̃'),'CONNECTOR');
-        return result(L('je ')+(who.withPossession||who.p+L(' kol'))+L(' samā̃ hovē, tā̃ ')+who.p+' '+pair.what.p+' '+agreedInfinitive(pair.verb,pair.what)+' '+habitual(byId('v-chahuna'),who),'if '+englishSubject(who)+' '+(thirdSingular(who)?'has':'have')+' time, then '+englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to '+pair.verb.base+' '+englishObject(pair.what));
+        return result([phrase(L('je'),'if','CONNECTOR'),subjectPart(who,who.withPossession||who.p+L(' kol'),'with '+objectiveSubject(who),'possession phrase'),phrase(L('samā̃ hovē, tā̃'),'there is time, then','CONNECTOR'),subjectPart(who),objectPart(pair.what.p,pair.what),phrase(agreedInfinitive(pair.verb,pair.what)+' '+habitual(byId('v-chahuna'),who),englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to '+pair.verb.base,'VERB','conditional main-clause verb phrase')],'if '+englishSubject(who)+' '+(thirdSingular(who)?'has':'have')+' time, then '+englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to '+pair.verb.base+' '+englishObject(pair.what));
       case 'choiceQuestion':
         const choiceTags=['drinkable','edible','watchable','buyable'];
         const choiceTag=pickRandom(choiceTags); const choicePool=whatPool.filter(function(x){return (x.tags||[]).indexOf(choiceTag)!==-1;});
         item=pickRandom(choicePool);if(!item)return null;pair2=pickRandom(choicePool.filter(function(x){return x.id!==item.id;}));if(!pair2)return null;add('Choice 1',item.p,'WHAT',item.id);add('Choice 2',pair2.p,'WHAT',pair2.id);add('Connector',L('jā̃'),'CONNECTOR');
-        return result(L('tusī̃ ')+item.p+L(' jā̃ ')+pair2.p+L(' vichõ kī chāhũde ho'),'which do you want, '+englishObject(item)+' or '+englishObject(pair2),true);
+        return result([phrase(L('tusī̃'),'you','WHO'),objectPart(item.p,item),phrase(L('jā̃'),'or','CONNECTOR'),objectPart(pair2.p,pair2),phrase(L('vichõ kī chāhũde ho'),'which one do you want','QUESTION','choice-question phrase')],'which do you want, '+englishObject(item)+' or '+englishObject(pair2),true);
       case 'whichWant':
-        add('Question',L('kehṛī cīz'),'QUESTION');return result(L('tusī̃ kehṛī cīz chāhũde ho'),'which thing do you want',true);
+        add('Question',L('kehṛī cīz'),'QUESTION');who2=whoPool.find(function(x){return x.id==='who-tusi';});if(!who2)return null;verb=byId('v-chahuna');
+        return result([subjectPart(who2),phrase(L('kehṛī cīz'),'which thing','QUESTION'),phrase(habitual(verb,who2),'do you want','VERB','agreeing form of “want” in a question')],'which thing do you want',true);
       case 'amountQuestion':
         item=pickRandom(whatPool.filter(function(x){return ['what-pani','what-dudh','what-coffee','what-juice','what-paisa'].indexOf(x.id)!==-1;}));if(!item)return null;add('Question',item.number==='pl'?L('kinne'):L('kinnā'),'QUESTION');add('What',item.p,'WHAT',item.id);
         const amountWord=item.number==='pl'?(item.gender==='f'?L('kinnīā̃'):L('kinne')):(item.gender==='f'?L('kinnī'):L('kinnā'));
-        return result(L('tuhānū̃ ')+amountWord+' '+item.p+' '+chahida(item),'how much '+englishObject(item)+' do you need',true);
+        return result([phrase(L('tuhānū̃'),'to you','WHO','dative experiencer'),phrase(amountWord,item.number==='pl'?'how many':'how much','QUESTION','agrees with the noun'),objectPart(item.p,item),phrase(chahida(item),'do you need','VERB','need construction; agrees with the noun')],(item.number==='pl'?'how many ':'how much ')+englishObject(item)+' do you need',true);
       case 'pastState':
         time=timeFor('past');item=pickRandom(statePool);if(!time||!item)return null;noteWho(who);add('When',time.p,'WHEN',time.id);add('State',stateForm(who,item),'HOW',item.id);
-        return result(who.p+' '+time.p+' '+stateForm(who,item)+' '+pastAux(who),englishSubject(who)+' '+englishPastBe(who)+' '+item.e+' '+timeEnglish(time,'past'));
+        return result([subjectPart(who),phrase(time.p,timeEnglish(time,'past'),'WHEN'),phrase(stateForm(who,item)+' '+pastAux(who),englishSubject(who)+' '+englishPastBe(who)+' '+item.e,'HOW','past state; adjective and auxiliary agree with the subject')],englishSubject(who)+' '+englishPastBe(who)+' '+item.e+' '+timeEnglish(time,'past'));
       case 'pastProgressObject':
         time=timeFor('past');pair=pickPair();if(!time||!pair)return null;noteWho(who);add('When',time.p,'WHEN',time.id);notePair(pair);
-        return result(who.p+' '+time.p+' '+pair.what.p+' '+pastProgressive(pair.verb,who),englishSubject(who)+' '+englishPastBe(who)+' '+englishGerund(pair.verb.base)+' '+englishObject(pair.what)+' '+timeEnglish(time,'past'));
+        return result([subjectPart(who),phrase(time.p,timeEnglish(time,'past'),'WHEN'),objectPart(pair.what.p,pair.what),phrase(pastProgressive(pair.verb,who),pastProgressiveMeaning(pair.verb,who),'VERB','past progressive; gender, number and person agreement')],englishSubject(who)+' '+englishPastBe(who)+' '+englishGerund(pair.verb.base)+' '+englishObject(pair.what)+' '+timeEnglish(time,'past'));
       case 'pastHabit':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('When',L('pehlā̃'),'WHEN','past-formerly');
-        return result(who.p+L(' pehlā̃ ')+pair.what.p+' '+pastHabitual(pair.verb,who),englishSubject(who)+' used to '+pair.verb.base+' '+englishObject(pair.what));
+        return result([subjectPart(who),phrase(L('pehlā̃'),'formerly / before','WHEN'),objectPart(pair.what.p,pair.what),phrase(pastHabitual(pair.verb,who),englishSubject(who)+' used to '+pair.verb.base,'VERB','past habitual')],englishSubject(who)+' used to '+pair.verb.base+' '+englishObject(pair.what));
       case 'pastWent':
         time=timeFor('past');place=pickRandom(wherePool);if(!time||!place)return null;noteWho(who);add('When',time.p,'WHEN',time.id);add('Destination',place.dest,'WHERE',place.id);
         const went=genderForm(who,{m:L('giā'),f:L('gaī'),pl:L('gae'),fpl:L('gaīā̃')})+' '+pastAux(who);
-        return result(who.p+' '+time.p+' '+place.dest+' '+went,englishSubject(who)+' went '+englishDestination(place)+' '+timeEnglish(time,'past'));
+        return result([subjectPart(who),phrase(time.p,timeEnglish(time,'past'),'WHEN'),phrase(place.dest,englishDestination(place),'WHERE'),phrase(went,englishSubject(who)+' went','VERB','past movement; gender and number agreement')],englishSubject(who)+' went '+englishDestination(place)+' '+timeEnglish(time,'past'));
       default:return null;
     }
   }
@@ -1386,15 +1420,37 @@
 
   let lastGenerated = null;
 
+  function sentenceBreakdownMarkup(result,visibility,useGlobalPrefs){
+    const blocks=(result.buildingBlocks||result.breakdown||[]).map(function(block){
+      return '<div class="chip '+escapeHtml(block.type||'')+'"><b>'+escapeHtml(block.label||block.type||'Part')+'</b>'+escapeHtml(block.value||block.roman||'')+'</div>';
+    }).join('');
+    const phrases=Array.isArray(result.sentenceBreakdown)?result.sentenceBreakdown:[];
+    const showRoman=visibility.roman!==false,showGurmukhi=visibility.gurmukhi!==false,showEnglish=visibility.english!==false;
+    const hasPunjabi=showRoman||showGurmukhi;
+    const rows=phrases.map(function(part){
+      const globalAttr=useGlobalPrefs?' data-global-breakdown="true"':'';
+      const rowClass=(!hasPunjabi||!showEnglish)?' single-column':'';
+      const scripts='<div class="breakdown-scripts">'+
+        '<div class="breakdown-roman'+(useGlobalPrefs?' learning-script-roman':'')+'" data-script-available="'+String(Boolean(part.roman))+'" lang="pa-Latn"'+(!showRoman?' hidden':'')+'>'+escapeHtml(part.roman||'')+'</div>'+
+        '<div class="breakdown-gurmukhi'+(useGlobalPrefs?' learning-script-gurmukhi':'')+'" data-script-available="'+String(Boolean(part.gurmukhi))+'" lang="pa-Guru"'+(!showGurmukhi||!part.gurmukhi?' hidden':'')+'>'+escapeHtml(part.gurmukhi||'')+'</div>'+
+        '</div>';
+      const english='<div class="breakdown-english'+(useGlobalPrefs?' learning-script-english':'')+'"'+(!showEnglish?' hidden':'')+'>'+escapeHtml(part.english||'')+
+        '<span class="breakdown-category">'+escapeHtml(part.category||'Phrase')+'</span>'+
+        (part.grammarNote?'<span class="breakdown-note">'+escapeHtml(part.grammarNote)+'</span>':'')+'</div>';
+      return '<div class="sentence-breakdown-row'+rowClass+'"'+globalAttr+'>'+scripts+
+        '<span class="breakdown-arrow'+(useGlobalPrefs?' learning-script-english':'')+'" aria-hidden="true"'+(!hasPunjabi||!showEnglish?' hidden':'')+'>→</span>'+english+'</div>';
+    }).join('');
+    return '<section class="breakdown-section"><h3 class="breakdown-heading">Building Blocks Used</h3><div class="building-block-list">'+(blocks||'<span class="note">No Building Block details are available for this older sentence.</span>')+'</div></section>'+
+      '<section class="breakdown-section"><h3 class="breakdown-heading">Sentence Breakdown</h3><div class="sentence-breakdown-list">'+(rows||'<span class="note">Phrase meanings are available on newly generated sentences.</span>')+'</div></section>';
+  }
+
   function renderSentence(result){
     lastGenerated = result;
     if(!result){
       outputCard.innerHTML = '<div class="output-empty">Not enough compatible, enabled vocabulary to build this sentence — check the Building Blocks screen (a "wants to…" verb needs a What-word sharing its tag).</div>';
       return;
     }
-    const breakdownHtml = result.breakdown.map(function(b){
-      return '<div class="chip '+b.type+'"><b>'+b.label+'</b>'+escapeHtml(b.value)+'</div>';
-    }).join('');
+    const breakdownHtml=sentenceBreakdownMarkup(result,displayPrefs,true);
 
     outputCard.innerHTML =
       sentenceMarkup(result)+
@@ -1429,6 +1485,7 @@
       templateName: result.templateName,
       difficulty: result.difficulty,
       breakdown: result.breakdown || [],
+      sentenceBreakdown: result.sentenceBreakdown || [],
       savedAt: Date.now()
     });
     save();
@@ -1505,9 +1562,7 @@
       return;
     }
     batchResults.innerHTML = results.map(function(r, idx){
-      const breakdownHtml = r.breakdown.map(function(b){
-        return '<div class="chip '+b.type+'"><b>'+escapeHtml(b.label)+'</b>'+escapeHtml(b.value)+'</div>';
-      }).join('');
+      const breakdownHtml=sentenceBreakdownMarkup(r,displayPrefs,true);
       return '<div class="batch-item" data-idx="'+idx+'">'+
         '<div class="batch-main"><div>'+
           sentenceMarkup(r)+'</div>'+
@@ -1555,10 +1610,12 @@
     Object.keys(groups).forEach(function(groupName){
       html += '<div class="saved-group"><h2 class="saved-group-title">'+escapeHtml(groupName)+' <span class="pill">'+groups[groupName].length+'</span></h2>';
       groups[groupName].forEach(function(s){
+        const canBreakDown=Array.isArray(s.sentenceBreakdown)&&s.sentenceBreakdown.length;
         html += '<div class="batch-item" data-id="'+s.id+'">'+
           '<div class="batch-main"><div>'+
             sentenceMarkup(s)+
-          '</div><div class="batch-actions"><button type="button" class="btn danger remove-saved">Remove</button></div></div>'+
+          '</div><div class="batch-actions">'+(canBreakDown?'<button type="button" class="btn ghost saved-breakdown" aria-expanded="false">Show breakdown</button>':'')+'<button type="button" class="btn danger remove-saved">Remove</button></div></div>'+
+          (canBreakDown?'<div class="breakdown">'+sentenceBreakdownMarkup(s,displayPrefs,true)+'</div>':'')+
         '</div>';
       });
       html += '</div>';
@@ -1577,6 +1634,11 @@
     }
     savedContent.querySelectorAll('.batch-item[data-id]').forEach(function(row){
       const id = row.dataset.id;
+      const breakdownButton=row.querySelector('.saved-breakdown');
+      if(breakdownButton)breakdownButton.addEventListener('click',function(){
+        const box=row.querySelector('.breakdown'),isOpen=box.classList.toggle('open');
+        this.setAttribute('aria-expanded',String(isOpen));this.textContent=(isOpen?'Hide':'Show')+' breakdown';
+      });
       row.querySelector('.remove-saved').addEventListener('click', function(){
         state.saved = state.saved.filter(function(s){ return s.id !== id; });
         save();
@@ -2176,22 +2238,31 @@
     const required=dependencies[template.pattern]||[];
     const allWords=Object.values(state.vocab).flat().concat(state.verbs);
     if(required.some(id=>!allWords.some(w=>w.id===id&&w.enabled)))return null;
-    const original=state;let roman,gurmukhi;
+    const original=state;let roman,gurmukhi,rendered;
     selectionTape=[];selectionCursor=0;selectionRecording=true;selectionReplay=false;
     try{roman=assembleLegacy(template);}catch(e){console.debug('Unavailable sentence pattern',e.message);return null;}
     finally{selectionRecording=false;}
     if(!roman)return null;
     try{
       scriptG=true;selectionReplay=true;state=scriptProjection(original);
-      const rendered=assembleLegacy(template);
+      rendered=assembleLegacy(template);
       if(!rendered || selectionCursor!==selectionTape.length || rendered.signature!==roman.signature)throw Error('Script selection mismatch');
       gurmukhi=rendered.punjabi.replace(/\.$/,'।');
       if(/[A-Za-zāīūṇṛṭḍ]/.test(gurmukhi))throw Error('A selected word or grammatical form has no authored Gurmukhi');
     }catch(e){console.debug('Gurmukhi data needs attention',e.message);gurmukhi='';}
     finally{state=original;scriptG=false;selectionReplay=false;}
-    return Object.assign(roman,{roman:roman.punjabi,gurmukhi:gurmukhi||'',template:template.id,
+    const romanPhrases=roman.phraseBreakdown||[];
+    const gurmukhiPhrases=gurmukhi&&rendered&&rendered.phraseBreakdown||[];
+    const sentenceBreakdown=romanPhrases.map(function(part,index){
+      const gurmukhiPart=gurmukhiPhrases[index];
+      return {roman:part.value,gurmukhi:gurmukhiPart?gurmukhiPart.value:'',english:part.english||'',category:part.category||'',grammarNote:part.grammarNote||''};
+    });
+    const sentence=Object.assign(roman,{roman:roman.punjabi,gurmukhi:gurmukhi||'',template:template.id,
       buildingBlocks:roman.breakdown.map(b=>Object.assign({},b)),
+      sentenceBreakdown:sentenceBreakdown,
       scriptWarning:gurmukhi?'':'Gurmukhi is missing for a selected custom word/form. Edit its Gurmukhi and grammar metadata in Building Blocks.'});
+    delete sentence.phraseBreakdown;
+    return sentence;
   }
 
   const LEARNING_KEY='punjabi-learning-v1';
@@ -2243,7 +2314,17 @@
     '<p class="gurmukhi-line script-gurmukhi" lang="pa-Guru"'+(!displayPrefs.gurmukhi?' hidden':'')+'>'+escapeHtml(s.gurmukhi||'Gurmukhi unavailable for this saved/custom sentence.')+'</p>'+
     '<p class="english-line script-english" lang="en"'+(!displayPrefs.english?' hidden':'')+'>'+escapeHtml(s.english)+'</p>'+
     (s.scriptWarning?'<p class="note">'+escapeHtml(s.scriptWarning)+'</p>':'')+audioMarkup(s)+'</div>';}
-  function applyDisplayPrefs(){Object.keys(displayPrefs).forEach(k=>document.querySelectorAll('.sentence-text .script-'+k).forEach(el=>{el.hidden=!displayPrefs[k];}));}
+  function applyDisplayPrefs(){
+    Object.keys(displayPrefs).forEach(function(key){
+      document.querySelectorAll('.sentence-text .script-'+key).forEach(function(el){el.hidden=!displayPrefs[key];});
+      document.querySelectorAll('.learning-script-'+key).forEach(function(el){el.hidden=!displayPrefs[key]||el.dataset.scriptAvailable==='false';});
+    });
+    document.querySelectorAll('[data-global-breakdown]').forEach(function(row){
+      const hasPunjabi=(displayPrefs.roman&&row.querySelector('.breakdown-roman[data-script-available="true"]'))||(displayPrefs.gurmukhi&&row.querySelector('.breakdown-gurmukhi[data-script-available="true"]'));
+      row.classList.toggle('single-column',!hasPunjabi||!displayPrefs.english);
+      const arrow=row.querySelector('.breakdown-arrow');if(arrow)arrow.hidden=!hasPunjabi||!displayPrefs.english;
+    });
+  }
   function checkField(id,label,checked){return '<label class="setting-check"><input type="checkbox" id="'+id+'" '+(checked?'checked':'')+'> '+label+'</label>';}
   function renderSettings(){
     document.getElementById('screen-settings').innerHTML='<div class="panel"><h2>⚙ Settings</h2><h3>Sentence display</h3><p>These settings only change visibility, never the selected sentence. Flashcards have their own practice settings.</p><div class="settings-grid">'+checkField('displayRoman','Roman Punjabi',displayPrefs.roman)+checkField('displayGurmukhi','Gurmukhi',displayPrefs.gurmukhi)+checkField('displayEnglish','English',displayPrefs.english)+'</div><h3>Punjabi pronunciation</h3><p>Uses your browser/device speech voices. No API keys, backend, AI calls or paid services. Some device voices may need an internet connection.</p><p id="voiceAvailability" role="status"></p><label for="voiceSelect">Voice</label><select id="voiceSelect"></select><label for="speechRate">Normal playback rate: <output id="rateValue">'+audioPrefs.rate+'</output>×</label><input id="speechRate" type="range" min="0.5" max="1.5" step="0.05" value="'+audioPrefs.rate+'"><p>Slow playback always uses 0.70×.</p>'+audioMarkup({gurmukhi:'ਮੈਂ ਪੰਜਾਬੀ ਸਿੱਖ ਰਿਹਾ ਹਾਂ।'})+'<h3>Learning statistics</h3><p>'+learningStats.totalReviews+' ratings saved on this browser. Preferences and vocabulary are browser-specific; private browsing or clearing site data may remove them.</p><p class="note">Round decks are intentionally in memory. Reloading keeps preferences and ratings, but ends the current round. Existing saved sentences without Gurmukhi are kept unchanged.</p></div>';
@@ -2287,7 +2368,7 @@
     while(cards.length<flashPrefs.count && attempts++<flashPrefs.count*50 && pool.length){
       const sentence=assembleFromTemplate(pool[Math.floor(Math.random()*pool.length)]);
       if(!sentence || (flashPrefs.gurmukhi&&!sentence.gurmukhi))continue;
-      cards.push({id:uid('card'),sentence:sentence,direction:flashPrefs.direction==='mixed'?(Math.random()<0.5?'en-pa':'pa-en'):flashPrefs.direction,revealed:false,rating:null});
+      cards.push({id:uid('card'),sentence:sentence,direction:flashPrefs.direction==='mixed'?(Math.random()<0.5?'en-pa':'pa-en'):flashPrefs.direction,revealed:false,breakdownOpen:false,rating:null});
     }
     if(cards.length!==flashPrefs.count){
       showFlashcardSetup();document.getElementById('flashError').textContent='Could not build the requested deck with the enabled words/templates and scripts. Check compatible objects, required verbs, and Gurmukhi metadata. No partial round was started.';return false;
@@ -2300,7 +2381,10 @@
     const card=flashSession.deck[flashSession.index],s=card.sentence,completed=flashSession.deck.filter(c=>c.rating).length;
     const front=card.direction==='en-pa'?'<p class="flash-english" lang="en">'+escapeHtml(s.english)+'</p>':punjabiSide(s);
     const back=card.direction==='en-pa'?punjabiSide(s):'<p class="flash-english" lang="en">'+escapeHtml(s.english)+'</p>';
-    document.getElementById('screen-flashcards').innerHTML='<div class="panel flash-round"><div class="flash-header"><h2 id="cardPosition" tabindex="-1">Card '+(flashSession.index+1)+' of '+flashSession.deck.length+'</h2><span>'+completed+' rated</span></div><progress value="'+completed+'" max="'+flashSession.deck.length+'" aria-label="Rated cards"></progress><div class="flash-card"><span class="pill">'+(card.direction==='en-pa'?'English → Punjabi':'Punjabi → English')+'</span><div class="flash-front">'+front+'</div>'+(card.revealed?'<div class="flash-answer" aria-live="polite"><span class="note">Answer</span>'+back+'</div>':'<button type="button" class="btn primary" id="revealFlash">Reveal Answer</button>')+'</div>'+(card.revealed?'<p>How did that feel?'+(card.rating?' Current rating: '+card.rating+'.':'')+'</p><div class="rating-buttons">'+['again','hard','good','easy'].map(r=>'<button type="button" class="btn '+(card.rating===r?'primary':'')+'" data-rating="'+r+'">'+r[0].toUpperCase()+r.slice(1)+'</button>').join('')+'</div>':'')+'<div class="flash-navigation"><button type="button" class="btn" id="prevFlash" '+(flashSession.index===0?'disabled':'')+'>Previous</button><button type="button" class="btn" id="nextFlash" '+(flashSession.index===flashSession.deck.length-1?'disabled':'')+'>Next</button></div><div class="flash-navigation"><button type="button" class="btn ghost" id="flashSetup">Back to Flashcard Setup</button><button type="button" class="btn primary" id="finishFlash">Finish round</button></div><p class="note">'+escapeHtml(s.templateName)+' · Rate cards to record your review. Next only moves between cards. Finish round ends the session at any time.</p></div>';
+    const answer=card.revealed?'<div class="flash-answer" aria-live="polite"><span class="note">Answer</span>'+back+'</div>':'<button type="button" class="btn primary" id="revealFlash">Reveal Answer</button>';
+    const breakdown=card.revealed?'<div class="flash-breakdown-actions"><button type="button" class="btn ghost" id="toggleFlashBreakdown" aria-expanded="'+String(Boolean(card.breakdownOpen))+'">'+(card.breakdownOpen?'Hide breakdown':'Break it down')+'</button></div><div class="breakdown'+(card.breakdownOpen?' open':'')+'" id="flashBreakdown">'+sentenceBreakdownMarkup(s,{roman:flashSession.options.roman,gurmukhi:flashSession.options.gurmukhi,english:true},false)+'</div>':'';
+    const ratings=card.revealed?'<p>How did that feel?'+(card.rating?' Current rating: '+card.rating+'.':'')+'</p><div class="rating-buttons">'+['again','hard','good','easy'].map(r=>'<button type="button" class="btn '+(card.rating===r?'primary':'')+'" data-rating="'+r+'">'+r[0].toUpperCase()+r.slice(1)+'</button>').join('')+'</div>':'';
+    document.getElementById('screen-flashcards').innerHTML='<div class="panel flash-round"><div class="flash-header"><h2 id="cardPosition" tabindex="-1">Card '+(flashSession.index+1)+' of '+flashSession.deck.length+'</h2><span>'+completed+' rated</span></div><progress value="'+completed+'" max="'+flashSession.deck.length+'" aria-label="Rated cards"></progress><div class="flash-card"><span class="pill">'+(card.direction==='en-pa'?'English → Punjabi':'Punjabi → English')+'</span><div class="flash-front">'+front+'</div>'+answer+'</div>'+breakdown+ratings+'<div class="flash-navigation"><button type="button" class="btn" id="prevFlash" '+(flashSession.index===0?'disabled':'')+'>Previous</button><button type="button" class="btn" id="nextFlash" '+(flashSession.index===flashSession.deck.length-1?'disabled':'')+'>Next</button></div><div class="flash-navigation"><button type="button" class="btn ghost" id="flashSetup">Back to Flashcard Setup</button><button type="button" class="btn primary" id="finishFlash">Finish round</button></div><p class="note">'+escapeHtml(s.templateName)+' · Rate cards to record your review. Next only moves between cards. Finish round ends the session at any time.</p></div>';
   }
   function rateFlashCard(rating){
     if(flashSession.phase!=='round'||!flashSession.deck)return;
@@ -2318,7 +2402,7 @@
   }
   function restartFlashDeck(cards){
     if(!cards||!cards.length)return;
-    flashSession.deck=cards.map(c=>Object.assign({},c,{revealed:false,rating:null}));flashSession.index=0;flashSession.id=uid('round');flashSession.phase='round';stopSpeech();renderFlashCard();focusFlashContent();
+    flashSession.deck=cards.map(c=>Object.assign({},c,{revealed:false,breakdownOpen:false,rating:null}));flashSession.index=0;flashSession.id=uid('round');flashSession.phase='round';stopSpeech();renderFlashCard();focusFlashContent();
   }
   function renderFlashSummary(){
     if(flashSession.phase!=='summary'||!flashSession.deck)return;
@@ -2340,7 +2424,7 @@
   }
   function revealFlashcard(){
     if(flashSession.phase!=='round'||!flashSession.deck)return;
-    flashSession.deck[flashSession.index].revealed=true;renderFlashCard();
+    flashSession.deck[flashSession.index].revealed=true;flashSession.deck[flashSession.index].breakdownOpen=false;renderFlashCard();
     const answer=document.querySelector('.flash-answer');
     if(answer){answer.tabIndex=-1;answer.focus({preventScroll:true});answer.scrollIntoView({block:'nearest'});}
   }
@@ -2355,6 +2439,12 @@
       switch(button.id){
         case 'startFlash': if(flashSession.phase==='setup')startFlashFromSetup();break;
         case 'revealFlash': revealFlashcard();break;
+        case 'toggleFlashBreakdown':
+          if(flashSession.phase==='round'&&flashSession.deck[flashSession.index].revealed){
+            const card=flashSession.deck[flashSession.index],box=document.getElementById('flashBreakdown');card.breakdownOpen=!card.breakdownOpen;
+            if(box)box.classList.toggle('open',card.breakdownOpen);button.setAttribute('aria-expanded',String(card.breakdownOpen));button.textContent=card.breakdownOpen?'Hide breakdown':'Break it down';
+          }
+          break;
         case 'prevFlash': moveFlashcard(-1);break;
         case 'nextFlash': moveFlashcard(1);break;
         case 'flashSetup': case 'backSetup': showFlashcardSetup();break;
