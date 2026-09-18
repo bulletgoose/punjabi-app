@@ -1,0 +1,2389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Punjabi">
+<meta name="theme-color" content="#0F6E6E">
+<title>ਬੋਲ · Punjabi Sentence Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EFF5F1;
+    --surface:#FFFFFF;
+    --surface-2:#E4EEEA;
+    --ink:#16262A;
+    --muted:#5C6E6B;
+    --border:#CFDFDA;
+    --magenta:#C6236C;
+    --magenta-ink:#7A1444;
+    --saffron:#D97C0C;
+    --teal:#0F6E6E;
+    --teal-deep:#0B4A4A;
+    --shadow: 0 8px 24px rgba(15,40,38,0.10);
+    --focus: #0B4A4A;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --bg:#0D1917;
+      --surface:#132420;
+      --surface-2:#17302A;
+      --ink:#EAF3EF;
+      --muted:#9BB3AD;
+      --border:#274B42;
+      --magenta:#F0559B;
+      --magenta-ink:#FAB4D3;
+      --saffron:#F0A63C;
+      --teal:#3FC7C0;
+      --teal-deep:#8FE4DE;
+      --shadow: 0 8px 24px rgba(0,0,0,0.35);
+      --focus: #3FC7C0;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0D1917;
+    --surface:#132420;
+    --surface-2:#17302A;
+    --ink:#EAF3EF;
+    --muted:#9BB3AD;
+    --border:#274B42;
+    --magenta:#F0559B;
+    --magenta-ink:#FAB4D3;
+    --saffron:#F0A63C;
+    --teal:#3FC7C0;
+    --teal-deep:#8FE4DE;
+    --shadow: 0 8px 24px rgba(0,0,0,0.35);
+    --focus: #3FC7C0;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Work Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    min-height:100vh;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  a{color:inherit;}
+  button{font-family:inherit;}
+  :focus-visible{outline:3px solid var(--focus); outline-offset:2px;}
+
+  .shell{max-width:1040px; margin:0 auto; padding:28px 20px 80px;}
+
+  .topbar{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:28px; flex-wrap:wrap;}
+  .wordmark{display:flex; align-items:baseline; gap:10px;}
+  .wordmark .gur{font-size:28px; color:var(--magenta);}
+  .wordmark h1{font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:26px; margin:0; letter-spacing:0.2px;}
+  .wordmark .sub{font-size:13px; color:var(--muted);}
+
+  .tabs{display:flex; gap:4px; background:var(--surface-2); padding:4px; border-radius:12px; border:1px solid var(--border);}
+  .tab{
+    padding:9px 16px; border-radius:9px; border:none; background:transparent; color:var(--muted);
+    font-size:14px; font-weight:600; cursor:pointer;
+  }
+  .tab.active{background:var(--surface); color:var(--ink); box-shadow:var(--shadow);}
+  .theme-toggle{
+    border:1px solid var(--border); background:var(--surface); color:var(--ink); border-radius:9px;
+    width:38px; height:38px; cursor:pointer; font-size:16px;
+  }
+
+  .topbar-right{display:flex; align-items:center; gap:10px;}
+
+  section.screen{display:none;}
+  section.screen.active{display:block;}
+
+  /* Generate screen */
+  .generate-hero{
+    background:linear-gradient(160deg, var(--teal-deep) 0%, var(--teal) 100%);
+    border-radius:20px;
+    padding:36px 32px;
+    color:#fff;
+    box-shadow:var(--shadow);
+    text-align:center;
+    margin-bottom:26px;
+  }
+  :root[data-theme="dark"] .generate-hero, :root:not([data-theme="light"]) .generate-hero{
+    color:#08201C;
+  }
+  .generate-hero p.eyebrow{margin:0 0 6px; font-size:14px; opacity:0.85;}
+  .go-btn{
+    appearance:none; border:none; cursor:pointer;
+    background:var(--magenta); color:#fff;
+    font-family:"Work Sans", sans-serif; font-weight:700; font-size:17px;
+    padding:16px 36px; border-radius:100px;
+    box-shadow:0 6px 18px rgba(198,35,108,0.45);
+    transition:transform 120ms ease;
+  }
+  @media (hover:hover) and (pointer:fine){.go-btn:hover{transform:translateY(-1px);}}
+  .go-btn:active{transform:translateY(1px);}
+
+  .output-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:18px;
+    padding:30px 28px; box-shadow:var(--shadow); margin-bottom:18px;
+  }
+  .output-empty{color:var(--muted); font-size:15px; text-align:center; padding:20px 0;}
+  .punjabi-line{
+    font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:clamp(22px,4vw,34px);
+    line-height:1.3; margin:0 0 12px; word-wrap:break-word;
+  }
+  .english-line{color:var(--muted); font-size:17px; font-style:italic; margin:0;}
+  .meta-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; align-items:center;}
+  .pill{
+    font-size:12px; font-weight:600; padding:5px 11px; border-radius:100px;
+    background:var(--surface-2); color:var(--muted); border:1px solid var(--border);
+  }
+  .breakdown-toggle{
+    margin-left:auto; background:none; border:1px solid var(--border); color:var(--teal);
+    font-size:13px; font-weight:600; padding:6px 12px; border-radius:100px; cursor:pointer;
+  }
+  .breakdown{margin-top:16px; padding-top:16px; border-top:1px solid var(--border); display:none; flex-wrap:wrap; gap:8px;}
+  .breakdown.open{display:flex;}
+  .chip{
+    font-size:13px; padding:6px 10px; border-radius:8px; background:var(--surface-2);
+    border-left:3px solid var(--teal);
+  }
+  .chip b{display:block; font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:var(--muted); font-weight:700;}
+  .chip.WHO{border-color:var(--teal);}
+  .chip.VERB{border-color:var(--magenta);}
+  .chip.WHAT,.chip.WHEN,.chip.WHERE{border-color:var(--saffron);}
+  .chip.WHY,.chip.HOW,.chip.QUESTION,.chip.ABOUT{border-color:var(--muted);}
+
+  .hint-box{font-size:13px; color:var(--muted); text-align:center; margin-top:4px;}
+  .generator-controls{display:grid; grid-template-columns:minmax(220px,1fr) minmax(180px,0.8fr) auto; gap:16px; align-items:end;}
+  .field-label{display:block; font-size:11px; color:var(--muted); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.05em; font-weight:700;}
+  .generator-controls select{width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:9px; background:var(--bg); color:var(--ink); font:inherit;}
+  .range-row{display:flex; align-items:center; gap:12px; min-height:42px;}
+  .range-row input{width:100%; accent-color:var(--magenta);}
+  .count-badge{min-width:34px; text-align:center; font-weight:700; color:var(--magenta);}
+  .setting-row{display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:16px; padding-top:14px; border-top:1px solid var(--border);}
+  .setting-row label{display:flex; align-items:center; gap:9px; font-size:13px; color:var(--muted); cursor:pointer;}
+  .setting-row input{accent-color:var(--magenta); width:17px; height:17px;}
+  .batch-results{display:grid; gap:12px; margin-top:18px;}
+  .batch-item{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:17px 18px; box-shadow:var(--shadow);}
+  .batch-main{display:flex; justify-content:space-between; gap:16px; align-items:flex-start;}
+  .batch-p{font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:20px; margin:0 0 6px; line-height:1.35;}
+  .batch-e{color:var(--muted); font-size:14px; font-style:italic; margin:0;}
+  .batch-actions{display:flex; gap:7px; flex-wrap:wrap; justify-content:flex-end; flex:0 0 auto;}
+  .saved-group{margin-top:24px;}
+  .saved-group:first-of-type{margin-top:8px;}
+  .saved-group-title{display:flex; align-items:center; gap:9px; margin:0 0 10px;}
+  .compat-note{background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:16px; color:var(--muted); font-size:13px; line-height:1.5;}
+  .bulk-enable-bar{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; margin:0 0 16px; padding:12px 14px; background:var(--surface-2); border:1px solid var(--border); border-radius:10px;}
+  .bulk-enable-title{font-size:13px; font-weight:700;}
+  .bulk-enable-status{font-size:12px; color:var(--muted); margin-left:8px; font-weight:500;}
+
+  /* Building blocks & templates */
+  .subnav{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:20px;}
+  .subnav button{
+    border:1px solid var(--border); background:var(--surface); color:var(--muted);
+    padding:7px 14px; border-radius:100px; font-size:13px; font-weight:600; cursor:pointer;
+  }
+  .subnav button.active{background:var(--teal-deep); border-color:var(--teal-deep); color:#fff;}
+
+  .panel{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; margin-bottom:20px; box-shadow:var(--shadow);}
+  .panel h2{font-family:"Fraunces", Georgia, serif; font-weight:600; font-size:20px; margin:0 0 4px;}
+  .panel .desc{color:var(--muted); font-size:13.5px; margin:0 0 18px;}
+
+  table{width:100%; border-collapse:collapse; font-size:14px;}
+  th{text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:var(--muted); padding:0 10px 8px; border-bottom:1px solid var(--border);}
+  td{padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  td input[type="text"], td input[type="number"], td select{
+    width:100%; padding:6px 8px; border:1px solid var(--border); border-radius:7px;
+    background:var(--bg); color:var(--ink); font-size:13.5px; font-family:inherit;
+  }
+  .row-actions{display:flex; gap:6px; white-space:nowrap;}
+  .btn{
+    border:1px solid var(--border); background:var(--surface-2); color:var(--ink);
+    padding:6px 11px; border-radius:8px; font-size:12.5px; font-weight:600; cursor:pointer;
+  }
+  .btn.primary{background:var(--teal-deep); border-color:var(--teal-deep); color:#fff;}
+  .btn.danger{background:transparent; border-color:var(--border); color:var(--magenta);}
+  .btn.ghost{background:transparent;}
+  .enabled-dot{width:9px; height:9px; border-radius:50%; display:inline-block; background:var(--teal);}
+  .enabled-dot.off{background:var(--border);}
+  .checkbox-cell{text-align:center;}
+
+  .add-form{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-top:16px; align-items:end;}
+  .add-form label{display:block; font-size:11px; color:var(--muted); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.04em;}
+  .add-form input, .add-form select{
+    width:100%; padding:8px 10px; border:1px solid var(--border); border-radius:8px;
+    background:var(--bg); color:var(--ink); font-size:13.5px; font-family:inherit;
+  }
+
+  .slot-builder{display:flex; flex-wrap:wrap; gap:8px; margin:12px 0;}
+  .slot-chip{
+    padding:6px 12px; border-radius:100px; border:1px solid var(--border); background:var(--surface-2);
+    font-size:12.5px; font-weight:600; cursor:pointer; color:var(--muted);
+  }
+  .slot-chip.picked{background:var(--magenta); border-color:var(--magenta); color:#fff;}
+  .picked-sequence{display:flex; gap:6px; flex-wrap:wrap; min-height:32px; padding:8px; border:1px dashed var(--border); border-radius:10px; margin-bottom:10px;}
+  .seq-tag{background:var(--teal-deep); color:#fff; font-size:12px; padding:4px 9px; border-radius:7px; display:flex; gap:6px; align-items:center;}
+  .seq-tag button{background:none; border:none; color:#fff; cursor:pointer; font-size:12px; line-height:1;}
+
+  .empty-note{color:var(--muted); font-size:13px; padding:14px 0;}
+
+  footer.note{color:var(--muted); font-size:12.5px; text-align:center; margin-top:36px; line-height:1.6;}
+
+  @media (max-width:640px){
+    .generator-controls{grid-template-columns:1fr;}
+    .batch-main{display:block;}
+    .batch-actions{justify-content:flex-start; margin-top:12px;}
+    table, thead, tbody, th, td, tr{display:block;}
+    thead{display:none;}
+    tr{border:1px solid var(--border); border-radius:10px; margin-bottom:10px; padding:8px;}
+    td{border:none; padding:6px 4px;}
+    td:before{content: attr(data-label); display:block; font-size:10px; text-transform:uppercase; color:var(--muted); margin-bottom:2px;}
+  }
+  [hidden]{display:none!important}
+  .gurmukhi-line{font-family:"Nirmala UI","Gurmukhi MN","Raavi",sans-serif;font-size:clamp(1.45rem,4vw,2rem);line-height:1.8;overflow-wrap:anywhere;margin:12px 0;color:var(--ink)}
+  .speech-controls,.flash-navigation,.rating-buttons,.settings-grid,.flash-header{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .speech-controls{margin:14px 0}.speech-controls button,.flash-round button,.flash-setup button{min-height:44px}
+  #speechStatus:empty{display:none}#speechStatus{padding:12px 16px;border:1px solid var(--border);border-radius:12px}
+  .settings-grid{align-items:flex-start;margin:20px 0}.settings-grid>div{flex:1;min-width:180px}
+  .setting-check{display:flex;align-items:center;gap:8px;min-height:44px;margin:4px 0}.setting-check input{width:20px;height:20px;flex:0 0 auto}
+  #voiceSelect{max-width:100%}#screen-settings label[for]{display:block;margin:16px 0 8px}#speechRate{width:min(100%,480px)}
+  #flashTemplates{max-height:300px;overflow:auto;border:1px solid var(--border);border-radius:12px;padding:12px}
+  .flash-round,.flash-setup,.flash-summary{max-width:900px;margin:auto}.flash-header{justify-content:space-between}
+  .flash-round progress{width:100%;height:10px;accent-color:var(--teal);margin-bottom:22px}
+  .flash-card{padding:clamp(20px,5vw,42px);min-height:260px;border:1px solid var(--border);border-radius:18px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center}
+  .flash-english,.flash-roman{font-size:clamp(1.25rem,4vw,1.9rem);line-height:1.65;overflow-wrap:anywhere}
+  .flash-answer{width:100%;border-top:1px solid var(--border);margin-top:18px;padding-top:18px}.flash-card .speech-controls{justify-content:center}
+  .flash-navigation{justify-content:space-between;margin-top:22px}.rating-buttons{margin-top:14px}.rating-buttons button{flex:1}
+  .summary-counts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:30px 0}.summary-counts div{border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center}.summary-counts strong{display:block;font-size:2rem}.summary-counts span{text-transform:capitalize}
+  .f-gverb,.f-gmeta{min-width:210px;max-width:100%;font:inherit;font-size:13px}.sentence-text{min-width:0}
+  @media(max-width:600px){.tabs{flex-wrap:wrap}.flash-navigation button{flex:1 1 45%}.summary-counts{grid-template-columns:repeat(2,1fr)}.setting-check{font-size:16px}input,select,textarea{font-size:16px!important}.panel{padding:18px}.flash-card{min-height:240px}}
+
+  /* Native controls use a single click path for mouse, keyboard and tap.
+     Scroll gestures remain native; only buttons opt out of double-tap delay. */
+  .shell{padding-top:max(24px,env(safe-area-inset-top));padding-right:max(16px,env(safe-area-inset-right));padding-bottom:max(40px,env(safe-area-inset-bottom));padding-left:max(16px,env(safe-area-inset-left))}
+  button{min-height:44px!important;min-width:44px;touch-action:manipulation;white-space:normal}
+  button:disabled{opacity:.5;cursor:default}
+  button:not(:disabled):active{filter:brightness(.92)}
+  .theme-toggle{width:44px;height:44px;flex:0 0 44px}
+  .tabs{flex-wrap:wrap;gap:6px;min-width:0}.topbar-right{min-width:0;max-width:100%;flex:1 1 520px}
+  .wordmark{flex-wrap:wrap;min-width:0}.wordmark h1{overflow-wrap:anywhere}
+  .topbar,.panel,.output-card,.batch-item,.batch-main>div,.flash-front,.flash-answer,.sentence-text{min-width:0;max-width:100%}
+  .punjabi-line,.english-line,.gurmukhi-line,.flash-roman,.flash-english,.chip,.pill,.compat-note,.saved-group-title{overflow-wrap:anywhere}
+  .row-actions{flex-wrap:wrap;gap:8px;white-space:normal}.speech-controls{gap:10px}
+  input:not([type="checkbox"]),select,textarea{max-width:100%;min-width:0;font-size:16px!important;color:var(--ink);background:var(--bg);border:1px solid var(--border);border-radius:7px}
+  input:not([type="checkbox"]),select{min-height:44px;padding:8px}
+  input[type="range"]{padding:0;min-height:44px;border:0}
+  textarea{padding:8px;resize:vertical;box-sizing:border-box}
+  .f-gverb,.f-gmeta,.f-rmeta{width:100%;min-width:0}
+  .setting-check,.setting-row label{min-height:44px;cursor:pointer}
+  input[type="checkbox"]{width:24px;height:24px;flex:0 0 24px;accent-color:var(--teal)}
+  .checkbox-cell input[type="checkbox"]{width:44px;height:44px;margin:0;vertical-align:middle}
+  .setting-check{gap:10px;padding:5px 0}.settings-grid>div{min-width:0;flex:1 1 200px}
+  .settings-grid select,.settings-grid input:not([type="checkbox"]){width:100%}
+  fieldset{min-width:0}summary{min-height:44px;cursor:pointer;padding:10px 0}
+  .setting-row{flex-wrap:wrap}.batch-actions{max-width:100%}
+  .speech-message{flex-basis:100%;margin:0;line-height:1.5;text-align:left;font-size:14px;color:var(--muted)}
+  .editor-message{padding:12px;border:1px solid var(--magenta);border-radius:8px;color:var(--magenta)}
+  .rating-buttons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+  .flash-navigation button{flex:1 1 160px}.flash-front{width:100%}
+  .preview-help{max-width:700px;margin:20px auto;color:var(--muted);font-size:14px;line-height:1.5}
+  @media (max-width:900px){
+    .generator-controls{grid-template-columns:minmax(0,1fr)}
+    .batch-main{display:block}.batch-actions{justify-content:flex-start;margin-top:12px}
+    #blocksContent table,#blocksContent thead,#blocksContent tbody,#blocksContent th,#blocksContent td,#blocksContent tr,
+    #templatesTableWrap table,#templatesTableWrap thead,#templatesTableWrap tbody,#templatesTableWrap th,#templatesTableWrap td,#templatesTableWrap tr{display:block;max-width:100%;min-width:0}
+    #blocksContent thead,#templatesTableWrap thead{display:none}
+    #blocksContent tr,#templatesTableWrap tr{border:1px solid var(--border);border-radius:10px;margin-bottom:14px;padding:10px}
+    #blocksContent td,#templatesTableWrap td{border:none;padding:6px 4px;overflow-wrap:anywhere}
+    #blocksContent td:before,#templatesTableWrap td:before{content:attr(data-label);display:block;font-size:11px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+    .checkbox-cell{text-align:left}
+  }
+  @media (max-width:480px){
+    .topbar-right{align-items:flex-start}.tabs{flex:1}.tab{flex:1 1 100px;padding:8px}
+    .shell{padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+    .panel,.output-card,.batch-item{padding:16px}.generate-hero{padding:24px 16px}
+    .flash-card{padding:20px 12px;min-height:220px}.rating-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .flash-navigation button{flex:1 1 120px}.summary-counts{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .add-form{grid-template-columns:minmax(0,1fr)}.breakdown-toggle{margin-left:0}
+  }
+
+</style>
+</head>
+<body>
+<noscript><p class="panel">This app needs JavaScript. If this is a file preview, open the hosted app directly in Safari to use its controls.</p></noscript>
+<div class="shell">
+
+  <div class="topbar">
+    <div class="wordmark">
+      <span class="gur">ਬੋਲ</span>
+      <div>
+        <h1>Bol · Punjabi Sentence Generator</h1>
+        <div class="sub">Data-driven practice sentences, built from your own vocabulary</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab active" data-screen="generate">Generate Sentence</button>
+        <button type="button" class="tab" data-screen="blocks">Building Blocks</button>
+        <button type="button" class="tab" data-screen="templates">Templates</button>
+        <button type="button" class="tab" data-screen="flashcards">🃏 Flashcards</button><button type="button" class="tab" data-screen="settings">⚙ Settings</button><button type="button" class="tab" data-screen="saved">Saved <span id="savedTabCount"></span></button>
+      </div>
+      <button type="button" class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle light/dark theme">◐</button>
+    </div>
+  </div>
+
+  <!-- GENERATE SCREEN -->
+  <section class="screen active" id="screen-generate">
+    <div class="generate-hero">
+      <p class="eyebrow">Press the button for a new sentence</p>
+      <button type="button" class="go-btn" id="generateBtn">GENERATE SENTENCE</button>
+    </div>
+
+    <div class="output-card" id="outputCard">
+      <div class="output-empty" id="outputEmpty">Your first sentence will appear here.</div>
+    </div>
+
+    <div class="panel">
+      <h2>Generate a sentence set</h2>
+      <p class="desc">Choose one template, or select the random option to draw from every enabled template using your configured probabilities.</p>
+      <div class="generator-controls">
+        <div>
+          <label class="field-label" for="batchTemplateSelect">Template</label>
+          <select id="batchTemplateSelect"></select>
+        </div>
+        <div>
+          <label class="field-label" for="batchCountSlider">Number of sentences</label>
+          <div class="range-row"><input type="range" id="batchCountSlider" min="1" max="20" value="5"><span class="count-badge" id="batchCountLabel">5</span></div>
+        </div>
+        <button type="button" class="btn primary" id="batchGenerateBtn" style="min-height:42px;">Generate set</button>
+      </div>
+      <div class="setting-row">
+        <label><input type="checkbox" id="autoBreakdownCheckbox"> Show breakdown automatically for every new sentence</label>
+      </div>
+      <div class="batch-results" id="batchResults"></div>
+    </div>
+
+    <p class="hint-box">Add or edit words on the <strong>Building Blocks</strong> screen, and adjust sentence patterns on the <strong>Templates</strong> screen — no rebuilding required.</p>
+  </section>
+
+  <!-- SAVED SCREEN -->
+  <section class="screen" id="screen-saved">
+    <div id="savedContent"></div>
+  </section>
+
+  <!-- BUILDING BLOCKS SCREEN -->
+  <section class="screen" id="screen-blocks">
+    <div class="subnav" id="blocksSubnav"></div>
+    <div id="blocksContent"></div>
+  </section>
+
+  <!-- TEMPLATES SCREEN -->
+  <section class="screen" id="screen-templates">
+    <div class="panel">
+      <h2>Sentence templates</h2>
+      <p class="desc">The built-in templates are grouped by real conversational function and use dedicated Punjabi grammar rules for agreement, questions, negation and word order. Probability controls how often each enabled pattern appears; the values are normalised automatically.</p>
+      <div id="templatesTableWrap"></div>
+    </div>
+    <div class="panel">
+      <h2>Add a new template</h2>
+      <p class="desc">Click slot types in order to build the sentence pattern. VERB (simple) conjugates a plain verb to the subject; VERB (wants to…) uses a "want"-style verb plus a compatible action.</p>
+      <div class="slot-builder" id="slotBuilder"></div>
+      <div class="picked-sequence" id="pickedSequence"></div>
+      <div class="add-form">
+        <div><label>Name</label><input type="text" id="newTplName" placeholder="e.g. Weekend plan"></div>
+        <div><label>Difficulty (1-10)</label><input type="number" id="newTplDifficulty" value="3" min="1" max="10"></div>
+        <div><label>Probability</label><input type="number" id="newTplProbability" value="10" min="0" max="100"></div>
+        <div><button type="button" class="btn primary" id="addTemplateBtn">Add template</button></div>
+      </div>
+    </div>
+  </section>
+
+<section class="screen" id="screen-flashcards"></section><section class="screen" id="screen-settings"></section><p id="speechStatus" role="status" aria-live="polite"></p>
+  <details class="preview-help"><summary>Using this app on iPhone</summary><p>If controls are inactive inside a file preview, open the hosted app directly in Safari. A preview that blocks JavaScript cannot run the app. Once hosted, use Safari’s Share menu to add the site to your Home Screen. Preferences and saved sentences belong to the browser/site where you saved them.</p></details>
+  <footer class="note">Roman Punjabi + Gurmukhi · conversational Majhi-leaning forms · shared word choices, subject agreement and semantic compatibility · every entry remains editable. Custom slot templates are experimental: arbitrary slot orders still need linguistic review.</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- Default data ---------------- */
+  function defaultData(){
+    const data = {
+      vocab: {
+        WHO: [
+          {id:'who-main', p:'main', e:'I', person:'1sg', enabled:true},
+          {id:'who-tusi', p:'tusī̃', e:'you', person:'2pl', enabled:true},
+          {id:'who-oh', p:'oh', e:'he/she', person:'3sg', enabled:true},
+          {id:'who-asi', p:'asī̃', e:'we', person:'1pl', enabled:true},
+          {id:'who-dost', p:'merā dost', e:'my friend', person:'3sg', enabled:true},
+          {id:'who-parivar', p:'merā parivār', e:'my family', person:'3sg', enabled:true}
+        ],
+        WHEN: [
+          {id:'when-ajj', p:'ajj', e:'today', enabled:true},
+          {id:'when-kal', p:'kal', e:'yesterday/tomorrow', enabled:true},
+          {id:'when-hun', p:'hun', e:'now', enabled:true},
+          {id:'when-harroz', p:'har roz', e:'every day', enabled:true},
+          {id:'when-aksar', p:'aksar', e:'often', enabled:true}
+        ],
+        WHERE: [
+          {id:'where-ghar', p:'ghar vich', e:'at home', enabled:true},
+          {id:'where-dafter', p:'dafter vich', e:'in the office', enabled:true},
+          {id:'where-auckland', p:'Auckland vich', e:'in Auckland', enabled:true},
+          {id:'where-bazar', p:'bazār vich', e:'in the market', enabled:true}
+        ],
+        WHAT: [
+          {id:'what-punjabi', p:'Punjabi', e:'Punjabi', tags:['learnable'], enabled:true},
+          {id:'what-pani', p:'pāṇī', e:'water', tags:['drinkable'], enabled:true},
+          {id:'what-cah', p:'cāh', e:'tea', tags:['drinkable'], enabled:true},
+          {id:'what-kam', p:'kam', e:'work', tags:['doable'], enabled:true},
+          {id:'what-kitab', p:'kitāb', e:'a book', tags:['readable'], enabled:true}
+        ],
+        HOW: [
+          {id:'how-bahut', p:'bahut', e:'a lot', enabled:true},
+          {id:'how-thora', p:'thoṛā', e:'a little', enabled:true},
+          {id:'how-bahutzyada', p:'bahut zyādā', e:'much more', enabled:true},
+          {id:'how-changi', p:'changī tarā̃', e:'well', enabled:true},
+          {id:'how-hauli', p:'hauli-hauli', e:'slowly', enabled:true}
+        ],
+        WHY: [
+          {id:'why-kiuki', p:'kiũki', e:'because', enabled:true},
+          {id:'why-iskarke', p:'is karke', e:'because of this / therefore', enabled:true},
+          {id:'why-islai', p:'is laī', e:'for this reason', enabled:true}
+        ],
+        ABOUT: [
+          {id:'about-ai', p:'AI bāre', e:'about AI', enabled:true},
+          {id:'about-punjabi', p:'Punjabi bāre', e:'about Punjabi', enabled:true},
+          {id:'about-kam', p:'tuhāḍe kam bāre', e:'about your work', enabled:true}
+        ],
+        QUESTION: [
+          {id:'q-ki', p:'kī', e:'what', enabled:true},
+          {id:'q-kithe', p:'kithē', e:'where', enabled:true},
+          {id:'q-kado', p:'kadō̃', e:'when', enabled:true},
+          {id:'q-kive', p:'kivẽ', e:'how', enabled:true},
+          {id:'q-kiu', p:'kiũ', e:'why', enabled:true},
+          {id:'q-kaun', p:'kaun', e:'who', enabled:true}
+        ],
+        CONNECTOR: [
+          {id:'c-ate', p:'ate', e:'and', enabled:true},
+          {id:'c-par', p:'par', e:'but', enabled:true},
+          {id:'c-tanjo', p:'tā̃ jo', e:'so that', enabled:true},
+          {id:'c-je', p:'je', e:'if', enabled:true},
+          {id:'c-jado', p:'jadō̃', e:'when', enabled:true},
+          {id:'c-phir', p:'phir', e:'then', enabled:true},
+          {id:'c-lekin', p:'lekin', e:'however', enabled:true}
+        ]
+      },
+      verbs: [
+        {id:'v-sikhna', infinitive:'sikhṇā', english:'to learn', base:'learn', prefix:'', type:'simple', isModalComplement:true, takesTag:'learnable', forms:{'1sg':'sikhdā hā̃','2pl':'sikhde ho','3sg':'sikhdā hai','1pl':'sikhde hāṃ'}, enabled:true},
+        {id:'v-samajhna', infinitive:'samajhṇā', english:'to understand', base:'understand', prefix:'', type:'simple', isModalComplement:true, takesTag:'learnable', forms:{'1sg':'samajhdā hā̃','2pl':'samajhde ho','3sg':'samajhdā hai','1pl':'samajhde hāṃ'}, enabled:true},
+        {id:'v-gallkarna', infinitive:'gall karṇā', english:'to talk', base:'talk with you', prefix:'gall', type:'simple', isModalComplement:true, takesTag:'', forms:{'1sg':'kardā hā̃','2pl':'karde ho','3sg':'kardā hai','1pl':'karde hāṃ'}, enabled:true},
+        {id:'v-kamkarna', infinitive:'kam karṇā', english:'to work', base:'work', prefix:'kam', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'kardā hā̃','2pl':'karde ho','3sg':'kardā hai','1pl':'karde hāṃ'}, enabled:true},
+        {id:'v-khana', infinitive:'khāṇā', english:'to eat', base:'eat', prefix:'', type:'simple', isModalComplement:true, takesTag:'edible', forms:{'1sg':'khāndā hā̃','2pl':'khānde ho','3sg':'khāndā hai','1pl':'khānde hāṃ'}, enabled:true},
+        {id:'v-pina', infinitive:'pīṇā', english:'to drink', base:'drink', prefix:'', type:'simple', isModalComplement:true, takesTag:'drinkable', forms:{'1sg':'pīndā hā̃','2pl':'pīnde ho','3sg':'pīndā hai','1pl':'pīnde hāṃ'}, enabled:true},
+        {id:'v-jana', infinitive:'jāṇā', english:'to go', base:'go', prefix:'', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'jāndā hā̃','2pl':'jānde ho','3sg':'jāndā hai','1pl':'jānde hāṃ'}, enabled:true},
+        {id:'v-auna', infinitive:'āuṇā', english:'to come', base:'come', prefix:'', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'āũdā hā̃','2pl':'āũde ho','3sg':'āũdā hai','1pl':'āũde hāṃ'}, enabled:true},
+        {id:'v-sochna', infinitive:'sochṇā', english:'to think', base:'think', prefix:'', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'sochdā hā̃','2pl':'sochde ho','3sg':'sochdā hai','1pl':'sochde hāṃ'}, enabled:true},
+        {id:'v-parhna', infinitive:'paṛhṇā', english:'to read', base:'read', prefix:'', type:'simple', isModalComplement:true, takesTag:'readable', forms:{'1sg':'paṛhdā hā̃','2pl':'paṛhde ho','3sg':'paṛhdā hai','1pl':'paṛhde hāṃ'}, enabled:true},
+        {id:'v-chahuna', infinitive:'chāhuṇā', english:'to want', base:'want', prefix:'', type:'modal', isModalComplement:false, takesTag:'', forms:{'1sg':'chāhũdā hā̃','2pl':'chāhũde ho','3sg':'chāhũdā hai','1pl':'chāhũde hāṃ'}, enabled:true},
+        {id:'v-karna', infinitive:'karṇā', english:'to do/make', base:'do', prefix:'', type:'simple', isModalComplement:true, takesTag:'doable', forms:{'1sg':'kardā hā̃','2pl':'karde ho','3sg':'kardā hai','1pl':'karde hāṃ'}, enabled:true},
+        {id:'v-dena', infinitive:'deṇā', english:'to give', base:'give', prefix:'', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'dindā hā̃','2pl':'dinde ho','3sg':'dindā hai','1pl':'dinde hāṃ'}, enabled:true},
+        {id:'v-laina', infinitive:'laiṇā', english:'to take', base:'take', prefix:'', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'laindā hā̃','2pl':'lainde ho','3sg':'laindā hai','1pl':'lainde hāṃ'}, enabled:true}
+      ],
+      templates: [
+        {id:'T1', name:'Simple action', difficulty:1, probability:15, enabled:true, slots:[{t:'WHO'},{t:'VERB', mode:'simple'}]},
+        {id:'T2', name:'Wants to do something', difficulty:2, probability:20, enabled:true, slots:[{t:'WHO'},{t:'WHAT'},{t:'VERB', mode:'modal'}]},
+        {id:'T3', name:'Simple action with time', difficulty:3, probability:15, enabled:true, slots:[{t:'WHO'},{t:'WHEN'},{t:'VERB', mode:'simple'}]},
+        {id:'T4', name:'Wants to, with place', difficulty:4, probability:20, enabled:true, slots:[{t:'WHO'},{t:'WHERE'},{t:'WHAT'},{t:'VERB', mode:'modal'}]},
+        {id:'T5', name:'Wants to, with time and place', difficulty:5, probability:15, enabled:true, slots:[{t:'WHO'},{t:'WHEN'},{t:'WHERE'},{t:'WHAT'},{t:'VERB', mode:'modal'}]},
+        {id:'T6', name:'Because clause', difficulty:6, probability:10, enabled:true, slots:[{t:'WHO'},{t:'WHAT'},{t:'VERB', mode:'modal'},{t:'WHY'},{t:'WHO'},{t:'VERB', mode:'modal', noObject:true}]},
+        {id:'T7', name:'Detailed plan', difficulty:6, probability:5, enabled:true, slots:[{t:'WHO'},{t:'WHEN'},{t:'WHERE'},{t:'WHAT'},{t:'HOW'},{t:'VERB', mode:'modal'}]}
+      ],
+      saved: [],
+      schemaVersion: 3
+    };
+    return enrichData(data);
+  }
+
+  function enrichData(data){
+    function addMany(category, items){
+      if(!data.vocab[category]) data.vocab[category] = [];
+      const ids = {};
+      data.vocab[category].forEach(function(x){ ids[x.id] = true; });
+      items.forEach(function(x){ if(!ids[x.id]) data.vocab[category].push(x); });
+    }
+    function who(id,p,e,person,gender,number,dative,withPossession){
+      return {id:id,p:p,e:e,person:person,gender:gender||'m',number:number||'sg',dative:dative,withPossession:withPossession,enabled:true};
+    }
+    function word(id,p,e,extra){ return Object.assign({id:id,p:p,e:e,enabled:true},extra||{}); }
+    function makeVerb(id,infinitive,english,base,root,habitSg,habitPl,tags,imperative,extra){
+      return Object.assign({
+        id:id, infinitive:infinitive, english:english, base:base, root:root,
+        type:'simple', prefix:'', isModalComplement:!!(tags&&tags.length),
+        takesTag:(tags&&tags[0])||'', takesTags:tags||[], imperative:imperative||root,
+        forms:{'1sg':habitSg+' hā̃','2sg':habitSg+' haĩ','2pl':habitPl+' ho','3sg':habitSg+' hai','1pl':habitPl+' hā̃','3pl':habitPl+' han'},
+        enabled:true
+      },extra||{});
+    }
+
+    addMany('WHO', [
+      who('who-tu','tū̃','you (informal)','2sg','m','sg','tainū̃','tere kol'),
+      who('who-ohlok','oh lok','they','3pl','m','pl','ohnā̃ nū̃','ohnā̃ kol'),
+      who('who-koi','koī','someone','3sg','m','sg','kisē nū̃','kisē kol'),
+      who('who-harkoi','har koī','everyone','3sg','m','sg','har kisē nū̃','har kisē kol'),
+      who('who-lok','lok','people','3pl','m','pl','lokā̃ nū̃','lokā̃ kol'),
+      who('who-bhai','merā bhāī','my brother','3sg','m','sg','mere bhāī nū̃','mere bhāī kol'),
+      who('who-bhain','merī bhaiṇ','my sister','3sg','f','sg','merī bhaiṇ nū̃','merī bhaiṇ kol'),
+      who('who-ma','merī mā̃','my mother','3sg','f','sg','merī mā̃ nū̃','merī mā̃ kol'),
+      who('who-pio','mere piō','my father','3sg','m','sg','mere piō nū̃','mere piō kol'),
+      who('who-mape','mere mā̃-piō','my parents','3pl','m','pl','mere mā̃-piō nū̃','mere mā̃-piō kol'),
+      who('who-bacce','bacce','the children','3pl','m','pl','bacciā̃ nū̃','bacciā̃ kol'),
+      who('who-sathi','merā sāthī','my partner','3sg','m','sg','mere sāthī nū̃','mere sāthī kol')
+    ]);
+    const whoDefaults = {
+      'who-main':{gender:'m',number:'sg',dative:'mainū̃',withPossession:'mere kol'},
+      'who-tusi':{gender:'m',number:'pl',dative:'tuhānū̃',withPossession:'tuhāḍe kol'},
+      'who-oh':{gender:'m',number:'sg',dative:'ohnū̃',withPossession:'ohde kol'},
+      'who-asi':{gender:'m',number:'pl',dative:'sānū̃',withPossession:'sāḍe kol'},
+      'who-dost':{gender:'m',number:'sg',dative:'mere dost nū̃',withPossession:'mere dost kol'},
+      'who-parivar':{gender:'m',number:'sg',dative:'mere parivār nū̃',withPossession:'mere parivār kol'}
+    };
+    data.vocab.WHO.forEach(function(x){ Object.assign(x,whoDefaults[x.id]||{}); });
+
+    addMany('WHEN', [
+      word('when-hune','huṇe','right now',{time:'present'}), word('when-savere','savere','in the morning',{time:'any'}),
+      word('when-dupahir','dupahir nū̃','in the afternoon',{time:'any'}), word('when-sham','shām nū̃','in the evening',{time:'any'}),
+      word('when-raat','rāt nū̃','at night',{time:'any'}), word('when-ajraat','ajj rāt','tonight',{time:'future'}),
+      word('when-kalsavere','kal savere','tomorrow morning',{time:'future'}), word('when-isweek','is hafte','this week',{time:'any'}),
+      word('when-aglaweek','agle hafte','next week',{time:'future'}), word('when-weekend','haftē de ant te','at the weekend',{time:'future'}),
+      word('when-hamesha','hameshā','always',{time:'habit'}), word('when-kadekade','kade-kade','sometimes',{time:'habit'}),
+      word('when-aamtaur','ām taur te','usually',{time:'habit'}), word('when-pehla','pehlā̃','earlier',{time:'past'}),
+      word('when-baad','bāad vich','later',{time:'future'}), word('when-jaldi','jaldi','soon',{time:'future'}),
+      word('when-samete','samẽ te','on time',{time:'any'}), word('when-pichleweek','pichle hafte','last week',{time:'past'})
+    ]);
+    data.vocab.WHEN.forEach(function(x){
+      if(x.id==='when-kal')x.time='relative';
+      else if(x.id==='when-ajj')x.time='present';
+      else if(!x.time)x.time = x.id==='when-harroz'||x.id==='when-aksar'?'habit':(x.id==='when-hun'?'present':'any');
+    });
+
+    addMany('WHERE', [
+      word('where-kam','kam te','at work',{dest:'kam te'}), word('where-school','school vich','at school',{dest:'school'}),
+      word('where-college','college vich','at university',{dest:'college'}), word('where-dukan','dukān vich','in the shop',{dest:'dukān te'}),
+      word('where-restaurant','restaurant vich','in the restaurant',{dest:'restaurant'}), word('where-cafe','café vich','in the café',{dest:'café'}),
+      word('where-hospital','haspatāl vich','in the hospital',{dest:'haspatāl'}), word('where-station','station te','at the station',{dest:'station te'}),
+      word('where-airport','airport te','at the airport',{dest:'airport te'}), word('where-car','gaḍḍī vich','in the car',{dest:'gaḍḍī val'}),
+      word('where-bus','bus vich','on the bus',{dest:'bus val'}), word('where-park','park vich','in the park',{dest:'park'}),
+      word('where-gym','gym vich','at the gym',{dest:'gym'}), word('where-kitchen','rasoī vich','in the kitchen',{dest:'rasoī vich'}),
+      word('where-room','kamre vich','in the room',{dest:'kamre vich'}), word('where-bahar','bāhar','outside',{dest:'bāhar'}),
+      word('where-andar','andar','inside',{dest:'andar'}), word('where-ithe','ithe','here',{dest:'ithe'}),
+      word('where-uthe','uthe','there',{dest:'uthe'}), word('where-nerhe','neṛe','nearby',{dest:'neṛe'}),
+      word('where-punjab','Punjab vich','in Punjab',{dest:'Punjab'}), word('where-sahar','shehar vich','in the city',{dest:'shehar'}),
+      word('where-dostghar','dost de ghar','at a friend’s house',{dest:'dost de ghar'})
+    ]);
+    const destDefaults={'where-ghar':'ghar','where-dafter':'dafter','where-auckland':'Auckland','where-bazar':'bazār'};
+    data.vocab.WHERE.forEach(function(x){ if(!x.dest) x.dest=destDefaults[x.id]||x.p; });
+
+    addMany('WHAT', [
+      word('what-roti','roṭī','flatbread',{tags:['edible','cookable'],gender:'f'}), word('what-khana','khāṇā','food',{tags:['edible','cookable','needable'],gender:'m'}),
+      word('what-phal','phal','fruit',{tags:['edible','buyable'],gender:'m'}), word('what-sabzi','sabzī','vegetables',{tags:['edible','buyable','cookable'],gender:'f',englishNumber:'pl'}),
+      word('what-nashta','nāshtā','breakfast',{tags:['edible','cookable'],gender:'m'}), word('what-dudh','dudh','milk',{tags:['drinkable','buyable'],gender:'m'}),
+      word('what-coffee','kāfī','coffee',{tags:['drinkable','buyable'],gender:'f'}), word('what-juice','jūs','juice',{tags:['drinkable','buyable'],gender:'m'}),
+      word('what-khabra','khabrā̃','the news',{tags:['readable','watchable','listenable'],gender:'f',number:'pl',englishNumber:'sg'}),
+      word('what-message','sunehā','a message',{tags:['readable','writable','sendable'],gender:'m'}), word('what-email','email','an email',{tags:['readable','writable','sendable'],gender:'f'}),
+      word('what-film','film','a film',{tags:['watchable'],gender:'f'}), word('what-tv','TV','television',{tags:['watchable'],gender:'m'}),
+      word('what-video','video','a video',{tags:['watchable','sendable'],gender:'m'}), word('what-match','match','the match',{tags:['watchable'],gender:'m'}),
+      word('what-gana','gāṇā','a song',{tags:['listenable'],gender:'m'}), word('what-podcast','podcast','a podcast',{tags:['listenable'],gender:'m'}),
+      word('what-kapre','kapṛe','clothes',{tags:['buyable','washable'],gender:'m',number:'pl'}), word('what-davai','davāī','medicine',{tags:['buyable','needable','bringable'],gender:'f'}),
+      word('what-ticket','ṭikaṭ','a ticket',{tags:['buyable','needable','bringable'],gender:'f'}), word('what-tohfa','tohfā','a gift',{tags:['buyable','giveable','bringable'],gender:'m'}),
+      word('what-gharkam','ghar dā kam','housework',{tags:['doable'],gender:'m'}), word('what-exercise','kasrat','exercise',{tags:['doable'],gender:'f'}),
+      word('what-practice','abhiās','some practice',{tags:['doable'],gender:'m'}), word('what-english','angrezī','English',{tags:['learnable','speakable','understandable'],gender:'f'}),
+      word('what-newthing','navī̃ cīz','something new',{tags:['learnable','understandable'],gender:'f'}), word('what-gall','gall','the point',{tags:['understandable'],gender:'f'}),
+      word('what-sawal','savāl','the question',{tags:['understandable','answerable'],gender:'m'}), word('what-samassia','samassiā','the problem',{tags:['understandable','solvable'],gender:'f'}),
+      word('what-photo','photo','a photo',{tags:['sendable'],gender:'f'}), word('what-madad','madad','help',{tags:['needable','giveable'],gender:'f'}),
+      word('what-jawab','javāb','an answer',{tags:['giveable','writable'],gender:'m'}), word('what-chabian','cābīā̃','the keys',{tags:['findable','bringable'],gender:'f',number:'pl'}),
+      word('what-phone','fon','a phone',{tags:['findable','buyable','bringable'],gender:'m'}), word('what-darwaza','darvāzā','the door',{tags:['openable','closable'],gender:'m'}),
+      word('what-khidki','khiṛkī','the window',{tags:['openable','closable'],gender:'f'}), word('what-paisa','paise','money',{tags:['needable','bringable'],gender:'m',number:'pl'})
+    ]);
+    const whatDefaults={
+      'what-punjabi':{tags:['learnable','speakable','understandable'],gender:'f'}, 'what-pani':{tags:['drinkable','needable','bringable','giveable'],gender:'m'},
+      'what-cah':{tags:['drinkable','buyable','bringable','giveable'],gender:'f'}, 'what-kam':{tags:['doable'],gender:'m'},
+      'what-kitab':{tags:['readable','buyable','bringable','giveable'],gender:'f'}
+    };
+    data.vocab.WHAT.forEach(function(x){ Object.assign(x,whatDefaults[x.id]||{}); if(!x.gender)x.gender='m'; if(!x.number)x.number='sg'; });
+    const possessableIds=['what-pani','what-cah','what-kitab','what-roti','what-khana','what-phal','what-sabzi','what-dudh','what-coffee','what-juice','what-kapre','what-davai','what-ticket','what-tohfa','what-photo','what-chabian','what-phone','what-paisa'];
+    data.vocab.WHAT.forEach(function(x){ if(possessableIds.indexOf(x.id)!==-1 && x.tags.indexOf('possessable')===-1)x.tags.push('possessable'); });
+    const likeableIds=['what-punjabi','what-cah','what-kitab','what-roti','what-khana','what-phal','what-sabzi','what-nashta','what-dudh','what-coffee','what-juice','what-film','what-tv','what-video','what-match','what-gana','what-podcast','what-kapre','what-english','what-photo'];
+    data.vocab.WHAT.forEach(function(x){ if(likeableIds.indexOf(x.id)!==-1 && x.tags.indexOf('likeable')===-1)x.tags.push('likeable'); });
+
+    addMany('HOW', [
+      word('how-dhiyan','dhiyān nāl','carefully'), word('how-ikathe','ikaṭṭhe','together'), word('how-ikalle','ikallē','alone'),
+      word('how-online','online','online'), word('how-asani','āsānī nāl','easily'), word('how-mushkil','mushkil nāl','with difficulty'),
+      word('how-khushi','khushī nāl','happily'), word('how-dubara','dubārā','again'), word('how-saf','sāf taur te','clearly'),
+      word('how-chup','chup-cāp','quietly'), word('how-sidhe','siddhe taur te','directly'), word('how-phone','fon te','by phone')
+    ]);
+    addMany('WHY', [
+      word('why-important','kiũki eh zarūrī hai','because it is important'), word('why-time','kiũki samā̃ ghatt hai','because there is little time'),
+      word('why-weather','kiũki mausam changā hai','because the weather is good'), word('why-holiday','kiũki ajj chhuṭṭī hai','because today is a holiday'),
+      word('why-easy','kiũki eh saukhā hai','because it is easy'), word('why-useful','kiũki eh faidemand hai','because it is useful'),
+      word('why-late','kiũki der ho rahī hai','because it is getting late'), word('why-needed','kiũki is dī lōṛ hai','because it is needed')
+    ]);
+    data.vocab.WHY.forEach(function(x){ if(['why-kiuki','why-iskarke','why-islai'].indexOf(x.id)!==-1)x.enabled=false; });
+    addMany('ABOUT', [
+      word('about-family','parivār bāre','about family'), word('about-work','kam bāre','about work'), word('about-weather','mausam bāre','about the weather'),
+      word('about-travel','safar bāre','about travel'), word('about-food','khāṇe bāre','about food'), word('about-health','sehat bāre','about health'),
+      word('about-money','paisē bāre','about money'), word('about-plan','yojanā bāre','about the plan'), word('about-problem','samassiā bāre','about the problem'),
+      word('about-news','khabrā̃ bāre','about the news'), word('about-movie','film bāre','about the film'), word('about-study','paṛhāī bāre','about studying')
+    ]);
+    const questionExtras=[
+      word('q-kehra','kehṛā','which',{role:'which'}), word('q-kinna','kinnā','how much',{role:'amount'}), word('q-kinne','kinne','how many',{role:'count'}),
+      word('q-kisnu','kis nū̃','whom',{role:'personObject'}), word('q-kisda','kis dā','whose',{role:'possessive'}), word('q-kihor','hor kī','what else',{role:'thing'}),
+      word('q-kinnichir','kinnī cir','how long',{role:'duration'}), word('q-kiniduur','kinnī dūr','how far',{role:'distance'})
+    ];
+    addMany('QUESTION',questionExtras);
+    const qRoles={'q-ki':'thing','q-kithe':'place','q-kado':'time','q-kive':'manner','q-kiu':'reason','q-kaun':'person'};
+    data.vocab.QUESTION.forEach(function(x){ if(!x.role)x.role=qRoles[x.id]||'thing'; });
+    addMany('CONNECTOR', [
+      word('c-ja','jā̃','or',{role:'alternative'}), word('c-kiuki','kiũki','because',{role:'reason'}), word('c-iskarke','is karke','so / therefore',{role:'result'}),
+      word('c-bhave','bhāvē̃','although',{role:'contrast'}), word('c-vi','vī','also',{role:'addition'}), word('c-pehla','pehlā̃','first',{role:'sequence'}),
+      word('c-usbaad','us tō̃ bāad','after that',{role:'sequence'}), word('c-akhir','ākhar vich','finally',{role:'sequence'})
+    ]);
+
+    addMany('STATE', [
+      word('state-fine','ṭhīk','fine',{forms:{m:'ṭhīk',f:'ṭhīk',pl:'ṭhīk'}}), word('state-happy','khush','happy',{forms:{m:'khush',f:'khush',pl:'khush'}}),
+      word('state-busy','rujhiā','busy',{forms:{m:'rujhiā',f:'rujhī',pl:'rujhe'}}), word('state-tired','thakkiā','tired',{forms:{m:'thakkiā',f:'thakkī',pl:'thakke'}}),
+      word('state-ready','tiār','ready',{forms:{m:'tiār',f:'tiār',pl:'tiār'}}), word('state-hungry','bhukkhā','hungry',{forms:{m:'bhukkhā',f:'bhukkhī',pl:'bhukkhe'}}),
+      word('state-thirsty','piāsā','thirsty',{forms:{m:'piāsā',f:'piāsī',pl:'piāse'}}), word('state-sick','bimār','sick',{forms:{m:'bimār',f:'bimār',pl:'bimār'}}),
+      word('state-free','vehlā','free',{forms:{m:'vehlā',f:'vehlī',pl:'vehle'}}), word('state-late','late','late',{forms:{m:'late',f:'late',pl:'late'}}),
+      word('state-sure','pakkā','sure',{forms:{m:'pakkā',f:'pakkī',pl:'pakke'}}), word('state-worried','fikarmand','worried',{forms:{m:'fikarmand',f:'fikarmand',pl:'fikarmand'}})
+    ]);
+
+    const newVerbs = [
+      makeVerb('v-vekna','vekhṇā','to watch/see','watch','vekh','vekhdā','vekhde',['watchable'],'vekho'),
+      makeVerb('v-sunna','suṇṇā','to listen','listen to','suṇ','suṇdā','suṇde',['listenable'],'suṇo'),
+      makeVerb('v-kharidna','kharīdṇā','to buy','buy','kharīd','kharīddā','kharīdde',['buyable'],'kharīdo'),
+      makeVerb('v-pakauna','pakāuṇā','to cook','cook','pakā','pakāũdā','pakāũde',['cookable'],'pakāo'),
+      makeVerb('v-likhna','likhṇā','to write','write','likh','likhdā','likhde',['writable'],'likho'),
+      makeVerb('v-bhejna','bhejṇā','to send','send','bhej','bhejdā','bhejde',['sendable'],'bhejo'),
+      makeVerb('v-liauna','liāuṇā','to bring','bring','liā','liāũdā','liāũde',['bringable'],'liāo'),
+      makeVerb('v-labhna','labhṇā','to find','find','labh','labhdā','labhde',['findable'],'labho'),
+      makeVerb('v-kholna','kholṇā','to open','open','khol','kholdā','kholde',['openable'],'kholo'),
+      makeVerb('v-bandkarna','band karṇā','to close','close','band kar','band kardā','band karde',['closable'],'band karo'),
+      makeVerb('v-halna','hall karṇā','to solve','solve','hall kar','hall kardā','hall karde',['solvable'],'hall karo'),
+      makeVerb('v-jawabdena','javāb deṇā','to answer','answer','javāb de','javāb dindā','javāb dinde',['answerable'],'javāb deo'),
+      makeVerb('v-bolna','bolṇā','to speak','speak','bol','boldā','bolde',['speakable'],'bolo'),
+      makeVerb('v-sona','sauṇā','to sleep','sleep','sau','saundā','saunde',[],'sau jāo'),
+      makeVerb('v-uthna','uṭhṇā','to get up','get up','uṭh','uṭhdā','uṭhde',[],'uṭho'),
+      makeVerb('v-baithna','baiṭhṇā','to sit','sit','baiṭh','baiṭhdā','baiṭhde',[],'baiṭho'),
+      makeVerb('v-hasna','hasṇā','to laugh','laugh','has','hasdā','hasde',[],'haso'),
+      makeVerb('v-khedna','kheḍṇā','to play','play','kheḍ','kheḍdā','kheḍde',[],'kheḍo'),
+      makeVerb('v-intazar','intazār karṇā','to wait','wait','intazār kar','intazār kardā','intazār karde',[],'intazār karo'),
+      makeVerb('v-sair','sair karṇā','to go for a walk','go for a walk','sair kar','sair kardā','sair karde',[],'sair karo'),
+      makeVerb('v-drive','gaḍḍī calāuṇā','to drive','drive','gaḍḍī calā','gaḍḍī calāũdā','gaḍḍī calāũde',[],'gaḍḍī calāo'),
+      makeVerb('v-phone','fon karṇā','to call','call','fon kar','fon kardā','fon karde',[],'fon karo')
+    ];
+    const verbIds={}; data.verbs.forEach(function(v){verbIds[v.id]=true;}); newVerbs.forEach(function(v){if(!verbIds[v.id])data.verbs.push(v);});
+    const grammar = {
+      'v-sikhna':{root:'sikh',imperative:'sikho',takesTags:['learnable']}, 'v-samajhna':{root:'samajh',imperative:'samjho',takesTags:['understandable']},
+      'v-gallkarna':{root:'gall kar',imperative:'gall karo',takesTags:[]}, 'v-kamkarna':{root:'kam kar',imperative:'kam karo',takesTags:[]},
+      'v-khana':{root:'khā',imperative:'khāo',takesTags:['edible']}, 'v-pina':{root:'pī',imperative:'pīo',takesTags:['drinkable']},
+      'v-jana':{root:'jā',imperative:'jāo',takesTags:[]}, 'v-auna':{root:'ā',imperative:'āo',takesTags:[]},
+      'v-sochna':{root:'soch',imperative:'socho',takesTags:[]}, 'v-parhna':{root:'paṛh',imperative:'paṛho',takesTags:['readable']},
+      'v-chahuna':{root:'chāh',imperative:'',takesTags:[]}, 'v-karna':{root:'kar',imperative:'karo',takesTags:['doable']},
+      'v-dena':{root:'de',imperative:'deo',takesTags:['giveable']}, 'v-laina':{root:'lai',imperative:'lao',takesTags:[]}
+    };
+    data.verbs.forEach(function(v){
+      const g=grammar[v.id]||{}; Object.keys(g).forEach(function(k){v[k]=g[k];});
+      if(!v.root)v.root=v.infinitive.replace(/ṇā$/,'');
+      if(!v.takesTags)v.takesTags=v.takesTag?[v.takesTag]:[];
+      if(!v.forms['2sg'])v.forms['2sg']=(v.forms['3sg']||'').replace(/ hai$/,' haĩ');
+      if(!v.forms['3pl'])v.forms['3pl']=(v.forms['2pl']||'').replace(/ ho$/,' han');
+    });
+
+    const patterns = [
+      ['P01','Everyday action','Present routines',1,8,'habitObject','WHO + WHAT + VERB'],
+      ['P02','Everyday action (no object)','Present routines',1,7,'habitBare','WHO + VERB'],
+      ['P03','Action with time and place','Present routines',2,6,'habitDetailed','WHO + WHEN + WHERE + WHAT + VERB'],
+      ['P04','Negative routine','Negatives',2,5,'habitNegative','WHO + WHAT + NOT + VERB'],
+      ['P05','Yes/no routine question','Questions',2,5,'habitQuestion','KĪ + WHO + WHAT + VERB?'],
+      ['P06','Doing something now','Present progressive',2,8,'progressObject','WHO + WHAT + VERB-ing'],
+      ['P07','Current action (no object)','Present progressive',2,6,'progressBare','WHO + VERB-ing'],
+      ['P08','Not doing it now','Negatives',3,4,'progressNegative','WHO + WHAT + NOT + VERB-ing'],
+      ['P09','What are you doing?','Questions',1,7,'whatDoing','WHO + WHAT? + VERB-ing'],
+      ['P10','Where are you going?','Questions',1,6,'whereGoing','WHO + WHERE? + GOING'],
+      ['P11','When are you coming?','Questions',1,5,'whenComing','WHO + WHEN? + COMING'],
+      ['P12','Why are you doing it?','Questions',2,5,'whyDoing','WHO + WHY? + DOING'],
+      ['P13','How do you do it?','Questions',2,4,'howDoing','WHO + HOW? + DO'],
+      ['P14','Want to do something','Wants and plans',2,8,'wantObject','WHO + WHAT + ACTION + WANT'],
+      ['P15','Do not want to','Wants and plans',3,4,'wantNegative','WHO + WHAT + ACTION + NOT WANT'],
+      ['P16','Want to go somewhere','Wants and plans',2,6,'wantGo','WHO + DESTINATION + GO + WANT'],
+      ['P17','Can do something','Ability',2,7,'canObject','WHO + WHAT + ACTION + CAN'],
+      ['P18','Cannot do something','Ability',3,5,'cannotObject','WHO + WHAT + ACTION + CANNOT'],
+      ['P19','Can you…?','Requests',2,8,'canYou','KĪ + TUSĪ̃ + WHAT + ACTION + CAN?'],
+      ['P20','Polite request','Requests',2,7,'politeRequest','PLEASE + WHAT + IMPERATIVE'],
+      ['P21','Need to do something','Needs and duties',3,6,'needTo','WHO-DATIVE + WHAT + ACTION + NEED'],
+      ['P22','Should do something','Advice',3,5,'shouldDo','WHO-DATIVE + WHAT + ACTION + SHOULD'],
+      ['P23','Likes something','Preferences',1,7,'likes','WHO-DATIVE + WHAT + LIKES'],
+      ['P24','Does not like something','Preferences',2,4,'dislikes','WHO-DATIVE + WHAT + NOT LIKE'],
+      ['P25','Has something','Possession',1,7,'hasObject','WHO + HAS + WHAT'],
+      ['P26','Does not have something','Possession',2,5,'hasNegative','WHO + DOES NOT HAVE + WHAT'],
+      ['P27','Do you have…?','Questions',1,7,'haveQuestion','KĪ + WHO + HAS + WHAT?'],
+      ['P28','Current state or feeling','States',1,8,'state','WHO + STATE'],
+      ['P29','Negative state','States',2,4,'stateNegative','WHO + NOT + STATE'],
+      ['P30','Are you…?','Questions',1,6,'stateQuestion','KĪ + WHO + STATE?'],
+      ['P31','There is something somewhere','Existence',2,6,'thereIs','WHERE + WHAT + EXISTS'],
+      ['P32','There is nothing there','Existence',2,4,'thereIsNot','WHERE + WHAT + DOES NOT EXIST'],
+      ['P33','Going to do something','Future plans',3,7,'plannedFuture','WHO + FUTURE TIME + WHAT + GOING TO ACTION'],
+      ['P34','Talk about a topic','Conversation',2,6,'talkAbout','WHO + ABOUT + TALKS'],
+      ['P35','Ask about a topic','Conversation',3,5,'askAbout','WHO + ABOUT + WANTS TO TALK'],
+      ['P36','Action with a reason','Reasons',3,6,'because','CLAUSE + BECAUSE + REASON'],
+      ['P37','Two linked actions','Connectors',4,5,'andActions','ACTION + AND + ACTION'],
+      ['P38','Contrast: but','Connectors',4,4,'butContrast','CLAUSE + BUT + NEGATIVE CLAUSE'],
+      ['P39','If…then…','Conditions',5,4,'conditional','IF + CONDITION + THEN + PLAN'],
+      ['P40','Choice: this or that?','Choices',2,5,'choiceQuestion','WHAT + OR + WHAT?'],
+      ['P41','Which one do you want?','Questions',2,5,'whichWant','WHICH + WHAT + WANT?'],
+      ['P42','How much / how many?','Questions',2,5,'amountQuestion','HOW MUCH/MANY + WHAT?'],
+      ['P43','Was in a state','Past conversation',2,5,'pastState','WHO + PAST TIME + STATE + WAS'],
+      ['P44','Was doing something','Past conversation',3,6,'pastProgressObject','WHO + PAST TIME + WHAT + WAS DOING'],
+      ['P45','Used to do something','Past conversation',3,5,'pastHabit','WHO + WHEN + WHAT + USED TO DO'],
+      ['P46','Went somewhere','Past conversation',2,6,'pastWent','WHO + PAST TIME + DESTINATION + WENT']
+    ].map(function(p){return {id:p[0],name:p[1],family:p[2],difficulty:p[3],probability:p[4],pattern:p[5],description:p[6],enabled:true,slots:[]};});
+    data.templates.forEach(function(t){ if(/^T[1-7]$/.test(t.id))t.enabled=false; });
+    const tplIds={};data.templates.forEach(function(t){tplIds[t.id]=true;});patterns.forEach(function(t){if(!tplIds[t.id])data.templates.push(t);});
+    return data;
+  }
+
+  /* ---------------- State load/save ---------------- */
+  const STORAGE_KEY = 'punjabi-app-state-v1';
+  let state = null;
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){ state = JSON.parse(raw); }
+  }catch(e){ console.warn('Could not read saved data, starting fresh.', e); }
+  if(!state || !state.vocab || !state.verbs || !state.templates){ state = defaultData(); }
+  if(!state.saved){ state.saved = []; }
+
+  // One-time, non-destructive repair for the original starter data. Existing
+  // custom words stay intact; only the known starter rows that caused bad
+  // pairings are corrected.
+  if((state.schemaVersion || 1) < 2){
+    const book = state.vocab.WHAT.find(function(x){ return x.id === 'what-kitab'; });
+    if(book) book.tags = (book.tags || []).filter(function(tag){ return tag !== 'learnable'; });
+    const work = state.vocab.WHAT.find(function(x){ return x.id === 'what-kam'; });
+    if(work && (work.tags || []).length === 0) work.tags = ['doable'];
+    const doVerb = state.verbs.find(function(x){ return x.id === 'v-karna'; });
+    if(doVerb){ doVerb.isModalComplement = true; doVerb.takesTag = 'doable'; }
+    const oldDetailed = state.templates.find(function(x){ return x.id === 'T7'; });
+    if(oldDetailed){
+      oldDetailed.name = 'Detailed plan';
+      oldDetailed.difficulty = 6;
+      oldDetailed.slots = [{t:'WHO'},{t:'WHEN'},{t:'WHERE'},{t:'WHAT'},{t:'HOW'},{t:'VERB', mode:'modal'}];
+    }
+    state.schemaVersion = 2;
+    save();
+  }
+
+  if((state.schemaVersion || 1) < 3){
+    const expanded = defaultData();
+    Object.keys(expanded.vocab).forEach(function(category){
+      if(!state.vocab[category]) state.vocab[category] = [];
+      const existing = {};
+      state.vocab[category].forEach(function(x){ existing[x.id] = x; });
+      expanded.vocab[category].forEach(function(source){
+        const target = existing[source.id];
+        if(!target){
+          state.vocab[category].push(source);
+          return;
+        }
+        Object.keys(source).forEach(function(key){
+          if(typeof target[key] === 'undefined') target[key] = source[key];
+        });
+        if(category === 'WHAT' && source.tags){
+          target.tags = Array.from(new Set((target.tags || []).concat(source.tags)));
+        }
+      });
+    });
+    ['why-kiuki','why-iskarke','why-islai'].forEach(function(id){
+      const oldReason=state.vocab.WHY.find(function(x){return x.id===id;});
+      if(oldReason)oldReason.enabled=false;
+    });
+    const existingVerbs = {};
+    state.verbs.forEach(function(v){ existingVerbs[v.id] = v; });
+    expanded.verbs.forEach(function(source){
+      const target = existingVerbs[source.id];
+      if(!target){ state.verbs.push(source); return; }
+      ['root','imperative','takesTags'].forEach(function(key){ if(typeof target[key] === 'undefined') target[key] = source[key]; });
+      target.forms = Object.assign({},source.forms,target.forms||{});
+    });
+    const existingTemplates = {};
+    state.templates.forEach(function(t){ existingTemplates[t.id] = true; if(/^T[1-7]$/.test(t.id)) t.enabled = false; });
+    expanded.templates.forEach(function(t){ if(!existingTemplates[t.id] && t.pattern) state.templates.push(t); });
+    state.schemaVersion = 3;
+    save();
+  }
+
+  function save(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    catch(e){ console.warn('Could not save data.', e); }
+  }
+
+  const CATEGORY_LABELS = {WHO:'Who', WHEN:'When', WHERE:'Where', WHAT:'What', HOW:'How', WHY:'Reasons', ABOUT:'About', QUESTION:'Question words', CONNECTOR:'Connectors', STATE:'States & feelings'};
+  const CATEGORY_ORDER = ['WHO','WHEN','WHERE','WHAT','HOW','WHY','ABOUT','QUESTION','CONNECTOR','STATE'];
+
+  function uid(prefix){ return prefix + '-' + Math.random().toString(36).slice(2,9); }
+
+  /* ---------------- Generation engine ---------------- */
+  function enabledOf(list){ return list.filter(function(x){ return x.enabled; }); }
+
+  function pickRandom(arr){ if(!arr.length)return undefined; const n=selectionReplay ? selectionTape[selectionCursor++] : Math.random(); if(selectionRecording)selectionTape.push(n); return arr[Math.floor(n*arr.length)]; }
+
+  function pickWeightedTemplate(){
+    const pool = enabledOf(state.templates).filter(function(t){ return t.probability > 0; });
+    if(pool.length === 0) return null;
+    const total = pool.reduce(function(s,t){ return s + t.probability; }, 0);
+    let r = Math.random() * total;
+    for(let i=0;i<pool.length;i++){
+      r -= pool[i].probability;
+      if(r <= 0) return pool[i];
+    }
+    return pool[pool.length-1];
+  }
+
+  function conjugatePunjabi(verb, person){
+    const form = verb.forms[person] || verb.forms['3sg'];
+    return verb.prefix ? (verb.prefix + ' ' + form) : form;
+  }
+
+  function conjugateEnglish(base, person){
+    const words=base.split(' ');
+    if(words.length>1)return conjugateEnglish(words[0],person)+' '+words.slice(1).join(' ');
+    if(person === '3sg'){
+      if(/[^aeiou]y$/i.test(base)) return base.slice(0,-1) + 'ies';
+      if(/(s|sh|ch|x|z|o)$/i.test(base)) return base + 'es';
+      return base + 's';
+    }
+    return base;
+  }
+
+  // A complement verb only pairs with a What-word when its takesTag is set AND
+  // that tag appears on the What-word's own tags. Verbs with a blank takesTag
+  // never take a direct object at all (e.g. "gall karṇā" — to talk) — they are
+  // only used in an object-less slot, never guessed against a random What-word.
+  function pickCompatibleWhatAndComplement(){
+    const whats = enabledOf(state.vocab.WHAT);
+    const complements = enabledOf(state.verbs).filter(function(v){ return v.isModalComplement && ((v.takesTags&&v.takesTags.length)||v.takesTag); });
+    const pairs = [];
+    whats.forEach(function(w){
+      complements.forEach(function(c){
+        const required = (c.takesTags&&c.takesTags.length) ? c.takesTags : [c.takesTag];
+        if(required.some(function(tag){return (w.tags||[]).indexOf(tag)!==-1;})){
+          // Compound predicates such as “answer” govern a postposition:
+          // savāl dā javāb deṇā, not savāl javāb deṇā.
+          pairs.push({what:c.objectPostposition?Object.assign({},w,{p:w.p+' '+c.objectPostposition}):w,
+            verb:c.englishByObject&&c.englishByObject[w.id]?Object.assign({},c,{base:c.englishByObject[w.id]}):c});
+        }
+      });
+    });
+    if(pairs.length === 0) return null;
+    return pickRandom(pairs);
+  }
+
+  function pickObjectlessComplement(){
+    const complements = enabledOf(state.verbs).filter(function(v){ return v.type==='simple' && (!v.takesTags||!v.takesTags.length) && !v.takesTag; });
+    if(complements.length === 0) return null;
+    return pickRandom(complements);
+  }
+
+  let lastSignature = '';
+
+  function buildSentence(forceTemplate){
+    for(let attempt=0; attempt<8; attempt++){
+      const template = forceTemplate || pickWeightedTemplate();
+      if(!template) return null;
+      const result = assembleFromTemplate(template);
+      if(!result) continue;
+      if(result.signature !== lastSignature || attempt === 7){
+        lastSignature = result.signature;
+        return result;
+      }
+    }
+    return null;
+  }
+
+  function assembleLegacy(template){
+    if(template.pattern) return assemblePattern(template);
+    const puTokens = [];
+    const enTokens = [];
+    const englishParts = [];
+    const breakdown = [];
+    let currentWho = null;
+    let hasQuestion = false;
+    let sigParts = [template.id];
+
+    // Pass 1: resolve every VERB slot together with the nearest preceding
+    // (still unclaimed) WHAT slot, so the object and the verb are always a
+    // grammatically compatible pair rather than two independent random picks.
+    const linkedWhat = {};
+    const linkedVerbPair = {};
+    let pendingWhatIndex = -1;
+    for(let i=0;i<template.slots.length;i++){
+      const s = template.slots[i];
+      if(s.t === 'WHAT'){
+        pendingWhatIndex = i;
+      } else if(s.t === 'VERB'){
+        if(s.noObject){
+          const complement = pickObjectlessComplement();
+          if(!complement) return null;
+          linkedVerbPair[i] = {what:null, verb:complement};
+        } else if(pendingWhatIndex !== -1){
+          const pair = pickCompatibleWhatAndComplement();
+          if(!pair) return null;
+          linkedWhat[pendingWhatIndex] = pair.what;
+          linkedVerbPair[i] = pair;
+          pendingWhatIndex = -1;
+        } else {
+          const complement = pickObjectlessComplement();
+          if(!complement) return null;
+          linkedVerbPair[i] = {what:null, verb:complement};
+        }
+        pendingWhatIndex = -1;
+      } else if(s.t === 'VERB' || s.t === 'WHY' || s.t === 'QUESTION' || s.t === 'CONNECTOR' || (s.t === 'WHO' && pendingWhatIndex !== -1)){
+        pendingWhatIndex = -1;
+      }
+    }
+
+    for(let i=0;i<template.slots.length;i++){
+      const slot = template.slots[i];
+
+      if(slot.t === 'WHO'){
+        const pool = enabledOf(state.vocab.WHO);
+        if(!pool.length) return null;
+        const who = pickRandom(pool);
+        currentWho = who;
+        puTokens.push(who.p);
+        enTokens.push(capitalizeFirst(who.e, enTokens.length===0));
+        englishParts.push({t:'WHO', text:who.e});
+        breakdown.push({label:'Who', value:who.p, type:'WHO'});
+        sigParts.push('WHO:'+who.id);
+      }
+      else if(slot.t === 'WHEN'){
+        const pool = enabledOf(state.vocab.WHEN);
+        if(!pool.length) continue;
+        const item = pickRandom(pool);
+        puTokens.push(item.p);
+        enTokens.push(item.e);
+        englishParts.push({t:'WHEN', text:item.e});
+        breakdown.push({label:'When', value:item.p, type:'WHEN'});
+        sigParts.push('WHEN:'+item.id);
+      }
+      else if(slot.t === 'WHERE'){
+        const pool = enabledOf(state.vocab.WHERE);
+        if(!pool.length) continue;
+        const item = pickRandom(pool);
+        puTokens.push(item.p);
+        enTokens.push(item.e);
+        englishParts.push({t:'WHERE', text:item.e});
+        breakdown.push({label:'Where', value:item.p, type:'WHERE'});
+        sigParts.push('WHERE:'+item.id);
+      }
+      else if(slot.t === 'HOW'){
+        const pool = enabledOf(state.vocab.HOW);
+        if(!pool.length) continue;
+        const item = pickRandom(pool);
+        puTokens.push(item.p);
+        enTokens.push(item.e);
+        englishParts.push({t:'HOW', text:item.e});
+        breakdown.push({label:'How', value:item.p, type:'HOW'});
+        sigParts.push('HOW:'+item.id);
+      }
+      else if(slot.t === 'ABOUT'){
+        const pool = enabledOf(state.vocab.ABOUT);
+        if(!pool.length) continue;
+        const item = pickRandom(pool);
+        puTokens.push(item.p);
+        enTokens.push(item.e);
+        englishParts.push({t:'ABOUT', text:item.e});
+        breakdown.push({label:'About', value:item.p, type:'ABOUT'});
+        sigParts.push('ABOUT:'+item.id);
+      }
+      else if(slot.t === 'QUESTION'){
+        const pool = enabledOf(state.vocab.QUESTION);
+        if(!pool.length) continue;
+        const item = pickRandom(pool);
+        hasQuestion = true;
+        puTokens.push(item.p);
+        enTokens.push(item.e);
+        englishParts.push({t:'QUESTION', text:item.e});
+        breakdown.push({label:'Question', value:item.p, type:'QUESTION'});
+        sigParts.push('Q:'+item.id);
+      }
+      else if(slot.t === 'WHY'){
+        const pool = enabledOf(state.vocab.WHY);
+        if(!pool.length) continue;
+        const item = pickRandom(pool);
+        puTokens.push(item.p);
+        enTokens.push(item.e);
+        englishParts.push({t:'WHY', text:item.e});
+        breakdown.push({label:'Why', value:item.p, type:'WHY'});
+        sigParts.push('WHY:'+item.id);
+      }
+      else if(slot.t === 'WHAT'){
+        let item = linkedWhat[i];
+        if(!item){
+          const pool = enabledOf(state.vocab.WHAT);
+          if(!pool.length) continue;
+          item = pickRandom(pool);
+        }
+        puTokens.push(item.p);
+        enTokens.push(item.e);
+        englishParts.push({t:'WHAT', text:item.e});
+        breakdown.push({label:'What', value:item.p, type:'WHAT'});
+        sigParts.push('WHAT:'+item.id);
+      }
+      else if(slot.t === 'VERB'){
+        if(!currentWho){
+          const pool = enabledOf(state.vocab.WHO);
+          if(!pool.length) return null;
+          currentWho = pickRandom(pool);
+        }
+        const person = currentWho.person || '3sg';
+        if(slot.mode === 'modal'){
+          const modalPool = enabledOf(state.verbs).filter(function(v){ return v.type === 'modal'; });
+          if(!modalPool.length) return null;
+          const modal = pickRandom(modalPool);
+          const pair = linkedVerbPair[i];
+          if(!pair) return null;
+          const complementPu = infinitiveForObject(pair.verb,pair.what);
+          const modalConjugated = habitualForSubject(modal,currentWho);
+          puTokens.push(complementPu + ' ' + modalConjugated);
+          const modalEn = conjugateEnglish(modal.base, person);
+          enTokens.push(modalEn + ' to ' + pair.verb.base);
+          englishParts.push({t:'VERB', text:modalEn + ' to ' + pair.verb.base});
+          breakdown.push({label:'Verb', value: complementPu + ' ' + modalConjugated, type:'VERB'});
+          sigParts.push('VERB:'+modal.id+':'+pair.verb.id);
+        } else {
+          const pair=linkedVerbPair[i];if(!pair)return null;
+          const verb = pair.verb;
+          const conjugated = habitualForSubject(verb,currentWho);
+          puTokens.push(conjugated);
+          enTokens.push(conjugateEnglish(verb.base, person));
+          englishParts.push({t:'VERB', text:conjugateEnglish(verb.base, person)});
+          breakdown.push({label:'Verb', value:conjugated, type:'VERB'});
+          sigParts.push('VERB:'+verb.id);
+        }
+      }
+    }
+
+    if(!puTokens.length) return null;
+
+    const punctuation = hasQuestion ? '?' : '.';
+    const punjabiSentence = puTokens.join(' ') + punctuation;
+    const englishSentence = buildNaturalEnglish(englishParts) + (hasQuestion ? '?' : '.');
+
+    return {
+      punjabi: punjabiSentence,
+      english: englishSentence,
+      templateId: template.id,
+      templateName: template.name,
+      difficulty: template.difficulty,
+      breakdown: breakdown,
+      signature: sigParts.join('|')
+    };
+  }
+
+  function capitalizeFirst(str, isFirst){
+    if(!isFirst) return str;
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function joinEnglish(tokens){
+    // naive join with spaces; capitalize very first character of full sentence
+    let s = tokens.join(' ');
+    s = s.replace(/\s+/g,' ').trim();
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  function buildNaturalEnglish(parts){
+    const chunks = [];
+    let clause = [];
+
+    function flushClause(){
+      if(!clause.length) return;
+      const ordered = [];
+      ['QUESTION','WHO','VERB','WHAT','ABOUT','HOW','WHERE','WHEN'].forEach(function(type){
+        clause.forEach(function(part){ if(part.t === type) ordered.push(part.text); });
+      });
+      clause.forEach(function(part){
+        if(['QUESTION','WHO','VERB','WHAT','ABOUT','HOW','WHERE','WHEN'].indexOf(part.t) === -1) ordered.push(part.text);
+      });
+      chunks.push(ordered.join(' '));
+      clause = [];
+    }
+
+    parts.forEach(function(part){
+      if(part.t === 'WHY'){
+        flushClause();
+        chunks.push(part.text);
+      } else {
+        clause.push(part);
+      }
+    });
+    flushClause();
+    return joinEnglish(chunks);
+  }
+
+  /* Curated conversational patterns. These use grammatical roles rather than
+     blindly shuffling slots, which keeps questions, agreement and objects sane. */
+  function assemblePattern(template){
+    const whoPool = enabledOf(state.vocab.WHO);
+    const whatPool = enabledOf(state.vocab.WHAT);
+    const wherePool = enabledOf(state.vocab.WHERE);
+    const howPool = enabledOf(state.vocab.HOW);
+    const aboutPool = enabledOf(state.vocab.ABOUT);
+    const reasonPool = enabledOf(state.vocab.WHY);
+    const statePool = enabledOf(state.vocab.STATE || []);
+    if(!whoPool.length) return null;
+
+    const who = pickRandom(whoPool);
+    const person = who.englishPerson || who.person || '3sg';
+    const breakdown = [];
+    const sig = [template.id];
+    function add(label,value,type,id){
+      breakdown.push({label:label,value:value,type:type});
+      if(id) sig.push(type+':'+id);
+    }
+    function result(pu,en,isQuestion){
+      const punc=isQuestion?'?':'.';
+      return {punjabi:pu.replace(/\s+/g,' ').trim()+punc,english:capitalizeSentence(en)+punc,templateId:template.id,templateName:template.name,difficulty:template.difficulty,breakdown:breakdown,signature:sig.join('|')};
+    }
+    function pickPair(){ return pickCompatibleWhatAndComplement(); }
+    function bareVerb(exclude){
+      const list=enabledOf(state.verbs).filter(function(v){
+        return v.type==='simple' && (!v.takesTags||!v.takesTags.length) && !v.takesTag && (!exclude||exclude.indexOf(v.id)===-1);
+      });
+      return list.length?pickRandom(list):null;
+    }
+    function byId(id){ const v=state.verbs.find(function(v){return v.id===id&&v.enabled;}); if(!v)throw new Error('Required verb disabled');return v; }
+    function timeFor(kind){
+      const pastFlexible=['when-kal','when-savere','when-dupahir','when-sham','when-raat'];
+      const list=enabledOf(state.vocab.WHEN).filter(function(x){
+        if(kind==='past')return x.time==='past'||pastFlexible.indexOf(x.id)!==-1;
+        if(kind==='future'&&x.id==='when-kal')return true;
+        return !x.time||x.time==='any'||x.time===kind||(kind==='present'&&x.time==='habit');
+      });
+      return list.length?pickRandom(list):null;
+    }
+    function timeEnglish(item,kind){ if(item.id==='when-kal')return kind==='past'?'yesterday':'tomorrow'; return item.e; }
+    function englishDestination(item){ if(item.id==='where-car')return 'towards the car';if(item.id==='where-bus')return 'towards the bus';
+      if(['where-bahar','where-andar','where-ithe','where-uthe','where-nerhe','where-ghar'].indexOf(item.id)!==-1)return item.e.replace(/^at /,'');
+      return 'to '+item.e.replace(/^(in|at|on) /,'');
+    }
+    function aux(subject){ return ({'1sg':L('hā̃'),'2sg':L('haĩ'),'2pl':L('ho'),'3sg':L('hai'),'1pl':L('hā̃'),'3pl':L('han')})[subject.person||'3sg']||L('hai'); }
+    function pastAux(subject){ return ({'1sg':L('sī'),'2sg':L('sī̃'),'2pl':L('sī'),'3sg':L('sī'),'1pl':L('sī'),'3pl':L('san')})[subject.person||'3sg']||L('sī'); }
+    function englishBe(subject){ const p=subject.englishPerson||subject.person;return p==='1sg'?'am':((p==='3sg'||!p)?'is':'are'); }
+    function englishPastBe(subject){ const p=subject.englishPerson||subject.person;return (p==='1sg'||p==='3sg'||!p)?'was':'were'; }
+    function englishSubject(subject){ return subject.e==='he/she'?(subject.gender==='f'?'she':'he'):(subject.e||'someone'); }
+    function englishObject(item){ return item.e||item.p; }
+    function bareEnglishObject(item){ return englishObject(item).replace(/^(a|an|the)\s+/i,''); }
+    function englishExistenceIs(item){ return (item.englishNumber||item.number)!=='pl'; }
+    function thirdSingular(subject){ return (subject.englishPerson||subject.person||'3sg')==='3sg'; }
+    function englishNegative(subject,verb){ return (thirdSingular(subject)?'does not ':'do not ')+verb.base; }
+    function englishQuestionAux(subject){ return thirdSingular(subject)?'Does':'Do'; }
+    function genderForm(subject,forms){
+      if(subject.number==='pl'||['1pl','2pl','3pl'].indexOf(subject.person)!==-1)return subject.gender==='f'?(forms.fpl||forms.f):forms.pl;
+      return subject.gender==='f'?forms.f:forms.m;
+    }
+    function stateForm(subject,item){ return genderForm(subject,item.forms||{m:item.p,f:item.p,pl:item.p}); }
+    function habitual(verb,subject){
+      return habitualForSubject(verb,subject);
+    }
+    function progressive(verb,subject){ return verb.root+' '+genderForm(subject,{m:L('rihā'),f:L('rahī'),pl:L('rahe'),fpl:L('rahīā̃')})+' '+aux(subject); }
+    function pastProgressive(verb,subject){ return verb.root+' '+genderForm(subject,{m:L('rihā'),f:L('rahī'),pl:L('rahe'),fpl:L('rahīā̃')})+' '+pastAux(subject); }
+    function pastHabitual(verb,subject){ if(scriptG)return habitual(verb,subject).replace(/(ਹਾਂ|ਹੈਂ|ਹੋ|ਹੈ|ਹਨ)$/,'')+pastAux(subject); return habitual(verb,subject).replace(/(hā̃|hāṃ|haĩ|ho|hai|han)$/,'')+pastAux(subject); }
+    function canPhrase(verb,subject,negative){ return (negative?L('nahī̃ '):'')+verb.root+' '+genderForm(subject,{m:L('sakdā'),f:L('sakdī'),pl:L('sakde'),fpl:L('sakdīā̃')})+' '+aux(subject); }
+    function planPhrase(verb,subject){
+      const verbal=scriptG?verb.infinitive.replace(/ਾ$/,''):(/[āīūeo]$/.test(verb.root)?verb.root+'ṇ':verb.root+'aṇ');
+      return verbal+' '+genderForm(subject,{m:L('vālā'),f:L('vālī'),pl:L('vāle'),fpl:L('vālīā̃')})+' '+aux(subject);
+    }
+    function agreedInfinitive(verb,item){
+      return infinitiveForObject(verb,item);
+    }
+    function existsAux(item){ return item.number==='pl'?L('han'):L('hai'); }
+    function chahida(item){
+      if(item.number==='pl')return item.gender==='f'?L('chāhīdīā̃ han'):L('chāhīde han');
+      return item.gender==='f'?L('chāhīdī hai'):L('chāhīdā hai');
+    }
+    function englishGerund(base){ const irregular={'get':'getting','sit':'sitting','run':'running','lie':'lying'};const first=base.split(' ')[0];if(irregular[first])return irregular[first]+base.slice(first.length);
+      const parts=base.split(' '),v=parts.shift(); let g;
+      if(/ie$/.test(v))g=v.slice(0,-2)+'ying'; else if(/e$/.test(v)&&!/(ee|ye|oe)$/.test(v))g=v.slice(0,-1)+'ing'; else g=v+'ing';
+      return [g].concat(parts).join(' ');
+    }
+    function capitalizeSentence(s){ s=String(s||'').trim(); return s.charAt(0).toUpperCase()+s.slice(1); }
+    function noteWho(subject){ add('Who',subject.p,'WHO',subject.id); }
+    function notePair(pair){ add('What',pair.what.p,'WHAT',pair.what.id); add('Action',pair.verb.infinitive,'VERB',pair.verb.id); }
+
+    let pair,verb,item,place,time,how,topic,reason,who2,pair2,pu,en;
+    switch(template.pattern){
+      case 'habitObject':
+        pair=pickPair(); if(!pair)return null; noteWho(who);notePair(pair);
+        return result(who.p+' '+pair.what.p+' '+habitual(pair.verb,who),englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what));
+      case 'habitBare':
+        verb=bareVerb();if(!verb)return null;noteWho(who);add('Action',verb.infinitive,'VERB',verb.id);
+        return result(who.p+' '+habitual(verb,who),englishSubject(who)+' '+conjugateEnglish(verb.base,person));
+      case 'habitDetailed':
+        pair=pickPair();place=pickRandom(wherePool);time=timeFor('habit');if(!pair||!place||!time)return null;noteWho(who);add('When',time.p,'WHEN',time.id);add('Where',place.p,'WHERE',place.id);notePair(pair);
+        return result(who.p+' '+time.p+' '+place.p+' '+pair.what.p+' '+habitual(pair.verb,who),englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' '+place.e+' '+time.e);
+      case 'habitNegative':
+        pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Negative',L('nahī̃'),'CONNECTOR');
+        return result(who.p+' '+pair.what.p+L(' nahī̃ ')+habitual(pair.verb,who),englishSubject(who)+' '+englishNegative(who,pair.verb)+' '+englishObject(pair.what));
+      case 'habitQuestion':
+        pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Question',L('kī'),'QUESTION');
+        return result(L('kī ')+who.p+' '+pair.what.p+' '+habitual(pair.verb,who),englishQuestionAux(who)+' '+englishSubject(who)+' '+pair.verb.base+' '+englishObject(pair.what),true);
+      case 'progressObject':
+        pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);
+        return result(who.p+' '+pair.what.p+' '+progressive(pair.verb,who),englishSubject(who)+' '+englishBe(who)+' '+englishGerund(pair.verb.base)+' '+englishObject(pair.what));
+      case 'progressBare':
+        verb=bareVerb();if(!verb)return null;noteWho(who);add('Action',verb.infinitive,'VERB',verb.id);
+        return result(who.p+' '+progressive(verb,who),englishSubject(who)+' '+englishBe(who)+' '+englishGerund(verb.base));
+      case 'progressNegative':
+        pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Negative',L('nahī̃'),'CONNECTOR');
+        return result(who.p+' '+pair.what.p+L(' nahī̃ ')+progressive(pair.verb,who),englishSubject(who)+' '+englishBe(who)+' not '+englishGerund(pair.verb.base)+' '+englishObject(pair.what));
+      case 'whatDoing':
+        noteWho(who);add('Question',L('kī'),'QUESTION');verb=byId('v-karna');
+        return result(who.p+L(' kī ')+progressive(verb,who),'what '+englishBe(who)+' '+englishSubject(who)+' doing',true);
+      case 'whereGoing':
+        noteWho(who);add('Question',L('kithē'),'QUESTION');verb=byId('v-jana');
+        return result(who.p+L(' kithē ')+progressive(verb,who),'where '+englishBe(who)+' '+englishSubject(who)+' going',true);
+      case 'whenComing':
+        noteWho(who);add('Question',L('kadō̃'),'QUESTION');verb=byId('v-auna');
+        return result(who.p+L(' kadō̃ ')+progressive(verb,who),'when '+englishBe(who)+' '+englishSubject(who)+' coming',true);
+      case 'whyDoing':
+        pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Question',L('kiũ'),'QUESTION');
+        return result(who.p+' '+pair.what.p+L(' kiũ ')+progressive(pair.verb,who),'why '+englishBe(who)+' '+englishSubject(who)+' '+englishGerund(pair.verb.base)+' '+englishObject(pair.what),true);
+      case 'howDoing':
+        pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Question',L('kivẽ'),'QUESTION');
+        return result(who.p+' '+pair.what.p+L(' kivẽ ')+habitual(pair.verb,who),'how '+englishQuestionAux(who).toLowerCase()+' '+englishSubject(who)+' '+pair.verb.base+' '+englishObject(pair.what),true);
+      case 'wantObject':
+      case 'wantNegative':
+        pair=pickPair();verb=byId('v-chahuna');if(!pair||!verb)return null;noteWho(who);notePair(pair);add('Modal',verb.infinitive,'VERB',verb.id);
+        pu=who.p+' '+pair.what.p+' '+agreedInfinitive(pair.verb,pair.what)+' '+(template.pattern==='wantNegative'?L('nahī̃ '):'')+habitual(verb,who);
+        en=englishSubject(who)+' '+(template.pattern==='wantNegative'?(thirdSingular(who)?'does not want':'do not want'):(thirdSingular(who)?'wants':'want'))+' to '+pair.verb.base+' '+englishObject(pair.what);
+        return result(pu,en);
+      case 'wantGo':
+        place=pickRandom(wherePool);verb=byId('v-chahuna');item=byId('v-jana');if(!place||!verb||!item)return null;noteWho(who);add('Destination',place.dest,'WHERE',place.id);add('Action',item.infinitive,'VERB',item.id);
+        return result(who.p+' '+place.dest+' '+item.infinitive+' '+habitual(verb,who),englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to go '+englishDestination(place));
+      case 'canObject':
+      case 'cannotObject':
+        pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);
+        return result(who.p+' '+pair.what.p+' '+canPhrase(pair.verb,who,template.pattern==='cannotObject'),englishSubject(who)+' '+(template.pattern==='cannotObject'?'cannot ':'can ')+pair.verb.base+' '+englishObject(pair.what));
+      case 'canYou':
+        who2=whoPool.find(function(x){return x.id==='who-tusi';});if(!who2)return null;pair=pickPair();if(!pair)return null;noteWho(who2);notePair(pair);add('Question',L('kī'),'QUESTION');
+        return result(L('kī ')+who2.p+' '+pair.what.p+' '+canPhrase(pair.verb,who2,false),'can you '+pair.verb.base+' '+englishObject(pair.what),true);
+      case 'politeRequest':
+        pair=pickPair();if(!pair)return null;notePair(pair);add('Politeness',L('kirpā karke'),'HOW');
+        return result(L('kirpā karke ')+pair.what.p+' '+pair.verb.imperative,'please '+pair.verb.base+' '+englishObject(pair.what));
+      case 'needTo':
+        pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);
+        return result((who.dative||who.p+L(' nū̃'))+' '+pair.what.p+' '+agreedInfinitive(pair.verb,pair.what)+' '+(pair.what.number==='pl'?(pair.what.gender==='f'?L('paiṇdīā̃ han'):L('paiṇde han')):(pair.what.gender==='f'?L('paiṇdī hai'):L('paiṇdā hai'))),englishSubject(who)+' '+(thirdSingular(who)?'has':'have')+' to '+pair.verb.base+' '+englishObject(pair.what));
+      case 'shouldDo':
+        pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);
+        return result((who.dative||who.p+L(' nū̃'))+' '+pair.what.p+' '+agreedInfinitive(pair.verb,pair.what)+' '+chahida(pair.what),englishSubject(who)+' should '+pair.verb.base+' '+englishObject(pair.what));
+      case 'likes':
+      case 'dislikes':
+        item=pickRandom(whatPool.filter(function(x){return (x.tags||[]).indexOf('likeable')!==-1;}));if(!item)return null;noteWho(who);add('What',item.p,'WHAT',item.id);
+        return result((who.dative||who.p+L(' nū̃'))+' '+item.p+' '+(template.pattern==='dislikes'?L('pasand nahī̃ '):L('pasand '))+existsAux(item),englishSubject(who)+' '+(template.pattern==='dislikes'?(thirdSingular(who)?'does not like':'do not like'):(thirdSingular(who)?'likes':'like'))+' '+englishObject(item));
+      case 'hasObject':
+      case 'hasNegative':
+      case 'haveQuestion':
+        item=pickRandom(whatPool.filter(function(x){return (x.tags||[]).indexOf('possessable')!==-1;}));if(!item)return null;noteWho(who);add('What',item.p,'WHAT',item.id);
+        pu=(template.pattern==='haveQuestion'?L('kī '):'')+(who.withPossession||who.p+L(' kol'))+' '+item.p+' '+(template.pattern==='hasNegative'?L('nahī̃ '):'')+existsAux(item);
+        if(template.pattern==='haveQuestion')en=(thirdSingular(who)?'does':'do')+' '+englishSubject(who)+' have '+englishObject(item);
+        else en=englishSubject(who)+' '+(template.pattern==='hasNegative'?(thirdSingular(who)?'does not have':'do not have'):(thirdSingular(who)?'has':'have'))+' '+englishObject(item);
+        return result(pu,en,template.pattern==='haveQuestion');
+      case 'state':
+      case 'stateNegative':
+      case 'stateQuestion':
+        item=pickRandom(statePool);if(!item)return null;noteWho(who);add('State',stateForm(who,item),'HOW',item.id);
+        pu=(template.pattern==='stateQuestion'?L('kī '):'')+who.p+' '+stateForm(who,item)+' '+(template.pattern==='stateNegative'?L('nahī̃ '):'')+aux(who);
+        en=(template.pattern==='stateQuestion'?englishBe(who)+' '+englishSubject(who):englishSubject(who)+' '+englishBe(who)+(template.pattern==='stateNegative'?' not':''))+' '+item.e;
+        return result(pu,en,template.pattern==='stateQuestion');
+      case 'thereIs':
+      case 'thereIsNot':
+        place=pickRandom(wherePool);item=pickRandom(whatPool.filter(function(x){return (x.tags||[]).indexOf('possessable')!==-1;}));if(!place||!item)return null;add('Where',place.p,'WHERE',place.id);add('What',item.p,'WHAT',item.id);
+        en=template.pattern==='thereIsNot'?'there '+(englishExistenceIs(item)?'is':'are')+' no '+bareEnglishObject(item)+' '+place.e:'there '+(englishExistenceIs(item)?'is':'are')+' '+englishObject(item)+' '+place.e;
+        return result(place.p+' '+item.p+' '+(template.pattern==='thereIsNot'?L('nahī̃ '):'')+existsAux(item),en);
+      case 'plannedFuture':
+        pair=pickPair();time=timeFor('future');if(!pair||!time)return null;noteWho(who);add('When',time.p,'WHEN',time.id);notePair(pair);
+        return result(who.p+' '+time.p+' '+pair.what.p+' '+planPhrase(pair.verb,who),englishSubject(who)+' '+englishBe(who)+' going to '+pair.verb.base+' '+englishObject(pair.what)+' '+timeEnglish(time,'future'));
+      case 'talkAbout':
+        topic=pickRandom(aboutPool);verb=byId('v-gallkarna');if(!topic||!verb)return null;noteWho(who);add('About',topic.p,'ABOUT',topic.id);add('Action',verb.infinitive,'VERB',verb.id);
+        return result(who.p+' '+topic.p+' '+habitual(verb,who),englishSubject(who)+' '+(thirdSingular(who)?'talks':'talk')+' '+topic.e);
+      case 'askAbout':
+        topic=pickRandom(aboutPool);verb=byId('v-chahuna');item=byId('v-gallkarna');if(!topic||!verb||!item)return null;noteWho(who);add('About',topic.p,'ABOUT',topic.id);
+        return result(who.p+' '+topic.p+' '+item.infinitive+' '+habitual(verb,who),englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to talk '+topic.e);
+      case 'because':
+        pair=pickPair();reason=pickRandom(reasonPool);if(!pair||!reason)return null;noteWho(who);notePair(pair);add('Reason',reason.p,'WHY',reason.id);
+        return result(who.p+' '+pair.what.p+' '+habitual(pair.verb,who)+' '+reason.p,englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' '+reason.e);
+      case 'andActions':
+      case 'butContrast':
+        pair=pickPair();pair2=pickPair();if(!pair||!pair2)return null;for(let tries=0;tries<8&&pair2.what.id===pair.what.id&&pair2.verb.id===pair.verb.id;tries++)pair2=pickPair();noteWho(who);notePair(pair);notePair(pair2);
+        if(template.pattern==='andActions')return result(who.p+' '+pair.what.p+' '+habitual(pair.verb,who)+L(' ate ')+pair2.what.p+' '+habitual(pair2.verb,who),englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' and '+conjugateEnglish(pair2.verb.base,person)+' '+englishObject(pair2.what));
+        return result(who.p+' '+pair.what.p+' '+habitual(pair.verb,who)+L(' par ')+pair2.what.p+L(' nahī̃ ')+habitual(pair2.verb,who),englishSubject(who)+' '+conjugateEnglish(pair.verb.base,person)+' '+englishObject(pair.what)+' but '+englishNegative(who,pair2.verb)+' '+englishObject(pair2.what));
+      case 'conditional':
+        pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('Connector',L('je … tā̃'),'CONNECTOR');
+        return result(L('je ')+(who.withPossession||who.p+L(' kol'))+L(' samā̃ hovē, tā̃ ')+who.p+' '+pair.what.p+' '+agreedInfinitive(pair.verb,pair.what)+' '+habitual(byId('v-chahuna'),who),'if '+englishSubject(who)+' '+(thirdSingular(who)?'has':'have')+' time, then '+englishSubject(who)+' '+(thirdSingular(who)?'wants':'want')+' to '+pair.verb.base+' '+englishObject(pair.what));
+      case 'choiceQuestion':
+        const choiceTags=['drinkable','edible','watchable','buyable'];
+        const choiceTag=pickRandom(choiceTags); const choicePool=whatPool.filter(function(x){return (x.tags||[]).indexOf(choiceTag)!==-1;});
+        item=pickRandom(choicePool);if(!item)return null;pair2=pickRandom(choicePool.filter(function(x){return x.id!==item.id;}));if(!pair2)return null;add('Choice 1',item.p,'WHAT',item.id);add('Choice 2',pair2.p,'WHAT',pair2.id);add('Connector',L('jā̃'),'CONNECTOR');
+        return result(L('tusī̃ ')+item.p+L(' jā̃ ')+pair2.p+L(' vichõ kī chāhũde ho'),'which do you want, '+englishObject(item)+' or '+englishObject(pair2),true);
+      case 'whichWant':
+        add('Question',L('kehṛī cīz'),'QUESTION');return result(L('tusī̃ kehṛī cīz chāhũde ho'),'which thing do you want',true);
+      case 'amountQuestion':
+        item=pickRandom(whatPool.filter(function(x){return ['what-pani','what-dudh','what-coffee','what-juice','what-paisa'].indexOf(x.id)!==-1;}));if(!item)return null;add('Question',item.number==='pl'?L('kinne'):L('kinnā'),'QUESTION');add('What',item.p,'WHAT',item.id);
+        const amountWord=item.number==='pl'?(item.gender==='f'?L('kinnīā̃'):L('kinne')):(item.gender==='f'?L('kinnī'):L('kinnā'));
+        return result(L('tuhānū̃ ')+amountWord+' '+item.p+' '+chahida(item),'how much '+englishObject(item)+' do you need',true);
+      case 'pastState':
+        time=timeFor('past');item=pickRandom(statePool);if(!time||!item)return null;noteWho(who);add('When',time.p,'WHEN',time.id);add('State',stateForm(who,item),'HOW',item.id);
+        return result(who.p+' '+time.p+' '+stateForm(who,item)+' '+pastAux(who),englishSubject(who)+' '+englishPastBe(who)+' '+item.e+' '+timeEnglish(time,'past'));
+      case 'pastProgressObject':
+        time=timeFor('past');pair=pickPair();if(!time||!pair)return null;noteWho(who);add('When',time.p,'WHEN',time.id);notePair(pair);
+        return result(who.p+' '+time.p+' '+pair.what.p+' '+pastProgressive(pair.verb,who),englishSubject(who)+' '+englishPastBe(who)+' '+englishGerund(pair.verb.base)+' '+englishObject(pair.what)+' '+timeEnglish(time,'past'));
+      case 'pastHabit':
+        pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);add('When',L('pehlā̃'),'WHEN','past-formerly');
+        return result(who.p+L(' pehlā̃ ')+pair.what.p+' '+pastHabitual(pair.verb,who),englishSubject(who)+' used to '+pair.verb.base+' '+englishObject(pair.what));
+      case 'pastWent':
+        time=timeFor('past');place=pickRandom(wherePool);if(!time||!place)return null;noteWho(who);add('When',time.p,'WHEN',time.id);add('Destination',place.dest,'WHERE',place.id);
+        const went=genderForm(who,{m:L('giā'),f:L('gaī'),pl:L('gae'),fpl:L('gaīā̃')})+' '+pastAux(who);
+        return result(who.p+' '+time.p+' '+place.dest+' '+went,englishSubject(who)+' went '+englishDestination(place)+' '+timeEnglish(time,'past'));
+      default:return null;
+    }
+  }
+
+  /* ---------------- Rendering: Generate screen ---------------- */
+  const outputCard = document.getElementById('outputCard');
+  const generateBtn = document.getElementById('generateBtn');
+  const autoBreakdownCheckbox = document.getElementById('autoBreakdownCheckbox');
+
+  let autoShowBreakdown = true;
+  try{
+    const stored = localStorage.getItem('punjabi-app-auto-breakdown');
+    if(stored !== null) autoShowBreakdown = stored === '1';
+  }catch(e){}
+  if(autoBreakdownCheckbox) autoBreakdownCheckbox.checked = autoShowBreakdown;
+  if(autoBreakdownCheckbox){
+    autoBreakdownCheckbox.addEventListener('change', function(){
+      autoShowBreakdown = this.checked;
+      try{ localStorage.setItem('punjabi-app-auto-breakdown', autoShowBreakdown ? '1' : '0'); }catch(e){}
+    });
+  }
+
+  let lastGenerated = null;
+
+  function renderSentence(result){
+    lastGenerated = result;
+    if(!result){
+      outputCard.innerHTML = '<div class="output-empty">Not enough compatible, enabled vocabulary to build this sentence — check the Building Blocks screen (a "wants to…" verb needs a What-word sharing its tag).</div>';
+      return;
+    }
+    const breakdownHtml = result.breakdown.map(function(b){
+      return '<div class="chip '+b.type+'"><b>'+b.label+'</b>'+escapeHtml(b.value)+'</div>';
+    }).join('');
+
+    outputCard.innerHTML =
+      sentenceMarkup(result)+
+      '<div class="meta-row">'+
+        '<span class="pill">'+escapeHtml(result.templateName)+'</span>'+
+        '<span class="pill">Difficulty '+result.difficulty+'</span>'+
+        '<button type="button" class="breakdown-toggle" id="toggleMainBreakdown">'+(autoShowBreakdown?'Hide':'Show')+' breakdown</button>'+
+        '<button type="button" class="btn primary" id="saveMainBtn">☆ Save</button>'+
+      '</div>'+
+      '<div class="breakdown'+(autoShowBreakdown?' open':'')+'" id="breakdownBox">'+breakdownHtml+'</div>';
+
+    document.getElementById('toggleMainBreakdown').addEventListener('click', function(){
+      const box = document.getElementById('breakdownBox');
+      const isOpen = box.classList.toggle('open');
+      this.textContent = (isOpen ? 'Hide' : 'Show') + ' breakdown';
+    });
+
+    document.getElementById('saveMainBtn').addEventListener('click', function(){
+      saveSentence(result);
+      this.textContent = '✓ Saved';
+      this.disabled = true;
+    });
+  }
+
+  function saveSentence(result){
+    state.saved.push({
+      id: uid('saved'),
+      punjabi: result.punjabi,
+      gurmukhi:result.gurmukhi, roman:result.roman, buildingBlocks:result.buildingBlocks,
+      english: result.english,
+      templateId: result.templateId,
+      templateName: result.templateName,
+      difficulty: result.difficulty,
+      breakdown: result.breakdown || [],
+      savedAt: Date.now()
+    });
+    save();
+    updateSavedCount();
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+  }
+
+  generateBtn.addEventListener('click', function(){
+    const result = buildSentence();
+    renderSentence(result);
+    if(result)generateBtn.textContent='GENERATE ANOTHER';
+  });
+
+  /* ---------------- Batch generation ---------------- */
+  const batchTemplateSelect = document.getElementById('batchTemplateSelect');
+  const batchCountSlider = document.getElementById('batchCountSlider');
+  const batchCountLabel = document.getElementById('batchCountLabel');
+  const batchGenerateBtn = document.getElementById('batchGenerateBtn');
+  const batchResults = document.getElementById('batchResults');
+
+  function populateBatchTemplateSelect(){
+    if(!batchTemplateSelect) return;
+    const previousValue = batchTemplateSelect.value || '__random__';
+    const enabledTpls = enabledOf(state.templates);
+    batchTemplateSelect.innerHTML = '<option value="__random__">🎲 All enabled templates (weighted random)</option>'+enabledTpls.map(function(t){
+      return '<option value="'+t.id+'">'+escapeHtml(t.name)+' (difficulty '+t.difficulty+')</option>';
+    }).join('');
+    if(Array.from(batchTemplateSelect.options).some(function(o){return o.value===previousValue;})) batchTemplateSelect.value=previousValue;
+  }
+
+  if(batchCountSlider){
+    batchCountSlider.addEventListener('input', function(){
+      batchCountLabel.textContent = this.value;
+    });
+  }
+
+  if(batchGenerateBtn){
+    batchGenerateBtn.addEventListener('click', function(){
+      const tplId = batchTemplateSelect.value;
+      const randomTemplates = tplId === '__random__';
+      const template = randomTemplates ? null : state.templates.find(function(t){ return t.id === tplId; });
+      if(!randomTemplates && !template){ batchResults.innerHTML = '<p class="empty-note">Pick a template first.</p>'; return; }
+      if(randomTemplates && !enabledOf(state.templates).some(function(t){return t.probability>0;})){ batchResults.innerHTML = '<p class="empty-note">Enable at least one template with a probability greater than zero.</p>'; return; }
+      const count = parseInt(batchCountSlider.value, 10) || 1;
+      const seen = {};
+      const results = [];
+      for(let n=0; n<count; n++){
+        let picked = null;
+        for(let attempt=0; attempt<10; attempt++){
+          const chosenTemplate = randomTemplates ? pickWeightedTemplate() : template;
+          if(!chosenTemplate) continue;
+          const r = assembleFromTemplate(chosenTemplate);
+          if(!r) continue;
+          if(!seen[r.signature] || attempt === 9){
+            seen[r.signature] = true;
+            picked = r;
+            break;
+          }
+        }
+        if(picked) results.push(picked);
+      }
+      renderBatchResults(results, template);
+    });
+  }
+
+  function renderBatchResults(results, template){
+    if(!results.length){
+      batchResults.innerHTML = '<p class="empty-note">Couldn\'t build any sentences from this template — it may need a What-word and a verb that share a compatibility tag. Check the Building Blocks screen.</p>';
+      return;
+    }
+    batchResults.innerHTML = results.map(function(r, idx){
+      const breakdownHtml = r.breakdown.map(function(b){
+        return '<div class="chip '+b.type+'"><b>'+escapeHtml(b.label)+'</b>'+escapeHtml(b.value)+'</div>';
+      }).join('');
+      return '<div class="batch-item" data-idx="'+idx+'">'+
+        '<div class="batch-main"><div>'+
+          sentenceMarkup(r)+'</div>'+
+          '<div class="batch-actions"><button type="button" class="btn ghost batch-breakdown">'+(autoShowBreakdown?'Hide':'Show')+' breakdown</button>'+
+          '<button type="button" class="btn primary batch-save">☆ Save</button></div>'+
+        '</div>'+
+        '<div class="breakdown'+(autoShowBreakdown?' open':'')+'">'+breakdownHtml+'</div>'+
+      '</div>';
+    }).join('');
+    batchResults.querySelectorAll('.batch-item').forEach(function(row, idx){
+      row.querySelector('.batch-breakdown').addEventListener('click', function(){
+        const box = row.querySelector('.breakdown');
+        const isOpen = box.classList.toggle('open');
+        this.textContent = (isOpen ? 'Hide' : 'Show') + ' breakdown';
+      });
+      row.querySelector('.batch-save').addEventListener('click', function(){
+        saveSentence(results[idx]);
+        this.textContent = '✓ Saved';
+        this.disabled = true;
+      });
+    });
+  }
+
+  /* ---------------- Saved screen ---------------- */
+  const savedContent = document.getElementById('savedContent');
+  const savedTabCount = document.getElementById('savedTabCount');
+
+  function updateSavedCount(){
+    if(savedTabCount) savedTabCount.textContent = state.saved.length ? '('+state.saved.length+')' : '';
+  }
+
+  function renderSavedScreen(){
+    if(!savedContent) return;
+    if(!state.saved.length){
+      savedContent.innerHTML = '<div class="panel"><p class="empty-note">No saved sentences yet — hit ☆ Save on any generated sentence to keep it here.</p></div>';
+      return;
+    }
+    const groups = {};
+    state.saved.forEach(function(s){
+      const key = s.templateName || 'Other';
+      if(!groups[key]) groups[key] = [];
+      groups[key].push(s);
+    });
+    let html = '<div class="panel"><div style="display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;"><div><h2>Saved sentences</h2><p class="desc" style="margin:4px 0 0;">Grouped by the template that generated them.</p></div><button type="button" class="btn danger" id="clearAllSavedBtn">Clear all saved</button></div>';
+    Object.keys(groups).forEach(function(groupName){
+      html += '<div class="saved-group"><h2 class="saved-group-title">'+escapeHtml(groupName)+' <span class="pill">'+groups[groupName].length+'</span></h2>';
+      groups[groupName].forEach(function(s){
+        html += '<div class="batch-item" data-id="'+s.id+'">'+
+          '<div class="batch-main"><div>'+
+            sentenceMarkup(s)+
+          '</div><div class="batch-actions"><button type="button" class="btn danger remove-saved">Remove</button></div></div>'+
+        '</div>';
+      });
+      html += '</div>';
+    });
+    html += '</div>';
+    savedContent.innerHTML = html;
+
+    const clearBtn = document.getElementById('clearAllSavedBtn');
+    if(clearBtn){
+      clearBtn.addEventListener('click', function(){
+        state.saved = [];
+        save();
+        updateSavedCount();
+        renderSavedScreen();
+      });
+    }
+    savedContent.querySelectorAll('.batch-item[data-id]').forEach(function(row){
+      const id = row.dataset.id;
+      row.querySelector('.remove-saved').addEventListener('click', function(){
+        state.saved = state.saved.filter(function(s){ return s.id !== id; });
+        save();
+        updateSavedCount();
+        renderSavedScreen();
+      });
+    });
+  }
+
+  /* ---------------- Tabs ---------------- */
+  const tabs = document.querySelectorAll('.tab');
+  const screens = {
+    generate: document.getElementById('screen-generate'),
+    blocks: document.getElementById('screen-blocks'),
+    templates: document.getElementById('screen-templates'),
+    saved: document.getElementById('screen-saved'), flashcards:document.getElementById('screen-flashcards'), settings:document.getElementById('screen-settings')
+  };
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      Object.keys(screens).forEach(function(k){ screens[k].classList.remove('active'); });
+      screens[tab.dataset.screen].classList.add('active');
+      if(tab.dataset.screen === 'blocks') renderBlocksScreen();
+      if(tab.dataset.screen === 'templates') renderTemplatesScreen();
+      if(tab.dataset.screen === 'saved') renderSavedScreen();
+      if(tab.dataset.screen === 'flashcards')renderFlashcards();
+      if(tab.dataset.screen === 'settings')renderSettings();
+      stopSpeech();
+    });
+  });
+
+  /* ---------------- Theme toggle ---------------- */
+  const themeToggle = document.getElementById('themeToggle');
+  let manualTheme = null;
+  try{ manualTheme = localStorage.getItem('punjabi-app-theme'); }catch(e){}
+  if(manualTheme) document.documentElement.setAttribute('data-theme', manualTheme);
+  themeToggle.addEventListener('click', function(){
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try{ localStorage.setItem('punjabi-app-theme', next); }catch(e){}
+  });
+
+  /* ---------------- Building Blocks screen ---------------- */
+  let activeCategory = 'WHO';
+  const blocksSubnav = document.getElementById('blocksSubnav');
+  const blocksContent = document.getElementById('blocksContent');
+
+  function renderBlocksSubnav(){
+    let html = '';
+    CATEGORY_ORDER.forEach(function(cat){
+      html += '<button type="button" class="'+(cat===activeCategory && activeCategory!=='VERBS' ? 'active':'')+'" data-cat="'+cat+'">'+CATEGORY_LABELS[cat]+' <span style="opacity:.7">'+state.vocab[cat].length+'</span></button>';
+    });
+    html += '<button type="button" class="'+(activeCategory==='VERBS'?'active':'')+'" data-cat="VERBS">Verbs <span style="opacity:.7">'+state.verbs.length+'</span></button>';
+    blocksSubnav.innerHTML = html;
+    blocksSubnav.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        activeCategory = btn.dataset.cat;
+        renderBlocksScreen();
+      });
+    });
+  }
+
+  function renderBlocksScreen(){
+    renderBlocksSubnav();
+    if(activeCategory === 'VERBS'){
+      renderVerbsPanel();
+    } else {
+      renderVocabPanel(activeCategory);
+    }
+    labelEditorControls(blocksContent);
+  }
+
+  function labelEditorControls(container){
+    container.querySelectorAll('tr[data-id]').forEach(row=>{
+      row.querySelectorAll('input,select,textarea').forEach(input=>{
+        if(!input.hasAttribute('aria-label'))input.setAttribute('aria-label',(input.closest('td').dataset.label||'Edit')+' — '+row.dataset.id);
+      });
+    });
+    container.querySelectorAll('.add-form label').forEach(label=>{const input=label.nextElementSibling;if(input&&input.id)label.htmlFor=input.id;});
+  }
+
+  function bulkEnableControls(label){
+    return '<div class="bulk-enable-bar">'+
+      '<div><span class="bulk-enable-title">Enabled '+escapeHtml(label)+'</span><span class="bulk-enable-status" id="bulkEnabledStatus"></span></div>'+
+      '<div class="row-actions">'+
+        '<button type="button" class="btn ghost" id="bulkSelectAllBtn">Select all</button>'+
+        '<button type="button" class="btn ghost" id="bulkDeselectAllBtn">Deselect all</button>'+
+        '<button type="button" class="btn primary" id="bulkSaveEnabledBtn">Save enabled choices</button>'+
+      '</div></div>';
+  }
+
+  function wireBulkEnabledControls(list){
+    const selectAllBtn=document.getElementById('bulkSelectAllBtn');
+    const deselectAllBtn=document.getElementById('bulkDeselectAllBtn');
+    const saveEnabledBtn=document.getElementById('bulkSaveEnabledBtn');
+    const status=document.getElementById('bulkEnabledStatus');
+    if(!selectAllBtn||!deselectAllBtn||!saveEnabledBtn)return;
+    function checkboxes(){ return Array.from(blocksContent.querySelectorAll('tr[data-id] .f-enabled')); }
+    function updateStatus(){
+      const boxes=checkboxes();
+      const selected=boxes.filter(function(box){return box.checked;}).length;
+      if(status)status.textContent=selected+' of '+boxes.length+' selected';
+    }
+    selectAllBtn.addEventListener('click',function(){ checkboxes().forEach(function(box){box.checked=true;});updateStatus(); });
+    deselectAllBtn.addEventListener('click',function(){ checkboxes().forEach(function(box){box.checked=false;});updateStatus(); });
+    checkboxes().forEach(function(box){box.addEventListener('change',updateStatus);});
+    saveEnabledBtn.addEventListener('click',function(){
+      blocksContent.querySelectorAll('tr[data-id]').forEach(function(row){
+        const item=list.find(function(x){return x.id===row.dataset.id;});
+        if(item)item.enabled=row.querySelector('.f-enabled').checked;
+      });
+      save();
+      renderBlocksScreen();
+    });
+    updateStatus();
+  }
+
+  function renderVocabPanel(cat){
+    const items = state.vocab[cat];
+    const showTags = cat === 'WHAT';
+    const showPerson = cat === 'WHO';
+    let rows = items.map(function(item){
+      const compatibleVerbs = showTags ? enabledOf(state.verbs).filter(function(v){
+        const tags=(v.takesTags&&v.takesTags.length)?v.takesTags:(v.takesTag?[v.takesTag]:[]);
+        return v.isModalComplement && tags.some(function(tag){return (item.tags||[]).indexOf(tag)!==-1;});
+      }).map(function(v){ return v.infinitive; }) : [];
+      return '<tr data-id="'+item.id+'">'+
+        '<td data-label="Punjabi"><input type="text" class="f-p" value="'+escAttr(item.p)+'"></td>'+
+        '<td data-label="Gurmukhi"><input lang="pa" type="text" class="f-g" value="'+escAttr(item.g||'')+'">'+
+        '<details><summary>Grammar forms</summary><label>Roman metadata (JSON)<textarea class="f-rmeta" rows="4">'+escapeHtml(JSON.stringify(vocabGrammar(item),null,2))+'</textarea></label><label>Gurmukhi metadata (JSON)<textarea class="f-gmeta" rows="4">'+escapeHtml(JSON.stringify(item.gScript||{},null,2))+'</textarea></label><small>Who: dative / withPossession. Where: dest. States: forms {m,f,pl,fpl}. Keep both scripts in agreement.</small></details></td>'+
+        '<td data-label="English"><input type="text" class="f-e" value="'+escAttr(item.e)+'"></td>'+
+        (showPerson ? '<td data-label="Verb agreement"><select class="f-person"><option value="1sg" '+(item.person==='1sg'?'selected':'')+'>I / 1st singular</option><option value="2sg" '+(item.person==='2sg'?'selected':'')+'>You / informal</option><option value="2pl" '+(item.person==='2pl'?'selected':'')+'>You / respectful</option><option value="3sg" '+((item.person||'3sg')==='3sg'?'selected':'')+'>He, she, name / 3rd singular</option><option value="1pl" '+(item.person==='1pl'?'selected':'')+'>We / 1st plural</option><option value="3pl" '+(item.person==='3pl'?'selected':'')+'>They / 3rd plural</option></select></td>' : '')+
+        (showPerson ? '<td data-label="Gender"><select class="f-gender"><option value="m" '+((item.gender||'m')==='m'?'selected':'')+'>Masculine</option><option value="f" '+(item.gender==='f'?'selected':'')+'>Feminine</option></select></td>' : '')+
+        (showTags ? '<td data-label="Tags"><input type="text" class="f-tags" value="'+escAttr((item.tags||[]).join(', '))+'" placeholder="e.g. learnable, drinkable"></td>' : '')+
+        (showTags ? '<td data-label="Gender"><select class="f-gender"><option value="m" '+((item.gender||'m')==='m'?'selected':'')+'>Masculine</option><option value="f" '+(item.gender==='f'?'selected':'')+'>Feminine</option></select></td><td data-label="Number"><select class="f-number"><option value="sg" '+((item.number||'sg')==='sg'?'selected':'')+'>Singular</option><option value="pl" '+(item.number==='pl'?'selected':'')+'>Plural</option></select></td>' : '')+
+        (showTags ? '<td data-label="Pairs with">'+(compatibleVerbs.length ? escapeHtml(compatibleVerbs.join(', ')) : '<span style="color:var(--magenta);">No compatible verb</span>')+'</td>' : '')+
+        '<td data-label="Enabled" class="checkbox-cell"><input type="checkbox" class="f-enabled" '+(item.enabled?'checked':'')+'></td>'+
+        '<td data-label="Actions"><div class="row-actions">'+
+          '<button type="button" class="btn primary save-row">Save</button>'+
+          '<button type="button" class="btn danger delete-row">Delete</button>'+
+        '</div></td>'+
+      '</tr>';
+    }).join('');
+
+    blocksContent.innerHTML =
+      '<div class="panel">'+
+        '<h2>'+CATEGORY_LABELS[cat]+'</h2>'+
+        '<p class="desc">Edit the Punjabi text, English meaning'+(showTags?', and compatibility tags':'')+' below, then Save. Untick Enabled to hide a word from generation without deleting it.</p>'+
+        (showTags ? '<div class="compat-note"><strong>How pairing works:</strong> a What-word is only combined with a “wants to…” action when one of its tags exactly matches that verb’s “Requires tag”. For example, <em>kitāb</em> tagged <strong>readable</strong> can pair with <em>paṛhṇā</em>, but never <em>pīṇā</em> (drinkable).</div>' : '')+
+        bulkEnableControls('words')+
+        (items.length ?
+          '<div style="overflow-x:auto"><table><thead><tr><th>Roman Punjabi</th><th>Gurmukhi</th><th>English</th>'+(showPerson?'<th>Verb agreement</th><th>Gender</th>':'')+(showTags?'<th>Tags</th><th>Gender</th><th>Number</th><th>Pairs with</th>':'')+'<th>Enabled</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>'
+          : '<p class="empty-note">No words in this category yet — add one below.</p>')+
+        '<div class="add-form">'+
+          '<div><label>Punjabi</label><input type="text" id="newVocabP"></div>'+
+          '<div><label>Gurmukhi</label><input lang="pa" type="text" id="newVocabG"></div>'+
+          '<div><label>English</label><input type="text" id="newVocabE"></div>'+
+          (showPerson ? '<div><label>Verb agreement</label><select id="newVocabPerson"><option value="3sg">He, she, name / 3rd singular</option><option value="1sg">I / 1st singular</option><option value="2sg">You / informal</option><option value="2pl">You / respectful</option><option value="1pl">We / 1st plural</option><option value="3pl">They / 3rd plural</option></select></div><div><label>Gender</label><select id="newVocabGender"><option value="m">Masculine</option><option value="f">Feminine</option></select></div>' : '')+
+          (showTags ? '<div><label>Tags</label><input type="text" id="newVocabTags" placeholder="e.g. learnable"></div>' : '')+
+          (showTags ? '<div><label>Gender</label><select id="newVocabGender"><option value="m">Masculine</option><option value="f">Feminine</option></select></div><div><label>Number</label><select id="newVocabNumber"><option value="sg">Singular</option><option value="pl">Plural</option></select></div>' : '')+
+          '<div><button type="button" class="btn primary" id="addVocabBtn">Add word</button></div>'+
+        '</div>'+
+      '</div>';
+
+    blocksContent.querySelectorAll('tr[data-id]').forEach(function(row){
+      const id = row.dataset.id;
+      row.querySelector('.save-row').addEventListener('click', function(){
+        const item = state.vocab[cat].find(function(x){ return x.id===id; });
+        let rmeta,gmeta;
+        try{rmeta=JSON.parse(row.querySelector('.f-rmeta').value);gmeta=JSON.parse(row.querySelector('.f-gmeta').value);validateGrammarMetadata(rmeta);validateGrammarMetadata(gmeta);}
+        catch(e){showEditorError(row,'Grammar metadata must be a JSON object with text forms. '+e.message);return;}
+        ['dative','withPossession','dest','forms','englishPerson'].forEach(k=>{delete item[k];});Object.assign(item,rmeta);item.gScript=gmeta;
+        item.p = row.querySelector('.f-p').value.trim();
+        item.g=row.querySelector('.f-g').value.trim();
+        item.e = row.querySelector('.f-e').value.trim();
+        if(showPerson){ item.person = row.querySelector('.f-person').value; item.gender=row.querySelector('.f-gender').value; item.number=['1pl','2pl','3pl'].indexOf(item.person)!==-1?'pl':'sg'; }
+        if(showTags){
+          item.tags = row.querySelector('.f-tags').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+          item.gender = row.querySelector('.f-gender').value;
+          item.number = row.querySelector('.f-number').value;
+        }
+        item.enabled = row.querySelector('.f-enabled').checked;
+        save();
+        renderBlocksScreen();
+      });
+      row.querySelector('.delete-row').addEventListener('click', function(){
+        state.vocab[cat] = state.vocab[cat].filter(function(x){ return x.id!==id; });
+        save();
+        renderBlocksScreen();
+      });
+    });
+
+    const addBtn = document.getElementById('addVocabBtn');
+    addBtn.addEventListener('click', function(){
+      const p = document.getElementById('newVocabP').value.trim();
+      const e = document.getElementById('newVocabE').value.trim();
+      if(!p || !e) return;
+      const newItem = {id: uid(cat.toLowerCase()), p:p, g:document.getElementById('newVocabG').value.trim(), e:e, enabled:true};
+      if(showPerson){ newItem.person = document.getElementById('newVocabPerson').value; newItem.gender=document.getElementById('newVocabGender').value; newItem.number=['1pl','2pl','3pl'].indexOf(newItem.person)!==-1?'pl':'sg'; }
+      if(showTags){
+        const tagsVal = document.getElementById('newVocabTags').value;
+        newItem.tags = tagsVal.split(',').map(function(s){return s.trim();}).filter(Boolean);
+        newItem.gender = document.getElementById('newVocabGender').value;
+        newItem.number = document.getElementById('newVocabNumber').value;
+      }
+      state.vocab[cat].push(newItem);
+      save();
+      renderBlocksScreen();
+    });
+    wireBulkEnabledControls(items);
+  }
+
+  function renderVerbsPanel(){
+    const items = state.verbs;
+    let rows = items.map(function(v){
+      return '<tr data-id="'+v.id+'">'+
+        '<td data-label="Infinitive"><input type="text" class="f-inf" value="'+escAttr(v.infinitive)+'"></td>'+
+        '<td data-label="Gurmukhi"><input lang="pa" class="f-ginf" aria-label="Gurmukhi infinitive" value="'+escAttr(v.gScript&&v.gScript.infinitive||'')+'"><details><summary>Agreement forms</summary><textarea class="f-gverb" rows="8" aria-label="Gurmukhi verb metadata">'+escapeHtml(JSON.stringify(v.gScript||{},null,2))+'</textarea><small>Root, command, six person forms and infinitive variants. Keep these in sync when changing the infinitive.</small></details></td>'+
+        '<td data-label="English"><input type="text" class="f-eng" value="'+escAttr(v.english)+'"></td>'+
+        '<td data-label="English base"><input type="text" class="f-base" value="'+escAttr(v.base)+'"></td>'+
+        '<td data-label="Action root"><input type="text" class="f-root" value="'+escAttr(v.root||'')+'"></td>'+
+        '<td data-label="Polite command"><input type="text" class="f-imp" value="'+escAttr(v.imperative||'')+'"></td>'+
+        '<td data-label="Type"><select class="f-type"><option value="simple" '+(v.type==='simple'?'selected':'')+'>Simple</option><option value="modal" '+(v.type==='modal'?'selected':'')+'>Modal (e.g. want)</option></select></td>'+
+        '<td data-label="I / main"><input type="text" class="f-f1sg" value="'+escAttr(v.forms['1sg'])+'"></td>'+
+        '<td data-label="You / tū̃"><input type="text" class="f-f2sg" value="'+escAttr(v.forms['2sg']||'')+'"></td>'+
+        '<td data-label="You / tusī̃"><input type="text" class="f-f2pl" value="'+escAttr(v.forms['2pl'])+'"></td>'+
+        '<td data-label="He-she / oh"><input type="text" class="f-f3sg" value="'+escAttr(v.forms['3sg'])+'"></td>'+
+        '<td data-label="We / asī̃"><input type="text" class="f-f1pl" value="'+escAttr(v.forms['1pl'])+'"></td>'+
+        '<td data-label="They"><input type="text" class="f-f3pl" value="'+escAttr(v.forms['3pl']||'')+'"></td>'+
+        '<td data-label="Complement?" class="checkbox-cell"><input type="checkbox" class="f-comp" '+(v.isModalComplement?'checked':'')+' title="Can follow a modal like chāhuṇā"></td>'+
+        '<td data-label="Requires tags"><input type="text" class="f-tag" value="'+escAttr(((v.takesTags&&v.takesTags.length)?v.takesTags:(v.takesTag?[v.takesTag]:[])).join(', '))+'" placeholder="e.g. readable, writable"></td>'+
+        '<td data-label="Enabled" class="checkbox-cell"><input type="checkbox" class="f-enabled" '+(v.enabled?'checked':'')+'></td>'+
+        '<td data-label="Actions"><div class="row-actions">'+
+          '<button type="button" class="btn primary save-row">Save</button>'+
+          '<button type="button" class="btn danger delete-row">Delete</button>'+
+        '</div></td>'+
+      '</tr>';
+    }).join('');
+
+    blocksContent.innerHTML =
+      '<div class="panel">'+
+        '<h2>Verbs</h2>'+
+        '<p class="desc">Each verb stores an action root, a polite command and six conversational agreement forms. “Complement” verbs can combine with an object; “Requires tags” controls exactly which What-words they can take.</p>'+
+        '<div class="compat-note"><strong>Grammar guardrail:</strong> direct-object actions should have one or more required tags (such as <strong>readable</strong> or <strong>drinkable</strong>). A blank tag makes the action objectless, such as “talk”, “sleep” or “go”, so it will never be attached to a random object.</div>'+
+        bulkEnableControls('verbs')+
+        '<div style="overflow-x:auto;"><table><thead><tr><th>Infinitive</th><th>Gurmukhi forms (JSON)</th><th>English</th><th>English base</th><th>Root</th><th>Command</th><th>Type</th><th>I</th><th>tū̃</th><th>tusī̃</th><th>He/she</th><th>We</th><th>They</th><th>Object verb?</th><th>Requires tags</th><th>Enabled</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>'+
+        '<div class="add-form">'+
+          '<div><label>Infinitive</label><input type="text" id="newVerbInf"></div>'+
+          '<div><label>English</label><input type="text" id="newVerbEng" placeholder="to ..."></div>'+
+          '<div><label>English base</label><input type="text" id="newVerbBase" placeholder="e.g. learn"></div>'+
+          '<div><label>Type</label><select id="newVerbType"><option value="simple">Simple</option><option value="modal">Modal</option></select></div>'+
+          '<div><button type="button" class="btn primary" id="addVerbBtn">Add verb</button></div>'+
+        '</div>'+
+        '<p class="desc" style="margin-top:14px;">New verbs get an auto-suggested regular conjugation (stem + "dā hā̃" pattern) which you can then correct above for irregular verbs.</p>'+
+      '</div>';
+
+    blocksContent.querySelectorAll('tr[data-id]').forEach(function(row){
+      const id = row.dataset.id;
+      row.querySelector('.save-row').addEventListener('click', function(){
+        const v = state.verbs.find(function(x){ return x.id===id; });
+        try{const edited=JSON.parse(row.querySelector('.f-gverb').value),inf=row.querySelector('.f-ginf').value.trim();if(inf)edited.infinitive=inf;validateVerbScript(edited);v.gScript=edited;}catch(e){showEditorError(row,'Enter valid Gurmukhi verb metadata. '+e.message);return;}
+        v.infinitive = row.querySelector('.f-inf').value.trim();
+        v.english = row.querySelector('.f-eng').value.trim();
+        v.base = row.querySelector('.f-base').value.trim();
+        v.root = row.querySelector('.f-root').value.trim();
+        v.imperative = row.querySelector('.f-imp').value.trim();
+        v.type = row.querySelector('.f-type').value;
+        v.forms['1sg'] = row.querySelector('.f-f1sg').value.trim();
+        v.forms['2sg'] = row.querySelector('.f-f2sg').value.trim();
+        v.forms['2pl'] = row.querySelector('.f-f2pl').value.trim();
+        v.forms['3sg'] = row.querySelector('.f-f3sg').value.trim();
+        v.forms['1pl'] = row.querySelector('.f-f1pl').value.trim();
+        v.forms['3pl'] = row.querySelector('.f-f3pl').value.trim();
+        v.isModalComplement = row.querySelector('.f-comp').checked;
+        v.takesTags = row.querySelector('.f-tag').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+        v.takesTag = v.takesTags[0] || '';
+        v.enabled = row.querySelector('.f-enabled').checked;
+        save();
+        renderBlocksScreen();
+      });
+      row.querySelector('.delete-row').addEventListener('click', function(){
+        state.verbs = state.verbs.filter(function(x){ return x.id!==id; });
+        save();
+        renderBlocksScreen();
+      });
+    });
+
+    document.getElementById('addVerbBtn').addEventListener('click', function(){
+      const inf = document.getElementById('newVerbInf').value.trim();
+      const eng = document.getElementById('newVerbEng').value.trim();
+      const base = document.getElementById('newVerbBase').value.trim();
+      const type = document.getElementById('newVerbType').value;
+      if(!inf || !eng || !base) return;
+      const stem = inf.replace(/ṇā$/,'').replace(/ā$/,'');
+      const newVerb = {
+        id: uid('verb'), infinitive: inf, english: eng, base: base, root:stem, imperative:stem+'o', prefix:'', type: type,
+        isModalComplement:false, takesTag:'', takesTags:[],
+        forms:{'1sg': stem+'dā hā̃', '2sg':stem+'dā haĩ', '2pl': stem+'de ho', '3sg': stem+'dā hai', '1pl': stem+'de hā̃', '3pl':stem+'de han'},
+        enabled:true
+      };
+      state.verbs.push(newVerb);
+      save();
+      renderBlocksScreen();
+    });
+    wireBulkEnabledControls(items);
+  }
+
+  function showEditorError(row,message){
+    let note=row.querySelector('.editor-message');
+    if(!note){note=document.createElement('p');note.className='editor-message';note.setAttribute('role','alert');row.querySelector('td:last-child').appendChild(note);}
+    note.textContent=message;note.tabIndex=-1;note.focus({preventScroll:true});note.scrollIntoView({block:'nearest'});
+  }
+  function escAttr(str){
+    return escapeHtml(str==null?'':str);
+  }
+
+  function vocabGrammar(item){const out={};['dative','withPossession','dest','forms','englishPerson'].forEach(k=>{if(item[k]!==undefined)out[k]=item[k];});return out;}
+  function validateVerbScript(value){
+    if(!value||typeof value!=='object'||Array.isArray(value))throw Error('Expected an object.');
+    if(!Object.keys(value).length)return; // Existing Roman-only custom verbs remain editable.
+    const keys=['infinitive','root','prefix','imperative','forms','inflections','objectPostposition'];
+    if(Object.keys(value).some(k=>!keys.includes(k)))throw Error('Unknown metadata field.');
+    if(!value.infinitive||!value.root)throw Error('Supply infinitive and root.');
+    for(const k of ['infinitive','root','prefix','imperative','objectPostposition'])if(value[k]!==undefined&&typeof value[k]!=='string')throw Error(k+' must be text.');
+    if(!value.forms||['1sg','2sg','2pl','3sg','1pl','3pl'].some(k=>typeof value.forms[k]!=='string'||!value.forms[k].trim()))throw Error('Supply all six person forms.');
+    if(value.inflections&&['f','plm','plf','oblique'].some(k=>typeof value.inflections[k]!=='string'))throw Error('Supply f, plm, plf and oblique infinitive forms.');
+  }
+  function habitualForSubject(verb,subject){
+    let form=conjugatePunjabi(verb,subject.person||'3sg');
+    const plural=subject.number==='pl'||['1pl','2pl','3pl'].includes(subject.person);
+    if(subject.gender==='f'){
+      if(scriptG)form=form.replace(/ਦ[ਾੇ] (?=ਹ)/,plural?'ਦੀਆਂ ':'ਦੀ ');
+      else form=form.replace(/d[āe] (?=(hā̃|hāṃ|haĩ|ho|hai|han)$)/,plural?'dīā̃ ':'dī ');
+    }
+    return form;
+  }
+  function infinitiveForObject(verb,item){
+    if(!item)return verb.infinitive;
+    const variant=item.number==='pl'?(item.gender==='f'?'plf':'plm'):(item.gender==='f'?'f':'m');
+    if(variant==='m')return verb.infinitive;
+    if(verb.inflections&&verb.inflections[variant])return verb.inflections[variant];
+    // Script-specific inflection on an authored infinitive, not transliteration.
+    return scriptG?verb.infinitive.replace(/ਾ$/,{f:'ੀ',plm:'ੇ',plf:'ੀਆਂ'}[variant]):verb.infinitive.replace(/ā$/,{f:'ī',plm:'e',plf:'īā̃'}[variant]);
+  }
+  function validateGrammarMetadata(value){
+    if(!value||typeof value!=='object'||Array.isArray(value))throw Error('Expected an object.');
+    Object.keys(value).forEach(k=>{
+      if(!['dative','withPossession','dest','forms','englishPerson'].includes(k))throw Error('Unknown field: '+k);
+      if(k==='forms'){if(!value.forms||typeof value.forms!=='object'||Array.isArray(value.forms)||Object.values(value.forms).some(v=>typeof v!=='string'))throw Error('Each form must be text.');}
+      else if(typeof value[k]!=='string')throw Error(k+' must be text.');
+    });
+  }
+
+  /* ---------------- Templates screen ---------------- */
+  const SLOT_TYPES = [
+    {t:'WHO', label:'Who'},
+    {t:'WHEN', label:'When'},
+    {t:'WHERE', label:'Where'},
+    {t:'WHAT', label:'What'},
+    {t:'HOW', label:'How'},
+    {t:'WHY', label:'Why'},
+    {t:'ABOUT', label:'About'},
+    {t:'QUESTION', label:'Question word'},
+    {t:'VERB_SIMPLE', label:'Verb (simple)'},
+    {t:'VERB_MODAL', label:'Verb (wants to…)'}
+  ];
+  let pickedSlots = [];
+
+  function renderTemplatesScreen(){
+    renderTemplatesTable();
+    renderSlotBuilder();
+    renderPickedSequence();
+    populateBatchTemplateSelect();
+    labelEditorControls(document.getElementById('screen-templates'));
+  }
+
+  function slotsToLabel(slots,template){
+    if(template && template.pattern) return template.description;
+    return slots.map(function(s){
+      if(s.t === 'VERB') return s.mode === 'modal' ? 'VERB (wants to…)' : 'VERB (simple)';
+      return CATEGORY_LABELS[s.t] || s.t;
+    }).join(' + ');
+  }
+
+  function renderTemplatesTable(){
+    const wrap = document.getElementById('templatesTableWrap');
+    const rows = state.templates.map(function(t){
+      return '<tr data-id="'+t.id+'">'+
+        '<td data-label="Name"><input type="text" class="ft-name" value="'+escAttr(t.name)+'"></td>'+
+        '<td data-label="Family">'+escapeHtml(t.family||'Custom')+'</td>'+
+        '<td data-label="Structure">'+escapeHtml(slotsToLabel(t.slots,t))+'</td>'+
+        '<td data-label="Difficulty"><input type="number" min="1" max="10" class="ft-diff" value="'+t.difficulty+'"></td>'+
+        '<td data-label="Probability"><input type="number" min="0" max="100" class="ft-prob" value="'+t.probability+'"></td>'+
+        '<td data-label="Enabled" class="checkbox-cell"><input type="checkbox" class="ft-enabled" '+(t.enabled?'checked':'')+'></td>'+
+        '<td data-label="Actions"><div class="row-actions">'+
+          '<button type="button" class="btn primary save-tpl">Save</button>'+
+          '<button type="button" class="btn danger delete-tpl">Delete</button>'+
+        '</div></td>'+
+      '</tr>';
+    }).join('');
+
+    wrap.innerHTML = state.templates.length ?
+      '<div class="compat-note"><strong>'+state.templates.filter(function(t){return t.pattern;}).length+' curated patterns</strong> cover statements, negatives, questions, ongoing actions, plans, wants, ability, requests, needs, advice, preferences, possession, states, existence, reasons, connectors, conditions and choices.</div><div style="overflow-x:auto"><table><thead><tr><th>Name</th><th>Family</th><th>Structure</th><th>Difficulty</th><th>Probability</th><th>Enabled</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>'
+      : '<p class="empty-note">No templates yet.</p>';
+
+    wrap.querySelectorAll('tr[data-id]').forEach(function(row){
+      const id = row.dataset.id;
+      row.querySelector('.save-tpl').addEventListener('click', function(){
+        const t = state.templates.find(function(x){ return x.id===id; });
+        t.name = row.querySelector('.ft-name').value.trim();
+        t.difficulty = parseInt(row.querySelector('.ft-diff').value,10) || 1;
+        t.probability = parseInt(row.querySelector('.ft-prob').value,10) || 0;
+        t.enabled = row.querySelector('.ft-enabled').checked;
+        save();
+        renderTemplatesScreen();
+      });
+      row.querySelector('.delete-tpl').addEventListener('click', function(){
+        state.templates = state.templates.filter(function(x){ return x.id!==id; });
+        save();
+        renderTemplatesScreen();
+      });
+    });
+  }
+
+  function renderSlotBuilder(){
+    const box = document.getElementById('slotBuilder');
+    box.innerHTML = SLOT_TYPES.map(function(s){
+      return '<button type="button" class="slot-chip" data-t="'+s.t+'">'+s.label+'</button>';
+    }).join('');
+    box.querySelectorAll('.slot-chip').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        const t = btn.dataset.t;
+        if(t === 'VERB_SIMPLE') pickedSlots.push({t:'VERB', mode:'simple'});
+        else if(t === 'VERB_MODAL') pickedSlots.push({t:'VERB', mode:'modal'});
+        else pickedSlots.push({t:t});
+        renderPickedSequence();
+      });
+    });
+  }
+
+  function renderPickedSequence(){
+    const box = document.getElementById('pickedSequence');
+    if(!pickedSlots.length){
+      box.innerHTML = '<span class="empty-note" style="padding:2px 0;">Click slot types above to build a sequence, in order.</span>';
+      return;
+    }
+    box.innerHTML = pickedSlots.map(function(s,i){
+      const label = s.t === 'VERB' ? (s.mode==='modal' ? 'VERB (wants to…)' : 'VERB (simple)') : (CATEGORY_LABELS[s.t] || s.t);
+      return '<span class="seq-tag">'+escapeHtml(label)+'<button type="button" data-i="'+i+'">✕</button></span>';
+    }).join('');
+    box.querySelectorAll('button[data-i]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        pickedSlots.splice(parseInt(btn.dataset.i,10),1);
+        renderPickedSequence();
+      });
+    });
+  }
+
+  document.getElementById('addTemplateBtn').addEventListener('click', function(){
+    const name = document.getElementById('newTplName').value.trim() || 'Untitled template';
+    const difficulty = parseInt(document.getElementById('newTplDifficulty').value,10) || 3;
+    const probability = parseInt(document.getElementById('newTplProbability').value,10) || 10;
+    if(!pickedSlots.length) return;
+    state.templates.push({
+      id: uid('T'), name: name, difficulty: difficulty, probability: probability, enabled: true,
+      slots: pickedSlots.slice()
+    });
+    pickedSlots = [];
+    document.getElementById('newTplName').value = '';
+    save();
+    renderTemplatesScreen();
+  });
+
+  /* Script data are authored lexemes and grammatical forms, never a transliterator.
+     IDs join the scripts. Existing edits and enabled flags are retained. */
+  const gurmukhiSeeds = {
+    WHO:'ਮੈਂ|ਤੁਸੀਂ|ਉਹ|ਅਸੀਂ|ਮੇਰਾ ਦੋਸਤ|ਮੇਰਾ ਪਰਿਵਾਰ|ਤੂੰ|ਉਹ ਲੋਕ|ਕੋਈ|ਹਰ ਕੋਈ|ਲੋਕ|ਮੇਰਾ ਭਾਈ|ਮੇਰੀ ਭੈਣ|ਮੇਰੀ ਮਾਂ|ਮੇਰੇ ਪਿਓ|ਮੇਰੇ ਮਾਂ-ਪਿਓ|ਬੱਚੇ|ਮੇਰਾ ਸਾਥੀ',
+    WHEN:'ਅੱਜ|ਕੱਲ੍ਹ|ਹੁਣ|ਹਰ ਰੋਜ਼|ਅਕਸਰ|ਹੁਣੇ|ਸਵੇਰੇ|ਦੁਪਹਿਰ ਨੂੰ|ਸ਼ਾਮ ਨੂੰ|ਰਾਤ ਨੂੰ|ਅੱਜ ਰਾਤ|ਕੱਲ੍ਹ ਸਵੇਰੇ|ਇਸ ਹਫ਼ਤੇ|ਅਗਲੇ ਹਫ਼ਤੇ|ਹਫ਼ਤੇ ਦੇ ਅੰਤ ਤੇ|ਹਮੇਸ਼ਾ|ਕਦੇ-ਕਦੇ|ਆਮ ਤੌਰ ਤੇ|ਪਹਿਲਾਂ|ਬਾਅਦ ਵਿੱਚ|ਜਲਦੀ|ਸਮੇਂ ਤੇ|ਪਿਛਲੇ ਹਫ਼ਤੇ',
+    WHERE:'ਘਰ ਵਿੱਚ|ਦਫ਼ਤਰ ਵਿੱਚ|ਆਕਲੈਂਡ ਵਿੱਚ|ਬਾਜ਼ਾਰ ਵਿੱਚ|ਕੰਮ ਤੇ|ਸਕੂਲ ਵਿੱਚ|ਕਾਲਜ ਵਿੱਚ|ਦੁਕਾਨ ਵਿੱਚ|ਰੈਸਟੋਰੈਂਟ ਵਿੱਚ|ਕੈਫ਼ੇ ਵਿੱਚ|ਹਸਪਤਾਲ ਵਿੱਚ|ਸਟੇਸ਼ਨ ਤੇ|ਏਅਰਪੋਰਟ ਤੇ|ਗੱਡੀ ਵਿੱਚ|ਬੱਸ ਵਿੱਚ|ਪਾਰਕ ਵਿੱਚ|ਜਿਮ ਵਿੱਚ|ਰਸੋਈ ਵਿੱਚ|ਕਮਰੇ ਵਿੱਚ|ਬਾਹਰ|ਅੰਦਰ|ਇੱਥੇ|ਉੱਥੇ|ਨੇੜੇ|ਪੰਜਾਬ ਵਿੱਚ|ਸ਼ਹਿਰ ਵਿੱਚ|ਦੋਸਤ ਦੇ ਘਰ',
+    WHAT:'ਪੰਜਾਬੀ|ਪਾਣੀ|ਚਾਹ|ਕੰਮ|ਕਿਤਾਬ|ਰੋਟੀ|ਖਾਣਾ|ਫਲ|ਸਬਜ਼ੀ|ਨਾਸ਼ਤਾ|ਦੁੱਧ|ਕੌਫ਼ੀ|ਜੂਸ|ਖ਼ਬਰਾਂ|ਸੁਨੇਹਾ|ਈਮੇਲ|ਫ਼ਿਲਮ|ਟੀਵੀ|ਵੀਡੀਓ|ਮੈਚ|ਗਾਣਾ|ਪੌਡਕਾਸਟ|ਕੱਪੜੇ|ਦਵਾਈ|ਟਿਕਟ|ਤੋਹਫ਼ਾ|ਘਰ ਦਾ ਕੰਮ|ਕਸਰਤ|ਅਭਿਆਸ|ਅੰਗਰੇਜ਼ੀ|ਨਵੀਂ ਚੀਜ਼|ਗੱਲ|ਸਵਾਲ|ਸਮੱਸਿਆ|ਫ਼ੋਟੋ|ਮਦਦ|ਜਵਾਬ|ਚਾਬੀਆਂ|ਫ਼ੋਨ|ਦਰਵਾਜ਼ਾ|ਖਿੜਕੀ|ਪੈਸੇ',
+    HOW:'ਬਹੁਤ|ਥੋੜ੍ਹਾ|ਬਹੁਤ ਜ਼ਿਆਦਾ|ਚੰਗੀ ਤਰ੍ਹਾਂ|ਹੌਲੀ-ਹੌਲੀ|ਧਿਆਨ ਨਾਲ|ਇਕੱਠੇ|ਇਕੱਲੇ|ਆਨਲਾਈਨ|ਆਸਾਨੀ ਨਾਲ|ਮੁਸ਼ਕਲ ਨਾਲ|ਖ਼ੁਸ਼ੀ ਨਾਲ|ਦੁਬਾਰਾ|ਸਾਫ਼ ਤੌਰ ਤੇ|ਚੁੱਪ-ਚਾਪ|ਸਿੱਧੇ ਤੌਰ ਤੇ|ਫ਼ੋਨ ਤੇ',
+    WHY:'ਕਿਉਂਕਿ|ਇਸ ਕਰਕੇ|ਇਸ ਲਈ|ਕਿਉਂਕਿ ਇਹ ਜ਼ਰੂਰੀ ਹੈ|ਕਿਉਂਕਿ ਸਮਾਂ ਘੱਟ ਹੈ|ਕਿਉਂਕਿ ਮੌਸਮ ਚੰਗਾ ਹੈ|ਕਿਉਂਕਿ ਅੱਜ ਛੁੱਟੀ ਹੈ|ਕਿਉਂਕਿ ਇਹ ਸੌਖਾ ਹੈ|ਕਿਉਂਕਿ ਇਹ ਫ਼ਾਇਦੇਮੰਦ ਹੈ|ਕਿਉਂਕਿ ਦੇਰ ਹੋ ਰਹੀ ਹੈ|ਕਿਉਂਕਿ ਇਸ ਦੀ ਲੋੜ ਹੈ',
+    ABOUT:'ਏਆਈ ਬਾਰੇ|ਪੰਜਾਬੀ ਬਾਰੇ|ਤੁਹਾਡੇ ਕੰਮ ਬਾਰੇ|ਪਰਿਵਾਰ ਬਾਰੇ|ਕੰਮ ਬਾਰੇ|ਮੌਸਮ ਬਾਰੇ|ਸਫ਼ਰ ਬਾਰੇ|ਖਾਣੇ ਬਾਰੇ|ਸਿਹਤ ਬਾਰੇ|ਪੈਸੇ ਬਾਰੇ|ਯੋਜਨਾ ਬਾਰੇ|ਸਮੱਸਿਆ ਬਾਰੇ|ਖ਼ਬਰਾਂ ਬਾਰੇ|ਫ਼ਿਲਮ ਬਾਰੇ|ਪੜ੍ਹਾਈ ਬਾਰੇ',
+    QUESTION:'ਕੀ|ਕਿੱਥੇ|ਕਦੋਂ|ਕਿਵੇਂ|ਕਿਉਂ|ਕੌਣ|ਕਿਹੜਾ|ਕਿੰਨਾ|ਕਿੰਨੇ|ਕਿਸ ਨੂੰ|ਕਿਸ ਦਾ|ਹੋਰ ਕੀ|ਕਿੰਨੀ ਚਿਰ|ਕਿੰਨੀ ਦੂਰ',
+    CONNECTOR:'ਅਤੇ|ਪਰ|ਤਾਂ ਜੋ|ਜੇ|ਜਦੋਂ|ਫਿਰ|ਲੇਕਿਨ|ਜਾਂ|ਕਿਉਂਕਿ|ਇਸ ਕਰਕੇ|ਭਾਵੇਂ|ਵੀ|ਪਹਿਲਾਂ|ਉਸ ਤੋਂ ਬਾਅਦ|ਆਖ਼ਰ ਵਿੱਚ',
+    STATE:'ਠੀਕ|ਖ਼ੁਸ਼|ਰੁੱਝਿਆ|ਥੱਕਿਆ|ਤਿਆਰ|ਭੁੱਖਾ|ਪਿਆਸਾ|ਬਿਮਾਰ|ਵੇਹਲਾ|ਲੇਟ|ਪੱਕਾ|ਫ਼ਿਕਰਮੰਦ'
+  };
+  const subjectG = [
+    ['ਮੈਨੂੰ','ਮੇਰੇ ਕੋਲ'],['ਤੁਹਾਨੂੰ','ਤੁਹਾਡੇ ਕੋਲ'],['ਉਹਨੂੰ','ਉਹਦੇ ਕੋਲ'],['ਸਾਨੂੰ','ਸਾਡੇ ਕੋਲ'],['ਮੇਰੇ ਦੋਸਤ ਨੂੰ','ਮੇਰੇ ਦੋਸਤ ਕੋਲ'],['ਮੇਰੇ ਪਰਿਵਾਰ ਨੂੰ','ਮੇਰੇ ਪਰਿਵਾਰ ਕੋਲ'],
+    ['ਤੈਨੂੰ','ਤੇਰੇ ਕੋਲ'],['ਉਹਨਾਂ ਨੂੰ','ਉਹਨਾਂ ਕੋਲ'],['ਕਿਸੇ ਨੂੰ','ਕਿਸੇ ਕੋਲ'],['ਹਰ ਕਿਸੇ ਨੂੰ','ਹਰ ਕਿਸੇ ਕੋਲ'],['ਲੋਕਾਂ ਨੂੰ','ਲੋਕਾਂ ਕੋਲ'],['ਮੇਰੇ ਭਾਈ ਨੂੰ','ਮੇਰੇ ਭਾਈ ਕੋਲ'],['ਮੇਰੀ ਭੈਣ ਨੂੰ','ਮੇਰੀ ਭੈਣ ਕੋਲ'],['ਮੇਰੀ ਮਾਂ ਨੂੰ','ਮੇਰੀ ਮਾਂ ਕੋਲ'],['ਮੇਰੇ ਪਿਓ ਨੂੰ','ਮੇਰੇ ਪਿਓ ਕੋਲ'],['ਮੇਰੇ ਮਾਂ-ਪਿਓ ਨੂੰ','ਮੇਰੇ ਮਾਂ-ਪਿਓ ਕੋਲ'],['ਬੱਚਿਆਂ ਨੂੰ','ਬੱਚਿਆਂ ਕੋਲ'],['ਮੇਰੇ ਸਾਥੀ ਨੂੰ','ਮੇਰੇ ਸਾਥੀ ਕੋਲ']
+  ];
+  const destinationG='ਘਰ|ਦਫ਼ਤਰ|ਆਕਲੈਂਡ|ਬਾਜ਼ਾਰ|ਕੰਮ ਤੇ|ਸਕੂਲ|ਕਾਲਜ|ਦੁਕਾਨ ਤੇ|ਰੈਸਟੋਰੈਂਟ|ਕੈਫ਼ੇ|ਹਸਪਤਾਲ|ਸਟੇਸ਼ਨ ਤੇ|ਏਅਰਪੋਰਟ ਤੇ|ਗੱਡੀ ਵੱਲ|ਬੱਸ ਵੱਲ|ਪਾਰਕ|ਜਿਮ|ਰਸੋਈ ਵਿੱਚ|ਕਮਰੇ ਵਿੱਚ|ਬਾਹਰ|ਅੰਦਰ|ਇੱਥੇ|ਉੱਥੇ|ਨੇੜੇ|ਪੰਜਾਬ|ਸ਼ਹਿਰ|ਦੋਸਤ ਦੇ ਘਰ'.split('|');
+  const stateVariantsG=['ਠੀਕ|ਠੀਕ|ਠੀਕ|ਠੀਕ','ਖ਼ੁਸ਼|ਖ਼ੁਸ਼|ਖ਼ੁਸ਼|ਖ਼ੁਸ਼','ਰੁੱਝਿਆ|ਰੁੱਝੀ|ਰੁੱਝੇ|ਰੁੱਝੀਆਂ','ਥੱਕਿਆ|ਥੱਕੀ|ਥੱਕੇ|ਥੱਕੀਆਂ','ਤਿਆਰ|ਤਿਆਰ|ਤਿਆਰ|ਤਿਆਰ','ਭੁੱਖਾ|ਭੁੱਖੀ|ਭੁੱਖੇ|ਭੁੱਖੀਆਂ','ਪਿਆਸਾ|ਪਿਆਸੀ|ਪਿਆਸੇ|ਪਿਆਸੀਆਂ','ਬਿਮਾਰ|ਬਿਮਾਰ|ਬਿਮਾਰ|ਬਿਮਾਰ','ਵੇਹਲਾ|ਵੇਹਲੀ|ਵੇਹਲੇ|ਵੇਹਲੀਆਂ','ਲੇਟ|ਲੇਟ|ਲੇਟ|ਲੇਟ','ਪੱਕਾ|ਪੱਕੀ|ਪੱਕੇ|ਪੱਕੀਆਂ','ਫ਼ਿਕਰਮੰਦ|ਫ਼ਿਕਰਮੰਦ|ਫ਼ਿਕਰਮੰਦ|ਫ਼ਿਕਰਮੰਦ'];
+  // id, infinitive, root, masculine habitual, plural habitual, polite imperative.
+  const verbG = [
+    ['v-sikhna','ਸਿੱਖਣਾ','ਸਿੱਖ','ਸਿੱਖਦਾ','ਸਿੱਖਦੇ','ਸਿੱਖੋ'],['v-samajhna','ਸਮਝਣਾ','ਸਮਝ','ਸਮਝਦਾ','ਸਮਝਦੇ','ਸਮਝੋ'],
+    ['v-gallkarna','ਗੱਲ ਕਰਨਾ','ਗੱਲ ਕਰ','ਕਰਦਾ','ਕਰਦੇ','ਗੱਲ ਕਰੋ','ਗੱਲ'],['v-kamkarna','ਕੰਮ ਕਰਨਾ','ਕੰਮ ਕਰ','ਕਰਦਾ','ਕਰਦੇ','ਕੰਮ ਕਰੋ','ਕੰਮ'],
+    ['v-khana','ਖਾਣਾ','ਖਾ','ਖਾਂਦਾ','ਖਾਂਦੇ','ਖਾਓ'],['v-pina','ਪੀਣਾ','ਪੀ','ਪੀਂਦਾ','ਪੀਂਦੇ','ਪੀਓ'],['v-jana','ਜਾਣਾ','ਜਾ','ਜਾਂਦਾ','ਜਾਂਦੇ','ਜਾਓ'],['v-auna','ਆਉਣਾ','ਆ','ਆਉਂਦਾ','ਆਉਂਦੇ','ਆਓ'],
+    ['v-sochna','ਸੋਚਣਾ','ਸੋਚ','ਸੋਚਦਾ','ਸੋਚਦੇ','ਸੋਚੋ'],['v-parhna','ਪੜ੍ਹਨਾ','ਪੜ੍ਹ','ਪੜ੍ਹਦਾ','ਪੜ੍ਹਦੇ','ਪੜ੍ਹੋ'],['v-chahuna','ਚਾਹੁਣਾ','ਚਾਹ','ਚਾਹੁੰਦਾ','ਚਾਹੁੰਦੇ',''],
+    ['v-karna','ਕਰਨਾ','ਕਰ','ਕਰਦਾ','ਕਰਦੇ','ਕਰੋ'],['v-dena','ਦੇਣਾ','ਦੇ','ਦਿੰਦਾ','ਦਿੰਦੇ','ਦਿਓ'],['v-laina','ਲੈਣਾ','ਲੈ','ਲੈਂਦਾ','ਲੈਂਦੇ','ਲਓ'],
+    ['v-vekna','ਵੇਖਣਾ','ਵੇਖ','ਵੇਖਦਾ','ਵੇਖਦੇ','ਵੇਖੋ'],['v-sunna','ਸੁਣਨਾ','ਸੁਣ','ਸੁਣਦਾ','ਸੁਣਦੇ','ਸੁਣੋ'],['v-kharidna','ਖ਼ਰੀਦਣਾ','ਖ਼ਰੀਦ','ਖ਼ਰੀਦਦਾ','ਖ਼ਰੀਦਦੇ','ਖ਼ਰੀਦੋ'],
+    ['v-pakauna','ਪਕਾਉਣਾ','ਪਕਾ','ਪਕਾਉਂਦਾ','ਪਕਾਉਂਦੇ','ਪਕਾਓ'],['v-likhna','ਲਿਖਣਾ','ਲਿਖ','ਲਿਖਦਾ','ਲਿਖਦੇ','ਲਿਖੋ'],['v-bhejna','ਭੇਜਣਾ','ਭੇਜ','ਭੇਜਦਾ','ਭੇਜਦੇ','ਭੇਜੋ'],['v-liauna','ਲਿਆਉਣਾ','ਲਿਆ','ਲਿਆਉਂਦਾ','ਲਿਆਉਂਦੇ','ਲਿਆਓ'],
+    ['v-labhna','ਲੱਭਣਾ','ਲੱਭ','ਲੱਭਦਾ','ਲੱਭਦੇ','ਲੱਭੋ'],['v-kholna','ਖੋਲ੍ਹਣਾ','ਖੋਲ੍ਹ','ਖੋਲ੍ਹਦਾ','ਖੋਲ੍ਹਦੇ','ਖੋਲ੍ਹੋ'],['v-bandkarna','ਬੰਦ ਕਰਨਾ','ਬੰਦ ਕਰ','ਬੰਦ ਕਰਦਾ','ਬੰਦ ਕਰਦੇ','ਬੰਦ ਕਰੋ'],
+    ['v-halna','ਹੱਲ ਕਰਨਾ','ਹੱਲ ਕਰ','ਹੱਲ ਕਰਦਾ','ਹੱਲ ਕਰਦੇ','ਹੱਲ ਕਰੋ'],['v-jawabdena','ਜਵਾਬ ਦੇਣਾ','ਜਵਾਬ ਦੇ','ਜਵਾਬ ਦਿੰਦਾ','ਜਵਾਬ ਦਿੰਦੇ','ਜਵਾਬ ਦਿਓ'],
+    ['v-bolna','ਬੋਲਣਾ','ਬੋਲ','ਬੋਲਦਾ','ਬੋਲਦੇ','ਬੋਲੋ'],['v-sona','ਸੌਣਾ','ਸੌਂ','ਸੌਂਦਾ','ਸੌਂਦੇ','ਸੌਂ ਜਾਓ'],['v-uthna','ਉੱਠਣਾ','ਉੱਠ','ਉੱਠਦਾ','ਉੱਠਦੇ','ਉੱਠੋ'],['v-baithna','ਬੈਠਣਾ','ਬੈਠ','ਬੈਠਦਾ','ਬੈਠਦੇ','ਬੈਠੋ'],['v-hasna','ਹੱਸਣਾ','ਹੱਸ','ਹੱਸਦਾ','ਹੱਸਦੇ','ਹੱਸੋ'],['v-khedna','ਖੇਡਣਾ','ਖੇਡ','ਖੇਡਦਾ','ਖੇਡਦੇ','ਖੇਡੋ'],
+    ['v-intazar','ਇੰਤਜ਼ਾਰ ਕਰਨਾ','ਇੰਤਜ਼ਾਰ ਕਰ','ਇੰਤਜ਼ਾਰ ਕਰਦਾ','ਇੰਤਜ਼ਾਰ ਕਰਦੇ','ਇੰਤਜ਼ਾਰ ਕਰੋ'],['v-sair','ਸੈਰ ਕਰਨਾ','ਸੈਰ ਕਰ','ਸੈਰ ਕਰਦਾ','ਸੈਰ ਕਰਦੇ','ਸੈਰ ਕਰੋ'],['v-drive','ਗੱਡੀ ਚਲਾਉਣਾ','ਗੱਡੀ ਚਲਾ','ਗੱਡੀ ਚਲਾਉਂਦਾ','ਗੱਡੀ ਚਲਾਉਂਦੇ','ਗੱਡੀ ਚਲਾਓ'],['v-phone','ਫ਼ੋਨ ਕਰਨਾ','ਫ਼ੋਨ ਕਰ','ਫ਼ੋਨ ਕਰਦਾ','ਫ਼ੋਨ ਕਰਦੇ','ਫ਼ੋਨ ਕਰੋ']
+  ];
+  const grammarG = {
+    'hā̃':'ਹਾਂ','haĩ':'ਹੈਂ','ho':'ਹੋ','hai':'ਹੈ','han':'ਹਨ','sī':'ਸੀ','sī̃':'ਸੀ','san':'ਸਨ',
+    'rihā':'ਰਿਹਾ','rahī':'ਰਹੀ','rahe':'ਰਹੇ','rahīā̃':'ਰਹੀਆਂ','nahī̃':'ਨਹੀਂ',
+    'sakdā':'ਸਕਦਾ','sakdī':'ਸਕਦੀ','sakde':'ਸਕਦੇ','sakdīā̃':'ਸਕਦੀਆਂ',
+    'vālā':'ਵਾਲਾ','vālī':'ਵਾਲੀ','vāle':'ਵਾਲੇ','vālīā̃':'ਵਾਲੀਆਂ',
+    'ṇīā̃':'ਣੀਆਂ','ṇe':'ਣੇ','ṇī':'ਣੀ','nū̃':'ਨੂੰ','kol':'ਕੋਲ',
+    'chāhīdīā̃ han':'ਚਾਹੀਦੀਆਂ ਹਨ','chāhīde han':'ਚਾਹੀਦੇ ਹਨ','chāhīdī hai':'ਚਾਹੀਦੀ ਹੈ','chāhīdā hai':'ਚਾਹੀਦਾ ਹੈ',
+    'paiṇdā hai':'ਪੈਂਦਾ ਹੈ','paiṇdī hai':'ਪੈਂਦੀ ਹੈ','paiṇde han':'ਪੈਂਦੇ ਹਨ','paiṇdīā̃ han':'ਪੈਂਦੀਆਂ ਹਨ',
+    'kī':'ਕੀ','kithē':'ਕਿੱਥੇ','kadō̃':'ਕਦੋਂ','kiũ':'ਕਿਉਂ','kivẽ':'ਕਿਵੇਂ','kirpā karke':'ਕਿਰਪਾ ਕਰਕੇ',
+    'pasand nahī̃':'ਪਸੰਦ ਨਹੀਂ','pasand':'ਪਸੰਦ','ate':'ਅਤੇ','par':'ਪਰ','par nahī̃':'ਪਰ ਨਹੀਂ',
+    'je … tā̃':'ਜੇ … ਤਾਂ','je':'ਜੇ','samā̃ hovē, tā̃':'ਸਮਾਂ ਹੋਵੇ, ਤਾਂ','jā̃':'ਜਾਂ',
+    'tusī̃':'ਤੁਸੀਂ','vichõ kī chāhũde ho':'ਵਿੱਚੋਂ ਕੀ ਚਾਹੁੰਦੇ ਹੋ','kehṛī cīz':'ਕਿਹੜੀ ਚੀਜ਼',
+    'tusī̃ kehṛī cīz chāhũde ho':'ਤੁਸੀਂ ਕਿਹੜੀ ਚੀਜ਼ ਚਾਹੁੰਦੇ ਹੋ',
+    'kinne':'ਕਿੰਨੇ','kinnā':'ਕਿੰਨਾ','kinnīā̃':'ਕਿੰਨੀਆਂ','kinnī':'ਕਿੰਨੀ','tuhānū̃':'ਤੁਹਾਨੂੰ',
+    'pehlā̃':'ਪਹਿਲਾਂ','giā':'ਗਿਆ','gaī':'ਗਈ','gae':'ਗਏ','gaīā̃':'ਗਈਆਂ'
+  };
+  let scriptG=false, selectionRecording=false, selectionReplay=false, selectionTape=[], selectionCursor=0;
+  function L(s){
+    if(!scriptG)return s;
+    const key=s.trim();
+    if(!key)return s;
+    if(!Object.prototype.hasOwnProperty.call(grammarG,key))throw Error('Missing authored Gurmukhi grammar: '+key);
+    return s.replace(key,grammarG[key]);
+  }
+  function installScriptData(){
+    const defaults=defaultData();
+    Object.keys(gurmukhiSeeds).forEach(cat=>{
+      const forms=gurmukhiSeeds[cat].split('|');
+      if(forms.length!==defaults.vocab[cat].length)throw Error('Script seed count: '+cat);
+      defaults.vocab[cat].forEach((base,i)=>{
+        const item=state.vocab[cat].find(x=>x.id===base.id);
+        if(!item)return;
+        if(item.g===undefined && item.p===base.p)item.g=forms[i];
+        if(item.gScript===undefined){
+          item.gScript={};
+          if(cat==='WHO' && item.p===base.p)item.gScript={dative:subjectG[i][0],withPossession:subjectG[i][1]};
+          if(cat==='WHERE' && item.p===base.p)item.gScript={dest:destinationG[i]};
+          if(cat==='STATE' && item.p===base.p){const f=stateVariantsG[i].split('|');item.gScript={forms:{m:f[0],f:f[1],pl:f[2],fpl:f[3]}};}
+        }
+      });
+    });
+    verbG.forEach(a=>{
+      const v=state.verbs.find(x=>x.id===a[0]), base=defaults.verbs.find(x=>x.id===a[0]);
+      if(!v||v.gScript!==undefined||v.infinitive!==base.infinitive)return;
+      const sg=a[3],pl=a[4],oblique=a[1].slice(0,-1);
+      v.gScript={infinitive:a[1],root:a[2],prefix:a[6]||'',imperative:a[5],
+        inflections:{f:oblique+'ੀ',plm:oblique+'ੇ',plf:oblique+'ੀਆਂ',oblique:oblique},
+        forms:{'1sg':sg+' ਹਾਂ','2sg':sg+' ਹੈਂ','2pl':pl+' ਹੋ','3sg':sg+' ਹੈ','1pl':pl+' ਹਾਂ','3pl':pl+' ਹਨ'}};
+    });
+    if(!state.grammarUpgrade1){
+      const father=state.vocab.WHO.find(x=>x.id==='who-pio');
+      if(father&&father.p==='mere piō'&&father.person==='3sg'){father.person='3pl';father.number='pl';father.englishPerson='3sg';}
+      const take=state.verbs.find(x=>x.id==='v-laina');
+      if(take&&!(take.takesTags||[]).length){take.takesTags=['takeable'];take.isModalComplement=true;}
+      const answer=state.verbs.find(x=>x.id==='v-jawabdena');
+      if(answer){answer.objectPostposition='dā';if(answer.gScript)answer.gScript.objectPostposition='ਦਾ';}
+      const doVerb=state.verbs.find(x=>x.id==='v-karna');if(doVerb)doVerb.englishByObject={'what-madad':'give'};
+      state.vocab.WHAT.forEach(x=>{
+        if(['what-davai','what-ticket','what-tohfa','what-kitab','what-paisa','what-phone','what-chabian'].includes(x.id)&&!x.tags.includes('takeable'))x.tags.push('takeable');
+        if(x.id==='what-madad'&&x.tags.includes('giveable')){x.tags=x.tags.filter(t=>t!=='giveable');x.tags.push('doable');}
+      });
+      const fpl=['ṭhīk','khush','rujhīā̃','thakkīā̃','tiār','bhukkhīā̃','piāsīā̃','bimār','vehlīā̃','late','pakkīā̃','fikarmand'];
+      defaults.vocab.STATE.forEach((b,i)=>{const x=state.vocab.STATE.find(x=>x.id===b.id);if(x&&x.forms&&x.p===b.p&&!x.forms.fpl)x.forms.fpl=fpl[i];});
+      state.grammarUpgrade1=true;
+    }
+    state.scriptSchemaVersion=1;
+    save();
+  }
+  function scriptProjection(source){
+    const projected=Object.assign({},source,{vocab:{},verbs:[]});
+    Object.keys(source.vocab).forEach(cat=>{
+      projected.vocab[cat]=source.vocab[cat].map(x=>Object.assign({},x,x.gScript||{}, {p:x.g||'⟦missing Gurmukhi⟧'}));
+    });
+    projected.verbs=source.verbs.map(v=>Object.assign({},v,v.gScript||{
+      infinitive:'⟦missing Gurmukhi⟧',root:'⟦missing Gurmukhi⟧',prefix:'',imperative:'⟦missing Gurmukhi⟧',forms:{'3sg':'⟦missing Gurmukhi⟧'}
+    }));
+    return projected;
+  }
+  // Only the first pass chooses words. The second is a script rendering of the
+  // same selection tape; no fresh randomness, reroll, or transliteration occurs.
+  function assembleFromTemplate(template){
+    if(!template||!template.enabled)return null;
+    // Fixed grammatical words are explicit dependencies, too: an enabled
+    // template cannot silently reintroduce a disabled subject, verb or question.
+    const dependencies={habitQuestion:['q-ki'],whatDoing:['q-ki','v-karna'],whereGoing:['q-kithe','v-jana'],whenComing:['q-kado','v-auna'],whyDoing:['q-kiu'],howDoing:['q-kive'],
+      canYou:['q-ki','who-tusi'],haveQuestion:['q-ki'],stateQuestion:['q-ki'],andActions:['c-ate'],butContrast:['c-par'],conditional:['c-je','v-chahuna'],
+      choiceQuestion:['who-tusi','c-ja','q-ki','v-chahuna'],whichWant:['who-tusi','q-kehra','v-chahuna'],amountQuestion:['who-tusi','q-kinna'],pastWent:['v-jana']};
+    const required=dependencies[template.pattern]||[];
+    const allWords=Object.values(state.vocab).flat().concat(state.verbs);
+    if(required.some(id=>!allWords.some(w=>w.id===id&&w.enabled)))return null;
+    const original=state;let roman,gurmukhi;
+    selectionTape=[];selectionCursor=0;selectionRecording=true;selectionReplay=false;
+    try{roman=assembleLegacy(template);}catch(e){console.debug('Unavailable sentence pattern',e.message);return null;}
+    finally{selectionRecording=false;}
+    if(!roman)return null;
+    try{
+      scriptG=true;selectionReplay=true;state=scriptProjection(original);
+      const rendered=assembleLegacy(template);
+      if(!rendered || selectionCursor!==selectionTape.length || rendered.signature!==roman.signature)throw Error('Script selection mismatch');
+      gurmukhi=rendered.punjabi.replace(/\.$/,'।');
+      if(/[A-Za-zāīūṇṛṭḍ]/.test(gurmukhi))throw Error('A selected word or grammatical form has no authored Gurmukhi');
+    }catch(e){console.debug('Gurmukhi data needs attention',e.message);gurmukhi='';}
+    finally{state=original;scriptG=false;selectionReplay=false;}
+    return Object.assign(roman,{roman:roman.punjabi,gurmukhi:gurmukhi||'',template:template.id,
+      buildingBlocks:roman.breakdown.map(b=>Object.assign({},b)),
+      scriptWarning:gurmukhi?'':'Gurmukhi is missing for a selected custom word/form. Edit its Gurmukhi and grammar metadata in Building Blocks.'});
+  }
+
+  const LEARNING_KEY='punjabi-learning-v1';
+  function readLearning(){try{return JSON.parse(localStorage.getItem(LEARNING_KEY))||{};}catch(e){return {};}}
+  const learning=readLearning();
+  let displayPrefs=Object.assign({roman:true,gurmukhi:true,english:true},learning.display||{});
+  let audioPrefs=Object.assign({voice:'',rate:1},learning.audio||{});
+  let flashPrefs=Object.assign({count:10,direction:'mixed',mode:'random',templates:[],roman:true,gurmukhi:true,audio:true},learning.flash||{});
+  let learningStats=Object.assign({version:1,ratings:[],totalReviews:0,counts:{again:0,hard:0,good:0,easy:0}},learning.stats||{});
+  // One explicit session state. Card reveal/direction/rating live on each fixed card.
+  const flashSession={phase:'setup',deck:null,index:0,id:'',options:null};
+  function persistLearning(){
+    try{localStorage.setItem(LEARNING_KEY,JSON.stringify({display:displayPrefs,audio:audioPrefs,flash:flashPrefs,stats:learningStats}));return true;}
+    catch(e){showSpeechStatus('Your browser could not save preferences or ratings. They will last only for this session.');return false;}
+  }
+  let speechStatusTarget=null;
+  function showSpeechStatus(message){
+    const el=speechStatusTarget&&speechStatusTarget.isConnected?speechStatusTarget:document.getElementById('speechStatus');
+    if(el)el.textContent=message;
+  }
+  let punjabiVoices=[],activeUtterance=null;
+  function refreshVoices(){
+    const synth=window.speechSynthesis;
+    let voices=[];try{voices=synth?synth.getVoices():[];}catch(e){/* Voice enumeration must not block controls. */}
+    punjabiVoices=voices.filter(v=>/^pa(?:[-_]|$)/i.test(v.lang)).sort((a,b)=>Number(/^pa[-_]IN$/i.test(b.lang))-Number(/^pa[-_]IN$/i.test(a.lang))||Number(b.default)-Number(a.default));
+    const select=document.getElementById('voiceSelect');
+    if(select){select.innerHTML='<option value="">Automatic (best Punjabi voice)</option>'+punjabiVoices.map(v=>'<option value="'+escapeHtml(v.voiceURI)+'">'+escapeHtml(v.name+' — '+v.lang)+'</option>').join('');select.value=audioPrefs.voice;}
+    const note=document.getElementById('voiceAvailability');
+    if(note)note.textContent=!synth?'This browser does not support speech synthesis.':punjabiVoices.length?punjabiVoices.length+' Punjabi voice(s) available.':'No Punjabi speech voice is available on this device/browser. Try installing a Punjabi voice in device accessibility/speech settings, or use another browser/device. The app does not substitute an English or Hindi voice.';
+  }
+  function stopSpeech(){activeUtterance=null;try{if(window.speechSynthesis)window.speechSynthesis.cancel();}catch(e){/* A device speech failure must not block navigation. */}}
+  function speakPunjabi(text,slow){
+    stopSpeech();refreshVoices();
+    if(!window.speechSynthesis||typeof window.SpeechSynthesisUtterance!=='function'){showSpeechStatus('Speech synthesis is not supported by this browser.');return false;}
+    if(!text||!/[\u0a00-\u0a7f]/.test(text)){showSpeechStatus('This sentence has no Gurmukhi text yet. Older saved sentences are preserved unchanged; generate a new one for audio.');return false;}
+    const voice=punjabiVoices.find(v=>v.voiceURI===audioPrefs.voice)||punjabiVoices[0];
+    if(!voice){showSpeechStatus('No Punjabi speech voice is available on this device/browser. Install a Punjabi voice if your device supports one, then reload, or try another device. No English voice will be used.');return false;}
+    const utterance=new window.SpeechSynthesisUtterance(text);
+    utterance.voice=voice;utterance.lang=voice.lang||'pa-IN';utterance.rate=slow?0.7:Math.max(0.5,Math.min(1.5,Number(audioPrefs.rate)||1));
+    activeUtterance=utterance;
+    utterance.onend=()=>{if(activeUtterance===utterance){activeUtterance=null;showSpeechStatus('Playback finished.');}};
+    utterance.onerror=e=>{if(activeUtterance===utterance){activeUtterance=null;showSpeechStatus(e.error==='canceled'||e.error==='interrupted'?'Playback stopped.':'The device could not play this Punjabi voice ('+e.error+'). Try another available voice.');}};
+    showSpeechStatus('Playing Punjabi'+(slow?' slowly':'')+'…');
+    try{window.speechSynthesis.speak(utterance);return true;}catch(e){activeUtterance=null;showSpeechStatus('This browser could not start speech. Try another available Punjabi voice or open the app directly in Safari.');return false;}
+  }
+  function audioMarkup(sentence){return '<div class="speech-controls" data-speech="'+escapeHtml(sentence.gurmukhi||'')+'"><button type="button" class="btn" data-speak="play" aria-label="Play Punjabi pronunciation">🔊 Play</button><button type="button" class="btn" data-speak="slow" aria-label="Play Punjabi slowly">🐢 Slow</button><button type="button" class="btn" data-speak="stop" aria-label="Stop pronunciation">■ Stop</button></div>';}
+  function sentenceMarkup(s){return '<div class="sentence-text">'+
+    '<p class="punjabi-line script-roman" lang="pa-Latn"'+(!displayPrefs.roman?' hidden':'')+'>'+escapeHtml(s.roman||s.punjabi||'')+'</p>'+
+    '<p class="gurmukhi-line script-gurmukhi" lang="pa-Guru"'+(!displayPrefs.gurmukhi?' hidden':'')+'>'+escapeHtml(s.gurmukhi||'Gurmukhi unavailable for this saved/custom sentence.')+'</p>'+
+    '<p class="english-line script-english" lang="en"'+(!displayPrefs.english?' hidden':'')+'>'+escapeHtml(s.english)+'</p>'+
+    (s.scriptWarning?'<p class="note">'+escapeHtml(s.scriptWarning)+'</p>':'')+audioMarkup(s)+'</div>';}
+  function applyDisplayPrefs(){Object.keys(displayPrefs).forEach(k=>document.querySelectorAll('.sentence-text .script-'+k).forEach(el=>{el.hidden=!displayPrefs[k];}));}
+  function checkField(id,label,checked){return '<label class="setting-check"><input type="checkbox" id="'+id+'" '+(checked?'checked':'')+'> '+label+'</label>';}
+  function renderSettings(){
+    document.getElementById('screen-settings').innerHTML='<div class="panel"><h2>⚙ Settings</h2><h3>Sentence display</h3><p>These settings only change visibility, never the selected sentence. Flashcards have their own practice settings.</p><div class="settings-grid">'+checkField('displayRoman','Roman Punjabi',displayPrefs.roman)+checkField('displayGurmukhi','Gurmukhi',displayPrefs.gurmukhi)+checkField('displayEnglish','English',displayPrefs.english)+'</div><h3>Punjabi pronunciation</h3><p>Uses your browser/device speech voices. No API keys, backend, AI calls or paid services. Some device voices may need an internet connection.</p><p id="voiceAvailability" role="status"></p><label for="voiceSelect">Voice</label><select id="voiceSelect"></select><label for="speechRate">Normal playback rate: <output id="rateValue">'+audioPrefs.rate+'</output>×</label><input id="speechRate" type="range" min="0.5" max="1.5" step="0.05" value="'+audioPrefs.rate+'"><p>Slow playback always uses 0.70×.</p>'+audioMarkup({gurmukhi:'ਮੈਂ ਪੰਜਾਬੀ ਸਿੱਖ ਰਿਹਾ ਹਾਂ।'})+'<h3>Learning statistics</h3><p>'+learningStats.totalReviews+' ratings saved on this browser. Preferences and vocabulary are browser-specific; private browsing or clearing site data may remove them.</p><p class="note">Round decks are intentionally in memory. Reloading keeps preferences and ratings, but ends the current round. Existing saved sentences without Gurmukhi are kept unchanged.</p></div>';
+    [['Roman','roman'],['Gurmukhi','gurmukhi'],['English','english']].forEach(a=>document.getElementById('display'+a[0]).addEventListener('change',e=>{displayPrefs[a[1]]=e.target.checked;persistLearning();applyDisplayPrefs();}));
+    refreshVoices();
+    document.getElementById('voiceSelect').addEventListener('change',e=>{audioPrefs.voice=e.target.value;stopSpeech();persistLearning();});
+    document.getElementById('speechRate').addEventListener('input',e=>{audioPrefs.rate=Number(e.target.value);document.getElementById('rateValue').textContent=audioPrefs.rate;persistLearning();});
+  }
+  function renderFlashcards(){
+    if(flashSession.phase==='summary'&&flashSession.deck){renderFlashSummary();return;}
+    if(flashSession.phase==='round'&&flashSession.deck){renderFlashCard();return;}
+    const templates=enabledOf(state.templates);
+    document.getElementById('screen-flashcards').innerHTML='<div class="panel flash-setup"><h2>🃏 Flashcards</h2><p>Practise the same sentences from either direction. Cards are generated once per round; revealing an answer never changes it.</p><div class="settings-grid"><div><label for="flashCount">Number of cards</label><input id="flashCount" type="number" min="1" max="100" value="'+flashPrefs.count+'"></div><div><label for="flashDirection">Direction</label><select id="flashDirection"><option value="en-pa">English → Punjabi</option><option value="pa-en">Punjabi → English</option><option value="mixed">Mixed direction</option></select></div><div><label for="flashMode">Templates</label><select id="flashMode"><option value="random">Random from all enabled templates</option><option value="specific">Choose enabled templates</option></select></div></div><fieldset id="flashTemplates"><legend>Use these templates</legend>'+templates.map(t=>'<label class="setting-check"><input type="checkbox" name="flashTemplate" value="'+escapeHtml(t.id)+'" '+(flashPrefs.templates.includes(t.id)?'checked':'')+'> '+escapeHtml(t.name)+'</label>').join('')+'</fieldset><h3>Punjabi side</h3><div class="settings-grid">'+checkField('flashRoman','Roman Punjabi',flashPrefs.roman)+checkField('flashGurmukhi','Gurmukhi',flashPrefs.gurmukhi)+checkField('flashAudio','Pronunciation buttons',flashPrefs.audio)+'</div><p class="note">Enable at least one written script. Random mode samples all enabled templates equally, including templates whose batch probability is zero.</p><p id="flashError" role="alert"></p><button type="button" class="btn primary" id="startFlash">Start round</button></div>';
+    document.getElementById('flashDirection').value=flashPrefs.direction;
+    document.getElementById('flashMode').value=flashPrefs.mode;
+    const sync=()=>{document.getElementById('flashTemplates').hidden=document.getElementById('flashMode').value!=='specific';};sync();
+    document.getElementById('flashMode').addEventListener('change',sync);
+    document.getElementById('screen-flashcards').querySelectorAll('input,select').forEach(el=>el.addEventListener('change',saveFlashSetupPreferences));
+  }
+  function saveFlashSetupPreferences(){
+    if(flashSession.phase!=='setup'||!document.getElementById('flashCount'))return;
+    const count=Number(document.getElementById('flashCount').value);
+    if(Number.isInteger(count)&&count>=1&&count<=100)flashPrefs.count=count;
+    flashPrefs.direction=document.getElementById('flashDirection').value;flashPrefs.mode=document.getElementById('flashMode').value;
+    flashPrefs.templates=Array.from(document.querySelectorAll('[name="flashTemplate"]:checked')).map(el=>el.value);
+    flashPrefs.roman=document.getElementById('flashRoman').checked;flashPrefs.gurmukhi=document.getElementById('flashGurmukhi').checked;flashPrefs.audio=document.getElementById('flashAudio').checked;
+    persistLearning();
+  }
+  function startFlashFromSetup(){
+      const count=Number(document.getElementById('flashCount').value);
+      flashPrefs={count:count,direction:document.getElementById('flashDirection').value,mode:document.getElementById('flashMode').value,
+        templates:Array.from(document.querySelectorAll('[name="flashTemplate"]:checked')).map(el=>el.value),roman:document.getElementById('flashRoman').checked,gurmukhi:document.getElementById('flashGurmukhi').checked,audio:document.getElementById('flashAudio').checked};
+      const error=!Number.isInteger(count)||count<1||count>100?'Choose between 1 and 100 cards.':!flashPrefs.roman&&!flashPrefs.gurmukhi?'Enable Roman Punjabi or Gurmukhi for the Punjabi side.':flashPrefs.mode==='specific'&&!flashPrefs.templates.length?'Choose at least one enabled template.':'';
+      if(error){document.getElementById('flashError').textContent=error;return;}
+      persistLearning();startFlashRound();
+  }
+  function startFlashRound(){
+    stopSpeech();
+    const pool=enabledOf(state.templates).filter(t=>flashPrefs.mode==='random'||flashPrefs.templates.includes(t.id));
+    const cards=[];let attempts=0;
+    while(cards.length<flashPrefs.count && attempts++<flashPrefs.count*50 && pool.length){
+      const sentence=assembleFromTemplate(pool[Math.floor(Math.random()*pool.length)]);
+      if(!sentence || (flashPrefs.gurmukhi&&!sentence.gurmukhi))continue;
+      cards.push({id:uid('card'),sentence:sentence,direction:flashPrefs.direction==='mixed'?(Math.random()<0.5?'en-pa':'pa-en'):flashPrefs.direction,revealed:false,rating:null});
+    }
+    if(cards.length!==flashPrefs.count){
+      showFlashcardSetup();document.getElementById('flashError').textContent='Could not build the requested deck with the enabled words/templates and scripts. Check compatible objects, required verbs, and Gurmukhi metadata. No partial round was started.';return false;
+    }
+    flashSession.deck=cards;flashSession.options=Object.assign({},flashPrefs);flashSession.index=0;flashSession.id=uid('round');flashSession.phase='round';renderFlashCard();focusFlashContent();return true;
+  }
+  function punjabiSide(sentence){return (flashSession.options.roman?'<p class="flash-roman" lang="pa-Latn">'+escapeHtml(sentence.roman)+'</p>':'')+(flashSession.options.gurmukhi?'<p class="gurmukhi-line" lang="pa-Guru">'+escapeHtml(sentence.gurmukhi)+'</p>':'')+(flashSession.options.audio?audioMarkup(sentence):'');}
+  function renderFlashCard(){
+    if(flashSession.phase!=='round'||!flashSession.deck||!flashSession.deck[flashSession.index])return;
+    const card=flashSession.deck[flashSession.index],s=card.sentence,completed=flashSession.deck.filter(c=>c.rating).length;
+    const front=card.direction==='en-pa'?'<p class="flash-english" lang="en">'+escapeHtml(s.english)+'</p>':punjabiSide(s);
+    const back=card.direction==='en-pa'?punjabiSide(s):'<p class="flash-english" lang="en">'+escapeHtml(s.english)+'</p>';
+    document.getElementById('screen-flashcards').innerHTML='<div class="panel flash-round"><div class="flash-header"><h2 id="cardPosition" tabindex="-1">Card '+(flashSession.index+1)+' of '+flashSession.deck.length+'</h2><span>'+completed+' rated</span></div><progress value="'+completed+'" max="'+flashSession.deck.length+'" aria-label="Rated cards"></progress><div class="flash-card"><span class="pill">'+(card.direction==='en-pa'?'English → Punjabi':'Punjabi → English')+'</span><div class="flash-front">'+front+'</div>'+(card.revealed?'<div class="flash-answer" aria-live="polite"><span class="note">Answer</span>'+back+'</div>':'<button type="button" class="btn primary" id="revealFlash">Reveal Answer</button>')+'</div>'+(card.revealed?'<p>How did that feel?'+(card.rating?' Current rating: '+card.rating+'.':'')+'</p><div class="rating-buttons">'+['again','hard','good','easy'].map(r=>'<button type="button" class="btn '+(card.rating===r?'primary':'')+'" data-rating="'+r+'">'+r[0].toUpperCase()+r.slice(1)+'</button>').join('')+'</div>':'')+'<div class="flash-navigation"><button type="button" class="btn" id="prevFlash" '+(flashSession.index===0?'disabled':'')+'>Previous</button><button type="button" class="btn" id="nextFlash" '+(flashSession.index===flashSession.deck.length-1?'disabled':'')+'>Next</button></div><div class="flash-navigation"><button type="button" class="btn ghost" id="flashSetup">Back to Flashcard Setup</button><button type="button" class="btn primary" id="finishFlash">Finish round</button></div><p class="note">'+escapeHtml(s.templateName)+' · Rate cards to record your review. Next only moves between cards. Finish round ends the session at any time.</p></div>';
+  }
+  function rateFlashCard(rating){
+    if(flashSession.phase!=='round'||!flashSession.deck)return;
+    const card=flashSession.deck[flashSession.index];if(!card||!card.revealed||!['again','hard','good','easy'].includes(rating))return;
+    const key=flashSession.id+':'+card.id;
+    const previous=learningStats.ratings.find(r=>r.key===key);
+    if(previous){learningStats.counts[previous.rating]--;previous.rating=rating;previous.ratedAt=Date.now();}
+    else{learningStats.ratings.push({key:key,roundId:flashSession.id,cardId:card.id,signature:card.sentence.signature,templateId:card.sentence.templateId,direction:card.direction,rating:rating,ratedAt:Date.now()});learningStats.totalReviews++;}
+    learningStats.counts[rating]++;card.rating=rating;
+    // Bound detailed history while lifetime counters survive.
+    if(learningStats.ratings.length>5000)learningStats.ratings=learningStats.ratings.slice(-5000);
+    persistLearning();stopSpeech();
+    if(flashSession.deck.every(c=>c.rating)){finishFlashcardRound();}
+    else{flashSession.index=flashSession.deck.findIndex((c,i)=>i>flashSession.index&&!c.rating);if(flashSession.index<0)flashSession.index=flashSession.deck.findIndex(c=>!c.rating);renderFlashCard();focusFlashContent();}
+  }
+  function restartFlashDeck(cards){
+    if(!cards||!cards.length)return;
+    flashSession.deck=cards.map(c=>Object.assign({},c,{revealed:false,rating:null}));flashSession.index=0;flashSession.id=uid('round');flashSession.phase='round';stopSpeech();renderFlashCard();focusFlashContent();
+  }
+  function renderFlashSummary(){
+    if(flashSession.phase!=='summary'||!flashSession.deck)return;
+    const counts={again:0,hard:0,good:0,easy:0};flashSession.deck.forEach(c=>{if(c.rating)counts[c.rating]++;});
+    document.getElementById('screen-flashcards').innerHTML='<div class="panel flash-summary"><h2>Round summary</h2><p class="flash-english" id="roundReviewed">Cards reviewed: '+flashSession.deck.filter(c=>c.rating).length+' of '+flashSession.deck.length+'</p><div class="summary-counts">'+Object.keys(counts).map(k=>'<div><strong>'+counts[k]+'</strong><span>'+k[0].toUpperCase()+k.slice(1)+'</span></div>').join('')+'</div><div class="flash-navigation"><button type="button" class="btn primary" id="reviewAgain" '+(!counts.again?'disabled':'')+'>Review Again cards</button><button type="button" class="btn" id="restartDeck">Restart Deck</button><button type="button" class="btn" id="newDeck">New Random Deck</button><button type="button" class="btn ghost" id="backSetup">Back to Flashcard Setup</button></div></div>';
+  }
+  function focusFlashContent(){
+    const heading=document.querySelector('#screen-flashcards h2');
+    if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});heading.scrollIntoView({block:'nearest'});}
+  }
+  function showFlashcardSetup(){
+    stopSpeech();
+    flashSession.phase='setup';flashSession.deck=null;flashSession.index=0;flashSession.id='';flashSession.options=null;
+    renderFlashcards();focusFlashContent();
+  }
+  function finishFlashcardRound(){
+    if(flashSession.phase!=='round'||!flashSession.deck)return;
+    stopSpeech();flashSession.phase='summary';renderFlashSummary();focusFlashContent();
+  }
+  function revealFlashcard(){
+    if(flashSession.phase!=='round'||!flashSession.deck)return;
+    flashSession.deck[flashSession.index].revealed=true;renderFlashCard();
+    const answer=document.querySelector('.flash-answer');
+    if(answer){answer.tabIndex=-1;answer.focus({preventScroll:true});answer.scrollIntoView({block:'nearest'});}
+  }
+  function moveFlashcard(offset){
+    if(flashSession.phase!=='round'||!flashSession.deck)return;
+    stopSpeech();flashSession.index=Math.max(0,Math.min(flashSession.deck.length-1,flashSession.index+offset));renderFlashCard();focusFlashContent();
+  }
+  function initializeFlashcardEvents(){
+    document.getElementById('screen-flashcards').addEventListener('click',event=>{
+      const button=event.target.closest('button');if(!button||button.disabled)return;
+      if(button.dataset.rating){rateFlashCard(button.dataset.rating);return;}
+      switch(button.id){
+        case 'startFlash': if(flashSession.phase==='setup')startFlashFromSetup();break;
+        case 'revealFlash': revealFlashcard();break;
+        case 'prevFlash': moveFlashcard(-1);break;
+        case 'nextFlash': moveFlashcard(1);break;
+        case 'flashSetup': case 'backSetup': showFlashcardSetup();break;
+        case 'finishFlash': finishFlashcardRound();break;
+        case 'restartDeck': if(flashSession.phase==='summary')restartFlashDeck(flashSession.deck);break;
+        case 'reviewAgain': if(flashSession.phase==='summary')restartFlashDeck(flashSession.deck.filter(c=>c.rating==='again'));break;
+        case 'newDeck': if(flashSession.phase==='summary'){flashPrefs.mode='random';persistLearning();startFlashRound();}break;
+      }
+    });
+  }
+  function initializeLearning(){
+    installScriptData();
+    initializeFlashcardEvents();
+    document.addEventListener('click',event=>{
+      const b=event.target.closest('[data-speak]');if(!b)return;
+      const controls=b.closest('[data-speech]');
+      speechStatusTarget=controls.querySelector('.speech-message');
+      if(!speechStatusTarget){speechStatusTarget=document.createElement('p');speechStatusTarget.className='speech-message';speechStatusTarget.setAttribute('role','status');speechStatusTarget.setAttribute('aria-live','polite');controls.appendChild(speechStatusTarget);}
+      if(b.dataset.speak==='stop'){stopSpeech();showSpeechStatus('Playback stopped.');}
+      // Keep speak() synchronous inside the trusted tap/click; no autoplay.
+      else speakPunjabi(controls.dataset.speech,b.dataset.speak==='slow');
+    });
+    if(window.speechSynthesis){refreshVoices();if(typeof window.speechSynthesis.addEventListener==='function')window.speechSynthesis.addEventListener('voiceschanged',refreshVoices);else window.speechSynthesis.onvoiceschanged=refreshVoices;}
+    window.addEventListener('pagehide',stopSpeech);
+    window.addEventListener('pageshow',refreshVoices);
+  }
+
+  /* ---------------- Init ---------------- */
+  initializeLearning();
+  renderBlocksScreen();
+  renderTemplatesScreen();
+  updateSavedCount();
+  renderSavedScreen();
+})();
+</script>
+</body>
+</html>
