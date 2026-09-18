@@ -1260,7 +1260,7 @@
     function progressiveMeaning(verb,subject){return englishSubject(subject)+' '+englishBe(subject)+' '+englishGerund(verb.base);}
     function pastProgressiveMeaning(verb,subject){return englishSubject(subject)+' '+englishPastBe(subject)+' '+englishGerund(verb.base);}
 
-    let pair,verb,item,place,time,how,topic,reason,who2,pair2,pu,en;
+    let pair,verb,item,place,time,topic,reason,who2,pair2,en;
     switch(template.pattern){
       case 'habitObject':
         pair=pickPair(); if(!pair)return null; noteWho(who);notePair(pair);
@@ -1304,7 +1304,6 @@
       case 'wantObject':
       case 'wantNegative':
         pair=pickPair();verb=byId('v-chahuna');if(!pair||!verb)return null;noteWho(who);notePair(pair);add('Modal',verb.infinitive,'VERB',verb.id);
-        pu=who.p+' '+pair.what.p+' '+agreedInfinitive(pair.verb,pair.what)+' '+(template.pattern==='wantNegative'?L('nahī̃ '):'')+habitual(verb,who);
         en=englishSubject(who)+' '+(template.pattern==='wantNegative'?(thirdSingular(who)?'does not want':'do not want'):(thirdSingular(who)?'wants':'want'))+' to '+pair.verb.base+' '+englishObject(pair.what);
         return result([subjectPart(who),objectPart(pair.what.p,pair.what),phrase(agreedInfinitive(pair.verb,pair.what)+' '+(template.pattern==='wantNegative'?L('nahī̃ '):'')+habitual(verb,who),englishSubject(who)+' '+(template.pattern==='wantNegative'?(thirdSingular(who)?'does not want':'do not want'):(thirdSingular(who)?'wants':'want'))+' to '+pair.verb.base,'VERB','infinitive plus agreeing form of “want”')],en);
       case 'wantGo':
@@ -1322,8 +1321,8 @@
         return result([phrase(L('kirpā karke'),'please','HOW'),objectPart(pair.what.p,pair.what),phrase(pair.verb.imperative,pair.verb.base,'VERB','polite imperative')],'please '+pair.verb.base+' '+englishObject(pair.what));
       case 'needTo':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);
-        pu=pair.what.number==='pl'?(pair.what.gender==='f'?L('paiṇdīā̃ han'):L('paiṇde han')):(pair.what.gender==='f'?L('paiṇdī hai'):L('paiṇdā hai'));
-        return result([subjectPart(who,who.dative||who.p+L(' nū̃'),'to '+objectiveSubject(who),'dative subject in an obligation construction'),objectPart(pair.what.p,pair.what),phrase(agreedInfinitive(pair.verb,pair.what)+' '+pu,englishSubject(who)+' '+(thirdSingular(who)?'has':'have')+' to '+pair.verb.base,'VERB','obligation; agrees with the object')],englishSubject(who)+' '+(thirdSingular(who)?'has':'have')+' to '+pair.verb.base+' '+englishObject(pair.what));
+        const obligation=pair.what.number==='pl'?(pair.what.gender==='f'?L('paiṇdīā̃ han'):L('paiṇde han')):(pair.what.gender==='f'?L('paiṇdī hai'):L('paiṇdā hai'));
+        return result([subjectPart(who,who.dative||who.p+L(' nū̃'),'to '+objectiveSubject(who),'dative subject in an obligation construction'),objectPart(pair.what.p,pair.what),phrase(agreedInfinitive(pair.verb,pair.what)+' '+obligation,englishSubject(who)+' '+(thirdSingular(who)?'has':'have')+' to '+pair.verb.base,'VERB','obligation; agrees with the object')],englishSubject(who)+' '+(thirdSingular(who)?'has':'have')+' to '+pair.verb.base+' '+englishObject(pair.what));
       case 'shouldDo':
         pair=pickPair();if(!pair)return null;noteWho(who);notePair(pair);
         return result([subjectPart(who,who.dative||who.p+L(' nū̃'),'to '+objectiveSubject(who),'dative subject in an advice construction'),objectPart(pair.what.p,pair.what),phrase(agreedInfinitive(pair.verb,pair.what)+' '+chahida(pair.what),englishSubject(who)+' should '+pair.verb.base,'VERB','advice/necessity; agrees with the object')],englishSubject(who)+' should '+pair.verb.base+' '+englishObject(pair.what));
@@ -1335,7 +1334,6 @@
       case 'hasNegative':
       case 'haveQuestion':
         item=pickRandom(whatPool.filter(function(x){return (x.tags||[]).indexOf('possessable')!==-1;}));if(!item)return null;noteWho(who);add('What',item.p,'WHAT',item.id);
-        pu=(template.pattern==='haveQuestion'?L('kī '):'')+(who.withPossession||who.p+L(' kol'))+' '+item.p+' '+(template.pattern==='hasNegative'?L('nahī̃ '):'')+existsAux(item);
         if(template.pattern==='haveQuestion')en=(thirdSingular(who)?'does':'do')+' '+englishSubject(who)+' have '+englishObject(item);
         else en=englishSubject(who)+' '+(template.pattern==='hasNegative'?(thirdSingular(who)?'does not have':'do not have'):(thirdSingular(who)?'has':'have'))+' '+englishObject(item);
         return result([template.pattern==='haveQuestion'?phrase(L('kī'),'yes/no question marker','QUESTION'):null,subjectPart(who,who.withPossession||who.p+L(' kol'),'with '+objectiveSubject(who),'possession is expressed with “with/near”'),objectPart(item.p,item),phrase((template.pattern==='hasNegative'?L('nahī̃ '):'')+existsAux(item),template.pattern==='haveQuestion'?(thirdSingular(who)?'does ':'do ')+englishSubject(who)+' have':englishSubject(who)+' '+(template.pattern==='hasNegative'?(thirdSingular(who)?'does not have':'do not have'):(thirdSingular(who)?'has':'have')),'VERB','together with the possession phrase, expresses “have”')],en,template.pattern==='haveQuestion');
@@ -1343,7 +1341,6 @@
       case 'stateNegative':
       case 'stateQuestion':
         item=pickRandom(statePool);if(!item)return null;noteWho(who);add('State',stateForm(who,item),'HOW',item.id);
-        pu=(template.pattern==='stateQuestion'?L('kī '):'')+who.p+' '+stateForm(who,item)+' '+(template.pattern==='stateNegative'?L('nahī̃ '):'')+aux(who);
         en=(template.pattern==='stateQuestion'?englishBe(who)+' '+englishSubject(who):englishSubject(who)+' '+englishBe(who)+(template.pattern==='stateNegative'?' not':''))+' '+item.e;
         return result([template.pattern==='stateQuestion'?phrase(L('kī'),'yes/no question marker','QUESTION'):null,subjectPart(who),phrase(stateForm(who,item)+' '+(template.pattern==='stateNegative'?L('nahī̃ '):'')+aux(who),template.pattern==='stateQuestion'?englishBe(who)+' '+englishSubject(who)+' '+item.e:englishSubject(who)+' '+englishBe(who)+(template.pattern==='stateNegative'?' not ':' ')+item.e,'HOW','state/adjective plus agreeing auxiliary')],en,template.pattern==='stateQuestion');
       case 'thereIs':
