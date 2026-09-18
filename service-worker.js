@@ -1,6 +1,6 @@
 // Increment this value whenever the application shell changes. Activation
 // removes older Punjabi app caches while leaving unrelated origin caches alone.
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_PREFIX = 'punjabi-sentence-builder-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
 
