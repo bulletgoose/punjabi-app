@@ -1,6 +1,6 @@
 // Increment this value whenever the application shell changes. Activation
 // removes older Punjabi app caches while leaving unrelated origin caches alone.
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const CACHE_PREFIX = 'punjabi-sentence-builder-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
 
@@ -8,6 +8,9 @@ const APP_SHELL_PATHS = [
   './',
   './index.html',
   './manifest.webmanifest',
+  './firebase-config.js',
+  './firebase-auth.js',
+  './speech-client.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-192-maskable.png',
@@ -47,6 +50,9 @@ self.addEventListener('fetch', event => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
   if (url.pathname.endsWith('/service-worker.js')) return;
+  // Authenticated speech responses belong only in IndexedDB under explicit
+  // speech-cache keys. Never let the application-shell cache store API audio.
+  if (url.pathname.includes('/api/')) return;
 
   if (request.mode === 'navigate') {
     event.respondWith(networkFirstNavigation(request));

@@ -304,6 +304,8 @@
   fieldset{min-width:0}summary{min-height:44px;cursor:pointer;padding:10px 0}
   .setting-row{flex-wrap:wrap}.batch-actions{max-width:100%}
   .speech-message{flex-basis:100%;margin:0;line-height:1.5;text-align:left;font-size:14px;color:var(--muted)}
+  .cloud-speech-card{border:1px solid var(--border);border-radius:12px;padding:16px;margin:16px 0;background:var(--surface-2)}
+  .cloud-speech-card .speech-controls{margin-bottom:0}.cloud-user{overflow-wrap:anywhere}
   .editor-message{padding:12px;border:1px solid var(--magenta);border-radius:8px;color:var(--magenta)}
   .rating-buttons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
   .flash-navigation button{flex:1 1 160px}.flash-front{width:100%}
@@ -426,6 +428,9 @@
   <footer class="note">Roman Punjabi + Gurmukhi · conversational Majhi-leaning forms · shared word choices, subject agreement and semantic compatibility · every entry remains editable. Custom slot templates are experimental: arbitrary slot orders still need linguistic review.</footer>
 </div>
 
+<script src="./firebase-config.js"></script>
+<script src="./speech-client.js"></script>
+<script type="module" src="./firebase-auth.js"></script>
 <script>
 (function(){
   "use strict";
@@ -2280,7 +2285,7 @@
     const el=speechStatusTarget&&speechStatusTarget.isConnected?speechStatusTarget:document.getElementById('speechStatus');
     if(el)el.textContent=message;
   }
-  let punjabiVoices=[],activeUtterance=null;
+  let punjabiVoices=[],activeUtterance=null,speechRequestId=0;
   function refreshVoices(){
     const synth=window.speechSynthesis;
     let voices=[];try{voices=synth?synth.getVoices():[];}catch(e){/* Voice enumeration must not block controls. */}
@@ -2290,20 +2295,44 @@
     const note=document.getElementById('voiceAvailability');
     if(note)note.textContent=!synth?'This browser does not support speech synthesis.':punjabiVoices.length?punjabiVoices.length+' Punjabi voice(s) available.':'No Punjabi speech voice is available on this device/browser. Try installing a Punjabi voice in device accessibility/speech settings, or use another browser/device. The app does not substitute an English or Hindi voice.';
   }
-  function stopSpeech(){activeUtterance=null;try{if(window.speechSynthesis)window.speechSynthesis.cancel();}catch(e){/* A device speech failure must not block navigation. */}}
-  function speakPunjabi(text,slow){
-    stopSpeech();refreshVoices();
+  function stopSpeech(){
+    speechRequestId+=1;activeUtterance=null;
+    try{if(window.PunjabiSpeechClient)window.PunjabiSpeechClient.stop();}catch(e){/* Cloud audio cleanup is best effort. */}
+    try{if(window.speechSynthesis)window.speechSynthesis.cancel();}catch(e){/* A device speech failure must not block navigation. */}
+  }
+  function speakWithDeviceVoice(text,slow,cloudMessage){
+    refreshVoices();
     if(!window.speechSynthesis||typeof window.SpeechSynthesisUtterance!=='function'){showSpeechStatus('Speech synthesis is not supported by this browser.');return false;}
-    if(!text||!/[\u0a00-\u0a7f]/.test(text)){showSpeechStatus('This sentence has no Gurmukhi text yet. Older saved sentences are preserved unchanged; generate a new one for audio.');return false;}
     const voice=punjabiVoices.find(v=>v.voiceURI===audioPrefs.voice)||punjabiVoices[0];
-    if(!voice){showSpeechStatus('No Punjabi speech voice is available on this device/browser. Install a Punjabi voice if your device supports one, then reload, or try another device. No English voice will be used.');return false;}
+    if(!voice){showSpeechStatus((cloudMessage?cloudMessage+' ':'')+'No Punjabi pronunciation source is available right now. No English voice will be used.');return false;}
     const utterance=new window.SpeechSynthesisUtterance(text);
     utterance.voice=voice;utterance.lang=voice.lang||'pa-IN';utterance.rate=slow?0.7:Math.max(0.5,Math.min(1.5,Number(audioPrefs.rate)||1));
     activeUtterance=utterance;
     utterance.onend=()=>{if(activeUtterance===utterance){activeUtterance=null;showSpeechStatus('Playback finished.');}};
     utterance.onerror=e=>{if(activeUtterance===utterance){activeUtterance=null;showSpeechStatus(e.error==='canceled'||e.error==='interrupted'?'Playback stopped.':'The device could not play this Punjabi voice ('+e.error+'). Try another available voice.');}};
-    showSpeechStatus('Playing Punjabi'+(slow?' slowly':'')+'…');
+    showSpeechStatus((cloudMessage?cloudMessage+' ':'')+'Playing with this device’s Punjabi voice'+(slow?' slowly':'')+'…');
     try{window.speechSynthesis.speak(utterance);return true;}catch(e){activeUtterance=null;showSpeechStatus('This browser could not start speech. Try another available Punjabi voice or open the app directly in Safari.');return false;}
+  }
+  async function speakPunjabi(text,slow){
+    stopSpeech();
+    const requestId=speechRequestId;
+    if(!text||!/[\u0a00-\u0a7f]/.test(text)){showSpeechStatus('This sentence has no Gurmukhi text yet. Older saved sentences are preserved unchanged; generate a new one for audio.');return false;}
+    const client=window.PunjabiSpeechClient;
+    if(client&&client.isCloudConfigured()){
+      showSpeechStatus('Checking downloaded pronunciation…');
+      try{
+        const result=await client.play(text,slow?'slow':'normal');
+        if(requestId!==speechRequestId)return false;
+        showSpeechStatus('Playing '+(result.source==='downloaded'?'downloaded':'cloud')+' Punjabi pronunciation'+(slow?' slowly':'')+'…');
+        result.finished.then(()=>{if(requestId===speechRequestId)showSpeechStatus('Playback finished.');}).catch(error=>{if(requestId===speechRequestId)showSpeechStatus(error.message||'The downloaded pronunciation could not be played.');});
+        return true;
+      }catch(error){
+        if(requestId!==speechRequestId||error.code==='cancelled')return false;
+        const message=error&&error.message?error.message:'Cloud pronunciation is temporarily unavailable.';
+        return speakWithDeviceVoice(text,slow,message);
+      }
+    }
+    return speakWithDeviceVoice(text,slow,'');
   }
   function audioMarkup(sentence){return '<div class="speech-controls" data-speech="'+escapeHtml(sentence.gurmukhi||'')+'"><button type="button" class="btn" data-speak="play" aria-label="Play Punjabi pronunciation">🔊 Play</button><button type="button" class="btn" data-speak="slow" aria-label="Play Punjabi slowly">🐢 Slow</button><button type="button" class="btn" data-speak="stop" aria-label="Stop pronunciation">■ Stop</button></div>';}
   function sentenceMarkup(s){return '<div class="sentence-text">'+
@@ -2323,12 +2352,24 @@
     });
   }
   function checkField(id,label,checked){return '<label class="setting-check"><input type="checkbox" id="'+id+'" '+(checked?'checked':'')+'> '+label+'</label>';}
+  function updateCloudAuthSettings(){
+    const box=document.getElementById('cloudAuthStatus');if(!box)return;
+    const client=window.PunjabiSpeechClient,auth=window.PunjabiCloudAuth;
+    if(!client||!client.isCloudConfigured()){box.innerHTML='<p><strong>Cloud pronunciation is off.</strong></p><p class="note">The app will continue to use a Punjabi device voice. Add the public Firebase web configuration and speech endpoint only when the secure backend is ready.</p>';return;}
+    if(!auth||!auth.configured){box.innerHTML='<p><strong>Cloud authentication is not configured.</strong></p><p class="note">Device Punjabi pronunciation remains available as a fallback.</p>';return;}
+    const user=auth.getUser();
+    if(user)box.innerHTML='<p><strong>Signed in'+(user.displayName?' as '+escapeHtml(user.displayName):'')+'.</strong></p><p class="cloud-user">'+escapeHtml(user.email||'')+'<br><small>Firebase UID (copy this to the backend allowlist): '+escapeHtml(user.uid)+'</small></p><button type="button" class="btn" id="cloudSignOut">Sign out</button>';
+    else box.innerHTML='<p><strong>Sign in to request cloud pronunciation.</strong></p><p class="note">Only Firebase UIDs approved on the backend can use Google Cloud TTS.</p><button type="button" class="btn primary" id="cloudSignIn">Sign in with Google</button>';
+  }
   function renderSettings(){
-    document.getElementById('screen-settings').innerHTML='<div class="panel"><h2>⚙ Settings</h2><h3>Sentence display</h3><p>These settings only change visibility, never the selected sentence. Flashcards have their own practice settings.</p><div class="settings-grid">'+checkField('displayRoman','Roman Punjabi',displayPrefs.roman)+checkField('displayGurmukhi','Gurmukhi',displayPrefs.gurmukhi)+checkField('displayEnglish','English',displayPrefs.english)+'</div><h3>Punjabi pronunciation</h3><p>Uses your browser/device speech voices. No API keys, backend, AI calls or paid services. Some device voices may need an internet connection.</p><p id="voiceAvailability" role="status"></p><label for="voiceSelect">Voice</label><select id="voiceSelect"></select><label for="speechRate">Normal playback rate: <output id="rateValue">'+audioPrefs.rate+'</output>×</label><input id="speechRate" type="range" min="0.5" max="1.5" step="0.05" value="'+audioPrefs.rate+'"><p>Slow playback always uses 0.70×.</p>'+audioMarkup({gurmukhi:'ਮੈਂ ਪੰਜਾਬੀ ਸਿੱਖ ਰਿਹਾ ਹਾਂ।'})+'<h3>Learning statistics</h3><p>'+learningStats.totalReviews+' ratings saved on this browser. Preferences and vocabulary are browser-specific; private browsing or clearing site data may remove them.</p><p class="note">Round decks are intentionally in memory. Reloading keeps preferences and ratings, but ends the current round. Existing saved sentences without Gurmukhi are kept unchanged.</p></div>';
+    document.getElementById('screen-settings').innerHTML='<div class="panel"><h2>⚙ Settings</h2><h3>Sentence display</h3><p>These settings only change visibility, never the selected sentence. Flashcards have their own practice settings.</p><div class="settings-grid">'+checkField('displayRoman','Roman Punjabi',displayPrefs.roman)+checkField('displayGurmukhi','Gurmukhi',displayPrefs.gurmukhi)+checkField('displayEnglish','English',displayPrefs.english)+'</div><h3>Punjabi pronunciation</h3><p>Playback first uses securely downloaded audio, then the authenticated cloud service when configured, and finally a Punjabi device voice. It never substitutes an English voice.</p><div class="cloud-speech-card" id="cloudAuthStatus" aria-live="polite"></div><button type="button" class="btn" id="clearSpeechCache">Clear downloaded pronunciation audio</button><p id="clearSpeechResult" class="note" role="status" aria-live="polite"></p><h4>Device voice fallback</h4><p id="voiceAvailability" role="status"></p><label for="voiceSelect">Punjabi device voice</label><select id="voiceSelect"></select><label for="speechRate">Device fallback rate: <output id="rateValue">'+audioPrefs.rate+'</output>×</label><input id="speechRate" type="range" min="0.5" max="1.5" step="0.05" value="'+audioPrefs.rate+'"><p>Slow playback always uses 0.70×. Cloud rates are controlled securely by the backend.</p>'+audioMarkup({gurmukhi:'ਮੈਂ ਪੰਜਾਬੀ ਸਿੱਖ ਰਿਹਾ ਹਾਂ।'})+'<h3>Learning statistics</h3><p>'+learningStats.totalReviews+' ratings saved on this browser. Preferences and vocabulary are browser-specific; private browsing or clearing site data may remove them.</p><p class="note">Downloaded speech is stored separately in IndexedDB. Clearing it does not remove saved sentences, ratings, vocabulary or preferences. Round decks are intentionally in memory.</p></div>';
     [['Roman','roman'],['Gurmukhi','gurmukhi'],['English','english']].forEach(a=>document.getElementById('display'+a[0]).addEventListener('change',e=>{displayPrefs[a[1]]=e.target.checked;persistLearning();applyDisplayPrefs();}));
     refreshVoices();
     document.getElementById('voiceSelect').addEventListener('change',e=>{audioPrefs.voice=e.target.value;stopSpeech();persistLearning();});
     document.getElementById('speechRate').addEventListener('input',e=>{audioPrefs.rate=Number(e.target.value);document.getElementById('rateValue').textContent=audioPrefs.rate;persistLearning();});
+    document.getElementById('clearSpeechCache').addEventListener('click',async e=>{const button=e.currentTarget,result=document.getElementById('clearSpeechResult');button.disabled=true;result.textContent='Clearing downloaded audio…';try{if(window.PunjabiSpeechClient)await window.PunjabiSpeechClient.clearCache();result.textContent='Downloaded pronunciation audio was cleared. Your saved learning data was not changed.';}catch(error){result.textContent='Downloaded audio could not be cleared on this browser.';}finally{button.disabled=false;}});
+    updateCloudAuthSettings();
+    document.getElementById('cloudAuthStatus').addEventListener('click',async e=>{const signIn=e.target.closest('#cloudSignIn'),signOutButton=e.target.closest('#cloudSignOut');if(!signIn&&!signOutButton)return;const button=signIn||signOutButton;button.disabled=true;try{if(signIn)await window.PunjabiCloudAuth.signIn();else await window.PunjabiCloudAuth.signOut();updateCloudAuthSettings();}catch(error){showSpeechStatus(signIn?'Google sign-in could not be completed. Check Firebase configuration and authorized domains.':'Sign-out could not be completed.');button.disabled=false;}});
   }
   function renderFlashcards(){
     if(flashSession.phase==='summary'&&flashSession.deck){renderFlashSummary();return;}
@@ -2455,15 +2496,19 @@
   function initializeLearning(){
     installScriptData();
     initializeFlashcardEvents();
-    document.addEventListener('click',event=>{
+    document.addEventListener('click',async event=>{
       const b=event.target.closest('[data-speak]');if(!b)return;
       const controls=b.closest('[data-speech]');
       speechStatusTarget=controls.querySelector('.speech-message');
       if(!speechStatusTarget){speechStatusTarget=document.createElement('p');speechStatusTarget.className='speech-message';speechStatusTarget.setAttribute('role','status');speechStatusTarget.setAttribute('aria-live','polite');controls.appendChild(speechStatusTarget);}
       if(b.dataset.speak==='stop'){stopSpeech();showSpeechStatus('Playback stopped.');}
-      // Keep speak() synchronous inside the trusted tap/click; no autoplay.
-      else speakPunjabi(controls.dataset.speech,b.dataset.speak==='slow');
+      else{
+        const actionButtons=Array.from(controls.querySelectorAll('[data-speak="play"],[data-speak="slow"]'));actionButtons.forEach(button=>button.disabled=true);
+        try{await speakPunjabi(controls.dataset.speech,b.dataset.speak==='slow');}finally{actionButtons.forEach(button=>button.disabled=false);}
+      }
     });
+    window.addEventListener('punjabi-auth-ready',updateCloudAuthSettings);
+    window.addEventListener('punjabi-auth-changed',updateCloudAuthSettings);
     if(window.speechSynthesis){refreshVoices();if(typeof window.speechSynthesis.addEventListener==='function')window.speechSynthesis.addEventListener('voiceschanged',refreshVoices);else window.speechSynthesis.onvoiceschanged=refreshVoices;}
     window.addEventListener('pagehide',stopSpeech);
     window.addEventListener('pageshow',refreshVoices);
