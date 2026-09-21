@@ -28,13 +28,15 @@ Deploying the included Firebase Cloud Function requires a billing-enabled Fireba
 4. Copy the public Web configuration values into `firebase-config.js`: `apiKey`, `authDomain`, `projectId`, and `appId`. These identifiers are designed to appear in browser code. They are **not** permission to use TTS.
 5. Open **Build → Authentication → Sign-in method**, enable **Google**, choose a support email, and save.
 6. In Authentication settings, add `punjabi.dockit.co.nz` and any exact preview/development hostname you genuinely use to Authorized domains. Do not add broad or untrusted domains.
-7. Reload the app, open **Settings**, and choose **Sign in with Google**.
+7. Reload the app, open **Profile**, and choose **Sign in with Google**.
 
-The app uses local Firebase Auth persistence. The backend still validates every token; a signed-in browser is not automatically authorized for TTS.
+Firebase Authentication works independently of cloud pronunciation, so this sign-in and UID step works while `speechEndpoint` is still blank. The app uses local Firebase Auth persistence. The backend still validates every token; a signed-in browser is not automatically authorized for TTS.
 
 ### Find your Firebase UID
 
-After signing in, Settings displays your Firebase UID. You can also find it under **Firebase Console → Authentication → Users**. Copy the UID exactly into the backend `ALLOWED_TTS_UIDS` setting. A UID is an identifier, not a credential, but the allowlist belongs on the backend—not in public frontend code.
+After signing in, Profile displays your Firebase UID and provides a **Copy UID** button. You can also find it under **Firebase Console → Authentication → Users**. Copy the UID exactly into the backend `ALLOWED_TTS_UIDS` setting. A UID is an identifier, not a credential, but the allowlist belongs on the backend—not in public frontend code.
+
+The intended setup order is: configure the Firebase web app, sign in from Profile, copy the Firebase UID, add it to the private backend allowlist, and only later deploy the TTS backend and populate `speechEndpoint`. A valid signed-in account and an unconfigured cloud TTS endpoint are expected to coexist during setup.
 
 ## 2. Prepare local configuration
 
