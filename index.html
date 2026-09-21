@@ -306,6 +306,9 @@
   .speech-message{flex-basis:100%;margin:0;line-height:1.5;text-align:left;font-size:14px;color:var(--muted)}
   .cloud-speech-card{border:1px solid var(--border);border-radius:12px;padding:16px;margin:16px 0;background:var(--surface-2)}
   .cloud-speech-card .speech-controls{margin-bottom:0}.cloud-user{overflow-wrap:anywhere}
+  .profile-panel{max-width:760px;margin:auto}.profile-card{border:1px solid var(--border);border-radius:16px;padding:clamp(18px,4vw,30px);background:var(--surface-2)}
+  .profile-grid{display:grid;grid-template-columns:minmax(110px,0.35fr) minmax(0,1fr);gap:14px 20px;margin:22px 0}.profile-label{font-weight:700;color:var(--muted)}
+  .profile-value{overflow-wrap:anywhere}.profile-actions{display:flex;gap:12px;flex-wrap:wrap}.profile-feedback{min-height:24px;margin:12px 0 0;color:var(--teal-deep)}
   .editor-message{padding:12px;border:1px solid var(--magenta);border-radius:8px;color:var(--magenta)}
   .rating-buttons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
   .flash-navigation button{flex:1 1 160px}.flash-front{width:100%}
@@ -330,6 +333,7 @@
     .add-form{grid-template-columns:minmax(0,1fr)}.breakdown-toggle{margin-left:0}
     .sentence-breakdown-row{grid-template-columns:minmax(0,1fr);gap:3px;padding:12px}
     .breakdown-arrow{display:none}.breakdown-gurmukhi{font-size:19px}.breakdown-english{margin-top:4px}
+    .profile-grid{grid-template-columns:1fr;gap:4px}.profile-value{margin-bottom:12px}.profile-actions button{flex:1 1 100%}
   }
 
 </style>
@@ -351,7 +355,7 @@
         <button type="button" class="tab active" data-screen="generate">Generate Sentence</button>
         <button type="button" class="tab" data-screen="blocks">Building Blocks</button>
         <button type="button" class="tab" data-screen="templates">Templates</button>
-        <button type="button" class="tab" data-screen="flashcards">🃏 Flashcards</button><button type="button" class="tab" data-screen="settings">⚙ Settings</button><button type="button" class="tab" data-screen="saved">Saved <span id="savedTabCount"></span></button>
+        <button type="button" class="tab" data-screen="flashcards">🃏 Flashcards</button><button type="button" class="tab" data-screen="profile">👤 Profile</button><button type="button" class="tab" data-screen="settings">⚙ Settings</button><button type="button" class="tab" data-screen="saved">Saved <span id="savedTabCount"></span></button>
       </div>
       <button type="button" class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle light/dark theme">◐</button>
     </div>
@@ -423,14 +427,14 @@
     </div>
   </section>
 
-<section class="screen" id="screen-flashcards"></section><section class="screen" id="screen-settings"></section><p id="speechStatus" role="status" aria-live="polite"></p>
+<section class="screen" id="screen-flashcards"></section><section class="screen" id="screen-profile"></section><section class="screen" id="screen-settings"></section><p id="speechStatus" role="status" aria-live="polite"></p>
   <details class="preview-help"><summary>Using this app on iPhone</summary><p>If controls are inactive inside a file preview, open the hosted app directly in Safari. A preview that blocks JavaScript cannot run the app. Once hosted, use Safari’s Share menu to add the site to your Home Screen. Preferences and saved sentences belong to the browser/site where you saved them.</p></details>
   <footer class="note">Roman Punjabi + Gurmukhi · conversational Majhi-leaning forms · shared word choices, subject agreement and semantic compatibility · every entry remains editable. Custom slot templates are experimental: arbitrary slot orders still need linguistic review.</footer>
 </div>
 
 <script src="./firebase-config.js"></script>
 <script src="./speech-client.js"></script>
-<script type="module" src="./firebase-auth.js"></script>
+<script type="module">import('./firebase-auth.js').catch(function(){window.PunjabiCloudAuthLoadError=true;window.dispatchEvent(new CustomEvent('punjabi-auth-load-error'));});</script>
 <script>
 (function(){
   "use strict";
@@ -1656,7 +1660,7 @@
     generate: document.getElementById('screen-generate'),
     blocks: document.getElementById('screen-blocks'),
     templates: document.getElementById('screen-templates'),
-    saved: document.getElementById('screen-saved'), flashcards:document.getElementById('screen-flashcards'), settings:document.getElementById('screen-settings')
+    saved: document.getElementById('screen-saved'), flashcards:document.getElementById('screen-flashcards'), profile:document.getElementById('screen-profile'), settings:document.getElementById('screen-settings')
   };
   tabs.forEach(function(tab){
     tab.addEventListener('click', function(){
@@ -1668,6 +1672,7 @@
       if(tab.dataset.screen === 'templates') renderTemplatesScreen();
       if(tab.dataset.screen === 'saved') renderSavedScreen();
       if(tab.dataset.screen === 'flashcards')renderFlashcards();
+      if(tab.dataset.screen === 'profile')renderProfile();
       if(tab.dataset.screen === 'settings')renderSettings();
       stopSpeech();
     });
@@ -2352,24 +2357,53 @@
     });
   }
   function checkField(id,label,checked){return '<label class="setting-check"><input type="checkbox" id="'+id+'" '+(checked?'checked':'')+'> '+label+'</label>';}
-  function updateCloudAuthSettings(){
-    const box=document.getElementById('cloudAuthStatus');if(!box)return;
-    const client=window.PunjabiSpeechClient,auth=window.PunjabiCloudAuth;
-    if(!client||!client.isCloudConfigured()){box.innerHTML='<p><strong>Cloud pronunciation is off.</strong></p><p class="note">The app will continue to use a Punjabi device voice. Add the public Firebase web configuration and speech endpoint only when the secure backend is ready.</p>';return;}
-    if(!auth||!auth.configured){box.innerHTML='<p><strong>Cloud authentication is not configured.</strong></p><p class="note">Device Punjabi pronunciation remains available as a fallback.</p>';return;}
-    const user=auth.getUser();
-    if(user)box.innerHTML='<p><strong>Signed in'+(user.displayName?' as '+escapeHtml(user.displayName):'')+'.</strong></p><p class="cloud-user">'+escapeHtml(user.email||'')+'<br><small>Firebase UID (copy this to the backend allowlist): '+escapeHtml(user.uid)+'</small></p><button type="button" class="btn" id="cloudSignOut">Sign out</button>';
-    else box.innerHTML='<p><strong>Sign in to request cloud pronunciation.</strong></p><p class="note">Only Firebase UIDs approved on the backend can use Google Cloud TTS.</p><button type="button" class="btn primary" id="cloudSignIn">Sign in with Google</button>';
+  function authErrorMessage(error){
+    const code=error&&error.code?error.code:String(error||'');
+    if(code.includes('popup-closed-by-user')||code.includes('cancelled-popup-request'))return 'Google sign-in was cancelled. You can try again when ready.';
+    if(code.includes('unauthorized-domain'))return 'This website is not authorised in Firebase Authentication. Add this exact domain in the Firebase Console.';
+    if(code.includes('popup-blocked'))return 'The sign-in window was blocked. Allow pop-ups for this site and try again.';
+    if(code.includes('network-request-failed'))return 'Google sign-in could not reach Firebase. Check your internet connection and try again.';
+    return 'Google sign-in could not be completed. Check the Firebase configuration and authorised domains, then try again.';
+  }
+  async function copyProfileUid(uid){
+    if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(uid);return;}
+    const field=document.createElement('textarea');field.value=uid;field.setAttribute('readonly','');field.style.position='fixed';field.style.opacity='0';document.body.appendChild(field);field.select();
+    const copied=document.execCommand&&document.execCommand('copy');field.remove();if(!copied)throw new Error('Clipboard unavailable');
+  }
+  function renderProfile(){
+    const screen=document.getElementById('screen-profile');if(!screen)return;
+    const auth=window.PunjabiCloudAuth;
+    if(!auth){
+      screen.innerHTML='<div class="panel profile-panel"><h2>👤 User Profile</h2><div class="profile-card"><p><strong>'+(window.PunjabiCloudAuthLoadError?'Firebase Authentication could not be loaded.':'Loading account…')+'</strong></p><p class="note">'+(window.PunjabiCloudAuthLoadError?'Check your connection and reload the app. Your learning features remain available offline.':'Checking for a saved sign-in on this device.')+'</p></div></div>';return;
+    }
+    if(!auth.configured){screen.innerHTML='<div class="panel profile-panel"><h2>👤 User Profile</h2><div class="profile-card"><p><strong>Firebase Authentication is not configured.</strong></p><p class="note">Add the public Firebase web configuration in firebase-config.js. Cloud pronunciation can remain disabled while account sign-in is configured.</p></div></div>';return;}
+    const state=typeof auth.getState==='function'?auth.getState():{status:'ready',user:auth.getUser()};
+    if(state.status==='loading'){screen.innerHTML='<div class="panel profile-panel"><h2>👤 User Profile</h2><div class="profile-card"><p><strong>Loading account…</strong></p><p class="note">Checking for a saved sign-in on this device.</p></div></div>';return;}
+    if(state.status==='error'){screen.innerHTML='<div class="panel profile-panel"><h2>👤 User Profile</h2><div class="profile-card"><p><strong>Firebase Authentication could not be initialized.</strong></p><p class="note">Check the Firebase web configuration, internet connection and authorised domains, then reload the app.</p></div></div>';return;}
+    const user=state.user||auth.getUser();
+    if(!user){
+      screen.innerHTML='<div class="panel profile-panel"><h2>👤 User Profile</h2><div class="profile-card"><h3>Sign in to your Punjabi account</h3><p>Signing in securely identifies you and will later allow authorised account features such as cloud pronunciation.</p><button type="button" class="btn primary" id="profileSignIn">Sign in with Google</button><p class="profile-feedback" id="profileFeedback" role="status" aria-live="polite"></p><p class="note">Signing in does not automatically grant Google Cloud TTS access. The secure backend still validates your Firebase UID against its private allowlist.</p></div></div>';
+      document.getElementById('profileSignIn').addEventListener('click',async e=>{const button=e.currentTarget,feedback=document.getElementById('profileFeedback');button.disabled=true;feedback.textContent='Opening Google sign-in…';try{await auth.signIn();if(document.getElementById('screen-profile').classList.contains('active'))renderProfile();}catch(error){feedback.textContent=authErrorMessage(error);button.disabled=false;}});return;
+    }
+    screen.innerHTML='<div class="panel profile-panel"><h2>👤 User Profile</h2><div class="profile-card"><h3>Signed in</h3><div class="profile-grid"><div class="profile-label">Name</div><div class="profile-value">'+escapeHtml(user.displayName||'Not provided')+'</div><div class="profile-label">Email</div><div class="profile-value">'+(user.email?'<a href="mailto:'+encodeURIComponent(user.email)+'">'+escapeHtml(user.email)+'</a>':'Not provided')+'</div><div class="profile-label">Firebase UID</div><div class="profile-value"><code id="profileUid">'+escapeHtml(user.uid)+'</code></div></div><div class="profile-actions"><button type="button" class="btn primary" id="copyProfileUid">Copy UID</button><button type="button" class="btn" id="profileSignOut">Sign out</button></div><p class="profile-feedback" id="profileFeedback" role="status" aria-live="polite"></p><p class="note">Paste this UID into the backend ALLOWED_TTS_UIDS environment setting when you configure cloud pronunciation. The UID identifies your account; it is not a Firebase ID token or Google credential.</p></div></div>';
+    document.getElementById('copyProfileUid').addEventListener('click',async()=>{const feedback=document.getElementById('profileFeedback');try{await copyProfileUid(user.uid);feedback.textContent='Firebase UID copied.';}catch(error){feedback.textContent='The UID could not be copied automatically. Select the UID above and copy it manually.';}});
+    document.getElementById('profileSignOut').addEventListener('click',async e=>{const button=e.currentTarget,feedback=document.getElementById('profileFeedback');button.disabled=true;feedback.textContent='Signing out…';try{await auth.signOut();renderProfile();}catch(error){feedback.textContent='Sign-out could not be completed. Check your connection and try again.';button.disabled=false;}});
+  }
+  function updateCloudTtsSettings(){
+    const box=document.getElementById('cloudTtsStatus');if(!box)return;
+    const client=window.PunjabiSpeechClient;
+    if(!client||!client.isCloudConfigured()){box.innerHTML='<p><strong>Cloud pronunciation is not configured yet.</strong></p><p class="note">Device Punjabi pronunciation will continue to be used when available. You can sign in independently from the Profile screen.</p>';return;}
+    const auth=window.PunjabiCloudAuth,user=auth&&auth.getUser?auth.getUser():null;
+    box.innerHTML='<p><strong>Cloud pronunciation endpoint is configured.</strong></p><p class="note">'+(user?'Your account is signed in. The backend UID allowlist still decides whether cloud TTS is authorised.':'Sign in from Profile before requesting authenticated cloud pronunciation.')+'</p>';
   }
   function renderSettings(){
-    document.getElementById('screen-settings').innerHTML='<div class="panel"><h2>⚙ Settings</h2><h3>Sentence display</h3><p>These settings only change visibility, never the selected sentence. Flashcards have their own practice settings.</p><div class="settings-grid">'+checkField('displayRoman','Roman Punjabi',displayPrefs.roman)+checkField('displayGurmukhi','Gurmukhi',displayPrefs.gurmukhi)+checkField('displayEnglish','English',displayPrefs.english)+'</div><h3>Punjabi pronunciation</h3><p>Playback first uses securely downloaded audio, then the authenticated cloud service when configured, and finally a Punjabi device voice. It never substitutes an English voice.</p><div class="cloud-speech-card" id="cloudAuthStatus" aria-live="polite"></div><button type="button" class="btn" id="clearSpeechCache">Clear downloaded pronunciation audio</button><p id="clearSpeechResult" class="note" role="status" aria-live="polite"></p><h4>Device voice fallback</h4><p id="voiceAvailability" role="status"></p><label for="voiceSelect">Punjabi device voice</label><select id="voiceSelect"></select><label for="speechRate">Device fallback rate: <output id="rateValue">'+audioPrefs.rate+'</output>×</label><input id="speechRate" type="range" min="0.5" max="1.5" step="0.05" value="'+audioPrefs.rate+'"><p>Slow playback always uses 0.70×. Cloud rates are controlled securely by the backend.</p>'+audioMarkup({gurmukhi:'ਮੈਂ ਪੰਜਾਬੀ ਸਿੱਖ ਰਿਹਾ ਹਾਂ।'})+'<h3>Learning statistics</h3><p>'+learningStats.totalReviews+' ratings saved on this browser. Preferences and vocabulary are browser-specific; private browsing or clearing site data may remove them.</p><p class="note">Downloaded speech is stored separately in IndexedDB. Clearing it does not remove saved sentences, ratings, vocabulary or preferences. Round decks are intentionally in memory.</p></div>';
+    document.getElementById('screen-settings').innerHTML='<div class="panel"><h2>⚙ Settings</h2><h3>Sentence display</h3><p>These settings only change visibility, never the selected sentence. Flashcards have their own practice settings.</p><div class="settings-grid">'+checkField('displayRoman','Roman Punjabi',displayPrefs.roman)+checkField('displayGurmukhi','Gurmukhi',displayPrefs.gurmukhi)+checkField('displayEnglish','English',displayPrefs.english)+'</div><h3>Punjabi pronunciation</h3><p>Playback first uses securely downloaded audio, then the authenticated cloud service when configured, and finally a Punjabi device voice. It never substitutes an English voice.</p><div class="cloud-speech-card" id="cloudTtsStatus" aria-live="polite"></div><button type="button" class="btn" id="clearSpeechCache">Clear downloaded pronunciation audio</button><p id="clearSpeechResult" class="note" role="status" aria-live="polite"></p><h4>Device voice fallback</h4><p id="voiceAvailability" role="status"></p><label for="voiceSelect">Punjabi device voice</label><select id="voiceSelect"></select><label for="speechRate">Device fallback rate: <output id="rateValue">'+audioPrefs.rate+'</output>×</label><input id="speechRate" type="range" min="0.5" max="1.5" step="0.05" value="'+audioPrefs.rate+'"><p>Slow playback always uses 0.70×. Cloud rates are controlled securely by the backend.</p>'+audioMarkup({gurmukhi:'ਮੈਂ ਪੰਜਾਬੀ ਸਿੱਖ ਰਿਹਾ ਹਾਂ।'})+'<h3>Learning statistics</h3><p>'+learningStats.totalReviews+' ratings saved on this browser. Preferences and vocabulary are browser-specific; private browsing or clearing site data may remove them.</p><p class="note">Downloaded speech is stored separately in IndexedDB. Clearing it does not remove saved sentences, ratings, vocabulary or preferences. Round decks are intentionally in memory.</p></div>';
     [['Roman','roman'],['Gurmukhi','gurmukhi'],['English','english']].forEach(a=>document.getElementById('display'+a[0]).addEventListener('change',e=>{displayPrefs[a[1]]=e.target.checked;persistLearning();applyDisplayPrefs();}));
     refreshVoices();
     document.getElementById('voiceSelect').addEventListener('change',e=>{audioPrefs.voice=e.target.value;stopSpeech();persistLearning();});
     document.getElementById('speechRate').addEventListener('input',e=>{audioPrefs.rate=Number(e.target.value);document.getElementById('rateValue').textContent=audioPrefs.rate;persistLearning();});
     document.getElementById('clearSpeechCache').addEventListener('click',async e=>{const button=e.currentTarget,result=document.getElementById('clearSpeechResult');button.disabled=true;result.textContent='Clearing downloaded audio…';try{if(window.PunjabiSpeechClient)await window.PunjabiSpeechClient.clearCache();result.textContent='Downloaded pronunciation audio was cleared. Your saved learning data was not changed.';}catch(error){result.textContent='Downloaded audio could not be cleared on this browser.';}finally{button.disabled=false;}});
-    updateCloudAuthSettings();
-    document.getElementById('cloudAuthStatus').addEventListener('click',async e=>{const signIn=e.target.closest('#cloudSignIn'),signOutButton=e.target.closest('#cloudSignOut');if(!signIn&&!signOutButton)return;const button=signIn||signOutButton;button.disabled=true;try{if(signIn)await window.PunjabiCloudAuth.signIn();else await window.PunjabiCloudAuth.signOut();updateCloudAuthSettings();}catch(error){showSpeechStatus(signIn?'Google sign-in could not be completed. Check Firebase configuration and authorized domains.':'Sign-out could not be completed.');button.disabled=false;}});
+    updateCloudTtsSettings();
   }
   function renderFlashcards(){
     if(flashSession.phase==='summary'&&flashSession.deck){renderFlashSummary();return;}
@@ -2507,8 +2541,10 @@
         try{await speakPunjabi(controls.dataset.speech,b.dataset.speak==='slow');}finally{actionButtons.forEach(button=>button.disabled=false);}
       }
     });
-    window.addEventListener('punjabi-auth-ready',updateCloudAuthSettings);
-    window.addEventListener('punjabi-auth-changed',updateCloudAuthSettings);
+    const refreshAccountViews=()=>{renderProfile();updateCloudTtsSettings();};
+    window.addEventListener('punjabi-auth-ready',refreshAccountViews);
+    window.addEventListener('punjabi-auth-changed',refreshAccountViews);
+    window.addEventListener('punjabi-auth-load-error',renderProfile);
     if(window.speechSynthesis){refreshVoices();if(typeof window.speechSynthesis.addEventListener==='function')window.speechSynthesis.addEventListener('voiceschanged',refreshVoices);else window.speechSynthesis.onvoiceschanged=refreshVoices;}
     window.addEventListener('pagehide',stopSpeech);
     window.addEventListener('pageshow',refreshVoices);

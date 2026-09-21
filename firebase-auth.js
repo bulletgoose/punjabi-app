@@ -20,6 +20,8 @@ const configured = Boolean(
 
 let auth = null;
 let user = null;
+let status = configured ? 'loading' : 'unconfigured';
+let initializationError = null;
 let readyResolve;
 const ready = new Promise(resolve => { readyResolve = resolve; });
 
@@ -39,6 +41,7 @@ const api = {
   configured,
   ready,
   getUser: () => publicUser(user),
+  getState: () => ({ status, user: publicUser(user), error: initializationError }),
   async getIdToken(forceRefresh = false) {
     await ready;
     if (!user) return null;
@@ -69,7 +72,7 @@ window.PunjabiCloudAuth = api;
 
 if (!configured) {
   readyResolve();
-  announce('punjabi-auth-ready', { configured: false, user: null });
+  announce('punjabi-auth-ready', { configured: false, status, user: null });
 } else {
   try {
     const app = initializeApp(firebaseConfig);
@@ -81,7 +84,9 @@ if (!configured) {
     let firstState = true;
     onAuthStateChanged(auth, currentUser => {
       user = currentUser;
-      const detail = { configured: true, user: publicUser(user) };
+      status = 'ready';
+      initializationError = null;
+      const detail = { configured: true, status, user: publicUser(user) };
       if (firstState) {
         firstState = false;
         readyResolve();
@@ -90,15 +95,19 @@ if (!configured) {
       announce('punjabi-auth-changed', detail);
     }, error => {
       console.warn('Firebase Authentication state could not be loaded.', error);
+      status = 'error';
+      initializationError = error && error.code ? error.code : 'auth/state-load-failed';
       if (firstState) {
         firstState = false;
         readyResolve();
-        announce('punjabi-auth-ready', { configured: true, user: null, error: true });
+        announce('punjabi-auth-ready', { configured: true, status, user: null, error: initializationError });
       }
     });
   } catch (error) {
     console.warn('Firebase Authentication could not be initialized.', error);
+    status = 'error';
+    initializationError = error && error.code ? error.code : 'auth/initialization-failed';
     readyResolve();
-    announce('punjabi-auth-ready', { configured: true, user: null, error: true });
+    announce('punjabi-auth-ready', { configured: true, status, user: null, error: initializationError });
   }
 }
