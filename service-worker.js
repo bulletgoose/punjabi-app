@@ -1,6 +1,6 @@
 // Increment this value whenever the application shell changes. Activation
 // removes older Punjabi app caches while leaving unrelated origin caches alone.
-const CACHE_VERSION = 'v4';
+const CACHE_VERSION = 'v6';
 const CACHE_PREFIX = 'punjabi-sentence-builder-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
 
@@ -8,7 +8,7 @@ const APP_SHELL_PATHS = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './firebase-config.js',
+  './firebase-config.js?v=6',
   './firebase-auth.js',
   './speech-client.js',
   './icons/icon-192.png',
@@ -77,7 +77,7 @@ async function networkFirstNavigation(request) {
 
 async function staleWhileRevalidate(request, event) {
   const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request, { ignoreSearch: true });
+  const cached = await cache.match(request);
   const network = fetch(request)
     .then(async response => {
       if (response && response.ok) await cache.put(request, response.clone());

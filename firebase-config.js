@@ -14,7 +14,7 @@ window.PUNJABI_APP_CONFIG = Object.freeze({
 
   // Leave blank to disable cloud pronunciation. For GitHub Pages this will
   // normally be the HTTPS URL of the deployed function ending in /api/v1/speech.
-  speechEndpoint: '',
+  speechEndpoint: 'https://speech-kycy45twoq-uc.a.run.app/api/v1/speech',
 
   // Change this when the backend voice/profile changes so old client audio is
   // not mistaken for the new voice. It contains no secret configuration.
