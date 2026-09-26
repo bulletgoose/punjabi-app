@@ -30,7 +30,7 @@ function validateBody(request, config) {
   if (!request.is('application/json')) throw new HttpError(415, 'unsupported-media-type', 'Content-Type must be application/json.');
   const body = request.body;
   if (!body || Array.isArray(body) || typeof body !== 'object') throw new HttpError(400, 'invalid-request', 'A JSON request body is required.');
-  const allowedKeys = new Set(['text', 'mode']);
+  const allowedKeys = new Set(['text', 'mode', 'voice']);
   if (Object.keys(body).some(key => !allowedKeys.has(key))) throw new HttpError(400, 'invalid-request', 'Unsupported speech settings were supplied.');
   if (typeof body.text !== 'string') throw new HttpError(400, 'invalid-text', 'A text field is required.');
   const text = body.text.trim();
@@ -40,7 +40,9 @@ function validateBody(request, config) {
   if (!/[\u0A00-\u0A7F]/u.test(text)) throw new HttpError(400, 'invalid-language', 'Punjabi Gurmukhi text is required.');
   const mode = body.mode === undefined ? 'normal' : body.mode;
   if (!['normal', 'slow'].includes(mode)) throw new HttpError(400, 'invalid-mode', 'Speech mode must be normal or slow.');
-  return { text, mode, characters };
+  const voice = body.voice === undefined ? 'female' : body.voice;
+  if (typeof voice !== 'string' || !Object.hasOwn(config.voiceProfiles, voice)) throw new HttpError(400, 'invalid-voice', 'Speech voice must be female or male.');
+  return { text, mode, voice, characters };
 }
 
 function applyCors(request, response, config) {
@@ -50,16 +52,19 @@ function applyCors(request, response, config) {
   response.set('Access-Control-Allow-Origin', origin);
   response.set('Vary', 'Origin');
   response.set('Access-Control-Allow-Headers', 'Authorization, Content-Type');
-  response.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  response.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   response.set('Access-Control-Max-Age', '3600');
 }
 
-function speechKey(config, text, mode) {
+function speechKey(config, text, mode, voice = 'female') {
+  const profile = config.voiceProfiles[voice];
   return crypto.createHash('sha256').update(JSON.stringify({
     text,
     mode,
     language: config.language,
-    voice: config.voice,
+    voice,
+    primaryVoice: profile.primary,
+    fallbackVoice: profile.fallback,
     rate: mode === 'slow' ? config.slowSpeakingRate : config.speakingRate,
     pitch: config.pitch,
     version: config.cacheVersion
@@ -71,6 +76,16 @@ function createSpeechHandler({ config, verifyToken, authorize, usage, cache, syn
     try {
       applyCors(request, response, config);
       if (request.method === 'OPTIONS') { response.status(204).send(''); return; }
+      if (request.method === 'GET' && ['/usage', '/api/v1/speech/usage'].includes(request.path)) {
+        const token = parseBearer(request);
+        const decoded = await verifyToken(token);
+        if (!decoded || !decoded.uid) throw new HttpError(401, 'invalid-token', 'Authentication is invalid or expired.');
+        const entitlement = await authorize(decoded.uid, decoded);
+        if (!entitlement || !entitlement.allowed) throw new HttpError(403, 'not-authorized', 'Cloud pronunciation is not enabled for this account.');
+        const summary = await usage.get(decoded.uid);
+        response.status(200).set('Cache-Control', 'private, no-store').json(summary);
+        return;
+      }
       const input = validateBody(request, config);
       const token = parseBearer(request);
       const decoded = await verifyToken(token);
@@ -79,12 +94,12 @@ function createSpeechHandler({ config, verifyToken, authorize, usage, cache, syn
       if (!entitlement || !entitlement.allowed) throw new HttpError(403, 'not-authorized', 'Cloud pronunciation is not enabled for this account.');
       await usage.consume(decoded.uid, input.characters, entitlement);
 
-      const key = speechKey(config, input.text, input.mode);
+      const key = speechKey(config, input.text, input.mode, input.voice);
       const cached = await cache.get(key);
       let audio = cached;
       let cacheStatus = 'HIT';
       if (!audio) {
-        audio = await synthesize({ text: input.text, mode: input.mode });
+        audio = await synthesize({ text: input.text, mode: input.mode, voice: input.voice });
         if (!Buffer.isBuffer(audio) || !audio.length) throw new Error('Speech provider returned no audio.');
         await cache.put(key, audio);
         cacheStatus = 'MISS';

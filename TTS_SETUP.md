@@ -6,7 +6,8 @@ This guide is deliberately split into **safe preparation** and **billing-enabled
 
 - The browser checks persistent IndexedDB audio first.
 - If a speech endpoint is configured, the browser obtains a Firebase ID token and calls the app-owned endpoint with `Authorization: Bearer …`.
-- The browser sends only Gurmukhi `text` and `mode` (`normal` or `slow`). It cannot choose a Google voice, language, pitch, or arbitrary rate.
+- The browser sends only Gurmukhi `text`, `mode` (`normal` or `slow`), and an allowlisted `voice` preference (`female` or `male`). It cannot supply a Google voice name, language, pitch, or arbitrary rate.
+- The backend maps **female** to Punjabi Chirp 3 HD Kore with WaveNet A fallback, and **male** to Punjabi Chirp 3 HD Puck with WaveNet B fallback.
 - The backend verifies the ID token, checks `ALLOWED_TTS_UIDS`, calculates character usage, enforces conservative limits, checks a server cache, and only then calls Google Cloud Text-to-Speech.
 - Google Application Default Credentials (the deployed runtime service identity) are used. No service-account JSON is required in the repository or browser.
 - If cloud speech is disabled or fails, the existing Web Speech API is used only when a Punjabi (`pa`) voice exists. An English voice is never substituted.
@@ -59,11 +60,10 @@ Environment settings:
 | `ALLOWED_TTS_UIDS` | Comma-separated users permitted to synthesize | empty/deny all |
 | `ALLOWED_ORIGINS` | Exact permitted browser origins | empty/deny browser origins |
 | `TTS_LANGUAGE` | Server-owned language | `pa-IN` |
-| `TTS_VOICE` | Optional Google voice name; blank lets Google choose for `pa-IN` | blank |
 | `TTS_SPEAKING_RATE` | Normal rate | `1.0` |
 | `TTS_SLOW_SPEAKING_RATE` | Slow rate | `0.70` |
 | `TTS_PITCH` | Pitch | `0` |
-| `TTS_CACHE_VERSION` | Invalidates old audio when the voice/profile changes | `pa-IN-default-v1` |
+| `TTS_CACHE_VERSION` | Invalidates old audio when the voice/profile changes | `pa-IN-gender-v2` |
 | `MAX_TTS_TEXT_LENGTH` | Maximum server-counted Unicode characters per request | `500` |
 | `MAX_TTS_REQUESTS_PER_MINUTE` | Per-UID burst protection | `10` |
 | `MAX_TTS_CHARACTERS_PER_DAY` | Per-UID daily characters | `5000` |
@@ -119,7 +119,7 @@ Before enabling the frontend endpoint, make direct tests against the deployed UR
 - No `Authorization` header must return **401**.
 - A valid Firebase token for a UID not in `ALLOWED_TTS_UIDS` must return **403**.
 - A request from a browser origin not in `ALLOWED_ORIGINS` must return **403**.
-- Non-JSON, blank text, unsupported fields, arbitrary voice/rate parameters, non-Gurmukhi text, and overly long text must be rejected before synthesis.
+- Non-JSON, blank text, unsupported fields, arbitrary Google voice/rate parameters, voice values other than `female` or `male`, non-Gurmukhi text, and overly long text must be rejected before synthesis.
 - Rapid/over-budget calls must return **429**.
 - An allowed token and short Gurmukhi sentence should return `audio/mpeg`.
 - Play the identical sentence twice. The second browser playback should be served from IndexedDB and create no network request to the endpoint.
@@ -131,7 +131,7 @@ curl -i -X POST 'YOUR_SPEECH_ENDPOINT' \
   -H 'Authorization: Bearer YOUR_SHORT_LIVED_FIREBASE_ID_TOKEN' \
   -H 'Content-Type: application/json' \
   -H 'Origin: https://punjabi.dockit.co.nz' \
-  --data '{"text":"ਮੈਂ ਪੰਜਾਬੀ ਸਿੱਖ ਰਿਹਾ ਹਾਂ।","mode":"normal"}' \
+  --data '{"text":"ਮੈਂ ਪੰਜਾਬੀ ਸਿੱਖ ਰਿਹਾ ਹਾਂ।","mode":"normal","voice":"female"}' \
   --output pronunciation.mp3
 ```
 
@@ -151,9 +151,15 @@ curl -i -X POST 'YOUR_SPEECH_ENDPOINT' \
 - Disable synthesis at the source: disable the Text-to-Speech API or remove the runtime identity’s synthesis permission.
 - Emergency backend stop: undeploy/disable the function through your cloud console. Do not rely only on hiding the frontend button.
 
-## Change the Punjabi voice later
+## Voice selection and usage meter
 
-1. Change `TTS_VOICE`, rates, or pitch on the backend.
+Settings offers **Female — Chirp 3 HD Kore** and **Male — Chirp 3 HD Puck**. The browser sends only the `female` or `male` profile identifier; the backend owns the exact Google voice names and automatically retries with Punjabi WaveNet A or B if the matching HD request fails. Both the browser IndexedDB key and backend memory-cache key include the selected profile, so switching gender cannot replay audio generated for the other voice.
+
+The authenticated `GET /api/v1/speech/usage` route returns the current user's daily and monthly character totals and configured limits. It does not increment usage. Settings displays these values as character meters; production totals come from the same transactional Firestore records that enforce the limits.
+
+## Change the Punjabi voices later
+
+1. Change the allowlisted `voiceProfiles` mapping in `functions/lib/config.js`, or change rates or pitch on the backend.
 2. Change `TTS_CACHE_VERSION` to a new value.
 3. Set the matching public `speechCacheVersion` in `firebase-config.js`.
 4. Bump the service worker cache version before deploying static changes.

@@ -1,5 +1,18 @@
 'use strict';
 
+function currentUsage(current, config, now = new Date()) {
+  const day = now.toISOString().slice(0, 10);
+  const month = now.toISOString().slice(0, 7);
+  return {
+    day,
+    dailyCharacters: current.day === day ? current.dailyCharacters || 0 : 0,
+    dailyLimit: config.maxCharactersPerDay,
+    month,
+    monthlyCharacters: current.month === month ? current.monthlyCharacters || 0 : 0,
+    monthlyLimit: config.maxCharactersPerMonth
+  };
+}
+
 class MemorySpeechCache {
   constructor(maxItems) { this.maxItems = maxItems; this.items = new Map(); }
   async get(key) {
@@ -32,6 +45,7 @@ class MemoryUsageStore {
     }
     this.users.set(uid, { minute, requests: requests + 1, day, dailyCharacters: dailyCharacters + characters, month, monthlyCharacters: monthlyCharacters + characters });
   }
+  async get(uid) { return currentUsage(this.users.get(uid) || {}, this.config); }
 }
 
 class FirestoreUsageStore {
@@ -54,6 +68,10 @@ class FirestoreUsageStore {
       transaction.set(reference, { minute, requests: requests + 1, day, dailyCharacters: dailyCharacters + characters, month, monthlyCharacters: monthlyCharacters + characters, updatedAt: now }, { merge: true });
     });
   }
+  async get(uid) {
+    const snapshot = await this.firestore.collection('ttsUsage').doc(uid).get();
+    return currentUsage(snapshot.exists ? snapshot.data() : {}, this.config);
+  }
 }
 
-module.exports = { MemorySpeechCache, MemoryUsageStore, FirestoreUsageStore };
+module.exports = { MemorySpeechCache, MemoryUsageStore, FirestoreUsageStore, currentUsage };

@@ -54,11 +54,14 @@
     return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
   }
 
-  async function cacheKey(text, mode) {
+  function selectedVoice(voice) { return voice === 'male' ? 'male' : 'female'; }
+
+  async function cacheKey(text, mode, voice) {
     return sha256(JSON.stringify({
       text,
       language: 'pa-IN',
       mode: mode === 'slow' ? 'slow' : 'normal',
+      voice: selectedVoice(voice),
       endpoint: config().speechEndpoint || '',
       profile: config().speechCacheVersion || 'pa-IN-default-v1'
     }));
@@ -82,7 +85,7 @@
     return new SpeechClientError('backend-unavailable', 'Cloud pronunciation is temporarily unavailable.', status);
   }
 
-  async function requestCloud(text, mode, key) {
+  async function authenticatedFetch(url, options = {}) {
     if (!navigator.onLine) throw new SpeechClientError('offline', 'This pronunciation has not been downloaded yet.');
     if (!isCloudConfigured()) throw new SpeechClientError('cloud-disabled', 'Cloud pronunciation is not configured.');
     const auth = window.PunjabiCloudAuth;
@@ -90,40 +93,49 @@
     const token = await auth.getIdToken();
     if (!token) throw new SpeechClientError('unauthenticated', 'Sign in to use cloud pronunciation.');
 
-    activeController = new AbortController();
+    const controller = new AbortController();
+    activeController = controller;
     let response;
     try {
-      response = await fetch(config().speechEndpoint, {
-        method: 'POST',
-        headers: {
+      response = await fetch(url, Object.assign({}, options, {
+        headers: Object.assign({}, options.headers || {}, {
           'Authorization': 'Bearer ' + token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ text, mode: mode === 'slow' ? 'slow' : 'normal' }),
+        }),
         cache: 'no-store',
         credentials: 'omit',
-        signal: activeController.signal
-      });
+        signal: controller.signal
+      }));
     } catch (error) {
       if (error && error.name === 'AbortError') throw new SpeechClientError('cancelled', 'Playback stopped.');
       throw new SpeechClientError(navigator.onLine ? 'backend-unavailable' : 'offline', navigator.onLine ? 'Cloud pronunciation is temporarily unavailable.' : 'This pronunciation has not been downloaded yet.');
     } finally {
-      activeController = null;
+      if (activeController === controller) activeController = null;
     }
     if (!response.ok) throw errorForStatus(response.status);
+    return response;
+  }
+
+  async function requestCloud(text, mode, voice, key) {
+    const selected = selectedVoice(voice);
+    const response = await authenticatedFetch(config().speechEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, mode: mode === 'slow' ? 'slow' : 'normal', voice: selected })
+    });
     const contentType = (response.headers.get('content-type') || '').split(';')[0].trim();
     if (!contentType.startsWith('audio/')) throw new SpeechClientError('invalid-response', 'Cloud pronunciation returned an invalid response.');
     const blob = await response.blob();
     if (!blob.size) throw new SpeechClientError('invalid-response', 'Cloud pronunciation returned empty audio.');
-    await putCached({ key, blob, mimeType: contentType, createdAt: Date.now(), text, mode, profile: config().speechCacheVersion || '' });
+    await putCached({ key, blob, mimeType: contentType, createdAt: Date.now(), text, mode, voice: selected, profile: config().speechCacheVersion || '' });
     return { blob, source: 'cloud' };
   }
 
-  async function getAudio(text, mode) {
-    const key = await cacheKey(text, mode);
+  async function getAudio(text, mode, voice) {
+    const selected = selectedVoice(voice);
+    const key = await cacheKey(text, mode, selected);
     const cached = await getCached(key);
     if (cached && cached.blob instanceof Blob && cached.blob.size) return { blob: cached.blob, source: 'downloaded', key };
-    if (!activeRequests.has(key)) activeRequests.set(key, requestCloud(text, mode, key).finally(() => activeRequests.delete(key)));
+    if (!activeRequests.has(key)) activeRequests.set(key, requestCloud(text, mode, selected, key).finally(() => activeRequests.delete(key)));
     const result = await activeRequests.get(key);
     return Object.assign({ key }, result);
   }
@@ -139,9 +151,9 @@
     activeObjectUrl = '';
   }
 
-  async function play(text, mode) {
+  async function play(text, mode, voice) {
     stop();
-    const result = await getAudio(text, mode);
+    const result = await getAudio(text, mode, voice);
     const objectUrl = URL.createObjectURL(result.blob);
     const audio = new Audio(objectUrl);
     activeAudio = audio;
@@ -173,6 +185,14 @@
     }
   }
 
+  async function getUsage() {
+    const endpoint = (config().speechEndpoint || '').replace(/\/$/, '') + '/usage';
+    const response = await authenticatedFetch(endpoint, { method: 'GET' });
+    const contentType = (response.headers.get('content-type') || '').split(';')[0].trim();
+    if (contentType !== 'application/json') throw new SpeechClientError('invalid-response', 'Cloud pronunciation returned invalid usage information.');
+    return response.json();
+  }
+
   window.PunjabiSpeechClient = Object.freeze({
     SpeechClientError,
     isCloudConfigured,
@@ -180,6 +200,7 @@
     getCached,
     getAudio,
     play,
+    getUsage,
     stop,
     clearCache
   });

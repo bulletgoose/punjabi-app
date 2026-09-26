@@ -21,19 +21,31 @@ async function authorize(uid) {
   return { allowed: config.allowedUids.has(uid), plan: 'personal' };
 }
 
-async function synthesize({ text, mode }) {
-  const voice = { languageCode: config.language };
-  if (config.voice) voice.name = config.voice;
-  const [result] = await ttsClient.synthesizeSpeech({
-    input: { text },
-    voice,
-    audioConfig: {
-      audioEncoding: 'MP3',
-      speakingRate: mode === 'slow' ? config.slowSpeakingRate : config.speakingRate,
-      pitch: config.pitch
+async function synthesize({ text, mode, voice }) {
+  const profile = config.voiceProfiles[voice];
+  let primaryError;
+  for (const [index, name] of [profile.primary, profile.fallback].entries()) {
+    try {
+      const [result] = await ttsClient.synthesizeSpeech({
+        input: { text },
+        voice: { languageCode: config.language, name },
+        audioConfig: {
+          audioEncoding: 'MP3',
+          speakingRate: mode === 'slow' ? config.slowSpeakingRate : config.speakingRate,
+          pitch: config.pitch
+        }
+      });
+      return Buffer.from(result.audioContent || []);
+    } catch (error) {
+      if (index === 0) {
+        primaryError = error;
+        console.warn('Primary Punjabi voice failed; trying its WaveNet fallback.', { voice });
+      } else {
+        throw primaryError || error;
+      }
     }
-  });
-  return Buffer.from(result.audioContent || []);
+  }
+  return Buffer.alloc(0);
 }
 
 const handler = createSpeechHandler({

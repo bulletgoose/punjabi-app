@@ -18,5 +18,5 @@ window.PUNJABI_APP_CONFIG = Object.freeze({
 
   // Change this when the backend voice/profile changes so old client audio is
   // not mistaken for the new voice. It contains no secret configuration.
-  speechCacheVersion: 'pa-IN-default-v1'
+  speechCacheVersion: 'pa-IN-gender-v2'
 });

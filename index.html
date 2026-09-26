@@ -306,6 +306,7 @@
   .speech-message{flex-basis:100%;margin:0;line-height:1.5;text-align:left;font-size:14px;color:var(--muted)}
   .cloud-speech-card{border:1px solid var(--border);border-radius:12px;padding:16px;margin:16px 0;background:var(--surface-2)}
   .cloud-speech-card .speech-controls{margin-bottom:0}.cloud-user{overflow-wrap:anywhere}
+  .speech-usage{display:grid;gap:10px;margin-top:14px}.speech-usage-row{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center}.speech-usage-row progress{grid-column:1/-1;width:100%;height:12px}
   .profile-panel{max-width:760px;margin:auto}.profile-card{border:1px solid var(--border);border-radius:16px;padding:clamp(18px,4vw,30px);background:var(--surface-2)}
   .profile-grid{display:grid;grid-template-columns:minmax(110px,0.35fr) minmax(0,1fr);gap:14px 20px;margin:22px 0}.profile-label{font-weight:700;color:var(--muted)}
   .profile-value{overflow-wrap:anywhere}.profile-actions{display:flex;gap:12px;flex-wrap:wrap}.profile-feedback{min-height:24px;margin:12px 0 0;color:var(--teal-deep)}
@@ -432,8 +433,8 @@
   <footer class="note">Roman Punjabi + Gurmukhi · conversational Majhi-leaning forms · shared word choices, subject agreement and semantic compatibility · every entry remains editable. Custom slot templates are experimental: arbitrary slot orders still need linguistic review.</footer>
 </div>
 
-<script src="./firebase-config.js?v=6"></script>
-<script src="./speech-client.js"></script>
+<script src="./firebase-config.js?v=7"></script>
+<script src="./speech-client.js?v=7"></script>
 <script type="module">import('./firebase-auth.js').catch(function(){window.PunjabiCloudAuthLoadError=true;window.dispatchEvent(new CustomEvent('punjabi-auth-load-error'));});</script>
 <script>
 (function(){
@@ -2276,7 +2277,8 @@
   function readLearning(){try{return JSON.parse(localStorage.getItem(LEARNING_KEY))||{};}catch(e){return {};}}
   const learning=readLearning();
   let displayPrefs=Object.assign({roman:true,gurmukhi:true,english:true},learning.display||{});
-  let audioPrefs=Object.assign({voice:'',rate:1},learning.audio||{});
+  let audioPrefs=Object.assign({voice:'',cloudVoice:'female',rate:1},learning.audio||{});
+  if(!['female','male'].includes(audioPrefs.cloudVoice))audioPrefs.cloudVoice='female';
   let flashPrefs=Object.assign({count:10,direction:'mixed',mode:'random',templates:[],roman:true,gurmukhi:true,audio:true},learning.flash||{});
   let learningStats=Object.assign({version:1,ratings:[],totalReviews:0,counts:{again:0,hard:0,good:0,easy:0}},learning.stats||{});
   // One explicit session state. Card reveal/direction/rating live on each fixed card.
@@ -2326,10 +2328,11 @@
     if(client&&client.isCloudConfigured()){
       showSpeechStatus('Checking downloaded pronunciation…');
       try{
-        const result=await client.play(text,slow?'slow':'normal');
+        const result=await client.play(text,slow?'slow':'normal',audioPrefs.cloudVoice);
         if(requestId!==speechRequestId)return false;
         showSpeechStatus('Playing '+(result.source==='downloaded'?'downloaded':'cloud')+' Punjabi pronunciation'+(slow?' slowly':'')+'…');
         result.finished.then(()=>{if(requestId===speechRequestId)showSpeechStatus('Playback finished.');}).catch(error=>{if(requestId===speechRequestId)showSpeechStatus(error.message||'The downloaded pronunciation could not be played.');});
+        if(result.source==='cloud')refreshCloudUsage();
         return true;
       }catch(error){
         if(requestId!==speechRequestId||error.code==='cancelled')return false;
@@ -2394,12 +2397,28 @@
     const client=window.PunjabiSpeechClient;
     if(!client||!client.isCloudConfigured()){box.innerHTML='<p><strong>Cloud pronunciation is not configured yet.</strong></p><p class="note">Device Punjabi pronunciation will continue to be used when available. You can sign in independently from the Profile screen.</p>';return;}
     const auth=window.PunjabiCloudAuth,user=auth&&auth.getUser?auth.getUser():null;
-    box.innerHTML='<p><strong>Cloud pronunciation endpoint is configured.</strong></p><p class="note">'+(user?'Your account is signed in. The backend UID allowlist still decides whether cloud TTS is authorised.':'Sign in from Profile before requesting authenticated cloud pronunciation.')+'</p>';
+    box.innerHTML='<p><strong>Cloud pronunciation endpoint is configured.</strong></p><p class="note">'+(user?'Your account is signed in. Character usage below is counted by the secure backend.':'Sign in from Profile to use cloud pronunciation and see character usage.')+'</p><div id="speechUsage" class="speech-usage" aria-live="polite"></div>';
+    refreshCloudUsage();
+  }
+  async function refreshCloudUsage(){
+    const target=document.getElementById('speechUsage');if(!target)return;
+    const client=window.PunjabiSpeechClient,auth=window.PunjabiCloudAuth,user=auth&&auth.getUser?auth.getUser():null;
+    if(!user){target.textContent='Sign in to see pronunciation usage.';return;}
+    target.textContent='Loading pronunciation usage…';
+    try{
+      const usage=await client.getUsage();if(!target.isConnected)return;
+      const daily=Number(usage.dailyCharacters),dailyLimit=Number(usage.dailyLimit),monthly=Number(usage.monthlyCharacters),monthlyLimit=Number(usage.monthlyLimit);
+      if(![daily,dailyLimit,monthly,monthlyLimit].every(Number.isFinite))throw new Error('Invalid usage response');
+      target.innerHTML='<div class="speech-usage-row"><strong>Today</strong><span>'+daily.toLocaleString()+' / '+dailyLimit.toLocaleString()+' characters</span><progress value="'+Math.min(daily,dailyLimit)+'" max="'+dailyLimit+'"></progress></div><div class="speech-usage-row"><strong>This month</strong><span>'+monthly.toLocaleString()+' / '+monthlyLimit.toLocaleString()+' characters</span><progress value="'+Math.min(monthly,monthlyLimit)+'" max="'+monthlyLimit+'"></progress></div><button type="button" class="btn" id="refreshSpeechUsage">Refresh usage</button>';
+      document.getElementById('refreshSpeechUsage').addEventListener('click',refreshCloudUsage);
+    }catch(error){if(target.isConnected)target.textContent=error&&error.message?error.message:'Pronunciation usage is temporarily unavailable.';}
   }
   function renderSettings(){
-    document.getElementById('screen-settings').innerHTML='<div class="panel"><h2>⚙ Settings</h2><h3>Sentence display</h3><p>These settings only change visibility, never the selected sentence. Flashcards have their own practice settings.</p><div class="settings-grid">'+checkField('displayRoman','Roman Punjabi',displayPrefs.roman)+checkField('displayGurmukhi','Gurmukhi',displayPrefs.gurmukhi)+checkField('displayEnglish','English',displayPrefs.english)+'</div><h3>Punjabi pronunciation</h3><p>Playback first uses securely downloaded audio, then the authenticated cloud service when configured, and finally a Punjabi device voice. It never substitutes an English voice.</p><div class="cloud-speech-card" id="cloudTtsStatus" aria-live="polite"></div><button type="button" class="btn" id="clearSpeechCache">Clear downloaded pronunciation audio</button><p id="clearSpeechResult" class="note" role="status" aria-live="polite"></p><h4>Device voice fallback</h4><p id="voiceAvailability" role="status"></p><label for="voiceSelect">Punjabi device voice</label><select id="voiceSelect"></select><label for="speechRate">Device fallback rate: <output id="rateValue">'+audioPrefs.rate+'</output>×</label><input id="speechRate" type="range" min="0.5" max="1.5" step="0.05" value="'+audioPrefs.rate+'"><p>Slow playback always uses 0.70×. Cloud rates are controlled securely by the backend.</p>'+audioMarkup({gurmukhi:'ਮੈਂ ਪੰਜਾਬੀ ਸਿੱਖ ਰਿਹਾ ਹਾਂ।'})+'<h3>Learning statistics</h3><p>'+learningStats.totalReviews+' ratings saved on this browser. Preferences and vocabulary are browser-specific; private browsing or clearing site data may remove them.</p><p class="note">Downloaded speech is stored separately in IndexedDB. Clearing it does not remove saved sentences, ratings, vocabulary or preferences. Round decks are intentionally in memory.</p></div>';
+    document.getElementById('screen-settings').innerHTML='<div class="panel"><h2>⚙ Settings</h2><h3>Sentence display</h3><p>These settings only change visibility, never the selected sentence. Gurmukhi is always sent for pronunciation, even when it is hidden. Flashcards have their own practice settings.</p><div class="settings-grid">'+checkField('displayRoman','Roman Punjabi',displayPrefs.roman)+checkField('displayGurmukhi','Gurmukhi',displayPrefs.gurmukhi)+checkField('displayEnglish','English',displayPrefs.english)+'</div><h3>Punjabi pronunciation</h3><p>Playback first uses securely downloaded audio, then the authenticated cloud service when configured, and finally a Punjabi device voice. It never substitutes an English voice.</p><label for="cloudVoice">Cloud voice</label><select id="cloudVoice"><option value="female">Female — Chirp 3 HD Kore</option><option value="male">Male — Chirp 3 HD Puck</option></select><p class="note">If the selected HD voice is unavailable, the backend automatically uses the matching Punjabi WaveNet voice.</p><div class="cloud-speech-card" id="cloudTtsStatus" aria-live="polite"></div><button type="button" class="btn" id="clearSpeechCache">Clear downloaded pronunciation audio</button><p id="clearSpeechResult" class="note" role="status" aria-live="polite"></p><h4>Device voice fallback</h4><p id="voiceAvailability" role="status"></p><label for="voiceSelect">Punjabi device voice</label><select id="voiceSelect"></select><label for="speechRate">Device fallback rate: <output id="rateValue">'+audioPrefs.rate+'</output>×</label><input id="speechRate" type="range" min="0.5" max="1.5" step="0.05" value="'+audioPrefs.rate+'"><p>Slow playback always uses 0.70×. Cloud rates are controlled securely by the backend.</p>'+audioMarkup({gurmukhi:'ਮੈਂ ਪੰਜਾਬੀ ਸਿੱਖ ਰਿਹਾ ਹਾਂ।'})+'<h3>Learning statistics</h3><p>'+learningStats.totalReviews+' ratings saved on this browser. Preferences and vocabulary are browser-specific; private browsing or clearing site data may remove them.</p><p class="note">Downloaded speech is stored separately in IndexedDB. Clearing it does not remove saved sentences, ratings, vocabulary or preferences. Round decks are intentionally in memory.</p></div>';
     [['Roman','roman'],['Gurmukhi','gurmukhi'],['English','english']].forEach(a=>document.getElementById('display'+a[0]).addEventListener('change',e=>{displayPrefs[a[1]]=e.target.checked;persistLearning();applyDisplayPrefs();}));
     refreshVoices();
+    document.getElementById('cloudVoice').value=audioPrefs.cloudVoice;
+    document.getElementById('cloudVoice').addEventListener('change',e=>{audioPrefs.cloudVoice=e.target.value==='male'?'male':'female';stopSpeech();persistLearning();});
     document.getElementById('voiceSelect').addEventListener('change',e=>{audioPrefs.voice=e.target.value;stopSpeech();persistLearning();});
     document.getElementById('speechRate').addEventListener('input',e=>{audioPrefs.rate=Number(e.target.value);document.getElementById('rateValue').textContent=audioPrefs.rate;persistLearning();});
     document.getElementById('clearSpeechCache').addEventListener('click',async e=>{const button=e.currentTarget,result=document.getElementById('clearSpeechResult');button.disabled=true;result.textContent='Clearing downloaded audio…';try{if(window.PunjabiSpeechClient)await window.PunjabiSpeechClient.clearCache();result.textContent='Downloaded pronunciation audio was cleared. Your saved learning data was not changed.';}catch(error){result.textContent='Downloaded audio could not be cleared on this browser.';}finally{button.disabled=false;}});
