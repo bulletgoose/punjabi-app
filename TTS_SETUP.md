@@ -12,6 +12,7 @@ This guide is deliberately split into **safe preparation** and **billing-enabled
 - Google Application Default Credentials (the deployed runtime service identity) are used. No service-account JSON is required in the repository or browser.
 - If cloud speech is disabled or fails, the existing Web Speech API is used only when a Punjabi (`pa`) voice exists. An English voice is never substituted.
 - “Clear downloaded pronunciation audio” clears only the IndexedDB audio store. Saved sentences, vocabulary, ratings, flashcards, and settings are untouched.
+- The Word Game uses the same authenticated Gurmukhi cloud pronunciation and voice-specific audio cache. A round starts its timer only after audio starts; replaying cached audio does not use more characters. Game categories and timing live in browser settings.
 
 The current server cache is an in-memory, per-function-instance LRU cache. It avoids repeat generation within a warm instance, but it is not a durable cross-instance cache. The `get`/`put` cache interface is intentionally replaceable by managed storage later. No chargeable persistent cache has been created.
 
