@@ -1,6 +1,6 @@
 // Increment this value whenever the application shell changes. Activation
 // removes older Punjabi app caches while leaving unrelated origin caches alone.
-const CACHE_VERSION = 'v8';
+const CACHE_VERSION = 'v9';
 const CACHE_PREFIX = 'punjabi-sentence-builder-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
 
@@ -11,6 +11,7 @@ const APP_SHELL_PATHS = [
   './firebase-config.js?v=7',
   './firebase-auth.js',
   './speech-client.js?v=7',
+  './game-vocabulary.js?v=1',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-192-maskable.png',

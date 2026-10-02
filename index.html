@@ -312,8 +312,8 @@
   .saved-word-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:16px}.saved-word{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface-2)}
   .vocab-game{max-width:780px;margin:auto}.game-categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:8px;margin:16px 0}.game-categories label{display:flex;align-items:center;gap:8px;min-height:44px}
   .game-hud{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-weight:700;margin-bottom:12px}.game-timer{height:12px;width:100%;accent-color:var(--magenta)}
-  .game-audio{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0}.game-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:16px 0}
-  .game-tile{min-width:0;min-height:94px!important;padding:8px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2);color:var(--ink);font-family:inherit;font-weight:600;font-size:clamp(14px,3.5vw,20px);line-height:1.35;overflow-wrap:anywhere}
+  .game-audio{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0}.game-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:94px;gap:8px;margin:16px 0}.game-grid.awaiting-audio{visibility:hidden}
+  .game-tile{min-width:0;height:94px!important;padding:8px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2);color:var(--ink);font-family:inherit;font-weight:600;font-size:clamp(14px,3.5vw,20px);line-height:1.35;overflow-wrap:anywhere}
   .game-tile:disabled{opacity:.65}.game-tile.wrong{border-color:var(--magenta);background:color-mix(in srgb,var(--magenta) 14%,var(--surface))}.game-tile.correct{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 18%,var(--surface))}
   .game-tile-media{display:block;min-height:0}.game-tile-label{display:block}.game-feedback{min-height:28px;text-align:center;font-weight:700}
   .profile-panel{max-width:760px;margin:auto}.profile-card{border:1px solid var(--border);border-radius:16px;padding:clamp(18px,4vw,30px);background:var(--surface-2)}
@@ -444,6 +444,7 @@
 
 <script src="./firebase-config.js?v=7"></script>
 <script src="./speech-client.js?v=7"></script>
+<script src="./game-vocabulary.js?v=1"></script>
 <script type="module">import('./firebase-auth.js').catch(function(){window.PunjabiCloudAuthLoadError=true;window.dispatchEvent(new CustomEvent('punjabi-auth-load-error'));});</script>
 <script>
 (function(){
@@ -933,6 +934,23 @@
     state.schemaVersion=5;
     save();
   }
+  // These nouns stay out of sentence templates until their grammar and
+  // semantic compatibility have been authored. IDs are stable by row order.
+  if((state.schemaVersion || 1) < 6 && window.PUNJABI_GAME_VOCAB){
+    const labels={VEGETABLES:'Vegetables',FRUITS:'Fruits',SPICES:'Spices',EDUCATION:'Education',CLOTHES:'Clothes',BODY:'Parts of the body',NATURE:'Nature',EVERYDAY:'Everyday items'};
+    Object.keys(labels).forEach(key=>{
+      const category='GAME_'+key;
+      if(!state.vocab[category])state.vocab[category]=[];
+      const known=new Set(state.vocab[category].map(item=>item.id));
+      (window.PUNJABI_GAME_VOCAB[key]||[]).forEach(([p,g,e],index)=>{
+        const id='game-'+key.toLowerCase()+'-'+(index+1);
+        if(!known.has(id))state.vocab[category].push({id,p,g,e,enabled:true,gameCategory:labels[key]});
+      });
+    });
+    state.schemaVersion=6;
+    save();
+  }
+  ['VEGETABLES','FRUITS','SPICES','EDUCATION','CLOTHES','BODY','NATURE','EVERYDAY'].forEach(key=>{if(!state.vocab['GAME_'+key])state.vocab['GAME_'+key]=[];});
   if(!Array.isArray(state.savedWords))state.savedWords=[];
 
   function save(){
@@ -940,8 +958,8 @@
     catch(e){ console.warn('Could not save data.', e); }
   }
 
-  const CATEGORY_LABELS = {WHO:'Who', WHEN:'When', WHERE:'Where', WHAT:'What', HOW:'How', WHY:'Reasons', ABOUT:'About', QUESTION:'Question words', CONNECTOR:'Connectors', STATE:'States & feelings', ADJECTIVE:'Descriptive words (word game)', NUMBER:'Numbers (word game)'};
-  const CATEGORY_ORDER = ['WHO','WHEN','WHERE','WHAT','HOW','WHY','ABOUT','QUESTION','CONNECTOR','STATE','ADJECTIVE','NUMBER'];
+  const CATEGORY_LABELS = {WHO:'Who', WHEN:'When', WHERE:'Where', WHAT:'What', HOW:'How', WHY:'Reasons', ABOUT:'About', QUESTION:'Question words', CONNECTOR:'Connectors', STATE:'States & feelings', ADJECTIVE:'Descriptive words (word game)', NUMBER:'Numbers (word game)', GAME_VEGETABLES:'Vegetables (word game)',GAME_FRUITS:'Fruits (word game)',GAME_SPICES:'Spices (word game)',GAME_EDUCATION:'Education (word game)',GAME_CLOTHES:'Clothes (word game)',GAME_BODY:'Parts of the body (word game)',GAME_NATURE:'Nature (word game)',GAME_EVERYDAY:'Everyday items (word game)'};
+  const CATEGORY_ORDER = ['WHO','WHEN','WHERE','WHAT','HOW','WHY','ABOUT','QUESTION','CONNECTOR','STATE','ADJECTIVE','NUMBER','GAME_VEGETABLES','GAME_FRUITS','GAME_SPICES','GAME_EDUCATION','GAME_CLOTHES','GAME_BODY','GAME_NATURE','GAME_EVERYDAY'];
 
   function uid(prefix){ return prefix + '-' + Math.random().toString(36).slice(2,9); }
 
@@ -1898,7 +1916,7 @@
     blocksContent.innerHTML =
       '<div class="panel">'+
         '<h2>'+CATEGORY_LABELS[cat]+'</h2>'+
-        '<p class="desc">Edit the Punjabi text, English meaning'+(showTags?', and compatibility tags':'')+' below, then Save. Untick Enabled to hide a word from generation without deleting it.'+(cat==='NUMBER'||cat==='ADJECTIVE'?' These words are for Word Game only until their sentence grammar is added to templates.':'')+'</p>'+
+        '<p class="desc">Edit the Punjabi text, English meaning'+(showTags?', and compatibility tags':'')+' below, then Save. Untick Enabled to hide a word from generation without deleting it.'+(cat==='NUMBER'||cat==='ADJECTIVE'||cat.startsWith('GAME_')?' These words are for Word Game only until their sentence grammar is added to templates.':'')+'</p>'+
         (showTags ? '<div class="compat-note"><strong>How pairing works:</strong> a What-word is only combined with a “wants to…” action when one of its tags exactly matches that verb’s “Requires tag”. For example, <em>kitāb</em> tagged <strong>readable</strong> can pair with <em>paṛhṇā</em>, but never <em>pīṇā</em> (drinkable).</div>' : '')+
         bulkEnableControls('words')+
         (items.length ?
@@ -2387,7 +2405,7 @@
   let flashPrefs=Object.assign({count:10,direction:'mixed',mode:'random',templates:[],roman:true,gurmukhi:true,audio:true},learning.flash||{});
   let learningStats=Object.assign({version:1,ratings:[],totalReviews:0,counts:{again:0,hard:0,good:0,easy:0}},learning.stats||{});
   let gamePrefs=Object.assign({script:'gurmukhi',categories:['Animals','Numbers','Time','Adjectives','Tone & manner'],startSeconds:10,stepSeconds:0.5,minSeconds:2,bestScore:0},learning.game||{});
-  if(!['roman','gurmukhi'].includes(gamePrefs.script))gamePrefs.script='gurmukhi';
+  if(!['roman','gurmukhi','english'].includes(gamePrefs.script))gamePrefs.script='gurmukhi';
   if(!Array.isArray(gamePrefs.categories))gamePrefs.categories=['Animals','Numbers','Time','Adjectives','Tone & manner'];
   // One explicit session state. Card reveal/direction/rating live on each fixed card.
   const flashSession={phase:'setup',deck:null,index:0,id:'',options:null};
@@ -2668,7 +2686,7 @@
   /* ---------------- Listen and choose vocabulary game ---------------- */
   const gameSession={phase:'setup',round:0,correct:0,score:0,strikes:0,tiles:[],target:null,lastTargetId:'',heardIds:new Set(),gridStartedAt:0,seconds:10,remaining:10,ready:false,audioLoading:false,timerId:null,endAt:0,turn:0,wrongIds:new Set(),feedback:''};
   const gameScreen=document.getElementById('screen-vocab-game');
-  const gameCategoryDefaults={WHO:'People',WHEN:'Time',WHERE:'Places',WHAT:'Things',HOW:'Tone & manner',WHY:'Reasons',ABOUT:'Topics',QUESTION:'Questions',CONNECTOR:'Connectors',STATE:'Adjectives',ADJECTIVE:'Adjectives',NUMBER:'Numbers'};
+  const gameCategoryDefaults={WHO:'People',WHEN:'Time',WHERE:'Places',WHAT:'Things',HOW:'Tone & manner',WHY:'Reasons',ABOUT:'Topics',QUESTION:'Questions',CONNECTOR:'Connectors',STATE:'Adjectives',ADJECTIVE:'Adjectives',NUMBER:'Numbers',GAME_VEGETABLES:'Vegetables',GAME_FRUITS:'Fruits',GAME_SPICES:'Spices',GAME_EDUCATION:'Education',GAME_CLOTHES:'Clothes',GAME_BODY:'Parts of the body',GAME_NATURE:'Nature',GAME_EVERYDAY:'Everyday items'};
   function gameVocabulary(){
     return Object.keys(state.vocab).flatMap(category=>(state.vocab[category]||[]).filter(item=>item.enabled&&item.p&&item.g&&/[\u0a00-\u0a7f]/.test(item.g)).map(item=>({id:item.id,roman:item.p,gurmukhi:item.g,english:item.e||'',category:item.gameCategory||gameCategoryDefaults[category]||category})));
   }
@@ -2678,12 +2696,13 @@
     return result;
   }
   function gamePool(){
-    const seen=new Set();
+    const seen=new Set(),spoken=new Set();
     return gameVocabulary().filter(item=>{
       if(!gamePrefs.categories.includes(item.category))return false;
       const label=item[gamePrefs.script].normalize('NFC').trim().toLowerCase();
-      if(seen.has(label))return false;
-      seen.add(label);return true;
+      const audio=item.gurmukhi.normalize('NFC').trim();
+      if(!label||seen.has(label)||spoken.has(audio))return false;
+      seen.add(label);spoken.add(audio);return true;
     });
   }
   function gameTime(round){return Math.max(gamePrefs.minSeconds,gamePrefs.startSeconds-(round-1)*gamePrefs.stepSeconds);}
@@ -2705,13 +2724,25 @@
     gameSession.phase='setup';
     const counts={};gameVocabulary().forEach(item=>{counts[item.category]=(counts[item.category]||0)+1;});
     const categories=Object.keys(counts).sort((a,b)=>a.localeCompare(b));
-    gameScreen.innerHTML='<div class="panel vocab-game"><h2>🎧 Listen and choose</h2><p>Hear a Punjabi word, then choose it from nine tiles. Three strikes end the game. Each correct answer earns 100 points plus a time bonus.</p><p class="note">Cloud pronunciation and a signed-in account are required. Every new word uses Gurmukhi for speech, whichever script you show on the tiles. The nine choices stay in place for at least a minute so quick rounds can reuse cloud audio.</p><label for="gameScript">Tile labels</label><select id="gameScript"><option value="gurmukhi">Gurmukhi</option><option value="roman">Roman Punjabi</option></select><h3>Choose word categories</h3><div class="game-categories">'+categories.map(category=>'<label><input type="checkbox" name="gameCategory" value="'+escapeHtml(category)+'" '+(gamePrefs.categories.includes(category)?'checked':'')+'> '+escapeHtml(category)+' ('+counts[category]+')</label>').join('')+'</div><button type="button" class="btn primary" id="startWordGame">Start game</button><p class="note">Best score on this browser: '+Number(gamePrefs.bestScore||0).toLocaleString()+'</p><p class="game-feedback" role="status">'+escapeHtml(message)+'</p></div>';
+    gameScreen.innerHTML='<div class="panel vocab-game"><h2>🎧 Listen and choose</h2><p>Hear a Punjabi word, then choose it from nine tiles. Three strikes end the game. Each correct answer earns 100 points plus a time bonus.</p><p class="note">Cloud pronunciation and a signed-in account are required. Every new word uses Gurmukhi for speech, whichever tile labels you choose. The nine choices stay in place for at least a minute so quick rounds can reuse cloud audio.</p><label for="gameScript">Tile labels</label><select id="gameScript"><option value="gurmukhi">Gurmukhi</option><option value="roman">Roman Punjabi</option><option value="english">English</option></select><h3>Choose word categories</h3><div class="game-categories">'+categories.map(category=>'<label><input type="checkbox" name="gameCategory" value="'+escapeHtml(category)+'" '+(gamePrefs.categories.includes(category)?'checked':'')+'> '+escapeHtml(category)+' ('+counts[category]+')</label>').join('')+'</div><button type="button" class="btn primary" id="startWordGame">Start game</button><p class="note">Best score on this browser: '+Number(gamePrefs.bestScore||0).toLocaleString()+'</p><p class="game-feedback" role="status">'+escapeHtml(message)+'</p></div>';
     gameScreen.querySelector('#gameScript').value=gamePrefs.script;
   }
   function renderGameRound(){
     const s=gameSession;
-    gameScreen.innerHTML='<div class="panel vocab-game"><div class="game-hud"><span>Round '+s.round+'</span><span>Score '+s.score.toLocaleString()+'</span><span>Strikes '+s.strikes+' / 3</span><span id="gameSeconds">'+s.remaining.toFixed(1)+'s</span></div><progress id="gameTimer" class="game-timer" value="'+s.remaining+'" max="'+s.seconds+'" aria-label="Time remaining"></progress><div class="game-audio"><button type="button" class="btn primary" id="gameReplay" '+(s.audioLoading?'disabled':'')+'>🔊 Replay</button><button type="button" class="btn" id="gameSlow" '+(s.audioLoading?'disabled':'')+'>🐢 Slow</button></div><p class="game-feedback" id="gameFeedback" role="status" aria-live="polite">'+escapeHtml(s.feedback||'Loading cloud pronunciation…')+'</p><div class="game-grid" role="group" aria-label="Nine Punjabi word choices">'+s.tiles.map(item=>'<button type="button" class="game-tile'+(s.wrongIds.has(item.id)?' wrong':'')+'" data-game-id="'+escapeHtml(item.id)+'" '+(!s.ready||s.wrongIds.has(item.id)?'disabled':'')+'><span class="game-tile-media" aria-hidden="true"></span><span class="game-tile-label" lang="'+(gamePrefs.script==='gurmukhi'?'pa-Guru':'pa-Latn')+'">'+escapeHtml(item[gamePrefs.script])+'</span></button>').join('')+'</div><button type="button" class="btn ghost" id="endWordGame">End game</button></div>';
-    if(!s.ready)gameScreen.querySelector('.game-grid').hidden=true;
+    const scrollBefore=window.scrollY,reused=Boolean(gameScreen.querySelector('.game-grid'));
+    if(!reused)gameScreen.innerHTML='<div class="panel vocab-game"><div class="game-hud"><span></span><span></span><span></span><span id="gameSeconds"></span></div><progress id="gameTimer" class="game-timer" aria-label="Time remaining"></progress><div class="game-audio"><button type="button" class="btn primary" id="gameReplay">🔊 Replay</button><button type="button" class="btn" id="gameSlow">🐢 Slow</button></div><p class="game-feedback" id="gameFeedback" role="status" aria-live="polite"></p><div class="game-grid" role="group" aria-label="Nine Punjabi word choices"></div><button type="button" class="btn ghost" id="endWordGame">End game</button></div>';
+    const hud=gameScreen.querySelectorAll('.game-hud span');
+    [ 'Round '+s.round, 'Score '+s.score.toLocaleString(), 'Strikes '+s.strikes+' / 3', s.remaining.toFixed(1)+'s' ].forEach((value,index)=>{hud[index].textContent=value;});
+    const timer=gameScreen.querySelector('#gameTimer');timer.max=s.seconds;timer.value=s.remaining;
+    gameScreen.querySelector('#gameReplay').disabled=s.audioLoading;
+    gameScreen.querySelector('#gameSlow').disabled=s.audioLoading;
+    gameScreen.querySelector('#gameFeedback').textContent=s.feedback||'Loading cloud pronunciation…';
+    const grid=gameScreen.querySelector('.game-grid');
+    grid.classList.toggle('awaiting-audio',!s.ready);
+    if(s.ready)grid.removeAttribute('aria-hidden');else grid.setAttribute('aria-hidden','true');
+    grid.innerHTML=s.tiles.map(item=>'<button type="button" class="game-tile'+(s.wrongIds.has(item.id)?' wrong':'')+'" data-game-id="'+escapeHtml(item.id)+'" '+(!s.ready||s.wrongIds.has(item.id)?'disabled':'')+'><span class="game-tile-media" aria-hidden="true"></span><span class="game-tile-label" lang="'+(gamePrefs.script==='gurmukhi'?'pa-Guru':gamePrefs.script==='roman'?'pa-Latn':'en')+'">'+escapeHtml(item[gamePrefs.script])+'</span></button>').join('');
+    if(!reused&&s.round===1)requestAnimationFrame(()=>{if(gameSession.phase==='round'&&gameScreen.classList.contains('active'))gameScreen.scrollIntoView({block:'start'});});
+    if(reused&&s.round>1)requestAnimationFrame(()=>{if(gameSession.phase==='round'&&gameScreen.classList.contains('active'))window.scrollTo(0,scrollBefore);});
   }
   function gameMessage(message){gameSession.feedback=message;const el=gameScreen.querySelector('#gameFeedback');if(el)el.textContent=message;}
   async function playGameWord(mode='normal',initial=false){
@@ -2780,7 +2811,7 @@
     setTimeout(()=>{if(gameSession.phase==='round'&&gameSession.turn===turn)nextGameRound();},700);
   }
   function startWordGame(){
-    gamePrefs.script=gameScreen.querySelector('#gameScript').value==='roman'?'roman':'gurmukhi';
+    gamePrefs.script=['roman','gurmukhi','english'].includes(gameScreen.querySelector('#gameScript').value)?gameScreen.querySelector('#gameScript').value:'gurmukhi';
     gamePrefs.categories=Array.from(gameScreen.querySelectorAll('[name="gameCategory"]:checked')).map(input=>input.value);
     persistLearning();
     const client=window.PunjabiSpeechClient,auth=window.PunjabiCloudAuth;
