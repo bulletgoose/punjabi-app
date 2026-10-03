@@ -6,7 +6,6 @@
   const DB_VERSION = 1;
   const activeRequests = new Map();
   let prefetchQueue = Promise.resolve();
-  let nextPrefetchAt = 0;
   let activeAudio = null;
   let activeObjectUrl = '';
   let activeController = null;
@@ -119,11 +118,30 @@
 
   async function requestCloud(text, mode, voice, key, background = false) {
     const selected = selectedVoice(voice);
-    const response = await authenticatedFetch(config().speechEndpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, mode: mode === 'slow' ? 'slow' : 'normal', voice: selected })
-    }, background);
+    let response;
+    for (let retries = 0; ; retries++) {
+      try {
+        response = await authenticatedFetch(config().speechEndpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text, mode: mode === 'slow' ? 'slow' : 'normal', voice: selected })
+        }, background);
+        break;
+      } catch (error) {
+        if (error.code !== 'limit' || retries >= 2) throw error;
+        // The server's request ceiling resets on UTC minute boundaries. Its
+        // daily/monthly character ceilings do not, so only retry the former.
+        let usage;
+        try { usage = await getUsage(); } catch (usageError) { throw error; }
+        const characters = Array.from(text).length;
+        if (Number(usage.dailyLimit) - Number(usage.dailyCharacters) < characters ||
+            Number(usage.monthlyLimit) - Number(usage.monthlyCharacters) < characters) {
+          throw new SpeechClientError('limit', 'Daily or monthly pronunciation limit reached. Try again after it resets.', 429);
+        }
+        const wait = 60000 - Date.now() % 60000 + 1000;
+        await new Promise(resolve => setTimeout(resolve, wait));
+      }
+    }
     const contentType = (response.headers.get('content-type') || '').split(';')[0].trim();
     if (!contentType.startsWith('audio/')) throw new SpeechClientError('invalid-response', 'Cloud pronunciation returned an invalid response.');
     const blob = await response.blob();
@@ -149,15 +167,9 @@
   }
 
   function prefetch(text, mode, voice) {
-    // Serialize new downloads so a 100-round game or the full vocabulary cannot
-    // burst past the server's 10-new-request-per-minute guard.
-    const work = async () => {
-      if (await hasCached(text, mode, voice)) return getAudio(text, mode, voice, true);
-      const wait = Math.max(0, nextPrefetchAt - Date.now());
-      if (wait) await new Promise(resolve => setTimeout(resolve, wait));
-      nextPrefetchAt = Date.now() + 8000;
-      return getAudio(text, mode, voice, true);
-    };
+    // Prepare one clip at a time, but do not pause between successful requests.
+    // If the server's per-minute ceiling is hit, requestCloud waits to retry.
+    const work = () => getAudio(text, mode, voice, true);
     const result = prefetchQueue.then(work, work);
     prefetchQueue = result.catch(() => {});
     return result;

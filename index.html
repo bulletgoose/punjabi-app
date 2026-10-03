@@ -312,7 +312,7 @@
   .speech-usage{display:grid;gap:10px;margin-top:14px}.speech-usage-row{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center}.speech-usage-row progress{grid-column:1/-1;width:100%;height:12px}
   .breakdown-actions{display:flex;gap:8px;flex-wrap:wrap;grid-column:1/-1}.breakdown-actions button{min-height:36px!important}
   .vocabulary-toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:12px 0}.vocabulary-toolbar label{display:flex;align-items:center;gap:6px}.vocabulary-toolbar input[type="search"]{flex:1 1 190px;min-height:42px;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--ink)}
-  .vocabulary-category{margin-bottom:12px}.vocabulary-category summary{cursor:pointer;font-size:20px;font-weight:700;list-style-position:inside}.vocabulary-category[open] summary{margin-bottom:14px}.vocabulary-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.vocabulary-word{border:1px solid var(--border);border-radius:12px;padding:12px;background:var(--surface-2);cursor:pointer}.vocabulary-word:hover,.vocabulary-word:focus-visible{border-color:var(--teal);box-shadow:0 0 0 2px color-mix(in srgb,var(--teal) 20%,transparent);outline:none}.vocabulary-word[aria-busy="true"]{opacity:.7}
+  .vocabulary-category{margin-bottom:12px}.vocabulary-category summary{cursor:pointer;font-size:20px;font-weight:700;list-style-position:inside}.vocabulary-category[open] summary{margin-bottom:14px}.vocabulary-cache{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px}.vocabulary-cache .note{margin:0}.vocabulary-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.vocabulary-word{border:1px solid var(--border);border-radius:12px;padding:12px;background:var(--surface-2);cursor:pointer}.vocabulary-word:hover,.vocabulary-word:focus-visible{border-color:var(--teal);box-shadow:0 0 0 2px color-mix(in srgb,var(--teal) 20%,transparent);outline:none}.vocabulary-word[aria-busy="true"]{opacity:.7}
   .vocabulary-word strong{font-size:19px}.vocabulary-word p{margin:4px 0}.vocabulary-progress{width:100%;height:9px;accent-color:var(--teal)}.vocabulary-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted)}
   .fluency-badge{padding:3px 8px;border-radius:999px;background:var(--surface-2);font-weight:700;color:var(--ink)}.fluency-fluent,.fluency-strong{background:color-mix(in srgb,var(--teal) 18%,var(--surface));color:var(--teal)}.fluency-needs-practice{background:color-mix(in srgb,var(--magenta) 14%,var(--surface));color:var(--magenta)}
   .chip-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.chip-actions button{min-height:34px!important;min-width:34px}
@@ -452,7 +452,7 @@
 </div>
 
 <script src="./firebase-config.js?v=7"></script>
-<script src="./speech-client.js?v=9"></script>
+<script src="./speech-client.js?v=10"></script>
 <script src="./game-vocabulary.js?v=1"></script>
 <script src="./vendor/ts-fsrs-5.4.2/index.umd.js"></script>
 <script src="./fsrs-memory.js?v=1"></script>
@@ -2568,7 +2568,7 @@
     [['Roman','roman'],['Gurmukhi','gurmukhi'],['English','english']].forEach(a=>document.getElementById('display'+a[0]).addEventListener('change',e=>{displayPrefs[a[1]]=e.target.checked;persistLearning();applyDisplayPrefs();}));
     refreshVoices();
     document.getElementById('cloudVoice').value=audioPrefs.cloudVoice;
-    document.getElementById('cloudVoice').addEventListener('change',e=>{audioPrefs.cloudVoice=e.target.value==='male'?'male':'female';stopSpeech();persistLearning();if(vocabularyScreen.classList.contains('active'))prepareVocabularyAudio();});
+    document.getElementById('cloudVoice').addEventListener('change',e=>{audioPrefs.cloudVoice=e.target.value==='male'?'male':'female';vocabularyCacheToken++;stopSpeech();persistLearning();});
     document.getElementById('voiceSelect').addEventListener('change',e=>{audioPrefs.voice=e.target.value;stopSpeech();persistLearning();});
     document.getElementById('speechRate').addEventListener('input',e=>{audioPrefs.rate=Number(e.target.value);document.getElementById('rateValue').textContent=audioPrefs.rate;persistLearning();});
     document.getElementById('clearSpeechCache').addEventListener('click',async e=>{const button=e.currentTarget,result=document.getElementById('clearSpeechResult');button.disabled=true;result.textContent='Clearing downloaded audio…';try{if(window.PunjabiSpeechClient)await window.PunjabiSpeechClient.clearCache();result.textContent='Downloaded pronunciation audio was cleared. Your saved learning data was not changed.';}catch(error){result.textContent='Downloaded audio could not be cleared on this browser.';}finally{button.disabled=false;}});
@@ -2744,59 +2744,56 @@
       if(term&&visible)section.open=true;
     });
   }
-  async function prepareVocabularyAudio(){
-    const token=++vocabularyCacheToken,status=vocabularyScreen.querySelector('#vocabularyCacheStatus');
-    if(!status)return;
+  async function cacheVocabularyCategory(category,button){
+    vocabularyScreen.querySelectorAll('.vocabulary-cache-status').forEach(other=>{
+      if(other.textContent.startsWith('Downloading '))other.textContent='Paused. Tap Download section to resume.';
+    });
+    const token=++vocabularyCacheToken,status=button.parentElement.querySelector('.vocabulary-cache-status');
     const client=window.PunjabiSpeechClient;
     if(!client||!client.hasCached){status.textContent='Audio storage is unavailable.';return;}
-    const unique=[...new Map(gameVocabulary().map(item=>[item.gurmukhi.normalize('NFC'),item.gurmukhi])).values()];
+    const unique=[...new Map(gameVocabulary().filter(item=>item.category===category).map(item=>[item.gurmukhi.normalize('NFC'),item.gurmukhi])).values()];
+    button.disabled=true;
+    status.textContent='Checking this section on your device…';
     const pending=[];
-    for(const text of unique){
-      if(token!==vocabularyCacheToken)return;
-      if(!await client.hasCached(text,'normal',audioPrefs.cloudVoice))pending.push(text);
-    }
-    let ready=unique.length-pending.length;
-    status.textContent=ready+' / '+unique.length+' pronunciations cached for the '+audioPrefs.cloudVoice+' voice.';
-    if(!pending.length)return;
-    const auth=window.PunjabiCloudAuth;
-    if(!client.isCloudConfigured()||!auth||!auth.getUser()||!navigator.onLine){status.textContent+=' Sign in and connect to prepare the rest.';return;}
-    let remainingDay=0,remainingMonth=0;
     try{
-      const usage=await client.getUsage();
-      remainingDay=Number(usage.dailyLimit)-Number(usage.dailyCharacters);
-      remainingMonth=Number(usage.monthlyLimit)-Number(usage.monthlyCharacters);
-      if(!Number.isFinite(remainingDay)||!Number.isFinite(remainingMonth))throw Error('Usage information is unavailable.');
-    }catch(error){status.textContent+=' Could not check cloud limits: '+(error.message||'try again later');return;}
-    for(const text of pending){
-      if(token!==vocabularyCacheToken)return;
-      const characters=Array.from(text).length;
-      if(characters>remainingDay||characters>remainingMonth){status.textContent=ready+' / '+unique.length+' pronunciations cached. Daily or monthly cloud limit reached; reopen Vocabulary after the limit resets to continue.';return;}
-      status.textContent='Caching pronunciation '+(ready+1)+' / '+unique.length+' for the '+audioPrefs.cloudVoice+' voice…';
-      try{
-        const result=await client.prefetch(text,'normal',audioPrefs.cloudVoice);
-        if(!await client.hasCached(text,'normal',audioPrefs.cloudVoice))throw Error('The browser did not save this pronunciation. Free device storage and try again.');
-        if(result.source==='cloud'){remainingDay-=characters;remainingMonth-=characters;}
-        ready++;
-      }catch(error){
-        if(token===vocabularyCacheToken)status.textContent=ready+' / '+unique.length+' pronunciations cached. Paused: '+(error.message||'download failed')+' Reopen Vocabulary to resume.';
-        return;
+      for(const text of unique){
+        if(token!==vocabularyCacheToken)return;
+        if(!await client.hasCached(text,'normal',audioPrefs.cloudVoice))pending.push(text);
       }
+      let ready=unique.length-pending.length;
+      status.textContent=ready+' / '+unique.length+' pronunciations saved for the '+audioPrefs.cloudVoice+' voice.';
+      if(!pending.length)return;
+      const auth=window.PunjabiCloudAuth;
+      if(!client.isCloudConfigured()||!auth||!auth.getUser()||!navigator.onLine){status.textContent+=' Sign in and connect to download the rest.';return;}
+      for(const text of pending){
+        if(token!==vocabularyCacheToken)return;
+        status.textContent='Downloading '+(ready+1)+' / '+unique.length+' for the '+audioPrefs.cloudVoice+' voice… If the per-minute limit is reached, this waits for the next minute.';
+        try{
+          await client.prefetch(text,'normal',audioPrefs.cloudVoice);
+          if(!await client.hasCached(text,'normal',audioPrefs.cloudVoice))throw Error('The browser did not save this pronunciation. Free device storage and try again.');
+          ready++;
+        }catch(error){
+          if(token===vocabularyCacheToken)status.textContent=ready+' / '+unique.length+' saved. Paused: '+(error.message||'download failed')+' Tap Download section to resume.';
+          return;
+        }
+      }
+      if(token===vocabularyCacheToken)status.textContent='All '+unique.length+' pronunciations are saved for the '+audioPrefs.cloudVoice+' voice.';
+    }finally{
+      button.disabled=false;
     }
-    if(token===vocabularyCacheToken)status.textContent='All '+unique.length+' pronunciations are cached for the '+audioPrefs.cloudVoice+' voice.';
   }
   function renderVocabulary(){
+    vocabularyCacheToken++;
     const groups={};gameVocabulary().forEach(item=>{(groups[item.category]||(groups[item.category]=[])).push(item);});
     const categories=Object.keys(groups).sort((a,b)=>a.localeCompare(b));
-    vocabularyScreen.innerHTML='<div class="panel"><h2>📖 Vocabulary</h2><p class="desc">Open a category and tap any word to hear it. Each word keeps its own FSRS memory state on this browser. Fluent means at least 100 correct answers and 85% accuracy.</p><div class="vocabulary-toolbar"><input type="search" id="vocabularySearch" placeholder="Search any word or meaning" aria-label="Search vocabulary" value="'+escapeHtml(vocabularyQuery)+'"><label><input type="checkbox" id="vocabularyGurmukhi" '+(vocabularyPrefs.gurmukhi?'checked':'')+'> Gurmukhi</label><label><input type="checkbox" id="vocabularyRoman" '+(vocabularyPrefs.roman?'checked':'')+'> Roman Punjabi</label></div><p id="vocabularyCacheStatus" class="note" role="status" aria-live="polite">Checking downloaded pronunciations…</p><p class="note">Keep Vocabulary open while remaining audio downloads; progress resumes from cached clips next time.</p></div>'+categories.map(category=>'<details class="panel vocabulary-category"><summary>'+escapeHtml(category)+' <span class="pill">'+groups[category].length+'</span></summary><div class="vocabulary-list">'+groups[category].map(item=>{
+    vocabularyScreen.innerHTML='<div class="panel"><h2>📖 Vocabulary</h2><p class="desc">Open a category and tap any word to hear it. Each word keeps its own FSRS memory state on this browser. Fluent means at least 100 correct answers and 85% accuracy.</p><div class="vocabulary-toolbar"><input type="search" id="vocabularySearch" placeholder="Search any word or meaning" aria-label="Search vocabulary" value="'+escapeHtml(vocabularyQuery)+'"><label><input type="checkbox" id="vocabularyGurmukhi" '+(vocabularyPrefs.gurmukhi?'checked':'')+'> Gurmukhi</label><label><input type="checkbox" id="vocabularyRoman" '+(vocabularyPrefs.roman?'checked':'')+'> Roman Punjabi</label></div><p class="note">Audio downloads are optional. Open a category and tap Download section to save its normal-speed pronunciations on this device for the selected voice. Tap a word to hear it anytime.</p></div>'+categories.map(category=>'<details class="panel vocabulary-category"><summary>'+escapeHtml(category)+' <span class="pill">'+groups[category].length+'</span></summary><div class="vocabulary-cache"><button type="button" class="btn" data-cache-category="'+escapeHtml(category)+'">Download section</button><p class="note vocabulary-cache-status" role="status" aria-live="polite">Only missing recordings will be downloaded.</p></div><div class="vocabulary-list">'+groups[category].map(item=>{
       const progress=wordProgress[item.id]||{},correct=progress.correct||0,wrong=progress.wrong||0,total=correct+wrong,accuracy=total?Math.round(correct/total*100):0;
       const fluency=fluencyStatus(progress);
       return '<article class="vocabulary-word" role="button" tabindex="0" aria-label="Play '+escapeHtml(item.english)+'" data-id="'+escapeHtml(item.id)+'" data-search="'+escapeHtml((item.english+' '+item.roman+' '+item.gurmukhi).toLocaleLowerCase())+'"><strong>'+escapeHtml(item.english)+'</strong><p class="vocab-gurmukhi" lang="pa-Guru"'+(vocabularyPrefs.gurmukhi?'':' hidden')+'>'+escapeHtml(item.gurmukhi)+'</p><p class="vocab-roman" lang="pa-Latn"'+(vocabularyPrefs.roman?'':' hidden')+'>'+escapeHtml(item.roman)+'</p><div class="vocabulary-meta"><span class="fluency-badge fluency-'+fluency.toLowerCase().replace(/\s+/g,'-')+'">'+fluency+'</span><span>'+correct+' / 100 correct</span><span>'+wrong+' wrong</span>'+(total?'<span>'+accuracy+'% accuracy</span>':'')+'</div><div class="note">'+escapeHtml(memoryLabel(progress))+'</div><progress class="vocabulary-progress" value="'+Math.min(correct,100)+'" max="100" aria-label="Fluency progress"></progress><p class="speech-message" role="status" aria-live="polite"></p></article>';
     }).join('')+'</div></details>').join('');
     filterVocabulary();
-    prepareVocabularyAudio();
   }
   vocabularyScreen.addEventListener('input',event=>{if(event.target.id==='vocabularySearch'){vocabularyQuery=event.target.value;filterVocabulary();}});
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&vocabularyScreen.classList.contains('active'))prepareVocabularyAudio();});
   vocabularyScreen.addEventListener('change',event=>{
     if(event.target.id==='vocabularyGurmukhi')vocabularyPrefs.gurmukhi=event.target.checked;
     else if(event.target.id==='vocabularyRoman')vocabularyPrefs.roman=event.target.checked;
@@ -2808,6 +2805,8 @@
     if((event.key==='Enter'||event.key===' ')&&event.target.classList.contains('vocabulary-word')){event.preventDefault();event.target.click();}
   });
   vocabularyScreen.addEventListener('click',async event=>{
+    const cacheButton=event.target.closest('[data-cache-category]');
+    if(cacheButton){await cacheVocabularyCategory(cacheButton.dataset.cacheCategory,cacheButton);return;}
     const card=event.target.closest('.vocabulary-word');if(!card||card.getAttribute('aria-busy')==='true')return;
     const item=gameVocabulary().find(word=>word.id===card.dataset.id),status=card.querySelector('.speech-message');
     const client=window.PunjabiSpeechClient;
@@ -2866,36 +2865,17 @@
     }
     return plan;
   }
-  async function warmGamePlan(plan,token,status){
+  async function warmFirstGameRound(plan,token,status){
     if(!gameNeedsAudio())return 0;
     const client=window.PunjabiSpeechClient;
-    const clips=[...new Map(plan.map(round=>[round.target.gurmukhi.normalize('NFC'),round.target.gurmukhi])).values()];
-    const missing=[];
-    for(const text of clips){
-      if(token!==gameSession.prefetchToken)throw Error('Preparation cancelled.');
-      if(!await client.hasCached(text,'normal',audioPrefs.cloudVoice))missing.push(text);
-    }
-    const needed=missing.reduce((sum,text)=>sum+Array.from(text).length,0);
-    if(missing.length){
-      const usage=await client.getUsage();
-      const dayLeft=Number(usage.dailyLimit)-Number(usage.dailyCharacters);
-      const monthLeft=Number(usage.monthlyLimit)-Number(usage.monthlyCharacters);
-      if(!Number.isFinite(dayLeft)||!Number.isFinite(monthLeft))throw Error('Could not check remaining pronunciation limits.');
-      if(needed>dayLeft||needed>monthLeft)throw Error('These rounds need up to '+needed+' cloud characters, but only '+Math.min(dayLeft,monthLeft)+' remain. Choose fewer rounds, use written text only, or try after the limit resets.');
-    }
-    let ready=clips.length-missing.length;
-    const meter=status&&status.parentElement.querySelector('#gamePreparationProgress');
-    if(meter){meter.max=clips.length||1;meter.value=ready;}
-    if(status)status.textContent=ready+' / '+clips.length+' unique pronunciations already cached. Preparing the rest before play; each new clip may take about 8 seconds.';
-    for(const text of missing){
-      if(token!==gameSession.prefetchToken)throw Error('Preparation cancelled.');
-      await client.prefetch(text,'normal',audioPrefs.cloudVoice);
-      if(!await client.hasCached(text,'normal',audioPrefs.cloudVoice))throw Error('The browser did not save a pronunciation. Free device storage and try again.');
-      ready++;
-      if(meter)meter.value=ready;
-      if(status)status.textContent='Prepared '+ready+' / '+clips.length+' unique pronunciations for '+plan.length+' rounds…';
-    }
-    return clips.length;
+    const text=plan[0].target.gurmukhi;
+    if(token!==gameSession.prefetchToken)throw Error('Preparation cancelled.');
+    if(await client.hasCached(text,'normal',audioPrefs.cloudVoice))return 1;
+    if(status)status.textContent='Downloading the first pronunciation… If the per-minute limit is reached, this waits for the next minute.';
+    await client.getAudio(text,'normal',audioPrefs.cloudVoice,true);
+    if(token!==gameSession.prefetchToken)throw Error('Preparation cancelled.');
+    if(!await client.hasCached(text,'normal',audioPrefs.cloudVoice))throw Error('The browser did not save the first pronunciation. Free device storage and try again.');
+    return 1;
   }
   function gameTime(round){return Math.max(gamePrefs.minSeconds,gamePrefs.startSeconds-(round-1)*gamePrefs.stepSeconds);}
   function clearGameTimer(){if(gameSession.timerId)clearInterval(gameSession.timerId);gameSession.timerId=null;}
@@ -2939,8 +2919,8 @@
       <p class="note">Timer lengths are adjustable in Settings. Without a timer, each correct answer earns 100 points. Accuracy means rounds answered correctly on the first try.</p>
       <div id="gameWordCategories"><h3>Choose word categories</h3><div class="game-categories">${categories.map(category=>'<label><input type="checkbox" name="gameCategory" value="'+escapeHtml(category)+'" '+(gamePrefs.categories.includes(category)?'checked':'')+'> '+escapeHtml(category)+' ('+counts[category]+')</label>').join('')}</div></div>
       <div id="gameSentenceTemplates"><label for="gameTemplate">Sentence template</label><select id="gameTemplate"><option value="__random__">🎲 All enabled templates (weighted random)</option>${templates.map(t=>'<option value="'+escapeHtml(t.id)+'">'+escapeHtml(t.name)+' (difficulty '+t.difficulty+')</option>').join('')}</select></div>
-      <p class="note">Audio games download every selected round before play begins. Uncached clips take about 8 seconds each to prepare and count toward cloud limits; Slow playback is downloaded on demand. Written-text-only games need no cloud audio.</p>
-      <button type="button" class="btn primary" id="startWordGame">Prepare game</button>
+      <p class="note">Audio games prepare only the first word before play. Later words load when needed; categories downloaded in Vocabulary are ready on this device. The cloud's 10-request-per-minute and character limits still apply. Slow playback downloads separately when needed.</p>
+      <button type="button" class="btn primary" id="startWordGame">Start game</button>
       <p class="note">Best score on this browser: ${Number(gamePrefs.bestScore||0).toLocaleString()}</p>
       <p class="game-feedback" id="gameSetupStatus" role="status">${escapeHtml(message)}</p>
     </div>`;
@@ -3019,7 +2999,7 @@
     gameSession.round++;
     gameSession.tiles=plan.tiles;gameSession.target=plan.target;
     gameSession.seconds=gameTime(gameSession.round);gameSession.remaining=gameSession.seconds;
-    gameSession.ready=false;gameSession.audioLoading=false;gameSession.wrongIds=new Set();gameSession.hadMistake=false;gameSession.reviewed=false;gameSession.roundAttempted=false;gameSession.feedback=gameNeedsAudio()?'Starting prepared pronunciation…':'Read the prompt…';
+    gameSession.ready=false;gameSession.audioLoading=false;gameSession.wrongIds=new Set();gameSession.hadMistake=false;gameSession.reviewed=false;gameSession.roundAttempted=false;gameSession.feedback=gameNeedsAudio()?'Loading pronunciation…':'Read the prompt…';
     gameSession.phase='round';renderGameRound();playGameWord('normal',true);
   }
   function endGame(message){
@@ -3078,20 +3058,19 @@
     if(gamePrefs.challenge!=='audio'&&gamePrefs.promptScript===gamePrefs.script){renderGameSetup('Choose different scripts for the written prompt and tile labels.');return;}
     if(!Number.isInteger(gamePrefs.rounds)||gamePrefs.rounds<1||gamePrefs.rounds>100){renderGameSetup('Choose between 1 and 100 rounds.');return;}
     if(gamePrefs.content==='words'&&!window.PunjabiMemory){renderGameSetup('The FSRS memory scheduler did not load. Refresh the page and try again.');return;}
-    if(gameNeedsAudio()&&(!client||!client.isCloudConfigured()||!client.prefetch||!client.hasCached)){renderGameSetup('Cloud pronunciation must be configured to play audio games.');return;}
+    if(gameNeedsAudio()&&(!client||!client.isCloudConfigured()||!client.getAudio||!client.hasCached)){renderGameSetup('Cloud pronunciation must be configured to play audio games.');return;}
     const plan=buildGamePlan();
     if(plan.length<gamePrefs.rounds){renderGameSetup('Choose a category or template with at least '+gameTileCount()+' distinct choices.');return;}
     gameSession.round=0;gameSession.correct=0;gameSession.firstTryCorrect=0;gameSession.attemptedRounds=0;gameSession.score=0;gameSession.strikes=0;gameSession.target=null;gameSession.tiles=[];gameSession.plan=plan;gameSession.totalRounds=plan.length;
     gameSession.prefetchToken++;const token=gameSession.prefetchToken;
     gameSession.phase='preparing';
-    gameScreen.innerHTML='<div class="panel vocab-game"><h2>Preparing '+plan.length+' rounds</h2><p id="gameSetupStatus" role="status">Checking audio already on this device…</p><progress id="gamePreparationProgress" value="0" max="1" style="width:100%"></progress><p class="note">Keep this screen open while preparing. You can cancel and resume later; downloaded clips stay on this device.</p><button type="button" class="btn" id="cancelGamePreparation">Cancel</button></div>';
-    let clips=0;
-    try{clips=await warmGamePlan(plan,token,gameScreen.querySelector('#gameSetupStatus'));}
+    gameScreen.innerHTML='<div class="panel vocab-game"><h2>Preparing the first round</h2><p id="gameSetupStatus" role="status">Checking audio already on this device…</p><p class="note">Only the first pronunciation is prepared now. Later words load as you play; downloaded clips stay on this device.</p><button type="button" class="btn" id="cancelGamePreparation">Cancel</button></div>';
+    try{await warmFirstGameRound(plan,token,gameScreen.querySelector('#gameSetupStatus'));}
     catch(error){if(token===gameSession.prefetchToken)renderGameSetup((error&&error.message?error.message:'Pronunciation could not be prepared.')+' Try again, or choose written text only.');return;}
     if(token!==gameSession.prefetchToken||gameSession.phase!=='preparing')return;
     if(gameNeedsAudio()){
       gameSession.phase='ready';
-      gameScreen.innerHTML='<div class="panel vocab-game"><h2>All rounds are ready</h2><p>'+plan.length+' rounds and '+clips+' unique pronunciations are prepared. Tap below to start listening.</p><button type="button" class="btn primary" id="beginPreparedGame">Begin first round</button><button type="button" class="btn" id="cancelGamePreparation">Cancel</button></div>';
+      gameScreen.innerHTML='<div class="panel vocab-game"><h2>Ready to play</h2><p>'+plan.length+' rounds planned. The first pronunciation is ready; later words will load as needed.</p><button type="button" class="btn primary" id="beginPreparedGame">Begin first round</button><button type="button" class="btn" id="cancelGamePreparation">Cancel</button></div>';
     }else nextGameRound();
   }
   gameScreen.addEventListener('input',event=>{
@@ -3140,7 +3119,7 @@
         try{await speakPunjabi(controls.dataset.speech,b.dataset.speak==='slow');}finally{actionButtons.forEach(button=>button.disabled=false);}
       }
     });
-    const refreshAccountViews=()=>{renderProfile();updateCloudTtsSettings();if(vocabularyScreen.classList.contains('active'))prepareVocabularyAudio();};
+    const refreshAccountViews=()=>{renderProfile();updateCloudTtsSettings();};
     window.addEventListener('punjabi-auth-ready',refreshAccountViews);
     window.addEventListener('punjabi-auth-changed',refreshAccountViews);
     window.addEventListener('punjabi-auth-load-error',renderProfile);
