@@ -5,6 +5,8 @@
   const STORE_NAME = 'audio';
   const DB_VERSION = 1;
   const activeRequests = new Map();
+  let prefetchQueue = Promise.resolve();
+  let nextPrefetchAt = 0;
   let activeAudio = null;
   let activeObjectUrl = '';
   let activeController = null;
@@ -73,8 +75,8 @@
   }
 
   async function putCached(record) {
-    try { await withStore('readwrite', store => store.put(record)); }
-    catch (error) { console.warn('Pronunciation played but could not be downloaded for offline use.', error); }
+    try { await withStore('readwrite', store => store.put(record)); return true; }
+    catch (error) { console.warn('Pronunciation played but could not be downloaded for offline use.', error); return false; }
   }
 
   function errorForStatus(status) {
@@ -126,7 +128,8 @@
     if (!contentType.startsWith('audio/')) throw new SpeechClientError('invalid-response', 'Cloud pronunciation returned an invalid response.');
     const blob = await response.blob();
     if (!blob.size) throw new SpeechClientError('invalid-response', 'Cloud pronunciation returned empty audio.');
-    await putCached({ key, blob, mimeType: contentType, createdAt: Date.now(), text, mode, voice: selected, profile: config().speechCacheVersion || '' });
+    const stored = await putCached({ key, blob, mimeType: contentType, createdAt: Date.now(), text, mode, voice: selected, profile: config().speechCacheVersion || '' });
+    if (background && !stored) throw new SpeechClientError('storage-unavailable', 'Pronunciation could not be saved on this device. Free browser storage and try again.');
     return { blob, source: 'cloud' };
   }
 
@@ -140,8 +143,24 @@
     return Object.assign({ key }, result);
   }
 
+  async function hasCached(text, mode, voice) {
+    const record = await getCached(await cacheKey(text, mode, voice));
+    return Boolean(record && record.blob instanceof Blob && record.blob.size);
+  }
+
   function prefetch(text, mode, voice) {
-    return getAudio(text, mode, voice, true);
+    // Serialize new downloads so a 100-round game or the full vocabulary cannot
+    // burst past the server's 10-new-request-per-minute guard.
+    const work = async () => {
+      if (await hasCached(text, mode, voice)) return getAudio(text, mode, voice, true);
+      const wait = Math.max(0, nextPrefetchAt - Date.now());
+      if (wait) await new Promise(resolve => setTimeout(resolve, wait));
+      nextPrefetchAt = Date.now() + 8000;
+      return getAudio(text, mode, voice, true);
+    };
+    const result = prefetchQueue.then(work, work);
+    prefetchQueue = result.catch(() => {});
+    return result;
   }
 
   function stop() {
@@ -178,6 +197,9 @@
 
   async function clearCache() {
     stop();
+    // Let the current background download finish before clearing, so a late
+    // write cannot silently refill audio the user chose to remove.
+    await prefetchQueue;
     try { await withStore('readwrite', store => store.clear()); }
     catch (error) {
       if (window.indexedDB) await new Promise((resolve, reject) => {
@@ -202,6 +224,7 @@
     isCloudConfigured,
     cacheKey,
     getCached,
+    hasCached,
     getAudio,
     prefetch,
     play,

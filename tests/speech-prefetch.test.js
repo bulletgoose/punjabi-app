@@ -9,14 +9,34 @@ test('stopping playback does not cancel background pronunciation preparation', a
   let started;
   const fetchStarted = new Promise(resolve => { started = resolve; });
   let finishFetch;
+  const records = new Map();
+  const indexedDB = { open() {
+    const request = {};
+    queueMicrotask(() => {
+      request.result = {
+        objectStoreNames: { contains: () => true },
+        close() {},
+        transaction() {
+          const transaction = { objectStore() { return {
+            get(key) { const result = { result: records.get(key) }; queueMicrotask(() => transaction.oncomplete()); return result; },
+            put(record) { records.set(record.key, record); const result = { result: record.key }; queueMicrotask(() => transaction.oncomplete()); return result; }
+          }; } };
+          return transaction;
+        }
+      };
+      request.onsuccess();
+    });
+    return request;
+  } };
   const context = {
     window: {
       crypto: webcrypto,
-      indexedDB: null,
+      indexedDB,
       PUNJABI_APP_CONFIG: { speechEndpoint: 'https://example.test/speech' },
       PunjabiCloudAuth: { configured: true, getIdToken: async () => 'test-token' }
     },
     navigator: { onLine: true },
+    indexedDB,
     crypto: webcrypto,
     TextEncoder,
     Blob,
@@ -41,4 +61,5 @@ test('stopping playback does not cancel background pronunciation preparation', a
   assert.equal(signal.aborted, false);
   finishFetch();
   assert.equal((await prepared).source, 'cloud');
+  assert.equal(await context.window.PunjabiSpeechClient.hasCached('ਸਤ ਸ੍ਰੀ ਅਕਾਲ', 'normal', 'female'), true);
 });

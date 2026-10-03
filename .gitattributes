@@ -1,0 +1,2 @@
+# Preserve the upstream FSRS release byte-for-byte, including its whitespace.
+vendor/ts-fsrs-5.4.2/index.umd.js -whitespace
