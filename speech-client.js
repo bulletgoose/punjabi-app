@@ -85,7 +85,7 @@
     return new SpeechClientError('backend-unavailable', 'Cloud pronunciation is temporarily unavailable.', status);
   }
 
-  async function authenticatedFetch(url, options = {}) {
+  async function authenticatedFetch(url, options = {}, background = false) {
     if (!navigator.onLine) throw new SpeechClientError('offline', 'This pronunciation has not been downloaded yet.');
     if (!isCloudConfigured()) throw new SpeechClientError('cloud-disabled', 'Cloud pronunciation is not configured.');
     const auth = window.PunjabiCloudAuth;
@@ -94,7 +94,7 @@
     if (!token) throw new SpeechClientError('unauthenticated', 'Sign in to use cloud pronunciation.');
 
     const controller = new AbortController();
-    activeController = controller;
+    if (!background) activeController = controller;
     let response;
     try {
       response = await fetch(url, Object.assign({}, options, {
@@ -115,13 +115,13 @@
     return response;
   }
 
-  async function requestCloud(text, mode, voice, key) {
+  async function requestCloud(text, mode, voice, key, background = false) {
     const selected = selectedVoice(voice);
     const response = await authenticatedFetch(config().speechEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, mode: mode === 'slow' ? 'slow' : 'normal', voice: selected })
-    });
+    }, background);
     const contentType = (response.headers.get('content-type') || '').split(';')[0].trim();
     if (!contentType.startsWith('audio/')) throw new SpeechClientError('invalid-response', 'Cloud pronunciation returned an invalid response.');
     const blob = await response.blob();
@@ -130,14 +130,18 @@
     return { blob, source: 'cloud' };
   }
 
-  async function getAudio(text, mode, voice) {
+  async function getAudio(text, mode, voice, background = false) {
     const selected = selectedVoice(voice);
     const key = await cacheKey(text, mode, selected);
     const cached = await getCached(key);
     if (cached && cached.blob instanceof Blob && cached.blob.size) return { blob: cached.blob, source: 'downloaded', key };
-    if (!activeRequests.has(key)) activeRequests.set(key, requestCloud(text, mode, selected, key).finally(() => activeRequests.delete(key)));
+    if (!activeRequests.has(key)) activeRequests.set(key, requestCloud(text, mode, selected, key, background).finally(() => activeRequests.delete(key)));
     const result = await activeRequests.get(key);
     return Object.assign({ key }, result);
+  }
+
+  function prefetch(text, mode, voice) {
+    return getAudio(text, mode, voice, true);
   }
 
   function stop() {
@@ -199,6 +203,7 @@
     cacheKey,
     getCached,
     getAudio,
+    prefetch,
     play,
     getUsage,
     stop,

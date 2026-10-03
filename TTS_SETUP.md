@@ -14,6 +14,8 @@ This guide is deliberately split into **safe preparation** and **billing-enabled
 - “Clear downloaded pronunciation audio” clears only the IndexedDB audio store. Saved sentences, vocabulary, ratings, flashcards, and settings are untouched.
 - The Word Game uses the same authenticated Gurmukhi cloud pronunciation and voice-specific audio cache. A round starts its timer only after audio starts; replaying cached audio does not use more characters. Game categories and timing live in browser settings.
 - Word Game tiles can show Gurmukhi, Roman Punjabi, or English while speech always sends Gurmukhi. Eight additional game-only categories contain 30 editable words each; they are deliberately excluded from sentence templates until their grammar is modeled.
+- The Vocabulary screen lists every enabled game word with Gurmukhi/Roman visibility controls, direct authenticated cloud playback, and browser-local per-word correct/wrong counts. Fluent means at least 100 correct answers and at least 85% accuracy; whole-sentence game rounds do not inflate individual word counts.
+- Audio games prepare the first prompt and five upcoming prompts before play begins, then keep a five-round lookahead in the existing voice-specific IndexedDB cache. This may use characters before a prompt is played. A small speech bank rotates after at least 90 seconds to stay within the unchanged 10-new-request-per-minute guard; text-only rounds need no cloud speech or sign-in.
 
 The current server cache is an in-memory, per-function-instance LRU cache. It avoids repeat generation within a warm instance, but it is not a durable cross-instance cache. The `get`/`put` cache interface is intentionally replaceable by managed storage later. No chargeable persistent cache has been created.
 
