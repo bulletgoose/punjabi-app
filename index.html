@@ -454,12 +454,20 @@
 <script src="./firebase-config.js?v=7"></script>
 <script src="./speech-client.js?v=10"></script>
 <script src="./game-vocabulary.js?v=1"></script>
+<script src="./learning-context.js?v=1"></script>
+<script src="./linguistic-system.js?v=1"></script>
+<script src="./grammar-engine.js?v=1"></script>
+<script src="./data/vocabulary-expansion.js?v=1"></script>
+<script src="./data/grammar-ready-vocabulary.js?v=1"></script>
 <script src="./vendor/ts-fsrs-5.4.2/index.umd.js"></script>
 <script src="./fsrs-memory.js?v=1"></script>
 <script type="module">import('./firebase-auth.js').catch(function(){window.PunjabiCloudAuthLoadError=true;window.dispatchEvent(new CustomEvent('punjabi-auth-load-error'));});</script>
 <script>
 (function(){
   "use strict";
+
+  const grammarReady=new Map((window.PUNJABI_GRAMMAR_READY_VOCABULARY||[]).map(row=>[row.id,row]));
+  const bundledVocabulary=(window.PUNJABI_VOCABULARY_EXPANSION||[]).map(row=>grammarReady.has(row.id)?Object.assign({},row,grammarReady.get(row.id),{quality:Object.assign({},row.quality,{grammarEligible:true})}):row);
 
   /* ---------------- Default data ---------------- */
   function defaultData(){
@@ -814,6 +822,15 @@
     const raw = localStorage.getItem(STORAGE_KEY);
     if(raw){ state = JSON.parse(raw); }
   }catch(e){ console.warn('Could not read saved data, starting fresh.', e); }
+  // Keep a recoverable pre-migration copy before any older repair writes.
+  let linguisticMigrationAllowed=true;
+  if(state&&!state.linguistic){
+    try{
+      if(!localStorage.getItem('punjabi-app-state-before-linguistic-v1'))
+        localStorage.setItem('punjabi-app-state-before-linguistic-v1',JSON.stringify(state));
+    }catch(error){linguisticMigrationAllowed=false;console.warn('Migration backup unavailable; using the existing library for this session.',error);}
+  }
+  if(state&&state.linguistic)window.PunjabiLinguisticSystem.install(state,{categories:window.PunjabiLearningContext.categories,expansion:bundledVocabulary});
   if(!state || !state.vocab || !state.verbs || !state.templates){ state = defaultData(); }
   if(!state.saved){ state.saved = []; }
 
@@ -965,11 +982,13 @@
   if(!Array.isArray(state.savedWords))state.savedWords=[];
 
   function save(){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    if(state.linguistic)window.PunjabiLinguisticSystem.sync(state);
+    if(state.linguistic&&!linguisticMigrationAllowed)return;
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state.linguistic?window.PunjabiLinguisticSystem.snapshot(state,{compact:true}):state)); }
     catch(e){ console.warn('Could not save data.', e); }
   }
 
-  const CATEGORY_LABELS = {WHO:'Who', WHEN:'When', WHERE:'Where', WHAT:'What', HOW:'How', WHY:'Reasons', ABOUT:'About', QUESTION:'Question words', CONNECTOR:'Connectors', STATE:'States & feelings', ADJECTIVE:'Descriptive words (word game)', NUMBER:'Numbers (word game)', GAME_VEGETABLES:'Vegetables (word game)',GAME_FRUITS:'Fruits (word game)',GAME_SPICES:'Spices (word game)',GAME_EDUCATION:'Education (word game)',GAME_CLOTHES:'Clothes (word game)',GAME_BODY:'Parts of the body (word game)',GAME_NATURE:'Nature (word game)',GAME_EVERYDAY:'Everyday items (word game)'};
+  const CATEGORY_LABELS = {LEXICON:'Dictionary words',WHO:'Who', WHEN:'When', WHERE:'Where', WHAT:'What', HOW:'How', WHY:'Reasons', ABOUT:'About', QUESTION:'Question words', CONNECTOR:'Connectors', STATE:'States & feelings', ADJECTIVE:'Descriptive words (word game)', NUMBER:'Numbers (word game)', GAME_VEGETABLES:'Vegetables (word game)',GAME_FRUITS:'Fruits (word game)',GAME_SPICES:'Spices (word game)',GAME_EDUCATION:'Education (word game)',GAME_CLOTHES:'Clothes (word game)',GAME_BODY:'Parts of the body (word game)',GAME_NATURE:'Nature (word game)',GAME_EVERYDAY:'Everyday items (word game)'};
   const CATEGORY_ORDER = ['WHO','WHEN','WHERE','WHAT','HOW','WHY','ABOUT','QUESTION','CONNECTOR','STATE','ADJECTIVE','NUMBER','GAME_VEGETABLES','GAME_FRUITS','GAME_SPICES','GAME_EDUCATION','GAME_CLOTHES','GAME_BODY','GAME_NATURE','GAME_EVERYDAY'];
 
   function uid(prefix){ return prefix + '-' + Math.random().toString(36).slice(2,9); }
@@ -1278,7 +1297,7 @@
   /* Curated conversational patterns. These use grammatical roles rather than
      blindly shuffling slots, which keeps questions, agreement and objects sane. */
   function assemblePattern(template){
-    const whoPool = enabledOf(state.vocab.WHO);
+    const whoPool = enabledOf(state.vocab.WHO).filter(window.PunjabiGrammarEngine.isHumanSubject);
     const whatPool = enabledOf(state.vocab.WHAT);
     const wherePool = enabledOf(state.vocab.WHERE);
     const howPool = enabledOf(state.vocab.HOW);
@@ -1327,7 +1346,7 @@
       return 'to '+item.e.replace(/^(in|at|on) /,'');
     }
     function aux(subject){ return ({'1sg':L('hā̃'),'2sg':L('haĩ'),'2pl':L('ho'),'3sg':L('hai'),'1pl':L('hā̃'),'3pl':L('han')})[subject.person||'3sg']||L('hai'); }
-    function pastAux(subject){ return ({'1sg':L('sī'),'2sg':L('sī̃'),'2pl':L('sī'),'3sg':L('sī'),'1pl':L('sī'),'3pl':L('san')})[subject.person||'3sg']||L('sī'); }
+    function pastAux(subject){ return ({'1sg':L('sī'),'2sg':L('sī'),'2pl':L('sī'),'3sg':L('sī'),'1pl':L('sī'),'3pl':L('san')})[subject.person||'3sg']||L('sī'); }
     function englishBe(subject){ const p=subject.englishPerson||subject.person;return p==='1sg'?'am':((p==='3sg'||!p)?'is':'are'); }
     function englishPastBe(subject){ const p=subject.englishPerson||subject.person;return (p==='1sg'||p==='3sg'||!p)?'was':'were'; }
     function englishSubject(subject){ return subject.e==='he/she'?(subject.gender==='f'?'she':'he'):(subject.e||'someone'); }
@@ -1349,13 +1368,17 @@
     function habitual(verb,subject){
       return habitualForSubject(verb,subject);
     }
-    function progressive(verb,subject){ return verb.root+' '+genderForm(subject,{m:L('rihā'),f:L('rahī'),pl:L('rahe'),fpl:L('rahīā̃')})+' '+aux(subject); }
-    function pastProgressive(verb,subject){ return verb.root+' '+genderForm(subject,{m:L('rihā'),f:L('rahī'),pl:L('rahe'),fpl:L('rahīā̃')})+' '+pastAux(subject); }
-    function pastHabitual(verb,subject){ if(scriptG)return habitual(verb,subject).replace(/(ਹਾਂ|ਹੈਂ|ਹੋ|ਹੈ|ਹਨ)$/,'')+pastAux(subject); return habitual(verb,subject).replace(/(hā̃|hāṃ|haĩ|ho|hai|han)$/,'')+pastAux(subject); }
-    function canPhrase(verb,subject,negative){ return (negative?L('nahī̃ '):'')+verb.root+' '+genderForm(subject,{m:L('sakdā'),f:L('sakdī'),pl:L('sakde'),fpl:L('sakdīā̃')})+' '+aux(subject); }
+    function grammaticalVerb(verb,subject,aspect,negative){
+      const form=window.PunjabiGrammarEngine.conjugate({verb:verb,subject:subject,aspect:aspect,negative:!!negative,script:scriptG?'gurmukhi':'roman'});
+      if(!form.ok)throw Error(form.reason);
+      return form.text;
+    }
+    function progressive(verb,subject){ return grammaticalVerb(verb,subject,'progressive'); }
+    function pastProgressive(verb,subject){ return grammaticalVerb(verb,subject,'pastProgressive'); }
+    function pastHabitual(verb,subject){ return grammaticalVerb(verb,subject,'pastHabitual'); }
+    function canPhrase(verb,subject,negative){ return grammaticalVerb(verb,subject,'ability',negative); }
     function planPhrase(verb,subject){
-      const verbal=scriptG?verb.infinitive.replace(/ਾ$/,''):(/[āīūeo]$/.test(verb.root)?verb.root+'ṇ':verb.root+'aṇ');
-      return verbal+' '+genderForm(subject,{m:L('vālā'),f:L('vālī'),pl:L('vāle'),fpl:L('vālīā̃')})+' '+aux(subject);
+      return grammaticalVerb(verb,subject,'plannedFuture');
     }
     function agreedInfinitive(verb,item){
       return infinitiveForObject(verb,item);
@@ -1550,7 +1573,8 @@
         '</div>';
       const english='<div class="breakdown-english'+(useGlobalPrefs?' learning-script-english':'')+'"'+(!showEnglish?' hidden':'')+'>'+escapeHtml(part.english||'')+
         '<span class="breakdown-category">'+escapeHtml(part.category||'Phrase')+'</span>'+
-        (part.grammarNote?'<span class="breakdown-note">'+escapeHtml(part.grammarNote)+'</span>':'')+'</div>';
+        (part.grammarNote?'<span class="breakdown-note">'+escapeHtml(part.grammarNote)+'</span>':'')+
+        ((part.dictionaryForms||[]).length?'<span class="breakdown-note">Supporting vocabulary: '+escapeHtml(part.dictionaryForms.map(w=>[showRoman?w.roman:'',showGurmukhi?w.gurmukhi:'',showEnglish?w.english:''].filter(Boolean).join(' — ')).join('; '))+'</span>':part.dictionaryRoman||part.dictionaryGurmukhi?'<span class="breakdown-note">Dictionary form: '+escapeHtml([showRoman?part.dictionaryRoman:'',showGurmukhi?part.dictionaryGurmukhi:''].filter(Boolean).join(' — '))+'</span>':'')+'</div>';
       return '<div class="sentence-breakdown-row part-'+category+rowClass+'"'+globalAttr+' data-word data-roman="'+escapeHtml(part.roman||'')+'" data-gurmukhi="'+escapeHtml(part.gurmukhi||'')+'" data-english="'+escapeHtml(part.english||'')+'">'+scripts+
         '<span class="breakdown-arrow'+(useGlobalPrefs?' learning-script-english':'')+'" aria-hidden="true"'+(!hasPunjabi||!showEnglish?' hidden':'')+'>→</span>'+english+
         (part.gurmukhi?'<div class="breakdown-actions"><button type="button" class="btn" data-speak-word="play">🔊 Play part</button><button type="button" class="btn" data-speak-word="slow">🐢 Slow</button><button type="button" class="btn" data-save-word>☆ Save part</button></div>':'')+'</div>';
@@ -2033,7 +2057,7 @@
           '<div><label>Type</label><select id="newVerbType"><option value="simple">Simple</option><option value="modal">Modal</option></select></div>'+
           '<div><button type="button" class="btn primary" id="addVerbBtn">Add verb</button></div>'+
         '</div>'+
-        '<p class="desc" style="margin-top:14px;">New verbs get an auto-suggested regular conjugation (stem + "dā hā̃" pattern) which you can then correct above for irregular verbs.</p>'+
+        '<p class="desc" style="margin-top:14px;">New verbs stay disabled until you supply their root, commands and agreement forms in both scripts. Save the forms, then enable the verb.</p>'+
       '</div>';
 
     blocksContent.querySelectorAll('tr[data-id]').forEach(function(row){
@@ -2073,12 +2097,11 @@
       const base = document.getElementById('newVerbBase').value.trim();
       const type = document.getElementById('newVerbType').value;
       if(!inf || !eng || !base) return;
-      const stem = inf.replace(/ṇā$/,'').replace(/ā$/,'');
       const newVerb = {
-        id: uid('verb'), infinitive: inf, english: eng, base: base, root:stem, imperative:stem+'o', prefix:'', type: type,
+        id: uid('verb'), infinitive: inf, english: eng, base: base, root:'', imperative:'', prefix:'', type: type,
         isModalComplement:false, takesTag:'', takesTags:[],
-        forms:{'1sg': stem+'dā hā̃', '2sg':stem+'dā haĩ', '2pl': stem+'de ho', '3sg': stem+'dā hai', '1pl': stem+'de hā̃', '3pl':stem+'de han'},
-        enabled:true
+        forms:{'1sg':'','2sg':'','2pl':'','3sg':'','1pl':'','3pl':''},
+        source:{name:'User vocabulary',verification:'user-authored; forms pending'},enabled:false
       };
       state.verbs.push(newVerb);
       save();
@@ -2108,21 +2131,14 @@
     if(value.inflections&&['f','plm','plf','oblique'].some(k=>typeof value.inflections[k]!=='string'))throw Error('Supply f, plm, plf and oblique infinitive forms.');
   }
   function habitualForSubject(verb,subject){
-    let form=conjugatePunjabi(verb,subject.person||'3sg');
-    const plural=subject.number==='pl'||['1pl','2pl','3pl'].includes(subject.person);
-    if(subject.gender==='f'){
-      if(scriptG)form=form.replace(/ਦ[ਾੇ] (?=ਹ)/,plural?'ਦੀਆਂ ':'ਦੀ ');
-      else form=form.replace(/d[āe] (?=(hā̃|hāṃ|haĩ|ho|hai|han)$)/,plural?'dīā̃ ':'dī ');
-    }
-    return form;
+    const form=window.PunjabiGrammarEngine.conjugate({verb:verb,subject:subject,aspect:'habitual',script:scriptG?'gurmukhi':'roman'});
+    if(!form.ok)throw Error(form.reason);
+    return form.text;
   }
   function infinitiveForObject(verb,item){
-    if(!item)return verb.infinitive;
-    const variant=item.number==='pl'?(item.gender==='f'?'plf':'plm'):(item.gender==='f'?'f':'m');
-    if(variant==='m')return verb.infinitive;
-    if(verb.inflections&&verb.inflections[variant])return verb.inflections[variant];
-    // Script-specific inflection on an authored infinitive, not transliteration.
-    return scriptG?verb.infinitive.replace(/ਾ$/,{f:'ੀ',plm:'ੇ',plf:'ੀਆਂ'}[variant]):verb.infinitive.replace(/ā$/,{f:'ī',plm:'e',plf:'īā̃'}[variant]);
+    const form=window.PunjabiGrammarEngine.conjugate({verb,object:item,aspect:'infinitive',script:scriptG?'gurmukhi':'roman'});
+    if(!form.ok)throw Error(form.reason);
+    return form.text;
   }
   function validateGrammarMetadata(value){
     if(!value||typeof value!=='object'||Array.isArray(value))throw Error('Expected an object.');
@@ -2358,6 +2374,8 @@
   function scriptProjection(source){
     const projected=Object.assign({},source,{vocab:{},verbs:[]});
     Object.keys(source.vocab).forEach(cat=>{
+      // Dictionary and game rows cannot occur in legacy sentence roles.
+      if(cat==='LEXICON'||cat==='NUMBER'||cat==='ADJECTIVE'||cat.startsWith('GAME_')){projected.vocab[cat]=[];return;}
       projected.vocab[cat]=source.vocab[cat].map(x=>Object.assign({},x,x.gScript||{}, {p:x.g||'⟦missing Gurmukhi⟧'}));
     });
     projected.verbs=source.verbs.map(v=>Object.assign({},v,v.gScript||{
@@ -2369,13 +2387,11 @@
   // same selection tape; no fresh randomness, reroll, or transliteration occurs.
   function assembleFromTemplate(template){
     if(!template||!template.enabled)return null;
+    if(window.PunjabiGrammarEngine.isStructuredTemplate(template))return window.PunjabiGrammarEngine.generate(template,state,pickRandom);
     // Fixed grammatical words are explicit dependencies, too: an enabled
     // template cannot silently reintroduce a disabled subject, verb or question.
-    const dependencies={habitQuestion:['q-ki'],whatDoing:['q-ki','v-karna'],whereGoing:['q-kithe','v-jana'],whenComing:['q-kado','v-auna'],whyDoing:['q-kiu'],howDoing:['q-kive'],
-      canYou:['q-ki','who-tusi'],haveQuestion:['q-ki'],stateQuestion:['q-ki'],andActions:['c-ate'],butContrast:['c-par'],conditional:['c-je','v-chahuna'],
-      choiceQuestion:['who-tusi','c-ja','q-ki','v-chahuna'],whichWant:['who-tusi','q-kehra','v-chahuna'],amountQuestion:['who-tusi','q-kinna'],pastWent:['v-jana']};
-    const required=dependencies[template.pattern]||[];
-    const allWords=Object.values(state.vocab).flat().concat(state.verbs);
+    const required=window.PunjabiGrammarEngine.dependenciesFor(template);
+    const allWords=Object.keys(state.vocab).filter(category=>category!=='LEXICON').flatMap(category=>Array.from(state.vocab[category])).concat(Array.from(state.verbs));
     if(required.some(id=>!allWords.some(w=>w.id===id&&w.enabled)))return null;
     const original=state;let roman,gurmukhi,rendered;
     selectionTape=[];selectionCursor=0;selectionRecording=true;selectionReplay=false;
@@ -2392,13 +2408,60 @@
     finally{state=original;scriptG=false;selectionReplay=false;}
     const romanPhrases=roman.phraseBreakdown||[];
     const gurmukhiPhrases=gurmukhi&&rendered&&rendered.phraseBreakdown||[];
+    const lexical=window.PunjabiLinguisticSystem;
+    const references={},selectedRows={};
+    (roman.signature||'').split('|').forEach(function(token){
+      const bits=token.split(':'),type=bits.shift();
+      if(lexical.resolveId(original,bits.join(':'))){const id=bits.join(':');bits.splice(0,bits.length,id);}
+      bits.forEach(function(id){
+        const vocabularyId=lexical.resolveId(original,id);
+        if(vocabularyId){if(!references[type])references[type]=[];if(!references[type].includes(vocabularyId))references[type].push(vocabularyId);const row=allWords.find(w=>w.id===id);if(row){if(!selectedRows[type])selectedRows[type]=[];selectedRows[type].push(row);}}
+      });
+    });
+    required.forEach(function(id){
+      const vocabularyId=lexical.resolveId(original,id),word=vocabularyId&&lexical.get(original,vocabularyId);
+      if(word){const type=word.partOfSpeech==='verb'?'VERB':word.partOfSpeech==='pronoun'?'WHO':word.partOfSpeech==='conjunction'?'CONNECTOR':'QUESTION';if(!references[type])references[type]=[];if(!references[type].includes(vocabularyId))references[type].push(vocabularyId);const row=allWords.find(w=>w.id===id);if(row){if(!selectedRows[type])selectedRows[type]=[];selectedRows[type].push(row);}}
+    });
+    const grammarMetadata=window.PunjabiGrammarEngine.metadataFor(template);
+    function phraseReferences(part){
+      const type=part.category==='QUESTION'&&selectedRows.Q?'Q':part.category;
+      const rows=selectedRows[type]||[],matches=[];
+      rows.forEach(function(row){
+        const forms=[row.p,row.infinitive,row.dative,row.withPossession,row.dest].concat(Object.values(row.forms||{}),Object.values(row.inflections||{})).filter(Boolean);
+        if(type==='VERB'){
+          ['habitual','pastHabitual','progressive','pastProgressive','ability','plannedFuture','perfective','future','imperative','infinitive'].forEach(function(aspect){
+            (selectedRows.WHO||[]).forEach(function(subject){
+              [null].concat(selectedRows.WHAT||[]).forEach(function(object){
+                const form=window.PunjabiGrammarEngine.conjugate({verb:row,subject:subject,object:object,aspect:aspect});
+                if(form.ok)forms.push(form.text);
+              });
+            });
+          });
+        }
+        forms.forEach(function(form){
+          let start=part.value.indexOf(form);
+          while(start!==-1){
+            const end=start+form.length;
+            if((start===0||/[\s,]/.test(part.value[start-1]))&&(end===part.value.length||/[\s,]/.test(part.value[end])))matches.push({id:row.vocabularyId||lexical.resolveId(original,row.id),start:start,end:end});
+            start=part.value.indexOf(form,start+1);
+          }
+        });
+      });
+      // A complete compound predicate wins over a shorter form contained in
+      // it. Separate action clauses and infinitive+modal spans retain their
+      // own lexical references.
+      const ids=Array.from(new Set(matches.filter(m=>!matches.some(other=>other.id!==m.id&&other.start<=m.start&&other.end>=m.end&&(other.end-other.start>m.end-m.start))).map(m=>m.id)));
+      return ids.length?ids:(rows.length===1?[rows[0].vocabularyId||lexical.resolveId(original,rows[0].id)]:[]);
+    }
     const sentenceBreakdown=romanPhrases.map(function(part,index){
       const gurmukhiPart=gurmukhiPhrases[index];
-      return {roman:part.value,gurmukhi:gurmukhiPart?gurmukhiPart.value:'',english:part.english||'',category:part.category||'',grammarNote:part.grammarNote||''};
+      const vocabularyIds=phraseReferences(part);
+      return {roman:part.value,gurmukhi:gurmukhiPart?gurmukhiPart.value:'',english:part.english||'',category:part.category||'',grammarNote:part.grammarNote||'',vocabularyIds:vocabularyIds,grammarConceptIds:grammarMetadata.grammarConceptIds||[],dictionaryForms:vocabularyIds.map(function(id){const word=lexical.get(original,id);return {vocabularyId:id,roman:word.p,gurmukhi:word.g,english:word.e};})};
     });
     const sentence=Object.assign(roman,{roman:roman.punjabi,gurmukhi:gurmukhi||'',template:template.id,
       buildingBlocks:roman.breakdown.map((b,i)=>Object.assign({},b,{gurmukhi:rendered&&rendered.breakdown[i]?rendered.breakdown[i].value:''})),
       sentenceBreakdown:sentenceBreakdown,
+      vocabularyIds:Array.from(new Set(Object.values(references).flat())),grammarConceptIds:grammarMetadata.grammarConceptIds||[],scenarioIds:grammarMetadata.scenarioIds||[],
       scriptWarning:gurmukhi?'':'Gurmukhi is missing for a selected custom word/form. Edit its Gurmukhi and grammar metadata in Building Blocks.'});
     delete sentence.phraseBreakdown;
     return sentence;
@@ -2407,10 +2470,11 @@
   const LEARNING_KEY='punjabi-learning-v1';
   function readLearning(){try{return JSON.parse(localStorage.getItem(LEARNING_KEY))||{};}catch(e){return {};}}
   const learning=readLearning();
+  const progression=learning.progression||window.PunjabiLearningContext.progress();
   let displayPrefs=Object.assign({roman:true,gurmukhi:true,english:true},learning.display||{});
   let audioPrefs=Object.assign({voice:'',cloudVoice:'female',rate:1},learning.audio||{});
   if(!['female','male'].includes(audioPrefs.cloudVoice))audioPrefs.cloudVoice='female';
-  let flashPrefs=Object.assign({count:10,direction:'mixed',mode:'random',templates:[],roman:true,gurmukhi:true,audio:true},learning.flash||{});
+  let flashPrefs=Object.assign({content:'sentences',category:'',count:10,direction:'mixed',mode:'random',templates:[],roman:true,gurmukhi:true,audio:true},learning.flash||{});
   let learningStats=Object.assign({version:1,ratings:[],totalReviews:0,counts:{again:0,hard:0,good:0,easy:0}},learning.stats||{});
   let gamePrefs=Object.assign({script:'gurmukhi',categories:['Animals','Numbers','Time','Adjectives','Tone & manner'],startSeconds:10,stepSeconds:0.5,minSeconds:2,bestScore:0,gridSize:9,content:'words',template:'__random__',challenge:'audio',promptScript:'roman',maxStrikes:3,timed:true,rounds:10},learning.game||{});
   if(!['roman','gurmukhi','english'].includes(gamePrefs.script))gamePrefs.script='gurmukhi';
@@ -2427,7 +2491,7 @@
   // One explicit session state. Card reveal/direction/rating live on each fixed card.
   const flashSession={phase:'setup',deck:null,index:0,id:'',options:null};
   function persistLearning(){
-    try{localStorage.setItem(LEARNING_KEY,JSON.stringify({display:displayPrefs,audio:audioPrefs,flash:flashPrefs,game:gamePrefs,vocabulary:vocabularyPrefs,wordProgress,stats:learningStats}));return true;}
+    try{localStorage.setItem(LEARNING_KEY,JSON.stringify({display:displayPrefs,audio:audioPrefs,flash:flashPrefs,game:gamePrefs,vocabulary:vocabularyPrefs,wordProgress,stats:learningStats,progression:progression}));return true;}
     catch(e){showSpeechStatus('Your browser could not save preferences or ratings. They will last only for this session.');return false;}
   }
   let speechStatusTarget=null;
@@ -2578,7 +2642,7 @@
     if(flashSession.phase==='summary'&&flashSession.deck){renderFlashSummary();return;}
     if(flashSession.phase==='round'&&flashSession.deck){renderFlashCard();return;}
     const templates=enabledOf(state.templates);
-    document.getElementById('screen-flashcards').innerHTML='<div class="panel flash-setup"><h2>🃏 Flashcards</h2><p>Practise the same sentences from either direction. Cards are generated once per round; revealing an answer never changes it.</p><div class="settings-grid"><div><label for="flashCount">Number of cards</label><input id="flashCount" type="number" min="1" max="100" value="'+flashPrefs.count+'"></div><div><label for="flashDirection">Direction</label><select id="flashDirection"><option value="en-pa">English → Punjabi</option><option value="pa-en">Punjabi → English</option><option value="mixed">Mixed direction</option></select></div><div><label for="flashMode">Templates</label><select id="flashMode"><option value="random">Random from all enabled templates</option><option value="specific">Choose enabled templates</option></select></div></div><fieldset id="flashTemplates"><legend>Use these templates</legend>'+templates.map(t=>'<label class="setting-check"><input type="checkbox" name="flashTemplate" value="'+escapeHtml(t.id)+'" '+(flashPrefs.templates.includes(t.id)?'checked':'')+'> '+escapeHtml(t.name)+'</label>').join('')+'</fieldset><h3>Punjabi side</h3><div class="settings-grid">'+checkField('flashRoman','Roman Punjabi',flashPrefs.roman)+checkField('flashGurmukhi','Gurmukhi',flashPrefs.gurmukhi)+checkField('flashAudio','Pronunciation buttons',flashPrefs.audio)+'</div><p class="note">Enable at least one written script. Random mode samples all enabled templates equally, including templates whose batch probability is zero.</p><p id="flashError" role="alert"></p><button type="button" class="btn primary" id="startFlash">Start round</button></div>';
+    document.getElementById('screen-flashcards').innerHTML='<div class="panel flash-setup"><h2>🃏 Flashcards</h2><p>Practise the same sentences from either direction. Cards are generated once per round; revealing an answer never changes it.</p><div class="settings-grid"><div><label for="flashCount">Number of cards</label><input id="flashCount" type="number" min="1" max="100" value="'+flashPrefs.count+'"></div><div><label for="flashDirection">Direction</label><select id="flashDirection"><option value="en-pa">English → Punjabi</option><option value="pa-en">Punjabi → English</option><option value="mixed">Mixed direction</option></select></div><div><label for="flashMode">Templates</label><select id="flashMode"><option value="random">Random from all enabled templates</option><option value="specific">Choose enabled templates</option></select></div></div><fieldset id="flashTemplates"><legend>Use these templates</legend>'+templates.map(t=>'<label class="setting-check"><input type="checkbox" name="flashTemplate" value="'+escapeHtml(t.id)+'" '+(flashPrefs.templates.includes(t.id)?'checked':'')+'> '+escapeHtml(t.name)+'</label>').join('')+'</fieldset><div class="settings-grid"><label>Practice<select id="flashContent"><option value="sentences" '+(flashPrefs.content==='sentences'?'selected':'')+'>Sentences</option><option value="words" '+(flashPrefs.content==='words'?'selected':'')+'>Vocabulary words</option></select></label><label>Word topic<select id="flashCategory"><option value="">All topics</option>'+Object.values(state.linguistic.categories).map(c=>'<option value="'+escAttr(c.id)+'" '+(flashPrefs.category===c.id?'selected':'')+'>'+escapeHtml(c.label||c.name)+'</option>').join('')+'</select></label></div><h3>Punjabi side</h3><div class="settings-grid">'+checkField('flashRoman','Roman Punjabi',flashPrefs.roman)+checkField('flashGurmukhi','Gurmukhi',flashPrefs.gurmukhi)+checkField('flashAudio','Pronunciation buttons',flashPrefs.audio)+'</div><p class="note">Enable at least one written script. Random mode samples all enabled templates equally, including templates whose batch probability is zero.</p><p id="flashError" role="alert"></p><button type="button" class="btn primary" id="startFlash">Start round</button></div>';
     document.getElementById('flashDirection').value=flashPrefs.direction;
     document.getElementById('flashMode').value=flashPrefs.mode;
     const sync=()=>{document.getElementById('flashTemplates').hidden=document.getElementById('flashMode').value!=='specific';};sync();
@@ -2586,6 +2650,7 @@
     document.getElementById('screen-flashcards').querySelectorAll('input,select').forEach(el=>el.addEventListener('change',saveFlashSetupPreferences));
   }
   function saveFlashSetupPreferences(){
+    flashPrefs.content=document.getElementById('flashContent').value;flashPrefs.category=document.getElementById('flashCategory').value;
     if(flashSession.phase!=='setup'||!document.getElementById('flashCount'))return;
     const count=Number(document.getElementById('flashCount').value);
     if(Number.isInteger(count)&&count>=1&&count<=100)flashPrefs.count=count;
@@ -2595,19 +2660,22 @@
     persistLearning();
   }
   function startFlashFromSetup(){
+    flashPrefs.content=document.getElementById('flashContent').value;flashPrefs.category=document.getElementById('flashCategory').value;
       const count=Number(document.getElementById('flashCount').value);
       flashPrefs={count:count,direction:document.getElementById('flashDirection').value,mode:document.getElementById('flashMode').value,
         templates:Array.from(document.querySelectorAll('[name="flashTemplate"]:checked')).map(el=>el.value),roman:document.getElementById('flashRoman').checked,gurmukhi:document.getElementById('flashGurmukhi').checked,audio:document.getElementById('flashAudio').checked};
-      const error=!Number.isInteger(count)||count<1||count>100?'Choose between 1 and 100 cards.':!flashPrefs.roman&&!flashPrefs.gurmukhi?'Enable Roman Punjabi or Gurmukhi for the Punjabi side.':flashPrefs.mode==='specific'&&!flashPrefs.templates.length?'Choose at least one enabled template.':'';
+      const error=!Number.isInteger(count)||count<1||count>100?'Choose between 1 and 100 cards.':!flashPrefs.roman&&!flashPrefs.gurmukhi?'Enable Roman Punjabi or Gurmukhi for the Punjabi side.':flashPrefs.content!=='words'&&flashPrefs.mode==='specific'&&!flashPrefs.templates.length?'Choose at least one enabled template.':'';
       if(error){document.getElementById('flashError').textContent=error;return;}
       persistLearning();startFlashRound();
   }
   function startFlashRound(){
     stopSpeech();
-    const pool=enabledOf(state.templates).filter(t=>flashPrefs.mode==='random'||flashPrefs.templates.includes(t.id));
+    const wordMode=flashPrefs.content==='words';
+    const pool=wordMode?gameVocabulary().filter(w=>!flashPrefs.category||(w.categories||[]).includes(flashPrefs.category)):enabledOf(state.templates).filter(t=>flashPrefs.mode==='random'||flashPrefs.templates.includes(t.id));
     const cards=[];let attempts=0;
     while(cards.length<flashPrefs.count && attempts++<flashPrefs.count*50 && pool.length){
-      const sentence=assembleFromTemplate(pool[Math.floor(Math.random()*pool.length)]);
+      const selected=pool[Math.floor(Math.random()*pool.length)];
+      const sentence=wordMode?{roman:selected.roman,punjabi:selected.roman,gurmukhi:selected.gurmukhi,english:selected.english,vocabularyId:selected.vocabularyId,signature:selected.vocabularyId,templateName:'Vocabulary · '+selected.category,templateId:'vocabulary',sentenceBreakdown:[{roman:selected.roman,gurmukhi:selected.gurmukhi,english:selected.english,category:selected.partOfSpeech,grammarNote:'Dictionary form',vocabularyId:selected.vocabularyId}]}:assembleFromTemplate(selected);
       if(!sentence || (flashPrefs.gurmukhi&&!sentence.gurmukhi))continue;
       cards.push({id:uid('card'),sentence:sentence,direction:flashPrefs.direction==='mixed'?(Math.random()<0.5?'en-pa':'pa-en'):flashPrefs.direction,revealed:false,breakdownOpen:false,rating:null});
     }
@@ -2635,6 +2703,13 @@
     if(previous){learningStats.counts[previous.rating]--;previous.rating=rating;previous.ratedAt=Date.now();}
     else{learningStats.ratings.push({key:key,roundId:flashSession.id,cardId:card.id,signature:card.sentence.signature,templateId:card.sentence.templateId,direction:card.direction,rating:rating,ratedAt:Date.now()});learningStats.totalReviews++;}
     learningStats.counts[rating]++;card.rating=rating;
+    if(!previous){
+      if(card.sentence.vocabularyId)window.PunjabiLearningContext.record(progression,'vocabulary',card.sentence.vocabularyId,{type:'flashcard',correct:rating!=='again'});
+      else{
+        const template=state.templates.find(t=>t.id===card.sentence.templateId);
+        (template&&template.grammarConceptIds||[]).forEach(id=>window.PunjabiLearningContext.record(progression,'grammar',id,{type:'sentence-review',correct:rating!=='again'}));
+      }
+    }
     // Bound detailed history while lifetime counters survive.
     if(learningStats.ratings.length>5000)learningStats.ratings=learningStats.ratings.slice(-5000);
     persistLearning();stopSpeech();
@@ -2705,18 +2780,23 @@
   const gameScreen=document.getElementById('screen-vocab-game');
   const gameCategoryDefaults={WHO:'People',WHEN:'Time',WHERE:'Places',WHAT:'Things',HOW:'Tone & manner',WHY:'Reasons',ABOUT:'Topics',QUESTION:'Questions',CONNECTOR:'Connectors',STATE:'Adjectives',ADJECTIVE:'Adjectives',NUMBER:'Numbers',GAME_VEGETABLES:'Vegetables',GAME_FRUITS:'Fruits',GAME_SPICES:'Spices',GAME_EDUCATION:'Education',GAME_CLOTHES:'Clothes',GAME_BODY:'Parts of the body',GAME_NATURE:'Nature',GAME_EVERYDAY:'Everyday items'};
   function gameVocabulary(){
-    return Object.keys(state.vocab).flatMap(category=>(state.vocab[category]||[]).filter(item=>item.enabled&&item.p&&item.g&&/[\u0a00-\u0a7f]/.test(item.g)).map(item=>({id:item.id,roman:item.p,gurmukhi:item.g.normalize('NFC'),english:item.e||'',category:item.gameCategory||gameCategoryDefaults[category]||category})));
+    return window.PunjabiLinguisticSystem.vocabulary(state);
   }
   function recordWordResult(id,correct){
     if(!id||id.startsWith('sentence-'))return;
     const progress=wordProgress[id]||{correct:0,wrong:0,streak:0};
     if(correct){progress.correct++;progress.streak++;}else{progress.wrong++;progress.streak=0;}
-    progress.lastSeen=Date.now();wordProgress[id]=progress;persistLearning();
+    progress.lastSeen=Date.now();wordProgress[id]=progress;
+    const vocabularyId=window.PunjabiLinguisticSystem.resolveId(state,id);
+    if(vocabularyId)window.PunjabiLearningContext.record(progression,'vocabulary',vocabularyId,{type:'word-game',correct,at:progress.lastSeen});
+    persistLearning();
   }
   function reviewWordMemory(id,rating){
     if(!id||id.startsWith('sentence-')||!window.PunjabiMemory)return;
     const progress=wordProgress[id]||{correct:0,wrong:0,streak:0};
-    progress.fsrsCard=window.PunjabiMemory.review(progress,rating);
+    const item=gameVocabulary().find(w=>w.id===id);
+    const memoryState=item?window.PunjabiLearningContext.wordProgress(item,wordProgress):progress;
+    progress.fsrsCard=window.PunjabiMemory.review(memoryState,rating);
     progress.lastSeen=Date.now();wordProgress[id]=progress;persistLearning();
   }
   function memoryLabel(progress){
@@ -2735,14 +2815,46 @@
   const vocabularyScreen=document.getElementById('screen-vocabulary');
   let vocabularyQuery='';
   let vocabularyCacheToken=0;
-  function filterVocabulary(){
+  let vocabularyLimits={};
+  const vocabularyOpen=new Set();
+  let vocabularyEditorId=null;
+  function thematicLabels(item){
+    const registry=state.linguistic.categories;
+    return (item.categories||[]).map(id=>registry[id]&&(registry[id].label||registry[id].name)||id);
+  }
+  function filterVocabulary(){renderVocabularyResults();}
+  function renderVocabularyResults(){
+    const container=vocabularyScreen.querySelector('#vocabularyResults');if(!container)return;
     const term=vocabularyQuery.trim().toLocaleLowerCase();
-    vocabularyScreen.querySelectorAll('.vocabulary-category').forEach(section=>{
-      let visible=0;
-      section.querySelectorAll('.vocabulary-word').forEach(card=>{card.hidden=Boolean(term)&&!card.dataset.search.includes(term);if(!card.hidden)visible++;});
-      section.hidden=!visible;
-      if(term&&visible)section.open=true;
-    });
+    const selected=vocabularyScreen.querySelector('#vocabularyTopic').value;
+    const all=gameVocabulary();
+    const rows=all.filter(item=>(!selected||(item.categories||[]).includes(selected))&&(!term||[item.english,item.roman,item.gurmukhi,...(item.meanings||[]).map(x=>typeof x==='string'?x:x.english||''),...thematicLabels(item)].join(' ').toLocaleLowerCase().includes(term)));
+    const groups={};rows.forEach(item=>{(groups[item.category]||(groups[item.category]=[])).push(item);});
+    const categories=Object.keys(groups).sort((a,b)=>a.localeCompare(b));
+    vocabularyScreen.querySelector('#vocabularyCount').textContent=rows.length+' of '+all.length+' vocabulary entries';
+    container.innerHTML=categories.map(category=>{
+      const limit=vocabularyLimits[category]||40,items=groups[category],isOpen=!!term||!!selected||vocabularyOpen.has(category);
+      return '<details class="panel vocabulary-category" data-vocabulary-group="'+escAttr(category)+'"'+(isOpen?' open':'')+'><summary>'+escapeHtml(category)+' <span class="pill">'+items.length+'</span></summary><div class="vocabulary-cache"><button type="button" class="btn" data-cache-category="'+escapeHtml(category)+'">Download section</button><p class="note vocabulary-cache-status" role="status" aria-live="polite">Only missing recordings will be downloaded.</p></div><div class="vocabulary-list">'+(isOpen?items.slice(0,limit):[]).map(item=>{
+        const progress=window.PunjabiLearningContext.wordProgress(item,wordProgress),correct=progress.correct||0,wrong=progress.wrong||0,total=correct+wrong,accuracy=total?Math.round(correct/total*100):0;
+        const fluency=fluencyStatus(progress);
+        const gender=item.gender==='m'?'masculine':item.gender==='f'?'feminine':'gender unrecorded';
+        const source=window.PunjabiLinguisticSystem.get(state,item.vocabularyId);
+        const grammar=[item.partOfSpeech,gender,item.number==='pl'?'plural':item.number==='sg'?'singular':'',...(source&&source.roles||[])].filter(Boolean).join(' · ');
+        const verification=source&&source.grammarReview?'Checked for supported sentence patterns; fluent Punjabi review pending.':source&&source.quality&&source.quality.status==='dictionary-import'?'Dictionary source; fluent Punjabi review pending.':source&&source.source&&source.source.name==='User vocabulary'?'Your vocabulary.':'Existing vocabulary; review pending.';
+        const sourceUrl=source&&source.source&&source.source.url;
+        const sourceLink=sourceUrl&&/^https:\/\/en\.wiktionary\.org\//.test(sourceUrl)?'<p><a href="'+escAttr(sourceUrl)+'" target="_blank" rel="noopener noreferrer">Dictionary source and contributors</a></p>':'';
+        return '<article class="vocabulary-word" role="button" tabindex="0" aria-label="Play '+escapeHtml(item.english)+'" data-id="'+escapeHtml(item.id)+'"><strong>'+escapeHtml(item.english)+'</strong><p class="vocab-gurmukhi" lang="pa-Guru"'+(vocabularyPrefs.gurmukhi?'':' hidden')+'>'+escapeHtml(item.gurmukhi)+'</p><p class="vocab-roman" lang="pa-Latn"'+(vocabularyPrefs.roman?'':' hidden')+'>'+escapeHtml(item.roman)+'</p><p class="note">'+escapeHtml(grammar)+'</p><p class="note">'+escapeHtml(thematicLabels(item).join(' · '))+'</p><details class="word-details"><summary>Meaning and usage</summary><p>'+escapeHtml((item.meanings||[]).map(m=>typeof m==='string'?m:m.english||'').filter(Boolean).join('; ')||item.english)+'</p><p>'+escapeHtml(verification)+'</p>'+sourceLink+((source&&source.examples)||[]).map(e=>'<p>'+escapeHtml(typeof e==='string'?e:[e.gurmukhi,e.roman,e.english].filter(Boolean).join(' — '))+'</p>').join('')+'</details><button type="button" class="btn ghost" data-edit-vocabulary="'+escapeHtml(item.vocabularyId)+'">Edit word</button><div class="vocabulary-meta"><span class="fluency-badge fluency-'+fluency.toLowerCase().replace(/\s+/g,'-')+'">'+fluency+'</span><span>'+correct+' / 100 correct</span><span>'+wrong+' wrong</span>'+(total?'<span>'+accuracy+'% accuracy</span>':'')+'</div><div class="note">'+escapeHtml(memoryLabel(progress))+'</div><progress class="vocabulary-progress" value="'+Math.min(correct,100)+'" max="100" aria-label="Fluency progress"></progress><p class="speech-message" role="status" aria-live="polite"></p></article>';
+      }).join('')+'</div>'+(isOpen&&items.length>limit?'<button type="button" class="btn" data-more-vocabulary="'+escapeHtml(category)+'">Show more words</button>':'')+'</details>';
+    }).join('')||'<p class="panel">No words match this search.</p>';
+  }
+  function showVocabularyEditor(id){
+    vocabularyEditorId=id||null;
+    const item=id&&window.PunjabiLinguisticSystem.get(state,id)||{p:'',g:'',e:'',partOfSpeech:'noun',gender:null,number:'sg',categories:[]};
+    const registry=state.linguistic.categories;
+    const target=vocabularyScreen.querySelector('#vocabularyEditor');
+    target.hidden=false;
+    target.innerHTML='<h3>'+(id?'Edit word':'Add a word')+'</h3><form id="vocabularyEditForm"><div class="settings-grid"><label>Roman Punjabi<input required name="roman" value="'+escAttr(item.p||'')+'"></label><label>Gurmukhi<input required name="gurmukhi" lang="pa-Guru" value="'+escAttr(item.g||'')+'"></label><label>English<input required name="english" value="'+escAttr(item.e||'')+'"></label><label>Word class<select name="pos">'+['noun','verb','adjective','adverb','pronoun','expression','postposition','conjunction','numeral'].map(pos=>'<option '+(pos===item.partOfSpeech?'selected':'')+'>'+pos+'</option>').join('')+'</select></label><label>Gender<select name="gender"><option value="">Unrecorded / not applicable</option><option value="m" '+(item.gender==='m'?'selected':'')+'>Masculine</option><option value="f" '+(item.gender==='f'?'selected':'')+'>Feminine</option></select></label><label>Topic<select name="category">'+Object.values(registry).map(c=>'<option value="'+escAttr(c.id)+'" '+((item.categories||[]).includes(c.id)?'selected':'')+'>'+escapeHtml(c.label||c.name)+'</option>').join('')+'</select></label><label>Number<select name="number"><option value="sg" '+(item.number==='sg'?'selected':'')+'>Singular</option><option value="pl" '+(item.number==='pl'?'selected':'')+'>Plural</option></select></label></div><p class="note">Changes apply throughout your library. Verb forms and sentence roles can be edited in Building Blocks.</p><button type="submit" class="btn primary">Save word</button> <button type="button" class="btn" id="cancelVocabularyEdit">Cancel</button>'+(id?' <button type="button" class="btn danger" id="removeVocabularyEntry">Remove word</button>':'')+'<p id="vocabularyEditError" role="alert"></p></form>';
+    target.querySelector('input').focus();
   }
   async function cacheVocabularyCategory(category,button){
     vocabularyScreen.querySelectorAll('.vocabulary-cache-status').forEach(other=>{
@@ -2784,17 +2896,21 @@
   }
   function renderVocabulary(){
     vocabularyCacheToken++;
-    const groups={};gameVocabulary().forEach(item=>{(groups[item.category]||(groups[item.category]=[])).push(item);});
-    const categories=Object.keys(groups).sort((a,b)=>a.localeCompare(b));
-    vocabularyScreen.innerHTML='<div class="panel"><h2>📖 Vocabulary</h2><p class="desc">Open a category and tap any word to hear it. Each word keeps its own FSRS memory state on this browser. Fluent means at least 100 correct answers and 85% accuracy.</p><div class="vocabulary-toolbar"><input type="search" id="vocabularySearch" placeholder="Search any word or meaning" aria-label="Search vocabulary" value="'+escapeHtml(vocabularyQuery)+'"><label><input type="checkbox" id="vocabularyGurmukhi" '+(vocabularyPrefs.gurmukhi?'checked':'')+'> Gurmukhi</label><label><input type="checkbox" id="vocabularyRoman" '+(vocabularyPrefs.roman?'checked':'')+'> Roman Punjabi</label></div><p class="note">Audio downloads are optional. Open a category and tap Download section to save its normal-speed pronunciations on this device for the selected voice. Tap a word to hear it anytime.</p></div>'+categories.map(category=>'<details class="panel vocabulary-category"><summary>'+escapeHtml(category)+' <span class="pill">'+groups[category].length+'</span></summary><div class="vocabulary-cache"><button type="button" class="btn" data-cache-category="'+escapeHtml(category)+'">Download section</button><p class="note vocabulary-cache-status" role="status" aria-live="polite">Only missing recordings will be downloaded.</p></div><div class="vocabulary-list">'+groups[category].map(item=>{
-      const progress=wordProgress[item.id]||{},correct=progress.correct||0,wrong=progress.wrong||0,total=correct+wrong,accuracy=total?Math.round(correct/total*100):0;
-      const fluency=fluencyStatus(progress);
-      return '<article class="vocabulary-word" role="button" tabindex="0" aria-label="Play '+escapeHtml(item.english)+'" data-id="'+escapeHtml(item.id)+'" data-search="'+escapeHtml((item.english+' '+item.roman+' '+item.gurmukhi).toLocaleLowerCase())+'"><strong>'+escapeHtml(item.english)+'</strong><p class="vocab-gurmukhi" lang="pa-Guru"'+(vocabularyPrefs.gurmukhi?'':' hidden')+'>'+escapeHtml(item.gurmukhi)+'</p><p class="vocab-roman" lang="pa-Latn"'+(vocabularyPrefs.roman?'':' hidden')+'>'+escapeHtml(item.roman)+'</p><div class="vocabulary-meta"><span class="fluency-badge fluency-'+fluency.toLowerCase().replace(/\s+/g,'-')+'">'+fluency+'</span><span>'+correct+' / 100 correct</span><span>'+wrong+' wrong</span>'+(total?'<span>'+accuracy+'% accuracy</span>':'')+'</div><div class="note">'+escapeHtml(memoryLabel(progress))+'</div><progress class="vocabulary-progress" value="'+Math.min(correct,100)+'" max="100" aria-label="Fluency progress"></progress><p class="speech-message" role="status" aria-live="polite"></p></article>';
-    }).join('')+'</div></details>').join('');
-    filterVocabulary();
+    const categories=Object.values(state.linguistic.categories).sort((a,b)=>(a.label||a.name).localeCompare(b.label||b.name));
+    vocabularyScreen.innerHTML='<div class="panel"><h2>📖 Vocabulary</h2><p class="desc">Browse your shared Punjabi library, open a word’s meaning and usage, or tap it to hear its pronunciation.</p><div class="vocabulary-toolbar"><input type="search" id="vocabularySearch" placeholder="Search any word or meaning" aria-label="Search vocabulary" value="'+escapeHtml(vocabularyQuery)+'"><label>Topic<select id="vocabularyTopic"><option value="">All topics</option>'+categories.map(c=>'<option value="'+escAttr(c.id)+'">'+escapeHtml((c.parentId?'↳ ':'')+(c.label||c.name))+'</option>').join('')+'</select></label><label><input type="checkbox" id="vocabularyGurmukhi" '+(vocabularyPrefs.gurmukhi?'checked':'')+'> Gurmukhi</label><label><input type="checkbox" id="vocabularyRoman" '+(vocabularyPrefs.roman?'checked':'')+'> Roman Punjabi</label><button type="button" class="btn" id="addVocabularyWord">Add word</button></div><p class="note" id="vocabularyCount" role="status"></p><p class="note">Words are shown in small batches. Audio downloads are optional; Download section saves missing normal-speed pronunciations for your selected voice.</p><p class="note">Includes adapted dictionary data by <a href="https://en.wiktionary.org/wiki/Wiktionary:Copyrights" target="_blank" rel="noopener noreferrer">Wiktionary contributors</a>, extracted through Kaikki, under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>. <a href="./data/VOCABULARY_LICENSE.txt" target="_blank">Attribution and modifications</a>.</p><div id="vocabularyEditor" hidden></div></div><div id="vocabularyResults"></div>';
+    renderVocabularyResults();
   }
+  vocabularyScreen.addEventListener('submit',event=>{
+    if(event.target.id!=='vocabularyEditForm')return;event.preventDefault();
+    const values=new FormData(event.target),g=String(values.get('gurmukhi')).trim();
+    if(!/[\u0a00-\u0a7f]/.test(g)){document.getElementById('vocabularyEditError').textContent='Please enter Gurmukhi text.';return;}
+    const existing=vocabularyEditorId&&window.PunjabiLinguisticSystem.get(state,vocabularyEditorId);
+    const row=Object.assign({},existing||{id:uid('user'),enabled:true,source:{name:'User vocabulary',verification:'user-authored'},verifiedGrammar:false},{p:String(values.get('roman')).trim(),g,e:String(values.get('english')).trim(),partOfSpeech:values.get('pos'),gender:values.get('gender')||null,number:values.get('number'),categories:Array.from(new Set([...(existing&&existing.categories||[]),values.get('category')]))});
+    window.PunjabiLinguisticSystem.upsert(state,row);save();renderVocabulary();
+  });
   vocabularyScreen.addEventListener('input',event=>{if(event.target.id==='vocabularySearch'){vocabularyQuery=event.target.value;filterVocabulary();}});
   vocabularyScreen.addEventListener('change',event=>{
+    if(event.target.id==='vocabularyTopic'){vocabularyLimits={};filterVocabulary();return;}
     if(event.target.id==='vocabularyGurmukhi')vocabularyPrefs.gurmukhi=event.target.checked;
     else if(event.target.id==='vocabularyRoman')vocabularyPrefs.roman=event.target.checked;
     else return;
@@ -2805,6 +2921,14 @@
     if((event.key==='Enter'||event.key===' ')&&event.target.classList.contains('vocabulary-word')){event.preventDefault();event.target.click();}
   });
   vocabularyScreen.addEventListener('click',async event=>{
+    const groupSummary=event.target.closest('.vocabulary-category > summary');
+    if(groupSummary){event.preventDefault();const group=groupSummary.parentElement.dataset.vocabularyGroup;if(groupSummary.parentElement.open)vocabularyOpen.delete(group);else vocabularyOpen.add(group);renderVocabularyResults();return;}
+    if(event.target.id==='addVocabularyWord'){showVocabularyEditor();return;}
+    if(event.target.id==='cancelVocabularyEdit'){vocabularyScreen.querySelector('#vocabularyEditor').hidden=true;return;}
+    if(event.target.id==='removeVocabularyEntry'){window.PunjabiLinguisticSystem.remove(state,vocabularyEditorId);save();renderVocabulary();return;}
+    const edit=event.target.closest('[data-edit-vocabulary]');if(edit){showVocabularyEditor(edit.dataset.editVocabulary);return;}
+    const more=event.target.closest('[data-more-vocabulary]');if(more){const category=more.dataset.moreVocabulary;vocabularyLimits[category]=(vocabularyLimits[category]||40)+40;vocabularyOpen.add(category);renderVocabularyResults();return;}
+    if(event.target.closest('.word-details'))return;
     const cacheButton=event.target.closest('[data-cache-category]');
     if(cacheButton){await cacheVocabularyCategory(cacheButton.dataset.cacheCategory,cacheButton);return;}
     const card=event.target.closest('.vocabulary-word');if(!card||card.getAttribute('aria-busy')==='true')return;
@@ -2824,7 +2948,7 @@
   function gamePool(){
     const seen=new Set(),spoken=new Set(),prompts=new Set();
     return gameVocabulary().filter(item=>{
-      if(!gamePrefs.categories.includes(item.category))return false;
+      if(![item.category,...thematicLabels(item)].some(category=>gamePrefs.categories.includes(category)))return false;
       const label=item[gamePrefs.script].normalize('NFC').trim().toLowerCase();
       const audio=item.gurmukhi.normalize('NFC').trim();
       const prompt=gamePrefs.challenge==='audio'?'':String(item[gamePrefs.promptScript]||'').normalize('NFC').trim().toLowerCase();
@@ -2856,7 +2980,7 @@
     const pool=gamePrefs.content==='sentences'?sentenceGamePool(count):gamePool();
     if(pool.length<gameTileCount())return [];
     let order=shuffleGame(pool);
-    if(gamePrefs.content==='words'&&window.PunjabiMemory)order.sort((a,b)=>window.PunjabiMemory.compareForPractice(a,b,wordProgress));
+    if(gamePrefs.content==='words'&&window.PunjabiMemory){const memories=Object.fromEntries(order.map(item=>[item.id,window.PunjabiLearningContext.wordProgress(item,wordProgress)]));order.sort((a,b)=>window.PunjabiMemory.compareForPractice(a,b,memories));}
     const plan=[];
     for(let i=0;i<count;i++){
       const target=order[i%order.length];
@@ -2900,7 +3024,7 @@
   });
   function renderGameSetup(message=''){
     gameSession.phase='setup';
-    const counts={};gameVocabulary().forEach(item=>{counts[item.category]=(counts[item.category]||0)+1;});
+    const counts={};gameVocabulary().forEach(item=>{new Set([item.category,...thematicLabels(item)]).forEach(category=>{counts[category]=(counts[category]||0)+1;});});
     const categories=Object.keys(counts).sort((a,b)=>a.localeCompare(b));
     const templates=enabledOf(state.templates);
     gameScreen.innerHTML=`<div class="panel vocab-game">
@@ -3093,6 +3217,14 @@
   function renderWordGame(){if(gameSession.phase==='setup')renderGameSetup();else if(gameSession.phase==='round')renderGameRound();}
   function initializeLearning(){
     installScriptData();
+    window.PunjabiLinguisticSystem.install(state,{categories:window.PunjabiLearningContext.categories,expansion:bundledVocabulary});
+    window.PunjabiGrammarEngine.templates.forEach(template=>{
+      if(!state.templates.some(t=>t.id===template.id))state.templates.push(JSON.parse(JSON.stringify(template)));
+    });
+    window.PunjabiLearningContext.connect(state,window.PunjabiGrammarEngine,window.PunjabiLinguisticSystem);
+    state.schemaVersion=6;
+    save();
+    if(!linguisticMigrationAllowed)showSpeechStatus('Your library is available for this session. Browser storage could not save a migration backup; new library changes cannot be saved until device storage is available.');
     initializeFlashcardEvents();
     document.addEventListener('click',async event=>{
       const savePart=event.target.closest('[data-save-word]');

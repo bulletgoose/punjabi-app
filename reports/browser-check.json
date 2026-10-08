@@ -1,0 +1,26 @@
+[
+  {
+    "browser": "desktop-chromium",
+    "entries": 5658,
+    "templates": 58,
+    "failedTemplates": [],
+    "searchMs": 32,
+    "totalMs": 7089,
+    "offline": true,
+    "offlineMethod": "browser-offline",
+    "migration": true,
+    "pageErrors": []
+  },
+  {
+    "browser": "iphone-webkit",
+    "entries": 5658,
+    "templates": 58,
+    "failedTemplates": [],
+    "searchMs": 37,
+    "totalMs": 6781,
+    "offline": true,
+    "offlineMethod": "origin-server-stopped",
+    "migration": true,
+    "pageErrors": []
+  }
+]
