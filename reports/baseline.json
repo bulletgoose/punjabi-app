@@ -1,0 +1,28 @@
+{
+  "counts": {
+    "WHO": 18,
+    "WHEN": 33,
+    "WHERE": 27,
+    "WHAT": 54,
+    "HOW": 27,
+    "WHY": 11,
+    "ABOUT": 15,
+    "QUESTION": 14,
+    "CONNECTOR": 15,
+    "STATE": 12,
+    "NUMBER": 21,
+    "ADJECTIVE": 12,
+    "GAME_VEGETABLES": 30,
+    "GAME_FRUITS": 30,
+    "GAME_SPICES": 30,
+    "GAME_EDUCATION": 30,
+    "GAME_CLOTHES": 30,
+    "GAME_BODY": 30,
+    "GAME_NATURE": 30,
+    "GAME_EVERYDAY": 30
+  },
+  "words": 499,
+  "verbs": 36,
+  "templates": 53,
+  "enabledTemplates": 46
+}
