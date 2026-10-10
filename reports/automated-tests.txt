@@ -1,70 +1,1169 @@
-✔ counts Unicode characters instead of trusting a browser count (0.507833ms)
-✔ speech cache key changes with backend speech configuration (1.293375ms)
-✔ rejects missing authentication before synthesis (0.435417ms)
-✔ rejects authenticated users not on the allowlist (0.167375ms)
-✔ rejects unapproved browser origins before authentication (0.092875ms)
-✔ rejects client-supplied voices outside the server allowlist (0.884709ms)
-✔ passes an allowlisted voice choice to synthesis (0.220708ms)
-✔ returns authenticated usage without consuming more characters (0.122625ms)
-✔ reuses identical server-cached audio (0.165875ms)
-✔ enforces request and character limits from server-calculated text (3.796042ms)
-✔ each vocabulary word keeps an independent FSRS card with a due date (7.69375ms)
-✔ game answers map to FSRS Again, Hard, Good and Easy (0.362125ms)
-✔ due cards are ranked before new cards and future reviews (0.675209ms)
-✔ each requested game category has 30 distinct spoken and displayed words (6.045917ms)
-✔ required male, female and mixed-plural eating examples use the same lexical verb (1.2065ms)
-✔ feminine plural agreement and past progressive retain number (0.266792ms)
-✔ transitive perfective agrees with the unmarked object in both scripts (0.29525ms)
-✔ standard Eastern Punjabi first/second-person subjects omit overt ne but keep object agreement (0.118916ms)
-✔ marked object blocks perfective agreement; intransitive past follows the subject (0.126584ms)
-✔ finite future is authored by person/gender and unsupported verbs fail safely (0.114709ms)
-✔ infinitives use authored object agreement and irregular action roots stay distinct (0.127666ms)
-✔ postpositions require oblique information and do not append to arbitrary phrases (0.141709ms)
-✔ semantic validation rejects inanimate agents and incompatible objects (0.106875ms)
-✔ all new templates generate with the real default vocabulary and preserve canonical references (63.49425ms)
-✔ disabled fixed dependencies and missing script forms prevent unsupported sentences (4.9305ms)
-✔ template grammar metadata uses concepts and scenario identifiers (1.63675ms)
-✔ existing patterns remain bilingual and separate action clauses retain the correct lemmas (223.234666ms)
-✔ construction reviews reference thirty existing single-sense nouns with source-backed gender (2.202167ms)
-✔ only the reviewed subset joins WHAT while original source spelling, romanization and IDs stay intact (160.04825ms)
-✔ grammar prerequisites and thematic parents reference existing independent objects (10.517125ms)
-✔ connecting learning metadata preserves disabled templates and edited probabilities (3.037542ms)
-✔ review evidence is independent across vocabulary, grammar and communication (1.293958ms)
-✔ consolidated words retain all alias answer history and the latest scheduler card (2.131458ms)
-✔ future custom concepts, scenarios and template prerequisites survive reconnecting (0.72825ms)
-✔ legacy sources become one central store while every feature retains live role views (7.14975ms)
-✔ persistence excludes duplicated legacy words and restores all compatibility views (2.188709ms)
-✔ migration preserves unrelated settings, sentences, templates, saved words and progress (0.6585ms)
-✔ install is idempotent and imported expansion never overwrites user changes or disabled bindings (1.43975ms)
-✔ homographs, gender, number, separate senses, grammar edits and changed spelling remain distinct (0.414667ms)
-✔ editor push, filter assignment, splice, nested forms, enable and delete are persisted centrally (0.800083ms)
-✔ deleting a binding keeps its other category and alias, deleting an entry prevents import resurrection (0.9935ms)
-✔ new entries are immediately discoverable in vocabulary and games; only reviewed nouns enter WHAT (0.738375ms)
-✔ verbs join the game store and retain edit compatibility without guessing conjugations for new verbs (0.296708ms)
-✔ verb spelling has one authoritative value even after nested script edits and persistence (0.279917ms)
-✔ authored home locative migrates to a noun plus a postposition binding and derives its surface (0.324167ms)
-✔ custom location spellings are preserved instead of guessed to be standard home constructions (0.102042ms)
-✔ missing legacy rows stay missing; central reload never runs default imports (0.129375ms)
-✔ malformed legacy fields are retained for recovery instead of silently dropped (0.400125ms)
-✔ newer schemas fail visibly without modifying the saved state (0.109708ms)
-✔ vocabulary, grammar and communication progression are independent and preserved (0.321041ms)
-✔ adding 5,000 entries preserves identity and supports fast discovery (130.52725ms)
-✔ compact snapshots persist import edits, nested form edits, disabled bindings and deletions (1.443708ms)
-✔ compact 5,000-entry persistence stays within browser storage and rehydrates all IDs (231.986666ms)
-✔ editing a reviewed import revokes unsafe grammatical roles without losing its word or progress (0.88575ms)
-✔ explicitly authored legacy role spelling edits retain their category while POS changes revoke it (0.528834ms)
-✔ stopping playback does not cancel background pronunciation preparation (7.609458ms)
-✔ successful section downloads have no fixed delay between different words (1.840541ms)
-✔ a per-minute 429 waits for the next minute then retries (3.528208ms)
-✔ a character-limit 429 does not keep retrying (1.329833ms)
-✔ keeps homonym meanings together while separating parts of speech and preserving stable IDs (9.626333ms)
-✔ filters inflections, marked dialect and unsupported records without inventing missing metadata (0.48ms)
-✔ dictionary data carries attribution and never promotes imported conjugations or examples into grammar (0.259958ms)
-ℹ tests 62
-ℹ suites 0
-ℹ pass 62
-ℹ fail 0
-ℹ cancelled 0
-ℹ skipped 0
-ℹ todo 0
-ℹ duration_ms 472.273792
+File: functions/test/speech-app.test.js
+TAP version 13
+# Subtest: counts Unicode characters instead of trusting a browser count
+ok 1 - counts Unicode characters instead of trusting a browser count
+  ---
+  duration_ms: 1.360343
+  type: 'test'
+  ...
+# Subtest: speech cache key changes with backend speech configuration
+ok 2 - speech cache key changes with backend speech configuration
+  ---
+  duration_ms: 0.727321
+  type: 'test'
+  ...
+# Subtest: rejects missing authentication before synthesis
+ok 3 - rejects missing authentication before synthesis
+  ---
+  duration_ms: 0.762875
+  type: 'test'
+  ...
+# Subtest: rejects authenticated users not on the allowlist
+ok 4 - rejects authenticated users not on the allowlist
+  ---
+  duration_ms: 0.270687
+  type: 'test'
+  ...
+# Subtest: rejects unapproved browser origins before authentication
+ok 5 - rejects unapproved browser origins before authentication
+  ---
+  duration_ms: 0.202237
+  type: 'test'
+  ...
+# Subtest: rejects client-supplied voices outside the server allowlist
+ok 6 - rejects client-supplied voices outside the server allowlist
+  ---
+  duration_ms: 0.208906
+  type: 'test'
+  ...
+# Subtest: passes an allowlisted voice choice to synthesis
+ok 7 - passes an allowlisted voice choice to synthesis
+  ---
+  duration_ms: 0.436012
+  type: 'test'
+  ...
+# Subtest: returns authenticated usage without consuming more characters
+ok 8 - returns authenticated usage without consuming more characters
+  ---
+  duration_ms: 0.278595
+  type: 'test'
+  ...
+# Subtest: reuses identical server-cached audio
+ok 9 - reuses identical server-cached audio
+  ---
+  duration_ms: 1.874315
+  type: 'test'
+  ...
+# Subtest: enforces request and character limits from server-calculated text
+ok 10 - enforces request and character limits from server-calculated text
+  ---
+  duration_ms: 1.151265
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 18.059676
+
+File: tests/audit-report.test.js
+Reachability WHO: 0/1 lexical entries demonstrated
+Reachability WHEN: 0/0 lexical entries demonstrated
+Reachability WHERE: 0/0 lexical entries demonstrated
+Reachability WHAT: 1/1 lexical entries demonstrated
+Reachability HOW: 0/0 lexical entries demonstrated
+Reachability WHY: 0/0 lexical entries demonstrated
+Reachability ABOUT: 0/0 lexical entries demonstrated
+Reachability VERB: 0/0 lexical entries demonstrated
+Reachability ADJECTIVE: 0/0 lexical entries demonstrated
+Reachability STATE: 0/0 lexical entries demonstrated
+Reachability QUESTION: 0/0 lexical entries demonstrated
+Reachability CONNECTOR: 0/0 lexical entries demonstrated
+Reachability WHO: 0/0 lexical entries demonstrated
+Reachability WHEN: 0/0 lexical entries demonstrated
+Reachability WHERE: 0/0 lexical entries demonstrated
+Reachability WHAT: 1/1 lexical entries demonstrated
+Reachability HOW: 0/0 lexical entries demonstrated
+Reachability WHY: 0/0 lexical entries demonstrated
+Reachability ABOUT: 0/0 lexical entries demonstrated
+Reachability VERB: 0/0 lexical entries demonstrated
+Reachability ADJECTIVE: 0/0 lexical entries demonstrated
+Reachability STATE: 0/0 lexical entries demonstrated
+Reachability QUESTION: 0/0 lexical entries demonstrated
+Reachability CONNECTOR: 0/0 lexical entries demonstrated
+Reachability WHO: 0/0 lexical entries demonstrated
+Reachability WHEN: 0/0 lexical entries demonstrated
+Reachability WHERE: 0/0 lexical entries demonstrated
+Reachability WHAT: 0/0 lexical entries demonstrated
+Reachability HOW: 0/0 lexical entries demonstrated
+Reachability WHY: 0/0 lexical entries demonstrated
+Reachability ABOUT: 0/0 lexical entries demonstrated
+Reachability VERB: 0/0 lexical entries demonstrated
+Reachability ADJECTIVE: 0/1 lexical entries demonstrated
+Reachability STATE: 1/1 lexical entries demonstrated
+Reachability QUESTION: 0/0 lexical entries demonstrated
+Reachability CONNECTOR: 0/0 lexical entries demonstrated
+TAP version 13
+# Subtest: a shared lexical ID in another role cannot prove the forced role
+ok 1 - a shared lexical ID in another role cannot prove the forced role
+  ---
+  duration_ms: 4.522791
+  type: 'test'
+  ...
+# Subtest: alternate sense bindings are tried without inflating lexical entry counts
+ok 2 - alternate sense bindings are tried without inflating lexical entry counts
+  ---
+  duration_ms: 0.827704
+  type: 'test'
+  ...
+# Subtest: legacy state predicate breakdowns count for STATE without proving ADJECTIVE bindings
+ok 3 - legacy state predicate breakdowns count for STATE without proving ADJECTIVE bindings
+  ---
+  duration_ms: 0.579459
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16.90402
+
+File: tests/contextual-examples.test.js
+TAP version 13
+# Subtest: the contextual examples report reproduces at least twenty real source-linked generated sentences
+ok 1 - the contextual examples report reproduces at least twenty real source-linked generated sentences
+  ---
+  duration_ms: 8523.752239
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8538.920758
+
+File: tests/fsrs-memory.test.js
+TAP version 13
+# Subtest: each vocabulary word keeps an independent FSRS card with a due date
+ok 1 - each vocabulary word keeps an independent FSRS card with a due date
+  ---
+  duration_ms: 2.68903
+  type: 'test'
+  ...
+# Subtest: game answers map to FSRS Again, Hard, Good and Easy
+ok 2 - game answers map to FSRS Again, Hard, Good and Easy
+  ---
+  duration_ms: 0.339989
+  type: 'test'
+  ...
+# Subtest: due cards are ranked before new cards and future reviews
+ok 3 - due cards are ranked before new cards and future reviews
+  ---
+  duration_ms: 1.518926
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 11.942887
+
+File: tests/game-vocabulary.test.js
+TAP version 13
+# Subtest: each requested game category has 30 distinct spoken and displayed words
+ok 1 - each requested game category has 30 distinct spoken and displayed words
+  ---
+  duration_ms: 1.895532
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8.719536
+
+File: tests/grammar-engine.test.js
+TAP version 13
+# Subtest: required male, female and mixed-plural eating examples use the same lexical verb
+ok 1 - required male, female and mixed-plural eating examples use the same lexical verb
+  ---
+  duration_ms: 2.111463
+  type: 'test'
+  ...
+# Subtest: feminine plural agreement and past progressive retain number
+ok 2 - feminine plural agreement and past progressive retain number
+  ---
+  duration_ms: 0.512833
+  type: 'test'
+  ...
+# Subtest: transitive perfective agrees with the unmarked object in both scripts
+ok 3 - transitive perfective agrees with the unmarked object in both scripts
+  ---
+  duration_ms: 0.468585
+  type: 'test'
+  ...
+# Subtest: standard Eastern Punjabi first/second-person subjects omit overt ne but keep object agreement
+ok 4 - standard Eastern Punjabi first/second-person subjects omit overt ne but keep object agreement
+  ---
+  duration_ms: 0.207828
+  type: 'test'
+  ...
+# Subtest: marked object blocks perfective agreement; intransitive past follows the subject
+ok 5 - marked object blocks perfective agreement; intransitive past follows the subject
+  ---
+  duration_ms: 0.268187
+  type: 'test'
+  ...
+# Subtest: finite future is authored by person/gender and unsupported verbs fail safely
+ok 6 - finite future is authored by person/gender and unsupported verbs fail safely
+  ---
+  duration_ms: 0.20239
+  type: 'test'
+  ...
+# Subtest: infinitives use authored object agreement and irregular action roots stay distinct
+ok 7 - infinitives use authored object agreement and irregular action roots stay distinct
+  ---
+  duration_ms: 0.269153
+  type: 'test'
+  ...
+# Subtest: postpositions require oblique information and do not append to arbitrary phrases
+ok 8 - postpositions require oblique information and do not append to arbitrary phrases
+  ---
+  duration_ms: 1.665194
+  type: 'test'
+  ...
+# Subtest: semantic validation rejects inanimate agents and incompatible objects
+ok 9 - semantic validation rejects inanimate agents and incompatible objects
+  ---
+  duration_ms: 0.418105
+  type: 'test'
+  ...
+# Subtest: all new templates generate with the real default vocabulary and preserve canonical references
+ok 10 - all new templates generate with the real default vocabulary and preserve canonical references
+  ---
+  duration_ms: 87.7824
+  type: 'test'
+  ...
+# Subtest: disabled fixed dependencies and missing script forms prevent unsupported sentences
+ok 11 - disabled fixed dependencies and missing script forms prevent unsupported sentences
+  ---
+  duration_ms: 8.043288
+  type: 'test'
+  ...
+# Subtest: template grammar metadata uses concepts and scenario identifiers
+ok 12 - template grammar metadata uses concepts and scenario identifiers
+  ---
+  duration_ms: 2.628002
+  type: 'test'
+  ...
+# Subtest: existing patterns remain bilingual and separate action clauses retain the correct lemmas
+ok 13 - existing patterns remain bilingual and separate action clauses retain the correct lemmas
+  ---
+  duration_ms: 336.484401
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 466.78257
+
+File: tests/grammar-expansion.test.js
+TAP version 13
+# Subtest: source morphology profiles cover the corpus without approving all argument structures
+ok 1 - source morphology profiles cover the corpus without approving all argument structures
+  ---
+  duration_ms: 1.46479
+  type: 'test'
+  ...
+# Subtest: productive consonantal rules preserve habitual, future and perfective agreement
+ok 2 - productive consonantal rules preserve habitual, future and perfective agreement
+  ---
+  duration_ms: 108.029296
+  type: 'test'
+  ...
+# Subtest: irregular stems and edited source identities do not receive a regular perfective
+ok 3 - irregular stems and edited source identities do not receive a regular perfective
+  ---
+  duration_ms: 0.433598
+  type: 'test'
+  ...
+# Subtest: enrichment deep clones nested source paradigms and retains stable selected sense IDs
+ok 4 - enrichment deep clones nested source paradigms and retains stable selected sense IDs
+  ---
+  duration_ms: 1.06343
+  type: 'test'
+  ...
+# Subtest: noun descriptions use the source noun gender in present, negative and past clauses
+ok 5 - noun descriptions use the source noun gender in present, negative and past clauses
+  ---
+  duration_ms: 6874.493313
+  type: 'test'
+  ...
+# Subtest: material nouns participate in identification and do not acquire edible action tags
+ok 6 - material nouns participate in identification and do not acquire edible action tags
+  ---
+  duration_ms: 5.02495
+  type: 'test'
+  ...
+# Subtest: location and question constructions reuse checked locative forms
+ok 7 - location and question constructions reuse checked locative forms
+  ---
+  duration_ms: 4.077647
+  type: 'test'
+  ...
+# Subtest: present time and manner are consumed by an enabled construction
+ok 8 - present time and manner are consumed by an enabled construction
+  ---
+  duration_ms: 7.462054
+  type: 'test'
+  ...
+# Subtest: source manner synonyms use the approved contextual sense in translation and breakdown
+ok 9 - source manner synonyms use the approved contextual sense in translation and breakdown
+  ---
+  duration_ms: 9.783913
+  type: 'test'
+  ...
+# Subtest: communication manners require compatible actions and retain shared source senses
+ok 10 - communication manners require compatible actions and retain shared source senses
+  ---
+  duration_ms: 8.639954
+  type: 'test'
+  ...
+# Subtest: all new templates are reachable and keep lexical selections separate from functional grammar tokens
+ok 11 - all new templates are reachable and keep lexical selections separate from functional grammar tokens
+  ---
+  duration_ms: 996.525763
+  type: 'test'
+  ...
+# Subtest: possession uses countable indefinite articles and preferences use ingredient or particular meanings
+ok 12 - possession uses countable indefinite articles and preferences use ingredient or particular meanings
+  ---
+  duration_ms: 12.511302
+  type: 'test'
+  ...
+# Subtest: location questions honor the existing question-word enabled setting
+ok 13 - location questions honor the existing question-word enabled setting
+  ---
+  duration_ms: 2.224656
+  type: 'test'
+  ...
+# Subtest: structured polar questions distinguish grammatical function from dictionary sense
+ok 14 - structured polar questions distinguish grammatical function from dictionary sense
+  ---
+  duration_ms: 583.774906
+  type: 'test'
+  ...
+# Subtest: occupation identification excludes source-supported infant subjects
+ok 15 - occupation identification excludes source-supported infant subjects
+  ---
+  duration_ms: 24.035394
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8655.779924
+
+File: tests/grammar-ready-vocabulary.test.js
+TAP version 13
+# Subtest: construction reviews reference thirty existing single-sense nouns with source-backed gender
+ok 1 - construction reviews reference thirty existing single-sense nouns with source-backed gender
+  ---
+  duration_ms: 2.251176
+  type: 'test'
+  ...
+# Subtest: only the reviewed subset joins WHAT while original source spelling, romanization and IDs stay intact
+ok 2 - only the reviewed subset joins WHAT while original source spelling, romanization and IDs stay intact
+  ---
+  duration_ms: 405.824045
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 416.302257
+
+File: tests/learning-context.test.js
+TAP version 13
+# Subtest: grammar prerequisites and thematic parents reference existing independent objects
+ok 1 - grammar prerequisites and thematic parents reference existing independent objects
+  ---
+  duration_ms: 1.529414
+  type: 'test'
+  ...
+# Subtest: connecting learning metadata preserves disabled templates and edited probabilities
+ok 2 - connecting learning metadata preserves disabled templates and edited probabilities
+  ---
+  duration_ms: 3.678162
+  type: 'test'
+  ...
+# Subtest: review evidence is independent across vocabulary, grammar and communication
+ok 3 - review evidence is independent across vocabulary, grammar and communication
+  ---
+  duration_ms: 1.095548
+  type: 'test'
+  ...
+# Subtest: consolidated words retain all alias answer history and the latest scheduler card
+ok 4 - consolidated words retain all alias answer history and the latest scheduler card
+  ---
+  duration_ms: 0.519314
+  type: 'test'
+  ...
+# Subtest: future custom concepts, scenarios and template prerequisites survive reconnecting
+ok 5 - future custom concepts, scenarios and template prerequisites survive reconnecting
+  ---
+  duration_ms: 1.655783
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 20.595783
+
+File: tests/learning-vocabulary-views.test.js
+TAP version 13
+# Subtest: word flash setup preserves mode, topic and other preferences and builds the requested dictionary sense
+ok 1 - word flash setup preserves mode, topic and other preferences and builds the requested dictionary sense
+  ---
+  duration_ms: 127.41011
+  type: 'test'
+  ...
+# Subtest: Word Game thematic labels request the matching sense while keeping canonical learning IDs
+ok 2 - Word Game thematic labels request the matching sense while keeping canonical learning IDs
+  ---
+  duration_ms: 108.308664
+  type: 'test'
+  ...
+# Subtest: legacy Word Game category labels remain selectable without remapping saved preferences
+ok 3 - legacy Word Game category labels remain selectable without remapping saved preferences
+  ---
+  duration_ms: 33.01435
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 292.083549
+
+File: tests/lexical-semantics.test.js
+TAP version 13
+# Subtest: source sense IDs and complete definitions survive normalization without changing the entry
+ok 1 - source sense IDs and complete definitions survive normalization without changing the entry
+  ---
+  duration_ms: 2.012305
+  type: 'test'
+  ...
+# Subtest: an explicit learner translation override takes precedence without claiming dictionary verification
+ok 2 - an explicit learner translation override takes precedence without claiming dictionary verification
+  ---
+  duration_ms: 0.942031
+  type: 'test'
+  ...
+# Subtest: editing a saved role translation preserves its selected secondary sense across persistence
+ok 3 - editing a saved role translation preserves its selected secondary sense across persistence
+  ---
+  duration_ms: 4.934246
+  type: 'test'
+  ...
+# Subtest: editing an existing location phrase keeps its custom English and canonical noun after reload
+ok 4 - editing an existing location phrase keeps its custom English and canonical noun after reload
+  ---
+  duration_ms: 1.871223
+  type: 'test'
+  ...
+# Subtest: legacy string senses receive stable IDs independent of edited translation text
+ok 5 - legacy string senses receive stable IDs independent of edited translation text
+  ---
+  duration_ms: 0.349462
+  type: 'test'
+  ...
+# Subtest: unresolved comma/slash lists and ambiguous multiple senses never become sentence glosses
+ok 6 - unresolved comma/slash lists and ambiguous multiple senses never become sentence glosses
+  ---
+  duration_ms: 0.640296
+  type: 'test'
+  ...
+# Subtest: contextual selection does not append verb restrictions to caller-owned lexical metadata
+ok 7 - contextual selection does not append verb restrictions to caller-owned lexical metadata
+  ---
+  duration_ms: 0.878488
+  type: 'test'
+  ...
+# Subtest: one sense with an authored contextual meaning is selected by construction evidence, not array order
+ok 8 - one sense with an authored contextual meaning is selected by construction evidence, not array order
+  ---
+  duration_ms: 0.346091
+  type: 'test'
+  ...
+# Subtest: a selected sense owns gender, countability and semantics rather than inheriting another sense
+ok 9 - a selected sense owns gender, countability and semantics rather than inheriting another sense
+  ---
+  duration_ms: 0.473341
+  type: 'test'
+  ...
+# Subtest: a requested sense cannot bypass grammatical role or argument restrictions
+ok 10 - a requested sense cannot bypass grammatical role or argument restrictions
+  ---
+  duration_ms: 0.570538
+  type: 'test'
+  ...
+# Subtest: singleton concise source glosses and authored verb choices work without synonym-position inference
+ok 11 - singleton concise source glosses and authored verb choices work without synonym-position inference
+  ---
+  duration_ms: 1.178216
+  type: 'test'
+  ...
+# Subtest: postpositional pronouns preserve ambiguity and English case
+ok 12 - postpositional pronouns preserve ambiguity and English case
+  ---
+  duration_ms: 0.726392
+  type: 'test'
+  ...
+# Subtest: common noun subjects with unresolved English countability receive a determiner without changing names or authored phrases
+ok 13 - common noun subjects with unresolved English countability receive a determiner without changing names or authored phrases
+  ---
+  duration_ms: 0.369106
+  type: 'test'
+  ...
+# Subtest: authored locative phrase translations retain postpositions while selecting the canonical noun sense
+ok 14 - authored locative phrase translations retain postpositions while selecting the canonical noun sense
+  ---
+  duration_ms: 0.439573
+  type: 'test'
+  ...
+# Subtest: validated postpositional constructions retain full phrase English and noun sense identity independently
+ok 15 - validated postpositional constructions retain full phrase English and noun sense identity independently
+  ---
+  duration_ms: 0.533518
+  type: 'test'
+  ...
+# Subtest: English noun articles follow explicit countability, leaving mass and unknown nouns bare
+ok 16 - English noun articles follow explicit countability, leaving mass and unknown nouns bare
+  ---
+  duration_ms: 0.478902
+  type: 'test'
+  ...
+# Subtest: English inflection handles common irregulars and phrasal verbs consistently
+ok 17 - English inflection handles common irregulars and phrasal verbs consistently
+  ---
+  duration_ms: 0.678768
+  type: 'test'
+  ...
+# Subtest: time ambiguity uses an explicit construction time reference with one stable source identity
+ok 18 - time ambiguity uses an explicit construction time reference with one stable source identity
+  ---
+  duration_ms: 0.265204
+  type: 'test'
+  ...
+# Subtest: existing conversational patterns generate both scripts and carry the same canonical selected senses
+ok 19 - existing conversational patterns generate both scripts and carry the same canonical selected senses
+  ---
+  duration_ms: 1246.240722
+  type: 'test'
+  ...
+# Subtest: a synonym-bearing dictionary noun uses one shared sense in natural English and the existing breakdown
+ok 20 - a synonym-bearing dictionary noun uses one shared sense in natural English and the existing breakdown
+  ---
+  duration_ms: 25.302306
+  type: 'test'
+  ...
+# Subtest: legacy predicate breakdowns omit repeated subjects and polar markers retain their contextual construction meaning
+ok 21 - legacy predicate breakdowns omit repeated subjects and polar markers retain their contextual construction meaning
+  ---
+  duration_ms: 58.819162
+  type: 'test'
+  ...
+# Subtest: the legacy because-clause template excludes raw causal nouns and discourse adverbs
+ok 22 - the legacy because-clause template excludes raw causal nouns and discourse adverbs
+  ---
+  duration_ms: 24.204242
+  type: 'test'
+  ...
+# Subtest: legacy annotations resolve the chosen sense within its grammatical role when roles share one lexical ID
+ok 23 - legacy annotations resolve the chosen sense within its grammatical role when roles share one lexical ID
+  ---
+  duration_ms: 56.002318
+  type: 'test'
+  ...
+# Subtest: two legacy clauses can retain different chosen senses of one surface form and lexical ID
+ok 24 - two legacy clauses can retain different chosen senses of one surface form and lexical ID
+  ---
+  duration_ms: 54.950775
+  type: 'test'
+  ...
+# Subtest: authored light-verb expression translations are also reflected in contextual breakdown annotations
+ok 25 - authored light-verb expression translations are also reflected in contextual breakdown annotations
+  ---
+  duration_ms: 50.130347
+  type: 'test'
+  ...
+# Subtest: the complete corpus audit preserves an authored verb choice required by the existing what-doing template
+ok 26 - the complete corpus audit preserves an authored verb choice required by the existing what-doing template
+  ---
+  duration_ms: 5326.46101
+  type: 'test'
+  ...
+1..26
+# tests 26
+# suites 0
+# pass 26
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6880.969648
+
+File: tests/linguistic-system.test.js
+TAP version 13
+# Subtest: legacy sources become one central store while every feature retains live role views
+ok 1 - legacy sources become one central store while every feature retains live role views
+  ---
+  duration_ms: 5.272355
+  type: 'test'
+  ...
+# Subtest: persistence excludes duplicated legacy words and restores all compatibility views
+ok 2 - persistence excludes duplicated legacy words and restores all compatibility views
+  ---
+  duration_ms: 3.139809
+  type: 'test'
+  ...
+# Subtest: migration preserves unrelated settings, sentences, templates, saved words and progress
+ok 3 - migration preserves unrelated settings, sentences, templates, saved words and progress
+  ---
+  duration_ms: 0.888233
+  type: 'test'
+  ...
+# Subtest: install is idempotent and imported expansion never overwrites user changes or disabled bindings
+ok 4 - install is idempotent and imported expansion never overwrites user changes or disabled bindings
+  ---
+  duration_ms: 1.393898
+  type: 'test'
+  ...
+# Subtest: homographs, gender, number, separate senses, grammar edits and changed spelling remain distinct
+ok 5 - homographs, gender, number, separate senses, grammar edits and changed spelling remain distinct
+  ---
+  duration_ms: 0.737551
+  type: 'test'
+  ...
+# Subtest: editor push, filter assignment, splice, nested forms, enable and delete are persisted centrally
+ok 6 - editor push, filter assignment, splice, nested forms, enable and delete are persisted centrally
+  ---
+  duration_ms: 1.678726
+  type: 'test'
+  ...
+# Subtest: deleting a binding keeps its other category and alias, deleting an entry prevents import resurrection
+ok 7 - deleting a binding keeps its other category and alias, deleting an entry prevents import resurrection
+  ---
+  duration_ms: 1.481797
+  type: 'test'
+  ...
+# Subtest: new entries are immediately discoverable in vocabulary and games; only reviewed nouns enter WHAT
+ok 8 - new entries are immediately discoverable in vocabulary and games; only reviewed nouns enter WHAT
+  ---
+  duration_ms: 1.173089
+  type: 'test'
+  ...
+# Subtest: verbs join the game store and retain edit compatibility without guessing conjugations for new verbs
+ok 9 - verbs join the game store and retain edit compatibility without guessing conjugations for new verbs
+  ---
+  duration_ms: 0.935037
+  type: 'test'
+  ...
+# Subtest: verb spelling has one authoritative value even after nested script edits and persistence
+ok 10 - verb spelling has one authoritative value even after nested script edits and persistence
+  ---
+  duration_ms: 0.809804
+  type: 'test'
+  ...
+# Subtest: authored home locative migrates to a noun plus a postposition binding and derives its surface
+ok 11 - authored home locative migrates to a noun plus a postposition binding and derives its surface
+  ---
+  duration_ms: 0.924582
+  type: 'test'
+  ...
+# Subtest: custom location spellings are preserved instead of guessed to be standard home constructions
+ok 12 - custom location spellings are preserved instead of guessed to be standard home constructions
+  ---
+  duration_ms: 0.304511
+  type: 'test'
+  ...
+# Subtest: missing legacy rows stay missing; central reload never runs default imports
+ok 13 - missing legacy rows stay missing; central reload never runs default imports
+  ---
+  duration_ms: 0.278827
+  type: 'test'
+  ...
+# Subtest: malformed legacy fields are retained for recovery instead of silently dropped
+ok 14 - malformed legacy fields are retained for recovery instead of silently dropped
+  ---
+  duration_ms: 1.015083
+  type: 'test'
+  ...
+# Subtest: newer schemas fail visibly without modifying the saved state
+ok 15 - newer schemas fail visibly without modifying the saved state
+  ---
+  duration_ms: 0.42795
+  type: 'test'
+  ...
+# Subtest: vocabulary, grammar and communication progression are independent and preserved
+ok 16 - vocabulary, grammar and communication progression are independent and preserved
+  ---
+  duration_ms: 1.06997
+  type: 'test'
+  ...
+# Subtest: adding 5,000 entries preserves identity and supports fast discovery
+ok 17 - adding 5,000 entries preserves identity and supports fast discovery
+  ---
+  duration_ms: 305.852506
+  type: 'test'
+  ...
+# Subtest: compact snapshots persist import edits, nested form edits, disabled bindings and deletions
+ok 18 - compact snapshots persist import edits, nested form edits, disabled bindings and deletions
+  ---
+  duration_ms: 4.83441
+  type: 'test'
+  ...
+# Subtest: compact 5,000-entry persistence stays within browser storage and rehydrates all IDs
+ok 19 - compact 5,000-entry persistence stays within browser storage and rehydrates all IDs
+  ---
+  duration_ms: 618.704142
+  type: 'test'
+  ...
+# Subtest: editing a reviewed import revokes unsafe grammatical roles without losing its word or progress
+ok 20 - editing a reviewed import revokes unsafe grammatical roles without losing its word or progress
+  ---
+  duration_ms: 11.456362
+  type: 'test'
+  ...
+# Subtest: explicitly authored legacy role spelling edits retain their category while POS changes revoke it
+ok 21 - explicitly authored legacy role spelling edits retain their category while POS changes revoke it
+  ---
+  duration_ms: 0.719863
+  type: 'test'
+  ...
+# Subtest: category learning views select the matching wood and hukam senses without changing lexical IDs or source data
+ok 22 - category learning views select the matching wood and hukam senses without changing lexical IDs or source data
+  ---
+  duration_ms: 349.733759
+  type: 'test'
+  ...
+# Subtest: category learning views preserve stable-sense translation edits and manual category overrides
+ok 23 - category learning views preserve stable-sense translation edits and manual category overrides
+  ---
+  duration_ms: 4.757862
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1333.270103
+
+File: tests/metadata-migration.test.js
+TAP version 13
+# Subtest: audit roles are central live views and compact hydration does not persist thousands of derived records
+ok 1 - audit roles are central live views and compact hydration does not persist thousands of derived records
+  ---
+  duration_ms: 7.579457
+  type: 'test'
+  ...
+# Subtest: schema upgrade and re-assessment preserve settings, disabled words, deleted bindings and stable aliases
+ok 2 - schema upgrade and re-assessment preserve settings, disabled words, deleted bindings and stable aliases
+  ---
+  duration_ms: 3.750163
+  type: 'test'
+  ...
+# Subtest: source enrichment cannot reapprove learner-edited imports or overwrite selected English
+ok 3 - source enrichment cannot reapprove learner-edited imports or overwrite selected English
+  ---
+  duration_ms: 2.881303
+  type: 'test'
+  ...
+# Subtest: learner category overrides and deleted entries survive fresh corpus classification
+ok 4 - learner category overrides and deleted entries survive fresh corpus classification
+  ---
+  duration_ms: 2.43006
+  type: 'test'
+  ...
+# Subtest: source enrichment preserves authored grammatical edits while restricting their sentence roles
+ok 5 - source enrichment preserves authored grammatical edits while restricting their sentence roles
+  ---
+  duration_ms: 1.550729
+  type: 'test'
+  ...
+# Subtest: v1 imported edits without new tracking fields are detected before the corpus audit
+ok 6 - v1 imported edits without new tracking fields are detected before the corpus audit
+  ---
+  duration_ms: 2.169842
+  type: 'test'
+  ...
+# Subtest: an edited article-bearing role binding cannot bypass lexical revalidation
+ok 7 - an edited article-bearing role binding cannot bypass lexical revalidation
+  ---
+  duration_ms: 1.585225
+  type: 'test'
+  ...
+# Subtest: verb enrichment owns nested forms and cannot mutate the shipped morphology evidence
+ok 8 - verb enrichment owns nested forms and cannot mutate the shipped morphology evidence
+  ---
+  duration_ms: 25.354749
+  type: 'test'
+  ...
+# Subtest: learner imperative edits survive source verb enrichment and compact reloading
+ok 9 - learner imperative edits survive source verb enrichment and compact reloading
+  ---
+  duration_ms: 3.559546
+  type: 'test'
+  ...
+# Subtest: untracked legacy future and perfective edits survive source enrichment and two compact reloads
+ok 10 - untracked legacy future and perfective edits survive source enrichment and two compact reloads
+  ---
+  duration_ms: 1.732309
+  type: 'test'
+  ...
+# Subtest: a complete explicitly authored noun updates central vocabulary and role assessment in one upsert
+ok 11 - a complete explicitly authored noun updates central vocabulary and role assessment in one upsert
+  ---
+  duration_ms: 167.036559
+  type: 'test'
+  ...
+# Subtest: multiple supported senses retain separate role forms and agreement after compact hydration
+ok 12 - multiple supported senses retain separate role forms and agreement after compact hydration
+  ---
+  duration_ms: 2.219977
+  type: 'test'
+  ...
+# Subtest: audited pronoun bindings preserve first-person plural agreement across compact reloading
+ok 13 - audited pronoun bindings preserve first-person plural agreement across compact reloading
+  ---
+  duration_ms: 2.197126
+  type: 'test'
+  ...
+# Subtest: real corpus nested verb edits survive compact migration and remain outside sentence roles
+ok 14 - real corpus nested verb edits survive compact migration and remain outside sentence roles
+  ---
+  duration_ms: 9179.930008
+  type: 'test'
+  ...
+# Subtest: real corpus compact hydration keeps derived metadata out of persistence and preserves role settings
+ok 15 - real corpus compact hydration keeps derived metadata out of persistence and preserves role settings
+  ---
+  duration_ms: 14722.372039
+  type: 'test'
+  ...
+# Subtest: saving unchanged real noun and adjective editor values preserves imported eligibility
+ok 16 - saving unchanged real noun and adjective editor values preserves imported eligibility
+  ---
+  duration_ms: 6177.089763
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 30332.583741
+
+File: tests/sentence-breakdown.test.js
+TAP version 13
+# Subtest: closed breakdown uses contextual meaning and keeps alternatives and explanation expanded
+ok 1 - closed breakdown uses contextual meaning and keeps alternatives and explanation expanded
+  ---
+  duration_ms: 3.827463
+  type: 'test'
+  ...
+# Subtest: Vocabulary and breakdown reuse the same lexical meanings and usage
+ok 2 - Vocabulary and breakdown reuse the same lexical meanings and usage
+  ---
+  duration_ms: 1.256963
+  type: 'test'
+  ...
+# Subtest: inflected phrase pronunciation and canonical dictionary pronunciation remain distinct
+ok 3 - inflected phrase pronunciation and canonical dictionary pronunciation remain distinct
+  ---
+  duration_ms: 5.854136
+  type: 'test'
+  ...
+# Subtest: absent metadata stays absent and saved phrases do not require a current lexical entry
+ok 4 - absent metadata stays absent and saved phrases do not require a current lexical entry
+  ---
+  duration_ms: 1.002735
+  type: 'test'
+  ...
+# Subtest: learner content is escaped and display preferences cover expandable details
+ok 5 - learner content is escaped and display preferences cover expandable details
+  ---
+  duration_ms: 1.416137
+  type: 'test'
+  ...
+# Subtest: selected sense supplies its own gender and number instead of entry-wide defaults
+ok 6 - selected sense supplies its own gender and number instead of entry-wide defaults
+  ---
+  duration_ms: 1.758902
+  type: 'test'
+  ...
+# Subtest: metadata completion and fluent review remain separate in expanded status details
+ok 7 - metadata completion and fluent review remain separate in expanded status details
+  ---
+  duration_ms: 1.114084
+  type: 'test'
+  ...
+# Subtest: restricted and absent assessment data never become a positive review claim
+ok 8 - restricted and absent assessment data never become a positive review claim
+  ---
+  duration_ms: 3.385904
+  type: 'test'
+  ...
+# Subtest: category-filtered Vocabulary links the displayed lexical sense to shared details
+ok 9 - category-filtered Vocabulary links the displayed lexical sense to shared details
+  ---
+  duration_ms: 1.237256
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 35.85973
+
+File: tests/sentence-projection.test.js
+TAP version 13
+# Subtest: sentence projections avoid enumerating corpus records and skip unrelated role pools
+ok 1 - sentence projections avoid enumerating corpus records and skip unrelated role pools
+  ---
+  duration_ms: 62.734854
+  type: 'test'
+  ...
+# Subtest: assembly-local case and script forms preserve source data and observe subsequent edits
+ok 2 - assembly-local case and script forms preserve source data and observe subsequent edits
+  ---
+  duration_ms: 4.90777
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 77.325553
+
+File: tests/speech-prefetch.test.js
+TAP version 13
+# Subtest: stopping playback does not cancel background pronunciation preparation
+ok 1 - stopping playback does not cancel background pronunciation preparation
+  ---
+  duration_ms: 9.924676
+  type: 'test'
+  ...
+# Subtest: successful section downloads have no fixed delay between different words
+ok 2 - successful section downloads have no fixed delay between different words
+  ---
+  duration_ms: 4.125071
+  type: 'test'
+  ...
+# Subtest: a per-minute 429 waits for the next minute then retries
+ok 3 - a per-minute 429 waits for the next minute then retries
+  ---
+  duration_ms: 4.208284
+  type: 'test'
+  ...
+# Subtest: a character-limit 429 does not keep retrying
+ok 4 - a character-limit 429 does not keep retrying
+  ---
+  duration_ms: 3.064644
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 27.39249
+
+File: tests/vocabulary-audit.test.js
+TAP version 13
+# Subtest: entire imported corpus and every original sense align with checksum-bound source evidence
+ok 1 - entire imported corpus and every original sense align with checksum-bound source evidence
+  ---
+  duration_ms: 18.025723
+  type: 'test'
+  ...
+# Subtest: ordinary wood sense is materials while independently gendered physique sense remains appearance
+ok 2 - ordinary wood sense is materials while independently gendered physique sense remains appearance
+  ---
+  duration_ms: 0.954275
+  type: 'test'
+  ...
+# Subtest: structured semantic heads and unambiguous topic evidence replace unsupported keyword categories
+ok 3 - structured semantic heads and unambiguous topic evidence replace unsupported keyword categories
+  ---
+  duration_ms: 18.345584
+  type: 'test'
+  ...
+# Subtest: eligible noun roles have source sense gender and contextual meaning, source obliques stay scoped
+ok 4 - eligible noun roles have source sense gender and contextual meaning, source obliques stay scoped
+  ---
+  duration_ms: 20.798587
+  type: 'test'
+  ...
+# Subtest: adjective paradigms and adverbial roles use source cells and explicit complete phrases
+ok 5 - adjective paradigms and adverbial roles use source cells and explicit complete phrases
+  ---
+  duration_ms: 51.613868
+  type: 'test'
+  ...
+# Subtest: verb morphology permission never grants unauthorized alternative argument senses
+ok 6 - verb morphology permission never grants unauthorized alternative argument senses
+  ---
+  duration_ms: 1.626508
+  type: 'test'
+  ...
+# Subtest: source data, user category choices and user lexical edits are never silently replaced
+ok 7 - source data, user category choices and user lexical edits are never silently replaced
+  ---
+  duration_ms: 54.921575
+  type: 'test'
+  ...
+# Subtest: an exact dictionary alias follows a legacy canonical ID without replacing its sense ID or phrase
+ok 8 - an exact dictionary alias follows a legacy canonical ID without replacing its sense ID or phrase
+  ---
+  duration_ms: 1.421462
+  type: 'test'
+  ...
+# Subtest: category validation reports conflicting senses, duplicate labels and orphaned hierarchy without mutating data
+ok 9 - category validation reports conflicting senses, duplicate labels and orphaned hierarchy without mutating data
+  ---
+  duration_ms: 21.793965
+  type: 'test'
+  ...
+# Subtest: known unchanged authored category defaults migrate without overwriting saved category or lexical changes
+ok 10 - known unchanged authored category defaults migrate without overwriting saved category or lexical changes
+  ---
+  duration_ms: 2.42187
+  type: 'test'
+  ...
+# Subtest: empty lexical records stay unresolved and authored predicate bases retain reviewed contextual choices
+ok 11 - empty lexical records stay unresolved and authored predicate bases retain reviewed contextual choices
+  ---
+  duration_ms: 0.994227
+  type: 'test'
+  ...
+# Subtest: source-alias flags cannot erase bounded original authored verb and plural pronoun assessments
+ok 12 - source-alias flags cannot erase bounded original authored verb and plural pronoun assessments
+  ---
+  duration_ms: 4249.952365
+  type: 'test'
+  ...
+# Subtest: bounded source noun affordances make all reviewed cut dig count mend wipe sow and water senses usable
+ok 13 - bounded source noun affordances make all reviewed cut dig count mend wipe sow and water senses usable
+  ---
+  duration_ms: 33.302041
+  type: 'test'
+  ...
+# Subtest: source modifier restrictions survive corpus enrichment and sentence construction
+ok 14 - source modifier restrictions survive corpus enrichment and sentence construction
+  ---
+  duration_ms: 24.281491
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4670.79032
+
+File: tests/vocabulary-import.test.js
+TAP version 13
+# Subtest: keeps homonym meanings together while separating parts of speech and preserving stable IDs
+ok 1 - keeps homonym meanings together while separating parts of speech and preserving stable IDs
+  ---
+  duration_ms: 15.580272
+  type: 'test'
+  ...
+# Subtest: filters inflections, marked dialect and unsupported records without inventing missing metadata
+ok 2 - filters inflections, marked dialect and unsupported records without inventing missing metadata
+  ---
+  duration_ms: 0.858523
+  type: 'test'
+  ...
+# Subtest: dictionary data carries attribution and never promotes imported conjugations or examples into grammar
+ok 3 - dictionary data carries attribution and never promotes imported conjugations or examples into grammar
+  ---
+  duration_ms: 0.663973
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 24.147969

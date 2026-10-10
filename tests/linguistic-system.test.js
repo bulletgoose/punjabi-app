@@ -315,3 +315,40 @@ test('explicitly authored legacy role spelling edits retain their category while
   assert.equal(state.vocab.WHAT.some(row => row.id === 'what-kitab'), false);
   assert.ok(system.vocabulary(state).some(row => row.id === 'what-kitab'));
 });
+
+test('category learning views select the matching wood and hukam senses without changing lexical IDs or source data', () => {
+  const audit = require('../vocabulary-audit'), learning = require('../learning-context');
+  const expansion = require('../data/vocabulary-expansion').entries.filter(row => ['ਕਾਠ', 'ਹੁਕਮ'].includes(row.g));
+  const state = system.install({ vocab: {}, verbs: [] }, { expansion, audit, categories: learning.categories });
+  const ordinary = system.vocabulary(state), before = JSON.stringify(system.snapshot(state, { compact: true }));
+  const find = (category, g) => system.vocabulary(state, { senseCategoryIds: [category] }).find(row => row.gurmukhi === g);
+  const body = find('body', 'ਕਾਠ'), material = find('materials', 'ਕਾਠ');
+  assert.equal(body.english, 'physique');assert.equal(body.gender, 'm');assert.ok(body.categories.includes('body'));
+  assert.equal(material.english, 'wood');assert.equal(material.gender, 'f');assert.ok(material.categories.includes('materials'));
+  assert.equal(body.id, material.id);assert.equal(body.vocabularyId, material.vocabularyId);
+  assert.notEqual(body.displaySenseId, material.displaySenseId);assert.equal(body.selectedSenseId, body.displaySenseId);
+  const culture = find('culture', 'ਹੁਕਮ'), communication = find('communication', 'ਹੁਕਮ');
+  assert.equal(culture.english, 'spades');assert.equal(communication.english, 'order');
+  assert.notEqual(culture.displaySenseId, communication.displaySenseId);
+  assert.deepEqual(system.vocabulary(state), ordinary);
+  assert.equal(JSON.stringify(system.snapshot(state, { compact: true })), before);
+  assert.equal(system.vocabulary(state, { senseCategoryIds: ['body'] }).length, ordinary.length, 'Unmatched legacy rows keep their ordinary view.');
+});
+
+test('category learning views preserve stable-sense translation edits and manual category overrides', () => {
+  const audit = require('../vocabulary-audit'), learning = require('../learning-context');
+  const expansion = require('../data/vocabulary-expansion').entries.filter(row => row.g === 'ਕਾਠ');
+  let state = system.install({ vocab: {}, verbs: [] }, { expansion, audit, categories: learning.categories });
+  const entry = system.get(state, expansion[0].id);
+  system.upsert(state, { id: expansion[0].id, e: 'my timber meaning' });
+  assert.equal(system.vocabulary(state, { senseCategoryIds: ['materials'] })[0].english, 'my timber meaning');
+  assert.equal(system.vocabulary(state)[0].english, 'my timber meaning');
+  assert.equal(system.vocabulary(state, { senseCategoryIds: ['body'] })[0].english, 'physique', 'Editing the wood sense does not replace a separate physique sense.');
+  system.upsert(state, { id: entry.id, categories: ['body', 'my-topic'] });
+  const manual = system.vocabulary(state, { senseCategoryIds: ['body'] })[0];
+  assert.equal(manual.english, 'my timber meaning');assert.deepEqual(manual.categories, ['body', 'my-topic']);
+  assert.equal(manual.displaySenseId, undefined, 'Manual category assignment does not authorize another dictionary sense.');
+  state = system.install(system.snapshot(state, { compact: true }), { expansion, audit, categories: learning.categories });
+  const restored = system.vocabulary(state, { senseCategoryIds: ['body'] })[0];
+  assert.equal(restored.english, 'my timber meaning');assert.deepEqual(restored.categories, ['body', 'my-topic']);
+});

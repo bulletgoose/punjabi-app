@@ -3,7 +3,7 @@
 Use the pull request branch in a separate local checkout. Do not replace a working production checkout or clear the production website's browser data.
 
 ```sh
-git clone --branch feature/unified-punjabi-learning-architecture https://github.com/bulletgoose/punjabi-app.git
+git clone --branch feature/complete-vocabulary-grammar-integration https://github.com/bulletgoose/punjabi-app.git
 cd punjabi-app
 python3 -m http.server 8000
 ```
@@ -12,8 +12,8 @@ Open **http://localhost:8000**. This is a local static preview; no build, paid h
 
 Review these paths:
 
-1. Generate a sentence and open its breakdown. Check dictionary forms and agreement explanations.
-2. In the sentence-set selector, try P47–P58 as well as existing patterns. Change WHO gender in Building Blocks and check agreement.
+1. Generate a sentence and open its breakdown. Expand individual parts to check the contextual meaning, dictionary senses, shared Meaning & Usage information and supported grammar explanations.
+2. In the sentence-set selector, try the new descriptive, identification, location and occupation patterns as well as existing past/future patterns. Change WHO gender in Building Blocks and check agreement. Search the expanded Building Block lists.
 3. Browse Vocabulary, search in all three scripts, choose topics/subtopics, and open meaning/source details. Add a test word, reload, then edit/remove it. The library displays review status.
 4. In Flashcards, choose Vocabulary words and a topic. Retain a sentence-deck round to check the existing experience.
 5. In Word Game, use Written text only to review without cloud audio. Pick different prompt/tile scripts and several topics. Existing audio games require the existing configured speech endpoint and sign-in.
@@ -25,7 +25,9 @@ For physical Safari/iPhone review, use an authorized HTTPS preview origin if one
 Run automated checks with an existing Node runtime:
 
 ```sh
-node --test tests/*.test.js functions/test/*.test.js
+node scripts/run-tests.js
+node scripts/audit-report.js
+node scripts/translation-examples.js
 ```
 
 Optional browser regression checks require Playwright and its Chromium/WebKit runtimes:
@@ -34,6 +36,8 @@ Optional browser regression checks require Playwright and its Chromium/WebKit ru
 node scripts/browser-check.js
 ```
 
-Set `BASELINE_DIR` to an unchanged checkout of the documented base commit to include the original-data migration fixture. The script starts and stops its own local preview server; it writes reports under `reports/`. The imported data is under CC BY-SA 4.0; the app includes visible attribution and source links. See the implementation report for linguistic limits and the exact tests already run.
+The browser script creates a migration fixture from the previous feature commit, `49ded7b`, using its actual compact persistence format. `BASELINE_REF` can select another committed baseline. It includes user translations, disabled words/templates, saved words/sentences, custom words/templates, deletion tombstones and prior learning records. The script starts and stops its own local preview servers and writes reports under `reports/`. It checks desktop Chromium, desktop WebKit and iPhone WebKit emulation. WebKit offline checks stop the origin server; Chromium uses browser offline mode. These are automated engines, not physical Safari/iPhone tests.
 
-The pull request targets main and remains unmerged. Review and native linguistic validation should precede a production rollout.
+The audit script compares pristine initializations at the baseline commit and current branch. It distinguishes lexical IDs from constructed phrase bindings and records the exact metadata states and unresolved reasons. Generated samples demonstrate actual rendering; their random sample coverage is not an exhaustive linguistic review. The imported data is under CC BY-SA 4.0; the app includes visible attribution and source links.
+
+The pull request targets main. The user’s latest instruction (2026-10-10) authorizes merging after successful checks. Native linguistic verification remains an ongoing review task. This change adds no hosting configuration or paid infrastructure.
