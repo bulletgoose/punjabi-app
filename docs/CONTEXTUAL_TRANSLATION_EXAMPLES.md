@@ -8,10 +8,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 1. A thing is not like that
 
-**Punjabi:** ਕੁਰਸੀ ਨਵੀਂ ਨਹੀਂ ਹੈ।  
-**Roman Punjabi:** kursī navī̃ nahī̃ hai.  
-**Natural English:** The chair is not new.  
-**Template:** `P68`  
+**Punjabi:** ਕੁਰਸੀ ਨਵੀਂ ਨਹੀਂ ਹੈ।\
+**Roman Punjabi:** kursī navī̃ nahī̃ hai.\
+**Natural English:** The chair is not new.\
+**Template:** `P68`\
 **Categories:** Objects & Everyday Items; Home & Living; Properties & Descriptions
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -30,10 +30,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 2. Describe a thing in the past
 
-**Punjabi:** ਦਰਵਾਜ਼ਾ ਨਵਾਂ ਸੀ।  
-**Roman Punjabi:** darvāzā navā̃ sī.  
-**Natural English:** The door was new.  
-**Template:** `P67`  
+**Punjabi:** ਦਰਵਾਜ਼ਾ ਨਵਾਂ ਸੀ।\
+**Roman Punjabi:** darvāzā navā̃ sī.\
+**Natural English:** The door was new.\
+**Template:** `P67`\
 **Categories:** Construction & Infrastructure; Places & Locations; Properties & Descriptions
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -51,10 +51,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 3. Describe a thing
 
-**Punjabi:** ਲੋਹਾ ਭਾਰਾ ਹੈ।  
-**Roman Punjabi:** lohā bhārā hai.  
-**Natural English:** The iron is heavy.  
-**Template:** `P60`  
+**Punjabi:** ਲੋਹਾ ਭਾਰਾ ਹੈ।\
+**Roman Punjabi:** lohā bhārā hai.\
+**Natural English:** The iron is heavy.\
+**Template:** `P60`\
 **Categories:** Materials & Substances; Nature & Environment; Properties & Descriptions
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -72,10 +72,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 4. Completed an action
 
-**Punjabi:** ਮੈਂ ਖੀਰ ਛਕੀ।  
-**Roman Punjabi:** main khīr chakī.  
-**Natural English:** I ate the kheer (rice pudding).  
-**Template:** `P51`  
+**Punjabi:** ਮੈਂ ਖੀਰ ਛਕੀ।\
+**Roman Punjabi:** main khīr chakī.\
+**Natural English:** I ate the kheer (rice pudding).\
+**Template:** `P51`\
 **Categories:** Grammar & Functional Words; Food & Drink; Fruits & Vegetables
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -94,10 +94,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 5. Negative routine
 
-**Punjabi:** ਮੈਂ ਪੁਸਤਕ ਨਹੀਂ ਪੜ੍ਹਦਾ ਹਾਂ।  
-**Roman Punjabi:** main pustak nahī̃ paṛhdā hā̃.  
-**Natural English:** I do not read a book.  
-**Template:** `P04`  
+**Punjabi:** ਮੈਂ ਪੁਸਤਕ ਨਹੀਂ ਪੜ੍ਹਦਾ ਹਾਂ।\
+**Roman Punjabi:** main pustak nahī̃ paṛhdā hā̃.\
+**Natural English:** I do not read a book.\
+**Template:** `P04`\
 **Categories:** Grammar & Functional Words; Education & Learning; Communication & Language
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -116,10 +116,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 6. Where is a thing?
 
-**Punjabi:** ਪਹਾੜ ਕਿੱਥੇ ਹੈ?  
-**Roman Punjabi:** pahāṛ kithē hai?  
-**Natural English:** Where is the mountain?  
-**Template:** `P62`  
+**Punjabi:** ਪਹਾੜ ਕਿੱਥੇ ਹੈ?\
+**Roman Punjabi:** pahāṛ kithē hai?\
+**Natural English:** Where is the mountain?\
+**Template:** `P62`\
 **Categories:** Geography & Landscapes; Nature & Environment; Places & Locations
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -137,10 +137,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 7. Locate a thing
 
-**Punjabi:** ਦੋਸਤ ਘਰ ਵਿੱਚ ਹੈ।  
-**Roman Punjabi:** dost ghar vich hai.  
-**Natural English:** The friend is at home.  
-**Template:** `P61`  
+**Punjabi:** ਦੋਸਤ ਘਰ ਵਿੱਚ ਹੈ।\
+**Roman Punjabi:** dost ghar vich hai.\
+**Natural English:** The friend is at home.\
+**Template:** `P61`\
 **Categories:** People & Identity; Places & Locations; Home & Living
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -158,10 +158,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 8. Identify a thing
 
-**Punjabi:** ਇਹ ਜਹਾਜ਼ ਹੈ।  
-**Roman Punjabi:** eh jahāz hai.  
-**Natural English:** This is a ship.  
-**Template:** `P59`  
+**Punjabi:** ਇਹ ਜਹਾਜ਼ ਹੈ।\
+**Roman Punjabi:** eh jahāz hai.\
+**Natural English:** This is a ship.\
+**Template:** `P59`\
 **Categories:** Transport & Travel
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -178,10 +178,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 9. Describe a thing
 
-**Punjabi:** ਘੋੜਾ ਸੋਹਣਾ ਹੈ।  
-**Roman Punjabi:** ghoṛā sohṇā hai.  
-**Natural English:** The horse is beautiful.  
-**Template:** `P60`  
+**Punjabi:** ਘੋੜਾ ਸੋਹਣਾ ਹੈ।\
+**Roman Punjabi:** ghoṛā sohṇā hai.\
+**Natural English:** The horse is beautiful.\
+**Template:** `P60`\
 **Categories:** Animals & Wildlife; Nature & Environment; Properties & Descriptions
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -199,10 +199,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 10. Give something to someone
 
-**Punjabi:** ਉਹ ਮੈਨੂੰ ਹੁਕਮ ਦਿੰਦਾ ਹੈ।  
-**Roman Punjabi:** oh mainū̃ hukam dindā hai.  
-**Natural English:** He or she gives the order to me.  
-**Template:** `P53`  
+**Punjabi:** ਉਹ ਮੈਨੂੰ ਹੁਕਮ ਦਿੰਦਾ ਹੈ।\
+**Roman Punjabi:** oh mainū̃ hukam dindā hai.\
+**Natural English:** He or she gives the order to me.\
+**Template:** `P53`\
 **Categories:** Grammar & Functional Words; Communication & Language
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -223,10 +223,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 11. Possess a thing
 
-**Punjabi:** ਮੇਰੇ ਕੋਲ ਚਾਹ ਹੈ।  
-**Roman Punjabi:** mere kol cāh hai.  
-**Natural English:** I have tea.  
-**Template:** `P69`  
+**Punjabi:** ਮੇਰੇ ਕੋਲ ਚਾਹ ਹੈ।\
+**Roman Punjabi:** mere kol cāh hai.\
+**Natural English:** I have tea.\
+**Template:** `P69`\
 **Categories:** Grammar & Functional Words; Food & Drink
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -244,10 +244,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 12. Like a thing
 
-**Punjabi:** ਮੈਨੂੰ ਆਲੂ ਪਸੰਦ ਹੈ।  
-**Roman Punjabi:** mainū̃ ālū pasand hai.  
-**Natural English:** I like potato.  
-**Template:** `P70`  
+**Punjabi:** ਮੈਨੂੰ ਆਲੂ ਪਸੰਦ ਹੈ।\
+**Roman Punjabi:** mainū̃ ālū pasand hai.\
+**Natural English:** I like potato.\
+**Template:** `P70`\
 **Categories:** Grammar & Functional Words; Fruits & Vegetables; Plants & Trees; Food & Drink; Nature & Environment
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -265,10 +265,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 13. Identify an occupation
 
-**Punjabi:** ਮੈਂ ਡਾਕਟਰ ਹਾਂ।  
-**Roman Punjabi:** main ḍākṭar hā̃.  
-**Natural English:** I am a doctor.  
-**Template:** `P63`  
+**Punjabi:** ਮੈਂ ਡਾਕਟਰ ਹਾਂ।\
+**Roman Punjabi:** main ḍākṭar hā̃.\
+**Natural English:** I am a doctor.\
+**Template:** `P63`\
 **Categories:** Grammar & Functional Words; Work & Occupations; People & Identity
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -286,10 +286,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 14. A thing is not like that
 
-**Punjabi:** ਮਿੱਟੀ ਸੁੱਕੀ ਨਹੀਂ ਹੈ।  
-**Roman Punjabi:** miṭṭī sukkī nahī̃ hai.  
-**Natural English:** The soil is not dry.  
-**Template:** `P68`  
+**Punjabi:** ਮਿੱਟੀ ਸੁੱਕੀ ਨਹੀਂ ਹੈ।\
+**Roman Punjabi:** miṭṭī sukkī nahī̃ hai.\
+**Natural English:** The soil is not dry.\
+**Template:** `P68`\
 **Categories:** Materials & Substances; Nature & Environment; Properties & Descriptions
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -308,10 +308,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 15. Describe a thing
 
-**Punjabi:** ਕਾਠ ਪੱਕੀ ਹੈ।  
-**Roman Punjabi:** kāṭh pakkī hai.  
-**Natural English:** The wood is hard.  
-**Template:** `P60`  
+**Punjabi:** ਕਾਠ ਪੱਕੀ ਹੈ।\
+**Roman Punjabi:** kāṭh pakkī hai.\
+**Natural English:** The wood is hard.\
+**Template:** `P60`\
 **Categories:** Materials & Substances; Nature & Environment; Properties & Descriptions
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -329,10 +329,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 16. Will do something
 
-**Punjabi:** ਮੈਂ ਕਿਤਾਬ ਪੜ੍ਹਾਂਗਾ।  
-**Roman Punjabi:** main kitāb paṛhā̃gā.  
-**Natural English:** I will read the book.  
-**Template:** `P47`  
+**Punjabi:** ਮੈਂ ਕਿਤਾਬ ਪੜ੍ਹਾਂਗਾ।\
+**Roman Punjabi:** main kitāb paṛhā̃gā.\
+**Natural English:** I will read the book.\
+**Template:** `P47`\
 **Categories:** Grammar & Functional Words; Education & Learning; Communication & Language
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -351,10 +351,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 17. Everyday action
 
-**Punjabi:** ਮੈਂ ਅੰਬ ਖਾਂਦਾ ਹਾਂ।  
-**Roman Punjabi:** main amba khāndā hā̃.  
-**Natural English:** I eat a mango.  
-**Template:** `P01`  
+**Punjabi:** ਮੈਂ ਅੰਬ ਖਾਂਦਾ ਹਾਂ।\
+**Roman Punjabi:** main amba khāndā hā̃.\
+**Natural English:** I eat a mango.\
+**Template:** `P01`\
 **Categories:** Grammar & Functional Words; Fruits & Vegetables; Food & Drink
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -373,10 +373,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 18. Not doing it now
 
-**Punjabi:** ਮੈਂ ਦੁੱਧ ਨਹੀਂ ਪੀ ਰਿਹਾ ਹਾਂ।  
-**Roman Punjabi:** main duddha nahī̃ pī rihā hā̃.  
-**Natural English:** I am not drinking milk.  
-**Template:** `P08`  
+**Punjabi:** ਮੈਂ ਦੁੱਧ ਨਹੀਂ ਪੀ ਰਿਹਾ ਹਾਂ।\
+**Roman Punjabi:** main duddha nahī̃ pī rihā hā̃.\
+**Natural English:** I am not drinking milk.\
+**Template:** `P08`\
 **Categories:** Grammar & Functional Words; Food & Drink
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -395,10 +395,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 19. Describe a thing
 
-**Punjabi:** ਪਾਣੀ ਠੰਢਾ ਹੈ।  
-**Roman Punjabi:** pāṇī ṭhaṇḍā hai.  
-**Natural English:** The water is cold.  
-**Template:** `P60`  
+**Punjabi:** ਪਾਣੀ ਠੰਢਾ ਹੈ।\
+**Roman Punjabi:** pāṇī ṭhaṇḍā hai.\
+**Natural English:** The water is cold.\
+**Template:** `P60`\
 **Categories:** Food & Drink; Properties & Descriptions
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -416,10 +416,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 20. Identify a thing
 
-**Punjabi:** ਇਹ ਨਦੀ ਹੈ।  
-**Roman Punjabi:** eh nadī hai.  
-**Natural English:** This is a river.  
-**Template:** `P59`  
+**Punjabi:** ਇਹ ਨਦੀ ਹੈ।\
+**Roman Punjabi:** eh nadī hai.\
+**Natural English:** This is a river.\
+**Template:** `P59`\
 **Categories:** Geography & Landscapes; Nature & Environment; Places & Locations
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -436,10 +436,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 21. Possess a thing
 
-**Punjabi:** ਮੇਰੇ ਕੋਲ ਸੋਨਾ ਹੈ।  
-**Roman Punjabi:** mere kol sonā hai.  
-**Natural English:** I have gold.  
-**Template:** `P69`  
+**Punjabi:** ਮੇਰੇ ਕੋਲ ਸੋਨਾ ਹੈ।\
+**Roman Punjabi:** mere kol sonā hai.\
+**Natural English:** I have gold.\
+**Template:** `P69`\
 **Categories:** Grammar & Functional Words; Materials & Substances; Nature & Environment
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -457,10 +457,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 22. Identify a thing
 
-**Punjabi:** ਇਹ ਭਾਸ਼ਾ ਹੈ।  
-**Roman Punjabi:** eh bhāśā hai.  
-**Natural English:** This is a language.  
-**Template:** `P59`  
+**Punjabi:** ਇਹ ਭਾਸ਼ਾ ਹੈ।\
+**Roman Punjabi:** eh bhāśā hai.\
+**Natural English:** This is a language.\
+**Template:** `P59`\
 **Categories:** Communication & Language
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -477,10 +477,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 23. Describe a thing
 
-**Punjabi:** ਪੱਥਰ ਕਰਾਰਾ ਹੈ।  
-**Roman Punjabi:** patthar karārā hai.  
-**Natural English:** The stone is hard.  
-**Template:** `P60`  
+**Punjabi:** ਪੱਥਰ ਕਰਾਰਾ ਹੈ।\
+**Roman Punjabi:** patthar karārā hai.\
+**Natural English:** The stone is hard.\
+**Template:** `P60`\
 **Categories:** Materials & Substances; Nature & Environment; Properties & Descriptions
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -498,10 +498,10 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 
 ## 24. Identify a thing
 
-**Punjabi:** ਇਹ ਫੁੱਲ ਹੈ।  
-**Roman Punjabi:** eh phullă hai.  
-**Natural English:** This is a flower.  
-**Template:** `P59`  
+**Punjabi:** ਇਹ ਫੁੱਲ ਹੈ।\
+**Roman Punjabi:** eh phullă hai.\
+**Natural English:** This is a flower.\
+**Template:** `P59`\
 **Categories:** Plants & Trees; Nature & Environment
 
 | Punjabi phrase | Roman Punjabi | Meaning in this sentence | Role |
@@ -515,4 +515,3 @@ Imported dictionary text is adapted from English Wiktionary contributors through
 | ਫੁੱਲ — phullă (`wt-sense-c2058e5d79d1bd18617f`) [Source](https://en.wiktionary.org/wiki/%E0%A8%AB%E0%A9%81%E0%A9%B1%E0%A8%B2#Punjabi) | flower | Selected source sense: flower | The construction supplies this stable sense ID. The sense supports this grammatical role. The audited sense has a concise contextual gloss; full source wording remains available. |
 
 **Form explanation:** Near demonstrative; the copula agrees with the identified noun. Canonical direct noun form in identification. Third-person copula agrees in number.
-
