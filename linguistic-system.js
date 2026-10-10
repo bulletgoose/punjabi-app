@@ -8,7 +8,7 @@
   else root.PunjabiLinguisticSystem = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
-  const SCHEMA_VERSION = 1;
+  const SCHEMA_VERSION = 2;
   const BUNDLED_DATASET = 'punjabi-bundled-expansion-v1';
   const runtimes = new WeakMap();
   const rowReferences = new WeakMap();
@@ -21,6 +21,9 @@
   const normalized = value => text(value).normalize('NFC').trim().replace(/\s+/g, ' ');
   const meaningKey = value => normalized(value).toLowerCase().replace(/^(?:a|an|the)\s+/, '');
   const clone = value => JSON.parse(JSON.stringify(value));
+  // Object insertion order is not an edit. Source overlays and role builders
+  // can insert the same fields in a different order during hydration.
+  const stableJSON = value => JSON.stringify(value, (key, item) => record(item) ? Object.fromEntries(Object.keys(item).sort().map(name=>[name,item[name]])) : item);
   const CATEGORY_LABELS = {
     WHO: 'People', WHEN: 'Time', WHERE: 'Places', WHAT: 'Things', HOW: 'Tone & manner',
     WHY: 'Reasons', ABOUT: 'Topics', QUESTION: 'Questions', CONNECTOR: 'Connectors',
@@ -37,9 +40,11 @@
     GAME_EDUCATION: 'education', GAME_CLOTHES: 'clothing', GAME_BODY: 'body',
     GAME_NATURE: 'nature', GAME_EVERYDAY: 'home'
   };
-  const CONTEXT_FIELDS = new Set(['id', 'vocabularyId', 'enabled', 'gameCategory', 'category', 'categories']);
+  const CONTEXT_FIELDS = new Set(['id', 'vocabularyId', 'enabled', 'gameCategory', 'category', 'categories', 'roleMetadata', 'roleConstruction', 'selectedSenseId', 'auditOwned']);
+  const ROLE_METADATA_FIELDS = ['p', 'g', 'e', 'dest', 'dative', 'withPossession', 'gScript', 'gender', 'number', 'person', 'englishPerson', 'countability', 'englishCountability', 'semanticTags', 'inflections', 'base', 'transitive', 'takesTags', 'subjectClass', 'forms', 'indeclinable', 'time', 'timeContexts', 'modifierTargets', 'modifierKind'];
   const SYNONYMS = { tags: 'semanticTags', roman: 'p', gurmukhi: 'g', primaryTranslation: 'e' };
-  const GRAMMAR_FIELDS = new Set(['p', 'g', 'e', 'partOfSpeech', 'gender', 'number', 'semanticTags', 'verifiedGrammar']);
+  const GRAMMAR_FIELDS = new Set(['p', 'g', 'e', 'partOfSpeech', 'gender', 'number', 'semanticTags', 'verifiedGrammar', 'forms', 'gScript', 'root', 'takesTags', 'takesTag', 'inflections', 'senses', 'base', 'habitual', 'future', 'perfective', 'transitive', 'subjectClass', 'isModalComplement', 'imperative', 'type', 'prefix', 'objectPostposition']);
+  const AUDITED_ROLES = ['WHO', 'WHEN', 'WHERE', 'WHAT', 'HOW', 'WHY', 'ABOUT', 'ADJECTIVE', 'STATE', 'VERBS'];
   const KNOWN_CONSTRUCTIONS = {
     'where-ghar': { surface: { p: 'ghar vich', g: 'ਘਰ ਵਿੱਚ', e: 'at home' }, lemma: { p: 'ghar', g: 'ਘਰ', e: 'home' },
       postposition: { p: 'vich', g: 'ਵਿੱਚ' }, case: 'locative' }
@@ -86,6 +91,10 @@
     let translation = entry.e;
     Object.defineProperty(entry, 'e', { configurable: true, enumerable: true,
       get() { return translation; }, set(value) {
+        if (value !== translation && Array.isArray(entry.senses) && entry.senses.length) {
+          const sense = entry.senses.find(s => s.id === entry.selectedSenseId) || entry.senses.find(s => s.english === translation) || entry.senses[0];
+          entry.translationOverride = { senseId: sense.id, english: value, source: 'user' };
+        }
         if (Array.isArray(entry.meanings) && entry.meanings[0] === translation) entry.meanings[0] = value;
         else if (Array.isArray(entry.meanings) && record(entry.meanings[0]) && entry.meanings[0].english === translation) entry.meanings[0].english = value;
         translation = value;
@@ -220,6 +229,10 @@
       delete rt.linguistic.tombstones[entry.id];
     }
     const binding = { id: legacyId, vocabularyId: entry.id, enabled: row.enabled !== false };
+    if (record(row.roleMetadata)) for (const field of ROLE_METADATA_FIELDS) if (own(row.roleMetadata, field)) binding[field] = clone(row.roleMetadata[field]);
+    if (row.selectedSenseId) binding.selectedSenseId = row.selectedSenseId;
+    if (row.auditOwned) { binding.auditOwned = true; rt.auditOwnedEntries.add(entry.id); }
+    if (row.roleConstruction) binding.construction = clone(row.roleConstruction);
     if (construction) binding.construction = { type: 'postpositional-phrase', case: construction.case,
       vocabularyId: entry.id, postposition: construction.postposition };
     if (row.gameCategory) binding.gameCategory = row.gameCategory;
@@ -267,8 +280,20 @@
         if (key === 'category') return category;
         if (key === 'toJSON') return () => Object.fromEntries(Reflect.ownKeys(proxy).map(k => [k, proxy[k]]));
         if (own(binding, key)) return binding[key];
+        const sense = binding.selectedSenseId && entry.senses && entry.senses.find(value => value.id === binding.selectedSenseId);
+        const senseField = SYNONYMS[key] || key;
+        if (sense && ['gender', 'number', 'countability', 'englishCountability', 'semanticTags', 'inflections', 'gScript', 'person', 'englishPerson', 'time', 'timeContexts', 'modifierTargets', 'modifierKind'].includes(senseField) && sense[senseField] != null) return sense[senseField];
         if (binding.construction && binding.construction.type === 'postpositional-phrase') {
-          if (key === 'p' || key === 'g') return [entry[key], binding.construction.postposition[key]].filter(Boolean).join(' ');
+          if (key === 'p' || key === 'g') {
+            const form = binding.construction.form || binding.construction.oblique;
+            const base = form && form[key] || entry[key];
+            return [base, binding.construction.postposition[key]].filter(Boolean).join(' ');
+          }
+          if (key === 'e' && binding.construction.englishPrefix && sense) {
+            const noun = sense.contextualGloss || sense.english;
+            const article = binding.construction.englishArticle === 'indefinite' && !/^(?:a|an|the)\s/i.test(noun) ? (/^[aeiou]/i.test(noun) ? 'an ' : 'a ') : '';
+            return binding.construction.englishPrefix + ' ' + article + noun;
+          }
         }
         if (key === 'infinitive' && entry.partOfSpeech === 'verb') return entry.p;
         if (key === 'english' && entry.partOfSpeech === 'verb') return binding.e || entry.e;
@@ -282,19 +307,32 @@
         else if (binding.construction && ['p', 'g', 'e'].includes(key)) {
           // A contextual phrase has its own surface. Editing it must not turn
           // the dictionary noun into an unrelated phrase or erase user text.
-          if (value !== proxy[key]) binding[key] = value;
+          if (value !== proxy[key]) {
+            binding[key] = value;
+            if (key === 'e') binding.phraseTranslationOverride = { english: value, source: 'user' };
+          }
         }
         else if (key === 'e' && own(binding, 'e')) {
-          if (entry.importedDataset && entry.verifiedGrammar === true && meaningKey(value) !== meaningKey(entry.e)) entry.verifiedGrammar = false;
-          binding.e = value; entry.e = value; rt.validateRoles.add(entry.id);
+          if (entry.importedDataset && meaningKey(value) !== meaningKey(entry.e)) {
+            entry.userModifiedLexicalFields = unique(list(entry.userModifiedLexicalFields).concat('e'));
+            entry.verifiedGrammar = false;
+          }
+          binding.e = value; entry.e = value;
+          if (binding.selectedSenseId && entry.translationOverride) entry.translationOverride.senseId = binding.selectedSenseId;
+          rt.validateRoles.add(entry.id);
         }
         else {
           const field = key === 'infinitive' ? 'p' : key === 'english' ? 'e' : SYNONYMS[key] || key;
+          if (field === 'categories' && JSON.stringify(value) !== JSON.stringify(entry[field])) entry.userModifiedCategories = true;
           if (GRAMMAR_FIELDS.has(field)) {
-            if (entry.importedDataset && field !== 'verifiedGrammar' && JSON.stringify(value) !== JSON.stringify(entry[field]) && entry.verifiedGrammar === true) entry.verifiedGrammar = false;
+            if (entry.importedDataset && field !== 'verifiedGrammar' && JSON.stringify(value) !== JSON.stringify(entry[field])) {
+              entry.userModifiedLexicalFields = unique((entry.userModifiedLexicalFields || []).concat(field));
+              if (entry.verifiedGrammar === true) entry.verifiedGrammar = false;
+            }
             rt.validateRoles.add(entry.id);
           }
           entry[field] = value;
+          if (field === 'e' && binding.selectedSenseId && entry.translationOverride) entry.translationOverride.senseId = binding.selectedSenseId;
           if (field === 'gScript' && entry.partOfSpeech === 'verb' && value && value.infinitive) entry.g = value.infinitive;
         }
         rt.dirty.add(entry.id);
@@ -303,6 +341,10 @@
       deleteProperty(target, key) {
         if (key === 'id' || key === 'vocabularyId') return false;
         const entry = rt.linguistic.entries[binding.vocabularyId];
+        if (entry.importedDataset && GRAMMAR_FIELDS.has(SYNONYMS[key] || key)) {
+          entry.userModifiedLexicalFields = unique(list(entry.userModifiedLexicalFields).concat(SYNONYMS[key] || key));
+          entry.verifiedGrammar = false;
+        }
         if (own(binding, key)) delete binding[key];
         else delete entry[SYNONYMS[key] || key];
         if (GRAMMAR_FIELDS.has(SYNONYMS[key] || key)) rt.validateRoles.add(entry.id);
@@ -377,7 +419,7 @@
   function syncRuntime(rt) {
     for (const id of rt.validateRoles) {
       const entry = rt.linguistic.entries[id];
-      if (entry) revokeInvalidRoles(rt, entry);
+      if (entry) { if (rt.audit || rt.grammar) enrichEntry(rt, entry); revokeInvalidRoles(rt, entry); }
     }
     rt.validateRoles.clear();
     const active = new Set();
@@ -410,6 +452,8 @@
       const legacyVocab = state.vocab, legacyVerbs = state.verbs;
       const existing = record(state.linguistic) && record(state.linguistic.entries);
       const linguistic = existing ? state.linguistic : {};
+      const loadedSchemaVersion = linguistic.schemaVersion || 1;
+      const loadedEntries = new Set(Object.keys(linguistic.entries || {}));
       if (linguistic.schemaVersion > SCHEMA_VERSION) throw new Error('This vocabulary schema is newer than this app supports.');
       linguistic.schemaVersion = SCHEMA_VERSION;
       for (const key of ['entries', 'bindings', 'aliases', 'tombstones', 'categories']) linguistic[key] = dictionary(linguistic[key]);
@@ -419,7 +463,7 @@
       for (const dimension of ['vocabulary', 'grammar', 'communication']) if (!record(linguistic.progression[dimension])) linguistic.progression[dimension] = {};
       rt = { state, linguistic, arrays: new Map(), rows: new WeakMap(), fingerprints: new Map(), dirty: new Set(),
         entryCategories: new Map(), categoryMembers: new Map(), categoryDirty: new Set(), bindingIndexes: new Map(), roleEntries: new Map(),
-        importedBaselines: new Map(), importedBindings: new Map(), importedAliases: new Set(), validateRoles: new Set() };
+        importedBaselines: new Map(), importedBindings: new Map(), importedAliases: new Set(), validateRoles: new Set(), sourceRows: new Map(), loadedSchemaVersion, loadedEntries, checkedEdits: new Set(), derivedFields: new Map(), auditOwnedEntries: new Set() };
       state.linguistic = linguistic;
       runtimes.set(state, rt);
       for (const [id, entry] of Object.entries(linguistic.entries)) {
@@ -444,6 +488,7 @@
         });
         rt.bindingIndexes.set(category, new Map(linguistic.bindings[category].map(binding => [binding.id, binding])));
         rt.roleEntries.set(category, new Set(linguistic.bindings[category].map(binding => binding.vocabularyId)));
+        for (const binding of linguistic.bindings[category]) if (binding.auditOwned) rt.auditOwnedEntries.add(binding.vocabularyId);
       }
       if (!existing) {
         if (record(legacyVocab)) {
@@ -468,7 +513,38 @@
       const references = rt.linguistic.categories[id] && rt.linguistic.categories[id].vocabularyIds || [];
       rt.linguistic.categories[id] = Object.assign({}, category, { id, label: category.label || category.name || id, vocabularyIds: references });
     }
-    if (Array.isArray(options.expansion)) options.expansion.forEach(row => upsert(state, row, { imported: true }));
+    if (options.audit) rt.audit = options.audit;
+    if (options.grammar) rt.grammar = options.grammar;
+    if (Array.isArray(options.expansion)) options.expansion.forEach(row => {
+      rt.sourceRows.set(text(row.id), row);
+      upsert(state, row, { imported: true });
+    });
+    if (rt.audit || rt.grammar) {
+      for (const entry of Object.values(rt.linguistic.entries)) if (!entry.deleted) {
+        const original = !entry.importedDataset && !rt.derivedFields.has(entry.id) ? clone(entry) : null;
+        assessEntry(rt, entry);
+        if (original) {
+          const fields = {};
+          for (const field of new Set(Object.keys(original).concat(Object.keys(entry)))) {
+            if (stableJSON(original[field]) !== stableJSON(entry[field])) fields[field] = { present: own(original, field), original: original[field], derived: stableJSON(entry[field]) };
+          }
+          rt.derivedFields.set(entry.id, fields);
+        }
+      }
+      for (const [id, entry] of Object.entries(rt.linguistic.entries)) {
+        if (!entry.importedDataset) continue;
+        const row = rt.sourceRows.get(entry.primaryId);
+        if (!row) continue;
+        const baseline = canonicalRow(row, 'LEXICON', id);
+        baseline.importedDataset = BUNDLED_DATASET;
+        enrichEntry(rt, baseline);
+        rt.importedBaselines.set(id, stableJSON(baseline));
+        for (const binding of bindingsForEntry(baseline, row)) {
+          rt.importedBindings.set(binding.category + ':' + binding.row.id, stableJSON(bindingValue(binding.row, id)));
+        }
+      }
+      rt.linguistic.auditVersion = rt.audit && rt.audit.version || 1;
+    }
     syncRuntime(rt);
     return state;
   }
@@ -493,6 +569,10 @@
       if (existing.deleted && !options.restore) return null;
       entry = existing;
       const grammarChanged = Array.from(GRAMMAR_FIELDS).filter(field => field !== 'verifiedGrammar').some(field => own(row, field) && JSON.stringify(row[field]) !== JSON.stringify(entry[field]));
+      if (own(row, 'categories') && JSON.stringify(row.categories) !== JSON.stringify(entry.categories)) entry.userModifiedCategories = true;
+      if (grammarChanged && entry.importedDataset && options.reviewed !== true) {
+        entry.userModifiedLexicalFields = unique((entry.userModifiedLexicalFields || []).concat(Array.from(GRAMMAR_FIELDS).filter(field => field !== 'verifiedGrammar' && own(row, field) && JSON.stringify(row[field]) !== JSON.stringify(entry[field]))));
+      }
       for (const [key, value] of Object.entries(row)) {
         if (['id', 'primaryId', 'vocabularyId', 'enabled', 'category', 'gameCategory'].includes(key)) continue;
         const field = key === 'infinitive' ? 'p' : key === 'english' ? 'e' : SYNONYMS[key] || key;
@@ -537,6 +617,7 @@
     if (entry.partOfSpeech === 'verb' && entry.verifiedGrammar === true && entry.root && record(entry.forms) && record(entry.gScript) && entry.gScript.infinitive) {
       addBinding(rt, 'VERBS', Object.assign({}, row, { id: entry.primaryId, vocabularyId: entry.id }), options);
     }
+    if (!options.imported && (rt.audit || rt.grammar)) assessEntry(rt, entry);
     indexEntry(rt, entry);
     if (options.imported && entry.importedDataset === BUNDLED_DATASET) recordBundledBaseline(rt, row, entry, true);
     if (!options.imported) flushCategories(rt);
@@ -544,11 +625,120 @@
   }
   function bundledRoles(entry) {
     const roles = ['LEXICON'];
+    if (entry.assessment) return roles.concat(Object.entries(entry.roleEligibility || {}).filter(([role, permission]) => permission && permission.eligible && AUDITED_ROLES.includes(role === 'VERB' ? 'VERBS' : role)).map(([role]) => role === 'VERB' ? 'VERBS' : role));
     if (entry.partOfSpeech === 'noun' && entry.verifiedGrammar === true && ['m', 'f'].includes(entry.gender) &&
         ['sg', 'pl'].includes(entry.number) && list(entry.semanticTags).length) roles.push('WHAT');
     if (entry.partOfSpeech === 'adjective' && entry.verifiedGrammar === true && record(entry.forms) && record(entry.gScript) && record(entry.gScript.forms)) roles.push('ADJECTIVE');
     if (entry.partOfSpeech === 'verb' && entry.verifiedGrammar === true && entry.root && record(entry.forms) && record(entry.gScript) && entry.gScript.infinitive) roles.push('VERBS');
     return roles;
+  }
+  function enrichEntry(rt, entry) {
+    if (entry.importedDataset && rt.loadedEntries.has(entry.id) && !rt.checkedEdits.has(entry.id)) {
+      rt.checkedEdits.add(entry.id);
+      const shipped = rt.sourceRows.get(entry.primaryId);
+      if (shipped) {
+        const expected = canonicalRow(shipped, 'LEXICON', entry.id);
+        expected.importedDataset = BUNDLED_DATASET;
+        if (rt.loadedSchemaVersion >= 2 || entry.assessment) enrichEntry(rt, expected);
+        const changed = Array.from(GRAMMAR_FIELDS).filter(field => !['verifiedGrammar','senses'].includes(field)).filter(field =>
+          stableJSON(entry[field]) !== stableJSON(expected[field]));
+        if (changed.length) entry.userModifiedLexicalFields = unique(list(entry.userModifiedLexicalFields).concat(changed));
+        if (stableJSON(entry.categories) !== stableJSON(expected.categories)) entry.userModifiedCategories = true;
+      }
+    }
+    const userCategories = entry.userModifiedCategories && entry.categories.slice();
+    const userFields = Object.fromEntries(list(entry.userModifiedLexicalFields).map(field => [field, entry[field]]));
+    const enrichers = [rt.grammar && rt.grammar.enrichVerb, rt.audit && rt.audit.enrich].filter(fn => typeof fn === 'function');
+    for (const enrich of enrichers) {
+      const result = enrich(entry);
+      if (!record(result)) continue;
+      for (const [key, value] of Object.entries(result)) {
+        if (['id', 'primaryId', 'p', 'g', 'e', 'enabled', 'deleted'].includes(key)) continue;
+        entry[key] = value;
+      }
+    }
+    for (const [field, value] of Object.entries(userFields)) entry[field] = value;
+    if (userCategories) entry.categories = userCategories;
+    if (entry.importedDataset && list(entry.userModifiedLexicalFields).length) {
+      entry.verifiedGrammar = false;
+      for (const eligibility of Object.values(entry.roleEligibility || {})) if (eligibility) {
+        eligibility.eligible = false;
+        eligibility.reason = 'User-edited lexical or grammatical metadata requires construction revalidation.';
+      }
+      if (entry.userModifiedLexicalFields.includes('e') && !entry.translationOverride && entry.senses && entry.senses.length) {
+        entry.translationOverride = { senseId: entry.senses[0].id, english: entry.e, source: 'user' };
+      }
+      if (entry.assessment) {
+        entry.assessment.sourceVerification = Object.assign({}, entry.assessment.sourceVerification,{status:'user-modified-revalidation-pending'});
+        entry.assessment.morphologicalValidation = Object.assign({}, entry.assessment.morphologicalValidation,{status:'revalidation-pending'});
+        entry.assessment.dataCompleteness = Object.assign({}, entry.assessment.dataCompleteness,{grammar:'revalidation-pending'});
+        entry.assessment.constructionCompatibility = Object.assign({}, entry.assessment.constructionCompatibility,{status:'restricted'});
+        entry.assessment.sentenceGenerationEligibility = { eligible:false, roles:[] };
+        entry.assessment.unresolvedReasons = unique(list(entry.assessment.unresolvedReasons).concat('Learner-edited lexical fields are preserved and require revalidation: '+entry.userModifiedLexicalFields.join(', ')+'.'));
+      }
+    }
+  }
+  function bindingValue(row, vocabularyId) {
+    const binding = { id: row.id, vocabularyId, enabled: row.enabled !== false };
+    if (record(row.roleMetadata)) for (const field of ROLE_METADATA_FIELDS) if (own(row.roleMetadata, field)) binding[field] = clone(row.roleMetadata[field]);
+    if (row.gameCategory) binding.gameCategory = row.gameCategory;
+    if (row.selectedSenseId) binding.selectedSenseId = row.selectedSenseId;
+    if (row.auditOwned) binding.auditOwned = true;
+    if (row.roleConstruction) binding.construction = clone(row.roleConstruction);
+    return binding;
+  }
+  function bindingsForEntry(entry, sourceRow) {
+    const rows = bundledRoles(entry).map(category => ({ category, row: Object.assign({}, sourceRow || {}, {
+      id: entry.primaryId, vocabularyId: entry.id, enabled: entry.enabled, p: entry.p, g: entry.g, e: entry.e
+    }) }));
+    for (const [role, eligibility] of Object.entries(entry.roleEligibility || {})) {
+      const category = role === 'VERB' ? 'VERBS' : role;
+      if (!AUDITED_ROLES.includes(category) || !eligibility || eligibility.eligible !== true) continue;
+      const existing = rows.find(r => r.category === category);
+      unique(eligibility.senseIds || []).forEach((senseId, index) => {
+        const selected = entry.senses && entry.senses.find(s => s.id === senseId);
+        const metadata = Object.assign({}, eligibility.bindingBySense && eligibility.bindingBySense[senseId] || eligibility.binding || {});
+        const verbSense = category === 'VERBS' && (entry.eligibleSenses || []).find(s => s.senseId === senseId);
+        if (verbSense) Object.assign(metadata, {base:verbSense.base,transitive:verbSense.transitive,takesTags:verbSense.requiredObjectTags});
+        const row = Object.assign({}, sourceRow || {}, { id: index === 0 ? entry.primaryId : entry.primaryId + '@' + senseId, vocabularyId: entry.id,
+          enabled: entry.enabled, p: entry.p, g: entry.g, e: entry.e, selectedSenseId: senseId, roleMetadata: metadata, auditOwned: true });
+        const construction = eligibility.constructionsBySense && eligibility.constructionsBySense[senseId] || eligibility.construction;
+        if (construction && (!construction.senseId || construction.senseId === senseId)) row.roleConstruction = construction;
+        if (selected && category === 'WHO') metadata.person = entry.partOfSpeech === 'pronoun' ? selected.person || entry.person || (selected.number === 'pl' ? '3pl' : '3sg') : selected.number === 'pl' ? '3pl' : '3sg';
+        if (existing && index === 0) existing.row = row; else rows.push({ category, row });
+      });
+    }
+    return rows;
+  }
+  function assessEntry(rt, entry) {
+    if (!entry.importedDataset) entry.authoredRoles = Object.entries(rt.linguistic.bindings)
+      .filter(([role, bindings]) => AUDITED_ROLES.includes(role) && bindings.some(binding => binding.vocabularyId === entry.id && !binding.auditOwned))
+      .map(([role]) => role === 'VERBS' ? 'VERB' : role);
+    enrichEntry(rt, entry);
+    if (entry.importedDataset && list(entry.userModifiedLexicalFields).length) revokeInvalidRoles(rt, entry);
+    const wantedBindings = bindingsForEntry(entry, rt.sourceRows.get(entry.primaryId));
+    const wanted = new Set(wantedBindings.map(({category,row})=>category+':'+row.id));
+    for (const [category, bindings] of rt.auditOwnedEntries.has(entry.id) ? Object.entries(rt.linguistic.bindings) : []) {
+      const removed = bindings.filter(binding => binding.vocabularyId === entry.id && binding.auditOwned && !wanted.has(category+':'+binding.id));
+      if (!removed.length) continue;
+      rt.linguistic.bindings[category] = bindings.filter(binding=>!removed.includes(binding));
+      for (const binding of removed) rt.bindingIndexes.get(category).delete(binding.id);
+      if (!rt.linguistic.bindings[category].some(binding=>binding.vocabularyId===entry.id)) rt.roleEntries.get(category).delete(entry.id);
+    }
+    for (const { category, row } of wantedBindings) {
+      const tombstoneKey = category + ':' + row.id;
+      const tombstone = rt.linguistic.tombstones[tombstoneKey];
+      if (tombstone && tombstone.reason === 'grammar-role-revoked' && entry.verifiedGrammar === true) delete rt.linguistic.tombstones[tombstoneKey];
+      const binding = rt.bindingIndexes.get(category) && rt.bindingIndexes.get(category).get(row.id);
+      if (binding) {
+        // Preserve authored phrase edits and enabled settings; only refresh
+        // derived selection metadata owned by the audit pipeline.
+        if (row.selectedSenseId) binding.selectedSenseId = row.selectedSenseId;
+        if (row.roleConstruction && !binding.construction) binding.construction = clone(row.roleConstruction);
+        if (row.auditOwned && entry.importedDataset) binding.auditOwned = true;
+      } else addBinding(rt, category, row);
+    }
+    indexEntry(rt, entry);
   }
   function revokeInvalidRoles(rt, entry) {
     const invalid = [];
@@ -556,7 +746,8 @@
         !['sg', 'pl'].includes(entry.number) || !list(entry.semanticTags).length) invalid.push('WHAT');
     if (entry.partOfSpeech !== 'verb' || entry.verifiedGrammar === false) invalid.push('VERBS');
     if (entry.partOfSpeech !== 'adjective' || entry.verifiedGrammar === false) invalid.push('ADJECTIVE');
-    for (const category of invalid) {
+    if (entry.assessment && entry.verifiedGrammar === false) invalid.push(...AUDITED_ROLES);
+    for (const category of unique(invalid)) {
       const bindings = rt.linguistic.bindings[category] || [];
       const removed = bindings.filter(binding => binding.vocabularyId === entry.id);
       if (!removed.length) continue;
@@ -586,11 +777,11 @@
     if (!rt.importedBaselines.has(entry.id)) {
       const original = newlyImported ? entry : canonicalRow(row, 'LEXICON', entry.id);
       original.importedDataset = BUNDLED_DATASET;
-      rt.importedBaselines.set(entry.id, JSON.stringify(original));
+      rt.importedBaselines.set(entry.id, stableJSON(original));
       for (const category of bundledRoles(original)) {
         const binding = { id: original.primaryId, vocabularyId: entry.id, enabled: row.enabled !== false };
         if (row.gameCategory) binding.gameCategory = row.gameCategory;
-        rt.importedBindings.set(category + ':' + binding.id, JSON.stringify(binding));
+        rt.importedBindings.set(category + ':' + binding.id, stableJSON(binding));
       }
     }
   }
@@ -616,6 +807,7 @@
   function vocabulary(state, options) {
     const rt = runtime(state);
     options = options || {};
+    const senseCategoryIds = list(options.senseCategoryIds);
     const bindingsByEntry = new Map();
     for (const [category, bindings] of Object.entries(rt.linguistic.bindings)) {
       for (const binding of bindings) {
@@ -636,15 +828,41 @@
       const g = entry.partOfSpeech === 'verb' && entry.gScript && entry.gScript.infinitive || entry.g;
       if (!options.includeIncomplete && (!entry.p || !g || !/[\u0a00-\u0a7f]/.test(g) || !entry.e)) continue;
       const primary = bindings.find(({ binding }) => binding.id === entry.primaryId) || bindings[0];
-      output.push({
+      const importedRow = rt.sourceRows.get(entry.primaryId);
+      const senseCategory = entry.senses && entry.senses[0] && entry.senses[0].categories && entry.senses[0].categories[0];
+      const categoryDefinition = senseCategory && rt.linguistic.categories[senseCategory];
+      const auditedCategory = entry.assessment && importedRow && (!primary.binding.gameCategory || primary.binding.gameCategory === importedRow.gameCategory) && categoryDefinition && (categoryDefinition.label || categoryDefinition.name);
+      const view = {
         id: entry.primaryId, vocabularyId: id, roman: entry.p, gurmukhi: normalized(g), english: entry.e,
-        category: primary.binding.gameCategory || CATEGORY_LABELS[primary.category] || primary.category,
+        category: auditedCategory || primary.binding.gameCategory || CATEGORY_LABELS[primary.category] || primary.category,
         categories: entry.categories.slice(), roles: unique(bindings.map(b => b.category)),
         legacyIds: aliasesByEntry.get(id) || [],
         partOfSpeech: entry.partOfSpeech, gender: entry.gender, number: entry.number,
         semanticTags: entry.semanticTags.slice(), frequency: entry.frequency, difficulty: entry.difficulty,
-        meanings: entry.meanings, source: entry.source
-      });
+        meanings: entry.meanings, senses: entry.senses, source: entry.source
+      };
+      // Category filters concern a meaning, not every sense of a homograph.
+      // This is an ephemeral learning view; canonical data and IDs stay intact.
+      // Unmatched rows retain their normal view for legacy category filters.
+      if (senseCategoryIds.length && !entry.userModifiedCategories) {
+        const sense = Array.isArray(entry.senses) && entry.senses.find(value => record(value) && list(value.categories).some(category => senseCategoryIds.includes(category)));
+        if (sense) {
+          const senseId = sense.id || sense.senseId;
+          const override = record(entry.translationOverride) && entry.translationOverride.source === 'user' &&
+            (!entry.translationOverride.senseId || [senseId, sense.sourceSenseId].includes(entry.translationOverride.senseId)) ? entry.translationOverride : null;
+          view.english = text(override && override.english) || text(sense.contextualGloss || sense.sentenceGloss || sense.english || sense.definition || sense.gloss) || view.english;
+          view.displaySenseId = senseId;
+          view.selectedSenseId = senseId;
+          view.categories = list(sense.categories);
+          const categoryId = senseCategoryIds.find(category => view.categories.includes(category)) || view.categories[0];
+          const category = rt.linguistic.categories[categoryId];
+          if (category) view.category = category.label || category.name || categoryId;
+          if (sense.partOfSpeech) view.partOfSpeech = sense.partOfSpeech;
+          for (const field of ['gender', 'number', 'countability', 'englishCountability']) if (own(sense, field)) view[field] = sense[field];
+          if (Array.isArray(sense.semanticTags)) view.semanticTags = sense.semanticTags.slice();
+        }
+      }
+      output.push(view);
     }
     return output;
   }
@@ -658,14 +876,25 @@
       for (const [category, bindings] of Object.entries(linguistic.bindings)) {
         central.bindings[category] = bindings.filter(binding => {
           const baseline = rt.importedBindings.get(category + ':' + binding.id);
-          const changed = !baseline || JSON.stringify(binding) !== baseline;
+          const changed = !baseline || stableJSON(binding) !== baseline;
           if (changed) required.add(binding.vocabularyId);
           return changed;
         });
       }
       for (const [id, entry] of Object.entries(linguistic.entries)) {
         const baseline = rt.importedBaselines.get(id);
-        if (!baseline || required.has(id) || JSON.stringify(entry) !== baseline) central.entries[id] = entry;
+        if (!baseline || required.has(id) || stableJSON(entry) !== baseline) {
+          const fields = rt.derivedFields.get(id);
+          const stored = fields ? Object.assign({}, entry) : entry;
+          // Recompute evidence overlays on load. Persist the authored legacy
+          // data and any edits, rather than duplicating the full audit in
+          // Safari's small localStorage quota on every saved preference.
+          if (fields) for (const [field, values] of Object.entries(fields)) if (stableJSON(entry[field]) === values.derived) {
+            if (values.present) stored[field] = values.original;
+            else delete stored[field];
+          }
+          central.entries[id] = stored;
+        }
       }
       for (const [id, vocabularyId] of Object.entries(linguistic.aliases)) {
         if (!rt.importedAliases.has(id)) central.aliases[id] = vocabularyId;

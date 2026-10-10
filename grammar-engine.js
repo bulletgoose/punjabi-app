@@ -4,9 +4,9 @@
    §§5.4–5.5, 5.18–5.25, 8.2–8.5. This is a bounded learner grammar, not a
    claim that arbitrary imported dictionary entries can generate sentences. */
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory();
-  else root.PunjabiGrammarEngine = factory();
-})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lexical-semantics'), require('./data/verb-morphology-profiles'));
+  else root.PunjabiGrammarEngine = factory(root.PunjabiLexicalSemantics, root.PUNJABI_VERB_MORPHOLOGY_PROFILES);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (semantics, profileDataset) {
   'use strict';
   const REFERENCE = 'https://pt.learnpunjabi.org/assets/a%20reference%20grammar_final.pdf';
   const PERSONS = ['1sg', '2sg', '3sg', '1pl', '2pl', '3pl'];
@@ -55,6 +55,43 @@
     const personMap = values => Object.fromEntries(PERSONS.map((p, i) => [p, values[i]]));
     morphology[id].future = { roman: { m: personMap(rm), f: personMap(rf) }, gurmukhi: { m: personMap(gm), f: personMap(gf) } };
   });
+  const sourceProfiles = new Map((profileDataset && profileDataset.profiles || []).map(p => [p.g, p]));
+  function enrichVerb(entry) {
+    if (!entry || entry.partOfSpeech !== 'verb') return null;
+    const profile = sourceProfiles.get(entry.g);
+    if (!profile) return null;
+    const imported = /^wt-pa-/.test(entry.primaryId || entry.id || '');
+    // Only untouched dictionary identities are authorized by an imported
+    // profile. User-edited stems, translations and inflections are preserved.
+    if (imported && (entry.p !== profile.p || entry.e !== profile.sourceEnglish)) return null;
+    const result = { grammarReview: JSON.parse(JSON.stringify(profile.grammarReview)) };
+    if (imported) {
+      Object.assign(result, { root: profile.root, infinitive: entry.p, imperative: profile.imperative, forms: profile.forms, habitual: profile.habitual,
+        gScript: { ...profile.gScript }, verifiedGrammar: profile.verifiedGrammar === true,
+        eligibleSenses: profile.eligibleSenses, morphologicalValidation: { status: 'source-crosschecked-rule', habitual: true, future: !!profile.future, perfective: !!profile.perfective, imperative: 'reference-rule-consonantal-plural' } });
+      if (profile.verifiedGrammar) Object.assign(result, { base: profile.base, selectedSenseId: profile.selectedSenseId,
+        transitive: profile.transitive, takesTags: profile.takesTags, subjectClass: profile.subjectClass });
+    } else {
+      // Seed entries already contain authored valency and habitual paradigms.
+      // Crosscheck the same Gurmukhi lemma before extending tense coverage.
+      if (!entry.gScript || entry.gScript.infinitive !== profile.g || !entry.infinitive) return null;
+      result.gScript = { ...entry.gScript };
+    }
+    // An existing seed paradigm may have been edited before lexical edit
+    // tracking existed. Extend missing tense fields without replacing it.
+    const owns = (value, field) => Object.prototype.hasOwnProperty.call(value || {}, field);
+    if (profile.future) {
+      if (imported || !owns(entry, 'future')) result.future = profile.future;
+      if (imported || !owns(entry.gScript, 'future')) result.gScript.future = profile.gFuture;
+    }
+    if (profile.perfective && !(morphology[entry.primaryId || entry.id] && morphology[entry.primaryId || entry.id].perfective)) {
+      if (imported || !owns(entry, 'perfective')) result.perfective = profile.perfective;
+      if (imported || !owns(entry.gScript, 'perfective')) result.gScript.perfective = profile.gPerfective;
+    }
+    if (result.verifiedGrammar) { result.type = 'simple'; result.isModalComplement = true; }
+    return JSON.parse(JSON.stringify(result));
+  }
+  function profileForEntry(entry) { return enrichVerb(entry); }
   const subjectCases = {
     'who-main': ['main', 'ਮੈਂ', 'main', 'ਮੈਂ'], 'who-tu': ['tū̃', 'ਤੂੰ', 'tū̃', 'ਤੂੰ'], 'who-tusi': ['tusī̃', 'ਤੁਸੀਂ', 'tusī̃', 'ਤੁਸੀਂ'], 'who-asi': ['asī̃', 'ਅਸੀਂ', 'asī̃', 'ਅਸੀਂ'],
     'who-oh': ['oh', 'ਉਹ', 'us', 'ਉਸ'], 'who-ohlok': ['oh lok', 'ਉਹ ਲੋਕ', 'ohnā̃', 'ਉਨ੍ਹਾਂ'], 'who-lok': ['lok', 'ਲੋਕ', 'lokā̃', 'ਲੋਕਾਂ'],
@@ -134,6 +171,7 @@
     if (role === 'recipient' && validText(data.dative, script)) return { ok: true, text: data.dative, vocabularyId: lexicalId(item), case: 'oblique', postposition: 'recipient' };
     const noun = data.inflections || data.nounForms || {};
     let oblique = numberOf(item) === 'pl' ? noun.pluralOblique || noun.oblique : noun.oblique;
+    if (oblique && typeof oblique === 'object') oblique = oblique[script === 'gurmukhi' ? 'g' : 'p'];
     if (!oblique && data.indeclinable === true) oblique = direct;
     if (!oblique && subjectMatchesReviewed(item)) oblique = subjectCases[item.id][script === 'gurmukhi' ? 3 : 2];
     if (!oblique && nounMatchesReviewed(item)) oblique = nounCases[item.id][script === 'gurmukhi' ? 3 : 2];
@@ -153,6 +191,8 @@
     if (!['m', 'f'].includes(subject.gender) || !['sg', 'pl'].includes(subject.number)) return bad('A subject needs gender and number metadata.');
     if (!verb) return bad('An action is required.');
     const subjectClass = verbRulesFor(verb).subjectClass;
+    const subjectSense=(subject.senses||[]).find(s=>s.id===subject.selectedSenseId), ageClass=subject.ageClass||subject.semanticProperties&&subject.semanticProperties.ageClass||subjectSense&&subjectSense.semanticProperties&&subjectSense.semanticProperties.ageClass;
+    if(ageClass==='infant'&&!['sleep','cry','weep','laugh','smile','breathe','yawn','come','go'].includes(verb.base))return bad('This action requires capabilities not established for an infant subject.');
     if (subjectClass === 'human' && !human(subject)) return bad('This action requires a human subject.');
     if (subjectClass === 'animate' && semanticValue(subject, 'animate') !== true && !human(subject)) return bad('This action requires an animate subject.');
     if (object && !compatible(verb, object)) return bad('The object does not satisfy the action’s semantic constraints.');
@@ -263,7 +303,20 @@
     ['P55', 'Come from somewhere', 'Travel and directions', 3, 'originProgressive', ['subject', 'origin', 'verb'], 'progressive', ['progressive', 'oblique', 'postpositions'], 'directions'],
     ['P56', 'Go with someone', 'Family and relationships', 3, 'accompaniment', ['subject', 'companion', 'destination', 'verb'], 'progressive', ['progressive', 'oblique', 'postpositions'], 'family-discussions'],
     ['P57', 'Compare two things', 'Opinions', 4, 'comparison', ['object', 'comparison', 'description'], 'state', ['comparisons', 'oblique', 'gender-agreement'], 'opinions-reasoning'],
-    ['P58', 'Do something with a tool', 'Everyday activities', 4, 'instrument', ['subject', 'object', 'instrument', 'verb'], 'habitual', ['oblique', 'postpositions', 'habitual-present'], 'daily-routine']
+    ['P58', 'Do something with a tool', 'Everyday activities', 4, 'instrument', ['subject', 'object', 'instrument', 'verb'], 'habitual', ['oblique', 'postpositions', 'habitual-present'], 'daily-routine'],
+    ['P59', 'Identify a thing', 'Descriptions', 1, 'nominalIdentity', ['object'], 'state', ['auxiliaries'], 'daily-routine'],
+    ['P60', 'Describe a thing', 'Descriptions', 2, 'nominalDescription', ['object', 'description'], 'state', ['gender-agreement'], 'daily-routine'],
+    ['P61', 'Locate a thing', 'Travel and directions', 2, 'nominalLocation', ['object', 'location'], 'state', ['postpositions'], 'directions'],
+    ['P62', 'Where is a thing?', 'Questions', 2, 'nominalWhereQuestion', ['object'], 'state', ['questions'], 'directions'],
+    ['P63', 'Identify an occupation', 'People and identity', 2, 'occupationIdentity', ['subject', 'occupation'], 'state', ['auxiliaries'], 'family-discussions'],
+    ['P64', 'Future action without an object', 'Future plans', 3, 'finiteFutureBare', ['subject', 'verb'], 'future', ['future'], 'future-plans'],
+    ['P65', 'Completed action without an object', 'Past experiences', 3, 'perfectiveBare', ['subject', 'verb'], 'perfective', ['perfective'], 'past-experience'],
+    ['P66', 'How an action is happening', 'Everyday activities', 3, 'mannerProgressive', ['subject', 'time', 'manner', 'verb'], 'progressive', ['progressive'], 'daily-routine'],
+    ['P67', 'Describe a thing in the past', 'Past experiences', 3, 'nominalPastDescription', ['object', 'description'], 'state', ['past', 'gender-agreement'], 'past-experience'],
+    ['P68', 'A thing is not like that', 'Negatives', 2, 'nominalNegativeDescription', ['object', 'description'], 'state', ['negation', 'gender-agreement'], 'daily-routine'],
+    ['P69', 'Possess a thing', 'Everyday activities', 2, 'nominalPossession', ['subject', 'object'], 'state', ['possession','oblique'], 'daily-routine'],
+    ['P70', 'Like a thing', 'Opinions', 2, 'nominalPreference', ['subject', 'object'], 'state', ['dative','gender-agreement'], 'opinions-reasoning'],
+    ['P71', 'Wait because of a reason', 'Explanations', 3, 'causalProgressive', ['subject', 'reason', 'verb'], 'progressive', ['reasons','oblique','progressive'], 'opinions-reasoning']
   ];
   const examples = {
     P47: ['main khāṇā khāvā̃gā', 'ਮੈਂ ਖਾਣਾ ਖਾਵਾਂਗਾ', 'I will eat food.'], P48: ['oh ghar jāvegī', 'ਉਹ ਘਰ ਜਾਵੇਗੀ', 'She will go home.'],
@@ -271,6 +324,19 @@
     P51: ['us ne roṭī khādhī', 'ਉਸ ਨੇ ਰੋਟੀ ਖਾਧੀ', 'She ate flatbread.'], P52: ['oh ghar tō̃ āī', 'ਉਹ ਘਰ ਤੋਂ ਆਈ', 'She came from home.'],
     P53: ['main merī bhaiṇ nū̃ pāṇī dindā hā̃', 'ਮੈਂ ਮੇਰੀ ਭੈਣ ਨੂੰ ਪਾਣੀ ਦਿੰਦਾ ਹਾਂ', 'I give water to my sister.'], P54: ['main merī bhaiṇ nū̃ pāṇī dittā', 'ਮੈਂ ਮੇਰੀ ਭੈਣ ਨੂੰ ਪਾਣੀ ਦਿੱਤਾ', 'I gave water to my sister.'],
     P55: ['oh ghar tō̃ ā rahī hai', 'ਉਹ ਘਰ ਤੋਂ ਆ ਰਹੀ ਹੈ', 'She is coming from home.'], P56: ['main mere dost nāl ghar jā rihā hā̃', 'ਮੈਂ ਮੇਰੇ ਦੋਸਤ ਨਾਲ ਘਰ ਜਾ ਰਿਹਾ ਹਾਂ', 'I am going home with my friend.'],
+    P59: ['eh kitāb hai', 'ਇਹ ਕਿਤਾਬ ਹੈ', 'This is a book.'],
+    P60: ['kitāb navī̃ hai', 'ਕਿਤਾਬ ਨਵੀਂ ਹੈ', 'The book is new.'],
+    P61: ['kitāb ghar vich hai', 'ਕਿਤਾਬ ਘਰ ਵਿੱਚ ਹੈ', 'The book is at home.'],
+    P62: ['kitāb kithē hai', 'ਕਿਤਾਬ ਕਿੱਥੇ ਹੈ', 'Where is the book?'],
+    P63: ['oh ḍākṭar hai', 'ਉਹ ਡਾਕਟਰ ਹੈ', 'He or she is a doctor.'],
+    P64: ['main hassā̃gā', 'ਮੈਂ ਹੱਸਾਂਗਾ', 'I will laugh.'],
+    P65: ['oh hassī', 'ਉਹ ਹੱਸੀ', 'He or she laughed.'],
+    P66: ['main hun dhīre dhīre paṛh rihā hā̃', 'ਮੈਂ ਹੁਣ ਧੀਰੇ ਧੀਰੇ ਪੜ੍ਹ ਰਿਹਾ ਹਾਂ', 'I am reading slowly now.'],
+    P67: ['kitāb navī̃ sī', 'ਕਿਤਾਬ ਨਵੀਂ ਸੀ', 'The book was new.'],
+    P68: ['kitāb navī̃ nahī̃ hai', 'ਕਿਤਾਬ ਨਵੀਂ ਨਹੀਂ ਹੈ', 'The book is not new.'],
+    P69: ['mere kol kitāb hai', 'ਮੇਰੇ ਕੋਲ ਕਿਤਾਬ ਹੈ', 'I have a book.'],
+    P70: ['mainū̃ cāh pasand hai', 'ਮੈਨੂੰ ਚਾਹ ਪਸੰਦ ਹੈ', 'I like tea.'],
+    P71: ['main samassiā karke intazār kar rihā hā̃', 'ਮੈਂ ਸਮੱਸਿਆ ਕਰਕੇ ਇੰਤਜ਼ਾਰ ਕਰ ਰਿਹਾ ਹਾਂ', 'I am waiting because of the problem.'],
     P57: ['cāh pāṇī tō̃ ziādā garam hai', 'ਚਾਹ ਪਾਣੀ ਤੋਂ ਜ਼ਿਆਦਾ ਗਰਮ ਹੈ', 'Tea is hotter than water.'], P58: ['main kalam nāl sunehā likhdā hā̃', 'ਮੈਂ ਕਲਮ ਨਾਲ ਸੁਨੇਹਾ ਲਿਖਦਾ ਹਾਂ', 'I write a message with a pen.']
   };
   const templates = templateRows.map(([id, name, family, difficulty, pattern, roles, aspect, prerequisiteGrammarConceptIds, scenario]) => ({
@@ -322,6 +388,8 @@
       for (const key of ['id', 'name', 'family', 'difficulty', 'probability', 'pattern', 'enabled', 'slots', 'description']) delete metadata[key];
       metadata.requiredVocabularyIds = dependenciesFor(template);
       if (metadata.aspect === 'state') { metadata.agreementRules = ['described-noun-gender-number']; delete metadata.semanticRestrictions.subject; }
+      if (/^nominal/.test(newById[template.id].pattern)) metadata.semanticRestrictions = {object: newById[template.id].pattern==='nominalIdentity'?'source-supported-direct-noun-sense':newById[template.id].pattern==='nominalWhereQuestion'||newById[template.id].pattern==='nominalLocation'?'locatable-physical-entity':'predicate-compatible-reviewed-noun',description:'sense-modifier-targets'};
+      if (newById[template.id].pattern==='causalProgressive') metadata.semanticRestrictions={subject:'human',reason:'source-supported-oblique-causal-phrase',verb:'authored-wait-predicate'};
       return metadata;
     }
     const pattern = template.pattern || '';
@@ -360,23 +428,192 @@
   }
   function dependenciesFor(template) {
     const pattern = newById[template && template.id] ? newById[template.id].pattern : template && template.pattern;
-    const dependencies = { finiteFutureMotion: ['v-jana'], finiteFutureQuestion: ['q-ki'], perfectiveOrigin: ['v-auna'], originProgressive: ['v-auna'], accompaniment: ['v-jana'], giveRecipient: ['v-dena'], perfectiveRecipient: ['v-dena'], instrument: ['v-likhna'] };
+    const dependencies = { finiteFutureMotion: ['v-jana'], finiteFutureQuestion: ['q-ki'], perfectiveOrigin: ['v-auna'], originProgressive: ['v-auna'], accompaniment: ['v-jana'], giveRecipient: ['v-dena'], perfectiveRecipient: ['v-dena'], instrument: ['v-likhna'], causalProgressive: ['v-intazar'], nominalWhereQuestion: ['q-kithe'] };
     return (dependencies[pattern] || legacyDependencies[pattern] || []).slice();
   }
   templates.forEach(template => Object.assign(template, metadataFor(template)));
 
-  const englishGerund = base => ({ go: 'going', come: 'coming', give: 'giving', write: 'writing', eat: 'eating', drink: 'drinking', do: 'doing', read: 'reading' }[base] || base + 'ing');
-  const englishPast = base => ({ eat: 'ate', drink: 'drank', go: 'went', come: 'came', do: 'did', give: 'gave', take: 'took', read: 'read', write: 'wrote', watch: 'watched', 'listen to': 'listened to', send: 'sent', buy: 'bought', cook: 'cooked' }[base]);
-  function englishSubject(subject) { return subject.e === 'he/she' ? subject.gender === 'f' ? 'she' : 'he' : String(subject.e || '').replace(/ \(informal\)$/, ''); }
+  const fallbackGerund = base => ({ go: 'going', come: 'coming', give: 'giving', write: 'writing', eat: 'eating', drink: 'drinking', do: 'doing', read: 'reading' }[base] || base + 'ing');
+  const fallbackPast = base => ({ eat: 'ate', drink: 'drank', go: 'went', come: 'came', do: 'did', give: 'gave', take: 'took', read: 'read', write: 'wrote', watch: 'watched', 'listen to': 'listened to', send: 'sent', buy: 'bought', cook: 'cooked' }[base]);
+  function fallbackSubject(subject) { return subject.e === 'he/she' ? subject.gender === 'f' ? 'she' : 'he' : String(subject.e || '').replace(/ \(informal\)$/, ''); }
   function englishBe(subject) { const person = subject.englishPerson || subject.person; return person === '1sg' ? 'am' : person === '3sg' ? 'is' : 'are'; }
-  function englishHabit(base, subject) { return (subject.englishPerson || subject.person) === '3sg' ? (base === 'do' ? 'does' : base === 'go' ? 'goes' : base + 's') : base; }
+  function fallbackHabit(base, subject) { return (subject.englishPerson || subject.person) === '3sg' ? (base === 'do' ? 'does' : base === 'go' ? 'goes' : base + 's') : base; }
 
+  const englishGerund = base => semantics ? semantics.inflectEnglish(base, 'progressive') : fallbackGerund(base);
+  const englishPast = base => semantics ? semantics.inflectEnglish(base, 'perfective') : fallbackPast(base);
+  const englishSubject = item => semantics ? semantics.englishSubject(item) : fallbackSubject(item);
+  const objectiveEnglish = item => semantics ? semantics.englishObjective(item) : englishSubject(item);
+  const nounEnglish = (item, definite) => semantics ? semantics.englishNounPhrase(item, definite ? { article: 'definite' } : {}) : item.e;
+  const englishHabit = (base, subject) => semantics ? semantics.inflectEnglish(base, 'habitual', subject.englishPerson || subject.person) : fallbackHabit(base, subject);
+  function contextualize(item, context) { return semantics ? semantics.contextualEntry(item, context) : item; }
+  function generateExpanded(template, definition, state, choose) {
+    const pattern = definition.pattern, vocab = state.vocab || {}, enabled = rows => (rows || []).filter(x => x.enabled !== false);
+    const select = (rows, role, extra) => {
+      const candidates = rows.slice();
+      while(candidates.length) {
+        const item = choose(candidates), projected = contextualize(item, { role, template: definition, ...(extra || {}) });
+        if(projected)return projected;
+        const index=candidates.indexOf(item);if(index<0)return null;candidates.splice(index,1);
+      }
+      return null;
+    };
+    const bilingual = item => validText(textOf(item, 'roman'), 'roman') && validText(textOf(item, 'gurmukhi'), 'gurmukhi');
+    const nominal = item => bilingual(item) && ['m','f'].includes(item.gender) && ['sg','pl'].includes(item.number);
+    const parts = [], selected = {}, question = pattern === 'nominalWhereQuestion';
+    function part(item, role, roman, gurmukhi, english, grammarNote, extra) {
+      if (!validText(roman, 'roman') || !validText(gurmukhi, 'gurmukhi')) return false;
+      const id = item && lexicalId(item);
+      parts.push({ roman, gurmukhi, english, role, category: { object:'WHAT',subject:'WHO',verb:'VERB',description:'DESCRIPTION',location:'WHERE',time:'WHEN',manner:'HOW',occupation:'WHAT',reason:'WHY' }[role] || role.toUpperCase(),
+        vocabularyId: id, vocabularyIds: id ? [id] : [], selectedSenseId: item && item.selectedSenseId,
+        lexicalSelections: item && item.lexicalSelection ? [item.lexicalSelection] : [], dictionaryRoman:item && (item.infinitive || item.p), dictionaryGurmukhi:item && (item.gScript && item.gScript.infinitive || item.g),
+        grammarNote, grammarConceptIds: definition.grammarConceptIds, ...(extra || {}) });
+      if(item)selected[role]=item;
+      return true;
+    }
+    function finish(english) {
+      if(!english || /undefined|[,;/]/.test(english))return null;
+      const roman=parts.map(p=>p.roman).join(' ')+(question?'?':'.'),gurmukhi=parts.map(p=>p.gurmukhi).join(' ')+(question?'?':'।');
+      const breakdown=parts.map(p=>({label:p.role,value:p.roman,gurmukhi:p.gurmukhi,type:p.category,meaning:p.english,vocabularyId:p.vocabularyId,vocabularyIds:p.vocabularyIds}));
+      return {punjabi:roman,roman,gurmukhi,english:english.charAt(0).toUpperCase()+english.slice(1)+(question?'?':'.'),templateId:template.id,template:template.id,templateName:template.name,difficulty:template.difficulty,
+        signature:[template.id].concat(Object.keys(selected).map(role=>role+':'+lexicalId(selected[role])+'@'+(selected[role].selectedSenseId||''))).join('|'),breakdown,buildingBlocks:breakdown,sentenceBreakdown:parts,
+        vocabularyIds:[...new Set(parts.flatMap(p=>p.vocabularyIds))],senseIds:[...new Set(parts.flatMap(p=>p.lexicalSelections.map(s=>s.senseId)))],grammarConceptIds:definition.grammarConceptIds,scenarioIds:definition.scenarioIds,scriptWarning:''};
+    }
+    const adjectiveCandidates=enabled(vocab.ADJECTIVE).filter(a=>a.forms&&a.gScript&&a.gScript.forms);
+    const modifierCache=new Map();
+    function adjectivesFor(object) {
+      const objectTags=tagsOf(object),cacheKey=objectTags.slice().sort().join('|');if(modifierCache.has(cacheKey))return modifierCache.get(cacheKey);
+      const physical=objectTags.some(t=>['physical-object','concrete','edible','drinkable','buyable','wearable','readable','material','plant','animal'].includes(t));
+      const allowed=['new','old','big','small','clean','dirty','heavy','light','long','short','expensive','cheap','beautiful'];
+      const candidates=adjectiveCandidates.filter(a=> {
+        const gloss=semantics&&semantics.selectSense(a,{role:'ADJECTIVE'}).contextualMeaning||a.e;
+        if(['sweet','salty','sour','bitter','tasteless','bland','tasty','spicy'].includes(gloss)&&!objectTags.some(t=>['edible','drinkable'].includes(t)))return false;
+        if(['empty','full','hollow'].includes(gloss)&&!objectTags.some(t=>['container','place','space'].includes(t)))return false;
+        if(['thorny','prickly'].includes(gloss)&&!objectTags.includes('plant'))return false;
+        if(['young','aged','unmarried','hungry','thirsty'].includes(gloss)&&!objectTags.some(t=>['human','animal','animate'].includes(t)))return false;
+        const sense=(a.senses||[]).find(s=>s.id===a.selectedSenseId),targets=a.modifierTargets||sense&&sense.modifierTargets;
+        return targets&&targets.length?targets.some(t=>objectTags.includes(t)||t==='physical-object'&&physical||t==='entity'):physical&&allowed.includes(a.e);
+      });modifierCache.set(cacheKey,candidates);return candidates;
+    }
+    const nominalPatterns=['nominalIdentity','nominalDescription','nominalLocation','nominalWhereQuestion','nominalPastDescription','nominalNegativeDescription'];
+    if(nominalPatterns.includes(pattern)) {
+      const descriptions=['nominalDescription','nominalPastDescription','nominalNegativeDescription'].includes(pattern);
+      const objects=enabled(vocab.WHAT).filter(nominal).filter(o=>!['nominalLocation','nominalWhereQuestion'].includes(pattern)||tagsOf(o).some(t=>['physical-object','concrete','material','plant','animal','human','place'].includes(t))).filter(o=>!descriptions||adjectivesFor(o).length);
+      const object=select(objects,'WHAT');if(!object)return null;
+      const plural=object.number==='pl',auxR=pattern==='nominalPastDescription'?(plural?'san':'sī'):(plural?'han':'hai'),auxG=pattern==='nominalPastDescription'?(plural?'ਸਨ':'ਸੀ'):(plural?'ਹਨ':'ਹੈ');
+      if(pattern==='nominalIdentity') {
+        part(null,'demonstrative',plural?'eh':'eh','ਇਹ',plural?'these':'this','Near demonstrative; the copula agrees with the identified noun.');
+        part(object,'object',object.p,object.g,object.e,'Canonical direct noun form in identification.');
+        part(null,'auxiliary',auxR,auxG,plural?'are':'is','Third-person copula agrees in number.');
+        return finish((plural?'these are ':'this is ')+nounEnglish(object,!object.countability&&!object.englishCountability));
+      }
+      part(object,'object',object.p,object.g,object.e,'Direct noun is the subject of this copular clause.');
+      if(pattern==='nominalWhereQuestion') {
+        const questionWord=select(enabled(vocab.QUESTION).filter(q=>q.id==='q-kithe'&&bilingual(q)),'question');if(!questionWord)return null;
+        part(questionWord,'question',questionWord.p,questionWord.g,questionWord.e,'Locative question word.');part(null,'auxiliary',auxR,auxG,plural?'are':'is','Copula agrees with the noun.');
+        return finish('where '+(plural?'are ':'is ')+nounEnglish(object,true));
+      }
+      if(pattern==='nominalLocation') {
+        const location=select(enabled(vocab.WHERE).filter(bilingual),'WHERE');if(!location)return null;
+        // Role bindings contain a checked locative phrase; raw nouns must pass
+        // explicit oblique formation before being attached to ਵਿੱਚ.
+        let r=location.p,g=location.g;
+        if(!/\s(?:vich|te)$/u.test(r)&&!['here','there','inside','outside','nearby'].includes(location.e)) {
+          const rp=nounPhrase(location,{case:'location'}),gp=nounPhrase(location,{case:'location',script:'gurmukhi'});if(!rp.ok||!gp.ok)return null;r=rp.text;g=gp.text;
+        }
+        part(location,'location',r,g,locationEnglish(location),'Checked locative noun phrase or locative adverb.');part(null,'auxiliary',auxR,auxG,plural?'are':'is','Copula agrees with the located noun.');
+        return finish(nounEnglish(object,true)+' '+(plural?'are ':'is ')+locationEnglish(location));
+      }
+      const description=select(adjectivesFor(object),'ADJECTIVE');
+      if(!description)return null;
+      const key=agreementKey(object),r=description.forms[key]||(description.indeclinable?description.p:null),g=description.gScript.forms[key]||(description.indeclinable?description.g:null);
+      if(!part(description,'description',r,g,description.e,'Adjective agrees with the described noun where its paradigm varies.'))return null;
+      const negative=pattern==='nominalNegativeDescription';if(negative)part(null,'negation','nahī̃','ਨਹੀਂ','not','Clause negation before the copula.');
+      part(null,'auxiliary',auxR,auxG,pattern==='nominalPastDescription'?(plural?'were':'was'):(plural?'are':'is'),'Copula agrees with the described noun in number.');
+      return finish(nounEnglish(object,true)+' '+(pattern==='nominalPastDescription'?(plural?'were':'was'):(plural?'are':'is'))+' '+(negative?'not ':'')+description.e);
+    }
+    const subject=select(enabled(vocab.WHO).filter(p=> {
+      if(!human(p)||!nominal(p)||!PERSONS.includes(p.person))return false;
+      if(pattern==='occupationIdentity') {
+        const sense=(p.senses||[]).find(s=>s.id===p.selectedSenseId);
+        const ageClass=p.ageClass||p.semanticProperties&&p.semanticProperties.ageClass||sense&&sense.semanticProperties&&sense.semanticProperties.ageClass;
+        if(ageClass==='infant')return false;
+      }
+      if(pattern==='nominalPreference')return ['roman','gurmukhi'].every(script=>nounPhrase(p,{case:'recipient',script}).ok);
+      if(pattern==='nominalPossession')return !!(p.withPossession&&p.gScript&&p.gScript.withPossession)||p.partOfSpeech==='noun'&&['roman','gurmukhi'].every(script=>nounPhrase(p,{case:'oblique',script}).ok);
+      return true;
+    }),'WHO');if(!subject)return null;
+    if (['nominalPossession','nominalPreference'].includes(pattern)) {
+      const preference=pattern==='nominalPreference';
+      const objects=enabled(vocab.WHAT).filter(o=>nominal(o)&&tagsOf(o).some(t=>preference?['likeable','edible','drinkable','readable','physical-object','abstract'].includes(t):['possessable','giveable','takeable','physical-object'].includes(t)));
+      const object=select(objects,'WHAT');if(!object)return null;
+      let rp,gp;
+      if(preference){rp=nounPhrase(subject,{case:'recipient'});gp=nounPhrase(subject,{case:'recipient',script:'gurmukhi'});}
+      else if(subject.withPossession&&subject.gScript&&subject.gScript.withPossession){rp={ok:true,text:subject.withPossession};gp={ok:true,text:subject.gScript.withPossession};}
+      else if(subject.partOfSpeech==='noun'){rp=nounPhrase(subject,{case:'oblique',postposition:'kol'});gp=nounPhrase(subject,{case:'oblique',postposition:'ਕੋਲ',script:'gurmukhi'});}
+      else return null;
+      if(!rp.ok||!gp.ok)return null;
+      part(subject,'subject',rp.text,gp.text,preference?'to '+objectiveEnglish(subject):'with '+objectiveEnglish(subject),preference?'Dative experiencer; the auxiliary agrees with the liked item.':'Possession expressed with an authored oblique noun phrase and kol.');
+      const ingredientPreference=preference&&tagsOf(object).some(t=>['edible','drinkable'].includes(t));
+      part(object,'object',object.p,object.g,object.e,'Direct noun; its number controls the copula.'+(ingredientPreference?' English uses the bare food or ingredient meaning for a general preference; Punjabi noun number is unchanged.':''));
+      const plural=object.number==='pl';part(null,'predicate',(preference?'pasand ':'')+(plural?'han':'hai'),(preference?'ਪਸੰਦ ':'')+(plural?'ਹਨ':'ਹੈ'),preference?'like':'have','Copula agrees with the object in number.');
+      return finish(englishSubject(subject)+' '+englishHabit(preference?'like':'have',subject)+' '+(preference?(ingredientPreference?nounEnglish({...object,englishCountability:'uncountable'}):nounEnglish(object,true)):nounEnglish(object)));
+    }
+    if(pattern==='occupationIdentity') {
+      const occupations=enabled(vocab.WHAT).filter(o=>nominal(o)&&human(o)&&tagsOf(o).includes('occupation')&&o.number===subject.number);
+      const occupation=select(occupations,'WHAT');if(!occupation)return null;
+      part(subject,'subject',subject.p,subject.g,englishSubject(subject),'Subject of an identification clause.');part(occupation,'occupation',occupation.p,occupation.g,occupation.e,'Occupation noun in a copular predicate.');
+      part(null,'auxiliary',auxiliary.roman.present[subject.person],auxiliary.gurmukhi.present[subject.person],englishBe(subject),'Copula agrees with the subject in person and number.');
+      return finish(englishSubject(subject)+' '+englishBe(subject)+' '+nounEnglish({...occupation,countability:'count'}));
+    }
+    if(pattern==='causalProgressive') {
+      const action=enabled(state.verbs).find(v=>v.id==='v-intazar');if(!action)return null;
+      const verb=contextualize(action,{role:'VERB'}),reason=select(enabled(vocab.WHY).filter(r=>bilingual(r)&&/karke|kar ke$/u.test(r.p)&&/ਕਰਕੇ$/u.test(r.g)),'WHY');
+      if(!verb||!reason)return null;
+      const r=conjugate({verb,subject,aspect:'progressive'}),g=conjugate({verb,subject,aspect:'progressive',script:'gurmukhi'});if(!r.ok||!g.ok)return null;
+      part(subject,'subject',r.subjectText,g.subjectText,englishSubject(subject),'Subject of the progressive clause.');
+      const meaning=/^because of /i.test(reason.e)?reason.e:'because of '+nounEnglish(reason);
+      part(reason,'reason',reason.p,reason.g,meaning,'Source-supported oblique causal noun phrase followed by karke.');
+      part(verb,'verb',r.text,g.text,'waiting',r.grammarNote);
+      return finish(englishSubject(subject)+' '+englishBe(subject)+' waiting '+meaning);
+    }
+    const aspect=definition.aspect;
+    const verbs=enabled(state.verbs).filter(v=>!requiredTags(v).length&&verbRulesFor(v).transitive===false&&['roman','gurmukhi'].every(script=>conjugate({verb:v,subject,aspect,script}).ok));
+    // A manner modifier is authorized for a bounded action family, rather
+    // than inferred merely from being listed in HOW.
+    const mannerActions=['read','write','speak','walk','run','dance','cook','eat','work'];
+    const generalManners=['slowly','quickly','carefully','quietly','well','easily','with difficulty','happily','again','confidently','enthusiastically'];
+    const specificManners={
+      clearly:['read','speak'],loudly:['read','speak'],softly:['read','speak'],
+      orally:['read','speak'],'by phone':['speak'],'face to face':['speak'],
+      online:['read','write','speak','work'],directly:['speak'],
+      kindly:['speak'],respectfully:['speak'],jokingly:['speak'],angrily:['speak'],gently:['speak'],
+      patiently:['read','write','speak','cook','work'],temporarily:['work']
+    };
+    const mannerPool=pattern==='mannerProgressive'?enabled(vocab.HOW).map(t=>contextualize(t,{role:'HOW',template:definition})).filter(t=>t&&bilingual(t)):[];
+    const fitsManner=(m,v)=>mannerActions.includes(v.base)&&(generalManners.includes(m.e)||(m.e==='together'||m.e==='separately')&&numberOf(subject)==='pl'||Array.isArray(specificManners[m.e])&&specificManners[m.e].includes(v.base));
+    const mannerVerbs=enabled(state.verbs).filter(v=>mannerActions.includes(v.base)&&['roman','gurmukhi'].every(script=>conjugate({verb:v,subject,aspect,script}).ok)&&mannerPool.some(m=>fitsManner(m,v)));
+    const verb=select(pattern==='mannerProgressive'?mannerVerbs:verbs,'VERB');if(!verb)return null;
+    const args={verb,subject,aspect};const r=conjugate(args),g=conjugate({...args,script:'gurmukhi'});if(!r.ok||!g.ok)return null;
+    part(subject,'subject',r.subjectText,g.subjectText,englishSubject(subject),r.grammarNote);
+    let time,manner;
+    if(pattern==='mannerProgressive') {
+      time=select(enabled(vocab.WHEN).filter(t=>bilingual(t)&&(['now','today','right now'].includes(t.e)||t.time==='present'||(t.timeContexts||[]).includes('present'))),'WHEN',{tense:'present'});
+      const mannerCandidates=mannerPool.filter(m=>fitsManner(m,verb));
+      manner=select(mannerCandidates,'HOW',{verb});
+      if(!time||!manner)return null;
+      part(time,'time',time.p,time.g,time.e,'Temporal modifier compatible with the present progressive.');
+      part(manner,'manner',manner.p,manner.g,manner.e,'Manner adverb modifying this action.');
+    }
+    part(verb,'verb',r.text,g.text,aspect==='future'?'will '+verb.base:aspect==='perfective'?englishPast(verb.base):englishGerund(verb.base),r.grammarNote,{aspect,agreementTarget:r.agreementTarget});
+    return finish(englishSubject(subject)+' '+(aspect==='future'?'will '+verb.base:aspect==='perfective'?englishPast(verb.base):englishBe(subject)+' '+englishGerund(verb.base))+(manner?' '+manner.e:'')+(time?' '+time.e:''));
+  }
   // Only candidate pools are random. The same selected lexical records supply
   // both scripts, English, the breakdown, and future learning dimensions.
   function generate(template, state, choose) {
     const definition = newById[template && template.id];
     if (!definition || template.enabled === false) return null;
     choose = choose || (items => items[Math.floor(Math.random() * items.length)]);
+    if (['nominalIdentity','nominalDescription','nominalLocation','nominalWhereQuestion','occupationIdentity','finiteFutureBare','perfectiveBare','mannerProgressive','nominalPastDescription','nominalNegativeDescription','nominalPossession','nominalPreference','causalProgressive'].includes(definition.pattern)) return generateExpanded(template, definition, state, choose);
     const enabled = items => (items || []).filter(x => x.enabled !== false);
     const vocab = state.vocab || {}, people = enabled(vocab.WHO).filter(human);
     const verbs = enabled(state.verbs), objects = enabled(vocab.WHAT), places = enabled(vocab.WHERE);
@@ -386,14 +623,19 @@
     function pick(role, pool) { if (!pool.length) return false; selected[role] = choose(pool); return !!selected[role]; }
     function dualPhrase(item, role) { return ['roman', 'gurmukhi'].every(script => nounPhrase(item, { case: role, script }).ok); }
     const isComparison = definitionPattern === 'comparison';
-    if (!isComparison && !pick('subject', people.filter(p => validText(textOf(p, 'roman'), 'roman') && validText(textOf(p, 'gurmukhi'), 'gurmukhi') && PERSONS.includes(p.person) && ['m', 'f'].includes(p.gender) && ['sg', 'pl'].includes(p.number)))) return null;
+    if (!isComparison && !pick('subject', people.filter(p => validText(textOf(p, 'roman'), 'roman') && validText(textOf(p, 'gurmukhi'), 'gurmukhi') && PERSONS.includes(p.person) && ['m', 'f'].includes(p.gender) && ['sg', 'pl'].includes(p.number) && (!['perfectiveObject','perfectiveRecipient'].includes(definitionPattern)||['roman','gurmukhi'].every(script=>nounPhrase(p,{case:'ergative',script}).ok))))) return null;
     let phraseRoles, english;
     if (['finiteFutureObject', 'finiteFutureNegative', 'finiteFutureQuestion', 'perfectiveObject'].includes(definitionPattern)) {
       const candidatePairs = [];
-      verbs.forEach(verb => objects.forEach(object => {
-        if (!compatible(verb, object)) return;
-        if (['roman', 'gurmukhi'].every(script => conjugate({ verb, object, subject: selected.subject, aspect, negative, question, script }).ok && validText(textOf(object, script), script))) candidatePairs.push({ verb, object });
-      }));
+      verbs.forEach(verb => {
+        const support = new Map();
+        objects.forEach(object => {
+          if (!compatible(verb, object) || !['m','f'].includes(object.gender) || !['sg','pl'].includes(object.number) || !validText(textOf(object,'roman'),'roman') || !validText(textOf(object,'gurmukhi'),'gurmukhi')) return;
+          const key = aspect === 'perfective' ? agreementKey(object) : 'subject';
+          if (!support.has(key)) support.set(key, ['roman','gurmukhi'].every(script => conjugate({verb,object,subject:selected.subject,aspect,negative,question,script}).ok));
+          if (support.get(key)) candidatePairs.push({verb,object});
+        });
+      });
       if (!candidatePairs.length) return null;
       Object.assign(selected, choose(candidatePairs));
       phraseRoles = ['subject', 'object', 'verb'];
@@ -433,18 +675,28 @@
         if (!conjugations[script].ok) return null;
       }
     }
-    const s = selected.subject && englishSubject(selected.subject), objectEnglish = selected.object && selected.object.e;
+    for (const role of Object.keys(selected)) {
+      if (!selected[role]) continue;
+      const projection = contextualize(selected[role], { role: ({subject:'WHO',object:'WHAT',verb:'VERB',recipient:'WHO',companion:'WHO',comparison:'WHAT',instrument:'WHAT',description:'ADJECTIVE',origin:'WHERE',destination:'WHERE'}[role] || role), verb: selected.verb, template: definition, transitive: role === 'verb' ? verbRulesFor(selected.verb).transitive : undefined });
+      if (!projection) return null;
+      selected[role] = projection;
+    }
+    const s = selected.subject && englishSubject(selected.subject), objectEnglish = selected.object && nounEnglish(selected.object, true);
     if (/^finiteFuture/.test(definitionPattern)) english = (question ? 'will ' + s + ' ' : s + ' will ' + (negative ? 'not ' : '')) + selected.verb.base + (objectEnglish ? ' ' + objectEnglish : '') + (selected.destination ? ' ' + destinationEnglish(selected.destination) : '');
-    else if (['perfectiveObject', 'perfectiveRecipient'].includes(definitionPattern)) english = s + ' ' + englishPast(selected.verb.base) + ' ' + objectEnglish + (selected.recipient ? ' to ' + englishSubject(selected.recipient) : '');
+    else if (['perfectiveObject', 'perfectiveRecipient'].includes(definitionPattern)) english = s + ' ' + englishPast(selected.verb.base) + ' ' + objectEnglish + (selected.recipient ? ' to ' + objectiveEnglish(selected.recipient) : '');
     else if (definitionPattern === 'perfectiveOrigin') english = s + ' came from ' + originEnglish(selected.origin);
     else if (definitionPattern === 'originProgressive') english = s + ' ' + englishBe(selected.subject) + ' coming from ' + originEnglish(selected.origin);
-    else if (definitionPattern === 'accompaniment') english = s + ' ' + englishBe(selected.subject) + ' going ' + destinationEnglish(selected.destination) + ' with ' + englishSubject(selected.companion);
-    else if (definitionPattern === 'giveRecipient') english = s + ' ' + englishHabit('give', selected.subject) + ' ' + objectEnglish + ' to ' + englishSubject(selected.recipient);
+    else if (definitionPattern === 'accompaniment') english = s + ' ' + englishBe(selected.subject) + ' going ' + destinationEnglish(selected.destination) + ' with ' + objectiveEnglish(selected.companion);
+    else if (definitionPattern === 'giveRecipient') english = s + ' ' + englishHabit('give', selected.subject) + ' ' + objectEnglish + ' to ' + objectiveEnglish(selected.recipient);
     else if (definitionPattern === 'comparison') english = objectEnglish + ' ' + (selected.object.number === 'pl' ? 'are' : 'is') + ' ' + ({ hot: 'hotter', cold: 'colder', sweet: 'sweeter', cheap: 'cheaper', expensive: 'more expensive' }[selected.description.e]) + ' than ' + selected.comparison.e;
-    else if (definitionPattern === 'instrument') english = s + ' ' + englishHabit('write', selected.subject) + ' ' + objectEnglish + ' with ' + selected.instrument.e;
+    else if (definitionPattern === 'instrument') english = s + ' ' + englishHabit('write', selected.subject) + ' ' + objectEnglish + ' with ' + nounEnglish(selected.instrument,true);
     if (!english || /undefined/.test(english)) return null;
     const sentenceBreakdown = [];
-    if (question) sentenceBreakdown.push({ roman: functional.roman.question, gurmukhi: functional.gurmukhi.question, english: 'yes/no question marker', category: 'QUESTION', vocabularyIds: [lexicalId(enabled(vocab.QUESTION).find(q => q.id === 'q-ki'))], grammarConceptIds: ['questions'], grammarNote: 'Marks the whole sentence as a yes/no question.' });
+    if (question) {
+      const questionWord=enabled(vocab.QUESTION).find(q=>q.id==='q-ki'),selection=semantics&&semantics.lexicalSelection(questionWord,{senseId:questionWord.selectedSenseId});
+      const markerSelection=selection?{...selection,contextualMeaning:'polar question marker',meaningKind:'construction-translation',constructionId:template.id+':yes-no-question',evidence:(selection.evidence||[]).concat('authored-polar-question-marker')}:null;
+      sentenceBreakdown.push({ roman: functional.roman.question, gurmukhi: functional.gurmukhi.question, english: 'polar question marker', category: 'QUESTION', role:'question',vocabularyId:lexicalId(questionWord),vocabularyIds: [lexicalId(questionWord)], selectedSenseId:markerSelection&&markerSelection.senseId,lexicalSelections:markerSelection?[markerSelection]:[], grammarConceptIds: ['questions'], grammarNote: 'Marks the whole sentence as a yes/no question.' });
+    }
     for (const role of phraseRoles) {
       const item = selected[role];
       if (!item) continue;
@@ -455,7 +707,7 @@
       else if (['recipient', 'origin', 'companion', 'comparison', 'instrument'].includes(role)) {
         const nounRole = role === 'companion' ? 'accompaniment' : role;
         roman = nounPhrase(item, { case: nounRole, script: 'roman' }).text; gurmukhi = nounPhrase(item, { case: nounRole, script: 'gurmukhi' }).text;
-        meaning = ({ recipient: 'to ', origin: 'from ', companion: 'with ', comparison: 'than ', instrument: 'with ' }[role]) + (['companion', 'recipient'].includes(role) ? englishSubject(item) : role === 'origin' ? originEnglish(item) : item.e);
+        meaning = ({ recipient: 'to ', origin: 'from ', companion: 'with ', comparison: 'than ', instrument: 'with ' }[role]) + (['companion', 'recipient'].includes(role) ? objectiveEnglish(item) : role === 'origin' ? originEnglish(item) : nounEnglish(item,true));
         grammarNote = 'Oblique noun phrase followed by its postposition.';
       } else if (role === 'description') {
         const key = agreementKey(selected.object), aux = selected.object.number === 'pl' ? '3pl' : '3sg';
@@ -464,14 +716,19 @@
         meaning = 'more ' + item.e; grammarNote = 'The adjective and auxiliary agree with the item being described.';
       }
       if (!validText(roman, 'roman') || !validText(gurmukhi, 'gurmukhi')) return null;
-      sentenceBreakdown.push({ roman, gurmukhi, english: meaning, category: ({ subject: 'WHO', object: 'WHAT', verb: 'VERB', recipient: 'RECIPIENT', companion: 'ACCOMPANIMENT', description: 'DESCRIPTION' }[role] || role.toUpperCase()), role, vocabularyId: lexicalId(item), vocabularyIds: [lexicalId(item)], dictionaryRoman: item.infinitive || item.p, dictionaryGurmukhi: item.gScript && item.gScript.infinitive || item.g, grammarNote, grammarConceptIds: definition.grammarConceptIds });
+      sentenceBreakdown.push({ roman, gurmukhi, english: meaning, category: ({ subject: 'WHO', object: 'WHAT', verb: 'VERB', recipient: 'RECIPIENT', companion: 'ACCOMPANIMENT', description: 'DESCRIPTION',reason:'WHY' }[role] || role.toUpperCase()), role, vocabularyId: lexicalId(item), vocabularyIds: [lexicalId(item)], dictionaryRoman: item.infinitive || item.p, dictionaryGurmukhi: item.gScript && item.gScript.infinitive || item.g, grammarNote, grammarConceptIds: definition.grammarConceptIds, selectedSenseId: item.selectedSenseId, lexicalSelections: item.lexicalSelection ? [item.lexicalSelection] : [] });
     }
     const roman = sentenceBreakdown.map(p => p.roman).join(' ') + (question ? '?' : '.');
     const gurmukhi = sentenceBreakdown.map(p => p.gurmukhi).join(' ') + (question ? '?' : '।');
     const breakdown = sentenceBreakdown.map(p => ({ label: p.role || p.category, value: p.roman, gurmukhi: p.gurmukhi, type: p.category, meaning: p.english, vocabularyId: p.vocabularyId, vocabularyIds: p.vocabularyIds }));
-    return { punjabi: roman, roman, gurmukhi, english: english.charAt(0).toUpperCase() + english.slice(1) + (question ? '?' : '.'), templateId: template.id, template: template.id, templateName: template.name, difficulty: template.difficulty, signature: [template.id].concat(Object.keys(selected).map(role => role + ':' + lexicalId(selected[role]))).join('|'), breakdown, buildingBlocks: breakdown, sentenceBreakdown, vocabularyIds: [...new Set(sentenceBreakdown.flatMap(p => p.vocabularyIds))], grammarConceptIds: definition.grammarConceptIds, scenarioIds: definition.scenarioIds, scriptWarning: '' };
+    return { punjabi: roman, roman, gurmukhi, english: english.charAt(0).toUpperCase() + english.slice(1) + (question ? '?' : '.'), templateId: template.id, template: template.id, templateName: template.name, difficulty: template.difficulty, signature: [template.id].concat(Object.keys(selected).map(role => role + ':' + lexicalId(selected[role]))).join('|'), breakdown, buildingBlocks: breakdown, sentenceBreakdown, vocabularyIds: [...new Set(sentenceBreakdown.flatMap(p => p.vocabularyIds))], senseIds: [...new Set(sentenceBreakdown.flatMap(p => (p.lexicalSelections||[]).map(s=>s.senseId)))], grammarConceptIds: definition.grammarConceptIds, scenarioIds: definition.scenarioIds, scriptWarning: '' };
   }
-  function destinationEnglish(item) { const meaning = String(item.e || '').replace(/^(at|in|on) /, ''); return meaning === 'home' || ['outside', 'inside', 'here', 'there', 'nearby'].includes(meaning) ? meaning : 'to ' + meaning; }
-  function originEnglish(item) { return String(item.e || '').replace(/^(at|in|on) /, ''); }
-  return { version: 1, reference: REFERENCE, concepts, templates, metadataFor, dependenciesFor, conjugate, nounPhrase, compatible, validateSentenceContext, morphologyFor, verbRulesFor, generate, isHumanSubject: human, isStructuredTemplate: template => !!newById[template && template.id], lexicalId };
+  function locationEnglish(item) {
+    const meaning=String(item.e||''),match=meaning.match(/^(at|in|on) (.+)$/u);
+    if(!match||['home','school','work','bed'].includes(match[2]))return meaning;
+    return match[1]+' '+nounEnglish({...item,e:match[2]},true);
+  }
+  function destinationEnglish(item) { const meaning = String(item.e || '').replace(/^(at|in|on) /, ''); return meaning === 'home' || ['outside', 'inside', 'here', 'there', 'nearby'].includes(meaning) ? meaning : 'to ' + nounEnglish({...item,e:meaning},true); }
+  function originEnglish(item) { const meaning=String(item.e || '').replace(/^(at|in|on) /, '');return meaning==='home'?meaning:nounEnglish({...item,e:meaning},true); }
+  return { version: 2, enrichVerb, profileForEntry, profileMetadata: profileDataset && profileDataset.metadata, reference: REFERENCE, concepts, templates, metadataFor, dependenciesFor, conjugate, nounPhrase, compatible, validateSentenceContext, morphologyFor, verbRulesFor, generate, isHumanSubject: human, isStructuredTemplate: template => !!newById[template && template.id], lexicalId };
 });
