@@ -98,3 +98,10 @@ test('a disabled imported word-practice binding stays disabled across successive
  }
  word.enabled=true;
 });
+
+test('all three previously disabled reason entries have ordinary sentence constructions',()=>{
+ for(const id of ['why-kiuki','why-iskarke','why-islai']){
+  const canonical=lexical.resolveId(state,id),t=window.PunjabiSentenceLearning.templates.find(t=>[t.connectorId,t.reasonId].some(value=>value&&lexical.resolveId(state,value)===canonical));
+  assert.ok(t,id);const s=context.assemble(t);assert.ok(s&&s.gurmukhi,id);assert.ok(s.vocabularyIds.includes(canonical),id);
+ }
+});

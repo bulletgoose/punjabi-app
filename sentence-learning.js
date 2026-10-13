@@ -10,6 +10,7 @@ rows.push({id:'P87',name:'Identify a number',pattern:'numberIdentity',requiredRo
 rows.push({id:'P88',name:'Practice saying a word',pattern:'wordPractice',requiredRoles:['word'],grammarConceptIds:['imperatives','quoted-forms'],family:'Word practice',probability:1});
 questionRows.forEach(([kind,id,name],i)=>rows.push({id:'P'+(89+i),name,pattern:'question:'+kind,questionId:id,requiredRoles:['question'],requiredVocabularyIds:[id],grammarConceptIds:['questions','word-order'],family:'Questions'}));
 rows.push({id:'P96',name:'Possess a counted set of books',pattern:'countedPossession',requiredRoles:['subject','quantity','object'],grammarConceptIds:['numbers','number-agreement','possession'],family:'Numbers'});
+rows.push({id:'P97',name:'Result: for this reason',pattern:'connector:reasonResult',reasonId:'why-islai',requiredRoles:['reason','subject','verb'],requiredVocabularyIds:['why-islai','state-tired','v-kamkarna'],grammarConceptIds:['connected-clauses','word-order','habitual-present'],family:'Connectors'});
 const templates=rows.map(t=>Object.assign({enabled:true,engine:'sentence-learning-v1',difficulty:3,probability:5,slots:[],optionalRoles:[],prerequisiteGrammarConceptIds:t.grammarConceptIds,scenarioIds:['daily-routine'],reviewStatus:'reference-supported;independent-review-not-recorded'},t));
 templates.find(t=>t.id==='P74').grammarConceptIds.push('subjunctive','modals');
 templates.find(t=>t.id==='P82').requiredVocabularyIds.push('c-par');
@@ -85,8 +86,8 @@ function generate(template,state,choose,tools){
   subjectPart();p(raw,'state',r,g,raw.e,'Adjective agrees with the selected subject.','STATE');if(negative)fixed('negative','nahī̃','ਨਹੀਂ','not');fixed('auxiliary',aux[0],aux[1],aux[2]);return engSubject+' '+aux[2]+(negative?' not':'')+' '+raw.e;
  }
  if(def.pattern.startsWith('connector:')){
-  const kind=def.pattern.split(':')[1],c=find('CONNECTOR',def.connectorId);if(!c)return null;
-  const connector=meaning=>p(c,'connector',c.p,c.g,meaning,'Connector placement belongs to this clause pattern.','CONNECTOR');
+  const kind=def.pattern.split(':')[1],c=find(def.reasonId?'WHY':'CONNECTOR',def.connectorId||def.reasonId);if(!c)return null;
+  const connector=meaning=>p(c,def.reasonId?'reason':'connector',c.p,c.g,meaning,'Discourse marker placement belongs to this clause pattern.',def.reasonId?'WHY':'CONNECTOR');
   let a,b;
   if(kind==='purpose'){
    // Purpose clause uses the explicitly supported modal subjunctive.
@@ -96,10 +97,10 @@ function generate(template,state,choose,tools){
    const subjunctive={'1sg':['sakā̃','ਸਕਾਂ'],'2sg':['sakẽ','ਸਕੇਂ'],'3sg':['sake','ਸਕੇ'],'1pl':['sakīe','ਸਕੀਏ'],'2pl':['sako','ਸਕੋ'],'3pl':['sakaṇ','ਸਕਣ']}[person];if(!subjunctive)return null;
    p(v,'verb',infinitiveR+' '+subjunctive[0],infinitiveG+' '+subjunctive[1],'can '+v.base,'Purpose clause uses the explicit person/number subjunctive of sak; it does not inflect for gender.','VERB');return result(a+' so that '+engSubject+' can '+v.base);
   }
-  if(kind==='because'||kind==='therefore'){
+  if(kind==='because'||kind==='therefore'||kind==='reasonResult'){
    if(kind==='because'){a=stateClause('tired');if(!a)return null;connector('because');subjectPart();b=action('work');}
-   else {subjectPart();a=action('work');connector('therefore');b=stateClause('tired');}
-   return a&&b?result(a+(kind==='because'?' because ':'; therefore, ')+b):null;
+   else {subjectPart();a=action('work');connector(kind==='reasonResult'?'for this reason':'therefore');b=stateClause('tired');}
+   return a&&b?result(a+(kind==='because'?' because ':kind==='reasonResult'?'; for this reason, ':'; therefore, ')+b):null;
   }
   if(kind==='although'){connector('although');a=stateClause('tired');const but=find('CONNECTOR','c-par');if(!but)return null;p(but,'connector',but.p,but.g,'but','Punjabi concessive pairing; natural English omits redundant but.','CONNECTOR');subjectPart();b=action('work');return a&&b?result('although '+a+', '+b):null;}
   if(kind==='but'||kind==='however'){a=stateClause('tired');connector(kind);subjectPart();b=action('work');return a&&b?result(a+(kind==='but'?' but ':'; however, ')+b):null;}

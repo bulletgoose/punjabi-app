@@ -145,3 +145,9 @@ before definition-head classification, and it cannot provide a human subject
 for work/sleep connector clauses. Connector subjects must have a compatible
 selected human sense (or pronoun); entry-level homograph tags alone do not
 establish compatibility.
+
+P97 gives the authored discourse marker ਇਸ ਲਈ (“for this reason”) an explicit
+work → tired result clause. This consumes the original `why-islai` lexical ID
+in WHY, rather than leaving a re-enabled reference item outside conversation.
+All three formerly disabled reason entries now have ordinary constructions,
+including the canonical redirects for because and therefore.

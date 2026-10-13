@@ -1,11 +1,13 @@
 {
   "provenance": {
-    "producedAt": "2026-10-10T02:43:00.845Z",
+    "producedAt": "2026-10-13T21:25:45.629Z",
     "nodeVersion": "v24.19.0",
-    "inputSha256": "ca14d00f22bc75f3e883ad648a6d677babbdd2c0dafd25b80a1a062f4f5a816e",
+    "inputSha256": "23445fcf57311aca2dc86fec2d0ae2309e61b988541a47a5e61627b3cf7a71d1",
     "inputFiles": [
+      "catalog-backup.js",
       "data/authored-category-baselines.js",
       "data/grammar-ready-vocabulary.js",
+      "data/sentence-catalog-policy.js",
       "data/source-evidence.js",
       "data/verb-morphology-profiles.js",
       "data/vocabulary-expansion.js",
@@ -30,9 +32,11 @@
       "scripts/report-provenance.js",
       "scripts/run-tests.js",
       "scripts/translation-examples.js",
+      "sentence-learning.js",
       "service-worker.js",
       "speech-client.js",
       "tests/audit-report.test.js",
+      "tests/catalog-backup.test.js",
       "tests/contextual-examples.test.js",
       "tests/fsrs-memory.test.js",
       "tests/game-vocabulary.test.js",
@@ -45,14 +49,16 @@
       "tests/linguistic-system.test.js",
       "tests/metadata-migration.test.js",
       "tests/sentence-breakdown.test.js",
+      "tests/sentence-catalog.test.js",
       "tests/sentence-projection.test.js",
       "tests/speech-prefetch.test.js",
       "tests/vocabulary-audit.test.js",
       "tests/vocabulary-import.test.js",
+      "vendor/lz-string-1.5.0/lz-string.js",
       "vocabulary-audit.js"
     ]
   },
-  "completedAt": "2026-10-10T02:47:34.614Z",
+  "completedAt": "2026-10-13T21:33:01.095Z",
   "success": true,
   "reports": [
     {
@@ -63,14 +69,24 @@
         "width": 1280,
         "height": 720
       },
-      "discoverableEntries": 5659,
-      "templates": 70,
+      "discoverableEntries": 3112,
+      "templates": 96,
+      "cleanupBackup": {
+        "encoding": "lz-string-utf16",
+        "storedCharacters": 86861,
+        "originalCharacters": 640497,
+        "savedSentence": true,
+        "editedTranslation": "my imported translation"
+      },
+      "dependencyBlockedTemplates": [
+        "P96"
+      ],
       "failedTemplates": [],
       "offlineFailedTemplates": [],
-      "loadMs": 3183,
-      "searchMs": 78,
-      "templateMs": 8765,
-      "totalMs": 58257,
+      "loadMs": 10826,
+      "searchMs": 64,
+      "templateMs": 16219,
+      "totalMs": 95583,
       "offline": true,
       "offlineMethod": "browser-offline",
       "cachedScriptAssets": [
@@ -85,6 +101,10 @@
         "/data/source-evidence.js",
         "/data/authored-category-baselines.js",
         "/vocabulary-audit.js",
+        "/data/sentence-catalog-policy.js",
+        "/sentence-learning.js",
+        "/vendor/lz-string-1.5.0/lz-string.js",
+        "/catalog-backup.js",
         "/data/vocabulary-expansion.js",
         "/data/grammar-ready-vocabulary.js",
         "/vendor/ts-fsrs-5.4.2/index.umd.js",
@@ -135,14 +155,24 @@
         "width": 1280,
         "height": 720
       },
-      "discoverableEntries": 5659,
-      "templates": 70,
+      "discoverableEntries": 3112,
+      "templates": 96,
+      "cleanupBackup": {
+        "encoding": "lz-string-utf16",
+        "storedCharacters": 86861,
+        "originalCharacters": 640497,
+        "savedSentence": true,
+        "editedTranslation": "my imported translation"
+      },
+      "dependencyBlockedTemplates": [
+        "P96"
+      ],
       "failedTemplates": [],
       "offlineFailedTemplates": [],
-      "loadMs": 4563,
-      "searchMs": 201,
-      "templateMs": 15247,
-      "totalMs": 84783,
+      "loadMs": 16473,
+      "searchMs": 172,
+      "templateMs": 25063,
+      "totalMs": 138019,
       "offline": true,
       "offlineMethod": "origin-server-stopped",
       "cachedScriptAssets": [
@@ -157,6 +187,10 @@
         "/data/source-evidence.js",
         "/data/authored-category-baselines.js",
         "/vocabulary-audit.js",
+        "/data/sentence-catalog-policy.js",
+        "/sentence-learning.js",
+        "/vendor/lz-string-1.5.0/lz-string.js",
+        "/catalog-backup.js",
         "/data/vocabulary-expansion.js",
         "/data/grammar-ready-vocabulary.js",
         "/vendor/ts-fsrs-5.4.2/index.umd.js",
@@ -207,14 +241,24 @@
         "width": 390,
         "height": 664
       },
-      "discoverableEntries": 5659,
-      "templates": 70,
+      "discoverableEntries": 3112,
+      "templates": 96,
+      "cleanupBackup": {
+        "encoding": "lz-string-utf16",
+        "storedCharacters": 86861,
+        "originalCharacters": 640497,
+        "savedSentence": true,
+        "editedTranslation": "my imported translation"
+      },
+      "dependencyBlockedTemplates": [
+        "P96"
+      ],
       "failedTemplates": [],
       "offlineFailedTemplates": [],
-      "loadMs": 4400,
-      "searchMs": 250,
-      "templateMs": 31590,
-      "totalMs": 126451,
+      "loadMs": 16968,
+      "searchMs": 285,
+      "templateMs": 48909,
+      "totalMs": 198200,
       "offline": true,
       "offlineMethod": "origin-server-stopped",
       "cachedScriptAssets": [
@@ -229,6 +273,10 @@
         "/data/source-evidence.js",
         "/data/authored-category-baselines.js",
         "/vocabulary-audit.js",
+        "/data/sentence-catalog-policy.js",
+        "/sentence-learning.js",
+        "/vendor/lz-string-1.5.0/lz-string.js",
+        "/catalog-backup.js",
         "/data/vocabulary-expansion.js",
         "/data/grammar-ready-vocabulary.js",
         "/vendor/ts-fsrs-5.4.2/index.umd.js",
