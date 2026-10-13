@@ -321,8 +321,8 @@ function runUnchangedVerbSave(fixture,item){
 test('saving unchanged real noun and adjective editor values preserves imported eligibility',()=>{
   const {applicationFixture}=require('../scripts/application-fixture');
   const fixture=applicationFixture({generation:false});
-  const noun=fixture.state.vocab.WHAT.find(value=>value.id.startsWith('wt-pa-'));
-  const adjective=fixture.state.vocab.ADJECTIVE.find(value=>value.id.startsWith('wt-pa-'));
+  const noun=fixture.state.vocab.WHAT.find(value=>value.id.startsWith('wt-pa-')&&value.verifiedGrammar===true);
+  const adjective=fixture.state.vocab.ADJECTIVE.find(value=>value.id.startsWith('wt-pa-')&&value.verifiedGrammar===true);
   assert.ok(noun);assert.ok(adjective);
   for(const [category,item] of [['WHAT',noun],['ADJECTIVE',adjective]]){
     const before=JSON.stringify(fixture.lexical.get(fixture.state,item.vocabularyId));

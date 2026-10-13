@@ -61,9 +61,9 @@ function templateReachability(fixture){
   if(!fixture.context.assembleWithState)return null;
   const {state,lexical,grammar}=fixture;
   const unchanged=JSON.stringify(lexical.snapshot(state,{compact:true}));
-  const roleNames={WHO:['subject','experiencer','possessor','addressee','recipient','occupation'],WHEN:['time'],WHERE:['location','destination','origin'],WHAT:['object','choice','comparison','secondObject'],HOW:['manner'],WHY:['reasonClause','reason'],ABOUT:['topic'],VERB:['verb','action','modal','imperative','secondVerb'],ADJECTIVE:['description'],STATE:['description','state'],QUESTION:['question','questionMarker'],CONNECTOR:['connector']};
+  const roleNames={WHO:['subject','experiencer','possessor','addressee','recipient','occupation'],WHEN:['time'],WHERE:['location','destination','origin'],WHAT:['object','choice','comparison','secondObject'],HOW:['manner'],WHY:['reasonClause','reason'],ABOUT:['topic'],VERB:['verb','action','modal','imperative','secondVerb'],ADJECTIVE:['description'],STATE:['description','state'],QUESTION:['question','questionMarker'],CONNECTOR:['connector'],NUMBER:['quantity']};
   const templates=state.templates.filter(template=>template.enabled);
-  const preferred={WHO:['P64','P02','P63'],WHEN:['P66','P03','P43','P33'],WHERE:['P61','P31','P48'],WHAT:['P59','P69','P31'],HOW:['P66'],WHY:['P71','P36'],ABOUT:['P34','P35'],VERB:['P64','P65','P01','P02'],ADJECTIVE:['P60','P67','P68'],STATE:['P28','P43'],QUESTION:[],CONNECTOR:[]};
+  const preferred={WHO:['P64','P02','P63'],WHEN:['P66','P03','P43','P33'],WHERE:['P61','P31','P48'],WHAT:['P59','P69','P31'],HOW:['P66'],WHY:['P71','P36'],ABOUT:['P34','P35'],VERB:['P64','P65','P01','P02'],ADJECTIVE:['P60','P67','P68'],STATE:['P28','P43'],QUESTION:[],CONNECTOR:[],NUMBER:['P87','P96']};
   // A successful output is an existence proof. Keep a representative support
   // pool (including every semantic tag and authored dependency), rather than
   // projecting thousands of unrelated alternatives for every forced lemma.
@@ -88,6 +88,10 @@ function templateReachability(fixture){
         const rowCandidates=['QUESTION','CONNECTOR'].includes(role)?templates.filter(template=>grammar.dependenciesFor(template).includes(row.id)):candidates;
         hadCandidates=hadCandidates||rowCandidates.length>0;
         for(const template of rowCandidates){
+          if(role==='CONNECTOR'){
+            const required=new Set(grammar.dependenciesFor(template));
+            projection.vocab.CONNECTOR=Array.from(state.vocab.CONNECTOR).filter(value=>value.id===row.id||required.has(value.id));
+          }
           if(role==='VERB'){
             const required=new Set(grammar.dependenciesFor(template));
             projection.verbs=row.type==='modal'?Array.from(state.verbs).filter(verb=>verb.type!=='modal'||verb.id===row.id):Array.from(state.verbs).filter(verb=>verb.id===row.id||required.has(verb.id));
@@ -121,7 +125,7 @@ function templateReachability(fixture){
   }
   assert.equal(JSON.stringify(lexical.snapshot(state,{compact:true})),unchanged,'Template reachability never rewrites dictionary data.');
   const mainIds=new Set(roles.flatMap(role=>byRole[role].reached.map(row=>row.vocabularyId)));
-  return {demonstratedEntries:proven.size,demonstratedMainRoleEntries:mainIds.size,auxiliaryRoles:['ADJECTIVE','STATE','QUESTION','CONNECTOR'],byRole,demonstrated:[...proven.values()],durationMs:Math.round((performance.now()-started)*100)/100,method:'Group enabled bindings by canonical lexical entry and role, trying alternative sense bindings until one succeeds. Require the canonical ID, matching breakdown role/category and selected sense in a bilingual output. Includes the eight Building Block roles plus adjective/state descriptions and explicit question/connector dependencies. Supporting alternatives retain every semantic tag, person/gender/number/time class and the first forty rows. Two deterministic attempts per compatible enabled template and binding; manner attempts explicitly exercise singular and plural actors. Failed demonstrations remain explicit; constrained software demonstrations may undercount eligibility and are not fluent-speaker verification.'};
+  return {demonstratedEntries:proven.size,demonstratedMainRoleEntries:mainIds.size,auxiliaryRoles:['ADJECTIVE','STATE','QUESTION','CONNECTOR','NUMBER'],byRole,demonstrated:[...proven.values()],durationMs:Math.round((performance.now()-started)*100)/100,method:'Group enabled bindings by canonical lexical entry and role, trying alternative sense bindings until one succeeds. Require the canonical ID, matching breakdown role/category and selected sense in a bilingual output. Includes the eight Building Block roles plus adjective/state descriptions and explicit question/connector dependencies and numeral constructions. Supporting alternatives retain every semantic tag, person/gender/number/time class and the first forty rows. Two deterministic attempts per compatible enabled template and binding; manner attempts explicitly exercise singular and plural actors. Failed demonstrations remain explicit; constrained software demonstrations may undercount eligibility and are not fluent-speaker verification.'};
 }
 function measure(fixture,label='application'){
   const {state,lexical,grammar}=fixture;

@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const repo=path.resolve(__dirname,'..');
 function provenance(){
-  const files=[...new Set(['index.html','service-worker.js',...fs.readdirSync(repo).filter(file=>file.endsWith('.js')),
+  const files=[...new Set(['index.html','service-worker.js','vendor/lz-string-1.5.0/lz-string.js',...fs.readdirSync(repo).filter(file=>file.endsWith('.js')),
     ...fs.readdirSync(path.join(repo,'data')).filter(file=>file.endsWith('.js')).map(file=>'data/'+file),
     ...fs.readdirSync(path.join(repo,'scripts')).filter(file=>file.endsWith('.js')).map(file=>'scripts/'+file),
     ...['tests','functions/test'].flatMap(directory=>fs.readdirSync(path.join(repo,directory)).filter(file=>file.endsWith('.test.js')).map(file=>directory+'/'+file))])].sort();

@@ -1,5 +1,7 @@
 # Complete vocabulary and grammar integration — implementation report
 
+Latest catalog and connector update: [2026-10-13 follow-up implementation report](CONNECTOR_CATALOG_IMPLEMENTATION_REPORT.md). The figures below describe the earlier PR #6 release, before the user-authorized vocabulary cleanup.
+
 Date: 2026-10-10. Repository: `bulletgoose/punjabi-app`. Feature branch: `feature/complete-vocabulary-grammar-integration`.
 
 All **5,659 canonical entries** have been assessed. **2,943** have metadata supporting bounded grammatical constructions, compared with the previous implementation's small imported noun subset. The actual generator demonstrated **2,939 unique lexical entries** through enabled templates. Categories, contextual English and the existing sentence breakdown now share stable sense data. Independent fluent-speaker review remains **0 entries**; this release does not claim comprehensive linguistic verification.

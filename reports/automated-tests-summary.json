@@ -1,11 +1,13 @@
 {
   "provenance": {
-    "producedAt": "2026-10-10T02:38:47.039Z",
+    "producedAt": "2026-10-13T21:08:34.241Z",
     "nodeVersion": "v24.19.0",
-    "inputSha256": "ca14d00f22bc75f3e883ad648a6d677babbdd2c0dafd25b80a1a062f4f5a816e",
+    "inputSha256": "23445fcf57311aca2dc86fec2d0ae2309e61b988541a47a5e61627b3cf7a71d1",
     "inputFiles": [
+      "catalog-backup.js",
       "data/authored-category-baselines.js",
       "data/grammar-ready-vocabulary.js",
+      "data/sentence-catalog-policy.js",
       "data/source-evidence.js",
       "data/verb-morphology-profiles.js",
       "data/vocabulary-expansion.js",
@@ -30,9 +32,11 @@
       "scripts/report-provenance.js",
       "scripts/run-tests.js",
       "scripts/translation-examples.js",
+      "sentence-learning.js",
       "service-worker.js",
       "speech-client.js",
       "tests/audit-report.test.js",
+      "tests/catalog-backup.test.js",
       "tests/contextual-examples.test.js",
       "tests/fsrs-memory.test.js",
       "tests/game-vocabulary.test.js",
@@ -45,10 +49,12 @@
       "tests/linguistic-system.test.js",
       "tests/metadata-migration.test.js",
       "tests/sentence-breakdown.test.js",
+      "tests/sentence-catalog.test.js",
       "tests/sentence-projection.test.js",
       "tests/speech-prefetch.test.js",
       "tests/vocabulary-audit.test.js",
       "tests/vocabulary-import.test.js",
+      "vendor/lz-string-1.5.0/lz-string.js",
       "vocabulary-audit.js"
     ]
   },
@@ -56,7 +62,7 @@
     {
       "file": "functions/test/speech-app.test.js",
       "exitCode": 0,
-      "durationMs": 72.56,
+      "durationMs": 81.4,
       "tests": 10,
       "pass": 10,
       "fail": 0,
@@ -67,7 +73,18 @@
     {
       "file": "tests/audit-report.test.js",
       "exitCode": 0,
-      "durationMs": 81.26,
+      "durationMs": 67.44,
+      "tests": 3,
+      "pass": 3,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
+      "file": "tests/catalog-backup.test.js",
+      "exitCode": 0,
+      "durationMs": 67.2,
       "tests": 3,
       "pass": 3,
       "fail": 0,
@@ -78,7 +95,7 @@
     {
       "file": "tests/contextual-examples.test.js",
       "exitCode": 0,
-      "durationMs": 8657.54,
+      "durationMs": 36927.36,
       "tests": 1,
       "pass": 1,
       "fail": 0,
@@ -89,7 +106,7 @@
     {
       "file": "tests/fsrs-memory.test.js",
       "exitCode": 0,
-      "durationMs": 60.5,
+      "durationMs": 90.92,
       "tests": 3,
       "pass": 3,
       "fail": 0,
@@ -100,7 +117,7 @@
     {
       "file": "tests/game-vocabulary.test.js",
       "exitCode": 0,
-      "durationMs": 55.12,
+      "durationMs": 81.32,
       "tests": 1,
       "pass": 1,
       "fail": 0,
@@ -111,7 +128,7 @@
     {
       "file": "tests/grammar-engine.test.js",
       "exitCode": 0,
-      "durationMs": 558.72,
+      "durationMs": 865.86,
       "tests": 13,
       "pass": 13,
       "fail": 0,
@@ -122,7 +139,7 @@
     {
       "file": "tests/grammar-expansion.test.js",
       "exitCode": 0,
-      "durationMs": 8969.4,
+      "durationMs": 51724.58,
       "tests": 15,
       "pass": 15,
       "fail": 0,
@@ -133,7 +150,7 @@
     {
       "file": "tests/grammar-ready-vocabulary.test.js",
       "exitCode": 0,
-      "durationMs": 648.49,
+      "durationMs": 1488.31,
       "tests": 2,
       "pass": 2,
       "fail": 0,
@@ -144,7 +161,7 @@
     {
       "file": "tests/learning-context.test.js",
       "exitCode": 0,
-      "durationMs": 127.99,
+      "durationMs": 224.38,
       "tests": 5,
       "pass": 5,
       "fail": 0,
@@ -155,7 +172,7 @@
     {
       "file": "tests/learning-vocabulary-views.test.js",
       "exitCode": 0,
-      "durationMs": 5344.7,
+      "durationMs": 63773.41,
       "tests": 3,
       "pass": 3,
       "fail": 0,
@@ -166,7 +183,7 @@
     {
       "file": "tests/lexical-semantics.test.js",
       "exitCode": 0,
-      "durationMs": 7103.91,
+      "durationMs": 56011.91,
       "tests": 26,
       "pass": 26,
       "fail": 0,
@@ -177,7 +194,7 @@
     {
       "file": "tests/linguistic-system.test.js",
       "exitCode": 0,
-      "durationMs": 1397.14,
+      "durationMs": 5064.85,
       "tests": 23,
       "pass": 23,
       "fail": 0,
@@ -188,7 +205,7 @@
     {
       "file": "tests/metadata-migration.test.js",
       "exitCode": 0,
-      "durationMs": 30549.2,
+      "durationMs": 214251.24,
       "tests": 16,
       "pass": 16,
       "fail": 0,
@@ -199,7 +216,7 @@
     {
       "file": "tests/sentence-breakdown.test.js",
       "exitCode": 0,
-      "durationMs": 90.01,
+      "durationMs": 351.29,
       "tests": 9,
       "pass": 9,
       "fail": 0,
@@ -208,9 +225,20 @@
       "todo": 0
     },
     {
+      "file": "tests/sentence-catalog.test.js",
+      "exitCode": 0,
+      "durationMs": 219753.43,
+      "tests": 14,
+      "pass": 14,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    {
       "file": "tests/sentence-projection.test.js",
       "exitCode": 0,
-      "durationMs": 291.65,
+      "durationMs": 1447.26,
       "tests": 2,
       "pass": 2,
       "fail": 0,
@@ -221,7 +249,7 @@
     {
       "file": "tests/speech-prefetch.test.js",
       "exitCode": 0,
-      "durationMs": 84.36,
+      "durationMs": 454.36,
       "tests": 4,
       "pass": 4,
       "fail": 0,
@@ -232,7 +260,7 @@
     {
       "file": "tests/vocabulary-audit.test.js",
       "exitCode": 0,
-      "durationMs": 5542.33,
+      "durationMs": 62909.2,
       "tests": 14,
       "pass": 14,
       "fail": 0,
@@ -243,7 +271,7 @@
     {
       "file": "tests/vocabulary-import.test.js",
       "exitCode": 0,
-      "durationMs": 82,
+      "durationMs": 141.38,
       "tests": 3,
       "pass": 3,
       "fail": 0,
@@ -252,12 +280,12 @@
       "todo": 0
     }
   ],
-  "tests": 153,
-  "pass": 153,
+  "tests": 170,
+  "pass": 170,
   "fail": 0,
   "cancelled": 0,
   "skipped": 0,
   "todo": 0,
-  "completedAt": "2026-10-10T02:39:56.768Z",
+  "completedAt": "2026-10-13T21:20:30.051Z",
   "success": true
 }

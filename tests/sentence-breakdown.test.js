@@ -28,7 +28,7 @@ test('closed breakdown uses contextual meaning and keeps alternatives and explan
   assert.match(markup,/Other dictionary meanings/);assert.match(markup,/command or instruction/);
   assert.match(markup,/Meaning in this sentence:<\/strong> order/);
   assert.match(markup,/Unmarked direct object/);assert.match(markup,/Perfective aspect/);
-  assert.match(markup,/Independent fluent-speaker review pending/);
+  assert.doesNotMatch(markup,/Independent fluent-speaker review pending/);
 });
 
 test('Vocabulary and breakdown reuse the same lexical meanings and usage',()=>{
@@ -76,17 +76,16 @@ test('selected sense supplies its own gender and number instead of entry-wide de
   assert.doesNotMatch(unresolved,/masculine|feminine|singular|plural/);
 });
 
-test('metadata completion and fluent review remain separate in expanded status details',()=>{
+test('metadata provenance stays recorded without cluttering learner details',()=>{
   const assessment={dataCompleteness:{status:'complete-core',grammar:'complete-for-supported-constructions',semantics:'partial'},schemaValidation:{status:'valid'},sourceVerification:{status:'snapshot-aligned'},morphologicalValidation:{status:'direct-base-only-or-unresolved',scope:'Only the direct base is supported.'},constructionCompatibility:{status:'supported'},linguisticConfidence:{level:'source-supported-bounded'},fluentSpeakerReview:{status:'pending'},sentenceGenerationEligibility:{eligible:true,roles:['WHO','WHAT']},unresolvedReasons:['The plural requires independent review.']};
   const word=Object.assign({},order,{assessment,quality:{nativeReviewed:true}});
   const markup=renderFixture({}).meaningAndUsageMarkup(word,{}, {dictionaryForm:false});
-  assert.match(markup,/Fluent-speaker review: pending/);
+  assert.doesNotMatch(markup,/Fluent-speaker review: pending/);
+  assert.equal(word.assessment.fluentSpeakerReview.status,'pending');
   assert.doesNotMatch(markup,/Recorded fluent-speaker review/);
-  assert.match(markup,/<details class="lexical-review-details"><summary>Metadata and review status<\/summary>/);
-  assert.match(markup,/Complete for supported constructions/);assert.match(markup,/Matches recorded dictionary source/);
-  assert.match(markup,/Base form only; other forms unresolved/);assert.match(markup,/Pending independent review/);
-  assert.match(markup,/WHO · WHAT/);assert.match(markup,/The plural requires independent review/);
-  assert.match(markup,/Only the direct base is supported/);
+  assert.doesNotMatch(markup,/lexical-review-details|Metadata and review status/);
+  assert.equal(word.assessment.dataCompleteness.grammar,'complete-for-supported-constructions');
+  assert.equal(word.assessment.sourceVerification.status,'snapshot-aligned');
 });
 
 test('restricted and absent assessment data never become a positive review claim',()=>{
