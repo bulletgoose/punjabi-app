@@ -476,15 +476,17 @@
 <script src="./speech-client.js?v=10"></script>
 <script src="./game-vocabulary.js?v=1"></script>
 <script src="./lexical-semantics.js?v=1"></script>
-<script src="./learning-context.js?v=2"></script>
-<script src="./linguistic-system.js?v=2"></script>
+<script src="./learning-context.js?v=3"></script>
+<script src="./linguistic-system.js?v=3"></script>
 <script src="./data/verb-morphology-profiles.js?v=1"></script>
-<script src="./grammar-engine.js?v=2"></script>
+<script src="./grammar-engine.js?v=3"></script>
 <script src="./data/source-evidence.js?v=1"></script>
 <script src="./data/authored-category-baselines.js?v=1"></script>
-<script src="./vocabulary-audit.js?v=1"></script>
+<script src="./vocabulary-audit.js?v=2"></script>
 <script src="./data/sentence-catalog-policy.js?v=1"></script>
 <script src="./sentence-learning.js?v=1"></script>
+<script src="./vendor/lz-string-1.5.0/lz-string.js"></script>
+<script src="./catalog-backup.js?v=1"></script>
 <script src="./data/vocabulary-expansion.js?v=1"></script>
 <script src="./data/grammar-ready-vocabulary.js?v=1"></script>
 <script src="./vendor/ts-fsrs-5.4.2/index.umd.js"></script>
@@ -3486,7 +3488,7 @@
   function initializeLearning(){
     installScriptData();
     window.PunjabiLinguisticSystem.install(state,{categories:window.PunjabiLearningContext.categories,expansion:bundledVocabulary,audit:window.PunjabiVocabularyAudit,grammar:window.PunjabiGrammarEngine,catalogPolicy:window.PUNJABI_SENTENCE_CATALOG_POLICY,beforeCatalogChange:function(){
-      try{const key='punjabi-app-state-before-sentence-catalog-v1';if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(window.PunjabiLinguisticSystem.snapshot(state,{compact:true})));return true;}catch(error){return false;}
+      const key='punjabi-app-state-before-sentence-catalog-v1';return window.PunjabiCatalogBackup.save(localStorage,key,JSON.stringify(window.PunjabiLinguisticSystem.snapshot(state,{compact:true})));
     }});
     window.PunjabiGrammarEngine.templates.forEach(template=>{
       if(!state.templates.some(t=>t.id===template.id))state.templates.push(JSON.parse(JSON.stringify(template)));

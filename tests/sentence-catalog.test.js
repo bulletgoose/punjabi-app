@@ -66,7 +66,10 @@ test('consolidated duplicate word histories retain both answer totals and the la
 });
 test('cardinal possession uses explicit singular/plural book forms and number agreement',()=>{
  const api=window.PunjabiSentenceLearning,t=api.templates.find(t=>t.id==='P96'),tools={lexical,grammar:f.grammar,semantics:window.PunjabiLexicalSemantics};
- for(const e of ['one','two','twenty']){const n=state.vocab.NUMBER.find(n=>n.e===e),vocab=Object.assign({},state.vocab,{NUMBER:[n]});const s=api.generate(t,{vocab,verbs:state.verbs},rows=>rows[0],tools);assert.ok(s);assert.match(s.english,new RegExp('I have '+e+' '+(e==='one'?'book':'books')));assert.match(s.gurmukhi,e==='one'?/ਕਿਤਾਬ ਹੈ/:/ਕਿਤਾਬਾਂ ਹਨ/);}
+ assert.ok(t.requiredVocabularyIds.includes('what-kitab'));
+ for(const n of state.vocab.NUMBER){const e=n.e,vocab=Object.assign({},state.vocab,{NUMBER:[n]});const identity=api.generate(api.templates.find(t=>t.id==='P87'),{vocab,verbs:state.verbs},rows=>rows[0],tools);assert.ok(identity);assert.equal(identity.english,'This is '+e+'.');assert.ok(identity.gurmukhi.includes(n.g));if(e==='zero')continue;const s=api.generate(t,{vocab,verbs:state.verbs},rows=>rows[0],tools);assert.ok(s);assert.match(s.english,new RegExp('I have '+e+' '+(e==='one'?'book':'books')));assert.match(s.gurmukhi,e==='one'?/ਕਿਤਾਬ ਹੈ/:/ਕਿਤਾਬਾਂ ਹਨ/);}
+ const book=state.vocab.WHAT.find(row=>row.id==='what-kitab');book.enabled=false;
+ assert.equal(api.generate(t,state,rows=>rows[0],tools),null);book.enabled=true;
 });
 test('eye pupil is anatomical and cannot act as the person in a connector clause',()=>{
  const entry=lexical.get(state,'lex:game-nature-3'),eye=entry.senses.find(s=>s.english==='pupil (of the eye)');
@@ -75,4 +78,23 @@ test('eye pupil is anatomical and cannot act as the person in a connector clause
  const fake=Object.assign({},state.vocab.WHO.find(row=>row.id==='who-oh'),{vocabularyId:entry.id,partOfSpeech:'noun',senses:entry.senses,selectedSenseId:eye.id});
  const api=window.PunjabiSentenceLearning,vocab=Object.assign({},state.vocab,{WHO:[fake]});
  assert.equal(api.generate(api.templates.find(t=>t.id==='P74'),{vocab,verbs:state.verbs},rows=>rows[0],{lexical,grammar:f.grammar,semantics:window.PunjabiLexicalSemantics}),null);
+});
+test('new vocabulary becomes usable in word practice immediately without a reload or copied dataset',()=>{
+ const added=lexical.upsert(state,{id:'user-word-live-integration',p:'navā̃ śabad',g:'ਨਵਾਂ ਸ਼ਬਦ',e:'new learning word',partOfSpeech:'expression',source:{verification:'user-authored'}});
+ const word=state.vocab.WORD.find(row=>row.vocabularyId===added.id);assert.ok(word);
+ assert.ok(lexical.vocabulary(state).some(row=>row.vocabularyId===added.id));
+ const api=window.PunjabiSentenceLearning,s=api.generate(api.templates.find(t=>t.id==='P88'),{vocab:{WORD:[word]},verbs:[]},rows=>rows[0],{lexical,grammar:f.grammar,semantics:window.PunjabiLexicalSemantics});
+ assert.ok(s);assert.equal(s.vocabularyIds[0],added.id);assert.match(s.gurmukhi,/ਨਵਾਂ ਸ਼ਬਦ/);lexical.remove(state,added.id);
+});
+test('a disabled imported word-practice binding stays disabled across successive compact reloads',()=>{
+ const word=state.vocab.WORD.find(row=>lexical.get(state,row.vocabularyId).importedDataset);word.enabled=false;
+ let current=f;
+ for(let i=0;i<2;i++){
+  const stored=current.lexical.snapshot(current.state,{compact:true});
+  current=applicationFixture({generation:false,storage:[['punjabi-app-state-v1',JSON.stringify(stored)]]});
+  assert.equal(current.state.vocab.WORD.find(row=>row.id===word.id).enabled,false);
+  assert.equal(current.lexical.resolveId(current.state,word.id),word.vocabularyId);
+  assert.equal(current.lexical.vocabulary(current.state).length,3111);
+ }
+ word.enabled=true;
 });

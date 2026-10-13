@@ -13,12 +13,27 @@ rows.push({id:'P96',name:'Possess a counted set of books',pattern:'countedPosses
 const templates=rows.map(t=>Object.assign({enabled:true,engine:'sentence-learning-v1',difficulty:3,probability:5,slots:[],optionalRoles:[],prerequisiteGrammarConceptIds:t.grammarConceptIds,scenarioIds:['daily-routine'],reviewStatus:'reference-supported;independent-review-not-recorded'},t));
 templates.find(t=>t.id==='P74').grammarConceptIds.push('subjunctive','modals');
 templates.find(t=>t.id==='P82').requiredVocabularyIds.push('c-par');
+for(const t of templates){
+ const kind=t.pattern.split(':')[1];
+ if(['but','however','because','therefore','although'].includes(kind))t.requiredVocabularyIds.push('state-tired','v-kamkarna');
+ if(['if','when'].includes(kind))t.requiredVocabularyIds.push('state-tired','v-sona');
+ if(kind==='purpose')t.requiredVocabularyIds.push('v-kamkarna');
+ if(kind==='finally')t.requiredVocabularyIds.push('v-sona');
+ if(kind==='whom')t.requiredVocabularyIds.push('who-tusi','v-dena');
+ if(kind==='duration')t.requiredVocabularyIds.push('who-tusi','v-intazar');
+ if(kind==='distance')t.requiredVocabularyIds.push('who-tusi','v-jana');
+ if(t.id==='P96')t.requiredVocabularyIds=['who-main','what-kitab'];
+}
 const byId=Object.fromEntries(templates.map(t=>[t.id,t]));
 function handles(t){return !!byId[t&&t.id];}
 function generate(template,state,choose,tools){
  const def=byId[template.id];if(!def||!template.enabled)return null;
  const {grammar,semantics,lexical}=tools,parts=[];
  const enabled=rows=>(rows||[]).filter(r=>r.enabled!==false),find=(role,id)=>enabled(state.vocab[role]).find(r=>r.id===id);
+ if(def.requiredVocabularyIds?.length){
+  const ids=new Set(Object.keys(state.vocab).filter(role=>!['WORD','LEXICON'].includes(role)&&!role.startsWith('GAME_')).flatMap(role=>enabled(state.vocab[role])).concat(enabled(state.verbs)).map(row=>row.id));
+  if(def.requiredVocabularyIds.some(id=>!ids.has(id)))return null;
+ }
  const eview=(r,role)=>semantics.contextualEntry(r,{role,senseId:r.selectedSenseId})||r;
  function p(row,role,roman,gurmukhi,english,note,category){
   const id=row&&(row.vocabularyId||lexical.resolveId(state,row.id)),senseId=row&&(row.selectedSenseId||(row.senses||[])[0]?.id);

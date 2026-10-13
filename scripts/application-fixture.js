@@ -32,7 +32,7 @@ function applicationFixture(options={}){
   const lexical=load('linguistic-system.js'),grammar=load('grammar-engine.js'),learning=load('learning-context.js');
   const window={PunjabiLinguisticSystem:lexical,PunjabiGrammarEngine:grammar,PunjabiLearningContext:learning};
   const html=read('index.html');
-  const modules={'data/sentence-catalog-policy.js':'PUNJABI_SENTENCE_CATALOG_POLICY','sentence-learning.js':'PunjabiSentenceLearning','lexical-semantics.js':'PunjabiLexicalSemantics','data/verb-morphology-profiles.js':'PUNJABI_VERB_MORPHOLOGY_PROFILES','data/source-evidence.js':null,'data/authored-category-baselines.js':null,'vocabulary-audit.js':'PunjabiVocabularyAudit','data/vocabulary-expansion.js':'PUNJABI_VOCABULARY_EXPANSION','data/grammar-ready-vocabulary.js':'PUNJABI_GRAMMAR_READY_VOCABULARY'};
+  const modules={'catalog-backup.js':'PunjabiCatalogBackup','data/sentence-catalog-policy.js':'PUNJABI_SENTENCE_CATALOG_POLICY','sentence-learning.js':'PunjabiSentenceLearning','lexical-semantics.js':'PunjabiLexicalSemantics','data/verb-morphology-profiles.js':'PUNJABI_VERB_MORPHOLOGY_PROFILES','data/source-evidence.js':null,'data/authored-category-baselines.js':null,'vocabulary-audit.js':'PunjabiVocabularyAudit','data/vocabulary-expansion.js':'PUNJABI_VOCABULARY_EXPANSION','data/grammar-ready-vocabulary.js':'PUNJABI_GRAMMAR_READY_VOCABULARY'};
   for(const [file,global] of Object.entries(modules)){
     if(html.includes(file)){
       const name=global||(read(file).match(/root\.(\w+)\s*=/)||[])[1];

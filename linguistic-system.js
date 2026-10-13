@@ -492,7 +492,11 @@
     if(!l.catalogVersion)for(const rows of Object.values(l.bindings))for(const b of rows){if(['why-kiuki','why-iskarke','why-islai'].includes(b.id))b.enabled=true;}
     l.catalogVersion=policy.version;l.catalogMigration=l.catalogMigration||count;l.catalogAliases=Object.assign({},policy.merges);
     for(const entry of Object.values(l.entries))if(entry.importedDataset&&!protectedEntry(entry))rt.importedBaselines.set(entry.id,stableJSON(entry));
-    for(const [category,rows] of Object.entries(l.bindings))for(const b of rows)if(l.entries[b.vocabularyId]?.importedDataset&&!protectedEntry(l.entries[b.vocabularyId]))rt.importedBindings.set(category+':'+b.id,stableJSON(b));
+    for(const [category,rows] of Object.entries(l.bindings))for(const b of rows)if(l.entries[b.vocabularyId]?.importedDataset&&!protectedEntry(l.entries[b.vocabularyId])){
+      const key=category+':'+b.id,source=rt.sourceRows.get(l.entries[b.vocabularyId].primaryId);
+      if(b.phraseTranslationOverride||own(b,'p')||own(b,'g')||own(b,'gameCategory')&&b.gameCategory!==(source&&source.gameCategory)){rt.importedBindings.delete(key);continue;}
+      rt.importedBindings.set(key,stableJSON(Object.assign({},b,{enabled:source?.enabled!==false})));
+    }
     syncRuntime(rt);
   }
   function install(state, options) {
@@ -540,6 +544,7 @@
         });
         rt.bindingIndexes.set(category, new Map(linguistic.bindings[category].map(binding => [binding.id, binding])));
         rt.roleEntries.set(category, new Set(linguistic.bindings[category].map(binding => binding.vocabularyId)));
+        for(const binding of linguistic.bindings[category])linguistic.aliases[binding.id]=binding.vocabularyId;
         for (const binding of linguistic.bindings[category]) if (binding.auditOwned) rt.auditOwnedEntries.add(binding.vocabularyId);
       }
       if (!existing) {
@@ -567,8 +572,11 @@
     }
     if (options.audit) rt.audit = options.audit;
     if (options.grammar) rt.grammar = options.grammar;
+    if(options.catalogPolicy)rt.catalogPolicy=options.catalogPolicy;
+    const catalogExclusions=new Set(rt.catalogPolicy&&rt.catalogPolicy.excluded||[]);
     if (Array.isArray(options.expansion)) options.expansion.forEach(row => {
       rt.sourceRows.set(text(row.id), row);
+      if(rt.linguistic.catalogVersion&&catalogExclusions.has('lex:'+row.id)&&!rt.linguistic.entries['lex:'+row.id])return;
       upsert(state, row, { imported: true });
     });
     if (rt.audit || rt.grammar) {
@@ -688,6 +696,9 @@
       addBinding(rt, 'VERBS', Object.assign({}, row, { id: entry.primaryId, vocabularyId: entry.id }), options);
     }
     if (!options.imported && (rt.audit || rt.grammar)) assessEntry(rt, entry);
+    if(!options.imported&&rt.linguistic.catalogVersion&&entry.p&&entry.g&&/[\u0a00-\u0a7f]/.test(entry.g)){
+      addBinding(rt,'WORD',{id:entry.primaryId+'@word-practice',vocabularyId:entry.id,enabled:entry.enabled!==false});
+    }
     indexEntry(rt, entry);
     if (options.imported && entry.importedDataset === BUNDLED_DATASET) recordBundledBaseline(rt, row, entry, true);
     if (!options.imported) flushCategories(rt);
@@ -812,8 +823,9 @@
   }
   function revokeInvalidRoles(rt, entry) {
     const invalid = [];
+    const identification=entry.verifiedGrammar===true&&entry.roleEligibility?.WHAT?.eligible===true&&list(entry.roleEligibility.WHAT.constructionIds).includes('nominal-identification');
     if (entry.partOfSpeech !== 'noun' || entry.verifiedGrammar === false || !['m', 'f'].includes(entry.gender) ||
-        !['sg', 'pl'].includes(entry.number) || !list(entry.semanticTags).length) invalid.push('WHAT');
+        !['sg', 'pl'].includes(entry.number) || !list(entry.semanticTags).length&&!identification) invalid.push('WHAT');
     if (entry.partOfSpeech !== 'verb' || entry.verifiedGrammar === false) invalid.push('VERBS');
     if (entry.partOfSpeech !== 'adjective' || entry.verifiedGrammar === false) invalid.push('ADJECTIVE');
     if (entry.assessment && entry.verifiedGrammar === false) invalid.push(...AUDITED_ROLES);
@@ -951,6 +963,15 @@
       const rt = runtime(state), linguistic = rt.linguistic;
       const persisted = Object.assign({}, state);
       const central = Object.assign({}, linguistic, { entries: dictionary(), bindings: dictionary(), aliases: dictionary(), categories: dictionary() });
+      if(linguistic.catalogVersion&&rt.catalogPolicy){
+        // The immutable policy already records these exact retired IDs.
+        // Preserve all user deletion tombstones, while avoiding a second
+        // large copy of the policy in Safari's limited localStorage.
+        central.tombstones=dictionary();
+        const excluded=new Set(rt.catalogPolicy.excluded);
+        for(const [id,tombstone] of Object.entries(linguistic.tombstones))if(tombstone.reason!=='user-authorized-non-building-block-removal'||!excluded.has(tombstone.vocabularyId))central.tombstones[id]=tombstone;
+        delete central.catalogAliases;
+      }
       const required = new Set();
       for (const [category, bindings] of Object.entries(linguistic.bindings)) {
         central.bindings[category] = bindings.filter(binding => {
@@ -976,6 +997,7 @@
         }
       }
       for (const [id, vocabularyId] of Object.entries(linguistic.aliases)) {
+        if(linguistic.catalogVersion&&id===linguistic.entries[vocabularyId]?.primaryId+'@word-practice')continue;
         if (!rt.importedAliases.has(id) || linguistic.tombstones[id] && linguistic.tombstones[id].reason === 'duplicate-consolidated') central.aliases[id] = vocabularyId;
       }
       for (const [id, category] of Object.entries(linguistic.categories)) {
