@@ -49,6 +49,9 @@
     ['future','Future forms','Reviewed finite future forms agree with person, gender and number.',3,['habitual-present']],
     ['possession','Possession','Possessive constructions use appropriate pronoun and noun forms.',2,['postpositions']],
     ['connected-clauses','Connected clauses','Conjunctions connect independently valid clauses.',4,['word-order']],
+    ['numbers','Numbers and quantities','Numerals identify values and combine with explicitly supported counted noun forms.',2,['number-agreement']],
+    ['subjunctive','Purpose and potential','The named sak paradigm marks person and number in purpose clauses without gender agreement.',4,['modals']],
+    ['quoted-forms','Dictionary-form practice','A quoted word can be practised without claiming an inflection or a conversational argument structure.',1,['word-order']],
     ['conditions','Conditions','A conditional clause sets the context for a main clause.',4,['connected-clauses']]
   ];
   const grammarConcepts=Object.fromEntries(concepts.map(([id,name,description,difficulty,prerequisites])=>[id,{id,name,description,difficulty,prerequisites,relatedTemplates:[],relatedVocabulary:[],examples:[]}]));

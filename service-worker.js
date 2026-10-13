@@ -1,6 +1,6 @@
 // Increment this value whenever the application shell changes. Activation
 // removes older Punjabi app caches while leaving unrelated origin caches alone.
-const CACHE_VERSION = 'v14';
+const CACHE_VERSION = 'v15';
 const CACHE_PREFIX = 'punjabi-sentence-builder-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
 
@@ -13,6 +13,8 @@ const APP_SHELL_PATHS = [
   './speech-client.js?v=10',
   './game-vocabulary.js?v=1',
   './lexical-semantics.js?v=1',
+  './data/sentence-catalog-policy.js?v=1',
+  './sentence-learning.js?v=1',
   './learning-context.js?v=2',
   './linguistic-system.js?v=2',
   './data/verb-morphology-profiles.js?v=1',

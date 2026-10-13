@@ -88,6 +88,10 @@ function templateReachability(fixture){
         const rowCandidates=['QUESTION','CONNECTOR'].includes(role)?templates.filter(template=>grammar.dependenciesFor(template).includes(row.id)):candidates;
         hadCandidates=hadCandidates||rowCandidates.length>0;
         for(const template of rowCandidates){
+          if(role==='CONNECTOR'){
+            const required=new Set(grammar.dependenciesFor(template));
+            projection.vocab.CONNECTOR=Array.from(state.vocab.CONNECTOR).filter(value=>value.id===row.id||required.has(value.id));
+          }
           if(role==='VERB'){
             const required=new Set(grammar.dependenciesFor(template));
             projection.verbs=row.type==='modal'?Array.from(state.verbs).filter(verb=>verb.type!=='modal'||verb.id===row.id):Array.from(state.verbs).filter(verb=>verb.id===row.id||required.has(verb.id));

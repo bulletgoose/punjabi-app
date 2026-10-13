@@ -197,6 +197,9 @@
   function categoryClosure(ids){const output=unique(ids);for(let i=0;i<output.length;i++){const parent=learning&&learning.categories&&learning.categories[output[i]]&&learning.categories[output[i]].parentId;if(parent&&!output.includes(parent))output.push(parent);}return output;}
   function descriptor(sense,evidence,pos){
     const english=sense.english||'',clause=english.replace(/\([^)]*\)/g,'').split(/[;,]/)[0].trim();
+    // Keep a meaning-bearing qualifier before considering an ambiguous head.
+    // The source's eye pupil is anatomical, unlike a pupil who is a student.
+    if(pos==='noun'&&key(english)==='pupil (of the eye)')return {head:'pupil (of the eye)',definition:heads.eye,method:'qualified-anatomical-source-sense'};
     if(pos==='adjective'){
       const property=adjectiveHeads[key(clause)];
       return property?{head:key(clause),definition:{categories:property.categories,semanticTags:['property'],modifierTargets:property.targets,modifierKind:property.kind},method:'reviewed-adjective-definition-head'}:{head:null,definition:{categories:['descriptions'],semanticTags:['property']},method:'source-part-of-speech;semantic-context-unresolved'};

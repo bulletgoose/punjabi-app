@@ -3,10 +3,10 @@
  * No network, DOM, storage, or learner-progress mutations occur in this module. */
 (function (root, factory) {
   'use strict';
-  const api = factory();
+  const api = factory(typeof module==='object'&&module.exports?require('./data/sentence-catalog-policy'):null);
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.PunjabiLinguisticSystem = api;
-})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (bundledCatalogPolicy) {
   'use strict';
   const SCHEMA_VERSION = 2;
   const BUNDLED_DATASET = 'punjabi-bundled-expansion-v1';
@@ -444,9 +444,61 @@
     rt.categoryDirty.clear();
   }
   function sync(state) { syncRuntime(runtime(state)); return state; }
+  function applySentenceCatalog(rt, policy) {
+    const l=rt.linguistic, protectedEntry=entry=>entry.userModifiedCategories || (entry.userModifiedLexicalFields||[]).length || entry.translationOverride&&entry.translationOverride.source==='user' || policy.signatures[entry.id]&&['p','g','e'].some(k=>entry[k]!==policy.signatures[entry.id][k]);
+    const count={removed:0,merged:0,protected:0},retired=new Map();
+    function retire(entry,reason,target){
+      retired.set(entry.id,target&&target.id||null);
+      if(target){l.aliases[entry.id]=target.id;l.tombstones[entry.id]={vocabularyId:entry.id,reason,canonicalId:target.id};}
+      l.tombstones[entry.primaryId]={vocabularyId:entry.id,reason,canonicalId:target&&target.id};
+      for(const [category,members] of rt.categoryMembers){if(members.delete(entry.id))rt.categoryDirty.add(category);}
+      rt.entryCategories.delete(entry.id);delete l.entries[entry.id];
+    }
+    for(const id of policy.excluded){const entry=l.entries[id];if(!entry)continue;if(protectedEntry(entry)){count.protected++;continue;}retire(entry,'user-authorized-non-building-block-removal');count.removed++;}
+    for(const [id,targetId] of Object.entries(policy.merges)){
+      const entry=l.entries[id],target=l.entries[targetId];if(!entry||!target)continue;if(protectedEntry(entry)||protectedEntry(target)){count.protected++;continue;}
+      const known=new Set((target.senses||[]).map(s=>s.id));target.senses=(target.senses||[]).concat((entry.senses||[]).filter(s=>!known.has(s.id)));
+      target.meanings=unique((target.meanings||[]).concat(entry.meanings||[]));target.categories=unique((target.categories||[]).concat(entry.categories||[]));
+      if(entry.dictionaryEntryId&&!target.dictionaryEntryId)target.dictionaryEntryId=entry.dictionaryEntryId;
+      target.mergedLexicalIds=unique((target.mergedLexicalIds||[]).concat(id));
+      const old=l.progression.vocabulary[id];if(old){const current=l.progression.vocabulary[target.id]||{};l.progression.vocabulary[target.id]=Object.assign({},old,current,{mastery:Math.max(old.mastery||0,current.mastery||0),exposures:(old.exposures||0)+(current.exposures||0)});}
+      retire(entry,'duplicate-consolidated',target);rt.auditOwnedEntries.add(target.id);count.merged++;
+    }
+    // Prune and redirect once per collection, rather than rebuilding every
+    // binding index for each of the thousands of retired dictionary entries.
+    for(const [category,rows] of Object.entries(l.bindings)){
+      l.bindings[category]=rows.filter(binding=>{if(!retired.has(binding.vocabularyId))return true;const target=retired.get(binding.vocabularyId);if(!target)return false;binding.vocabularyId=target;return true;});
+      rt.bindingIndexes.set(category,new Map(l.bindings[category].map(b=>[b.id,b])));rt.roleEntries.set(category,new Set(l.bindings[category].map(b=>b.vocabularyId)));
+    }
+    for(const [alias,id] of Object.entries(l.aliases))if(retired.has(id)){const target=retired.get(id);if(target){l.aliases[alias]=target;rt.importedAliases.delete(alias);}else delete l.aliases[alias];}
+    const duration=l.entries['lex:q-kinnichir'], prior=policy.signatures['lex:q-kinnichir'];
+    if(duration&&prior&&duration.p===prior.p&&duration.g===prior.g&&!protectedEntry(duration)){duration.p='kinnā cir';duration.g='ਕਿੰਨਾ ਚਿਰ';duration.formCorrection='Duration interrogative uses masculine cir; learner edits are preserved.';}
+    for(const entry of Object.values(l.entries))if(!entry.deleted)assessEntry(rt,entry);
+    for(const entry of Object.values(l.entries)){
+      if(entry.deleted)continue;
+      entry.displayLabel=policy.labels[entry.id]||entry.e;
+      // A citation/reading construction uses the unchanged dictionary form,
+      // without inventing an adjective paradigm or unreviewed finite verb.
+      if(!entry.p||!entry.g)continue;
+      const wordId=entry.primaryId+'@word-practice';
+      if(!rt.roleEntries.get('WORD')?.has(entry.id))addBinding(rt,'WORD',{id:wordId,vocabularyId:entry.id,enabled:true});
+      if(entry.partOfSpeech==='noun'&&!rt.roleEntries.get('WHAT')?.has(entry.id)){
+        const sense=(entry.senses||[]).find(s=>s.contextualGloss&&s.sentenceEligible!==false);
+        if(sense)addBinding(rt,'WHAT',{id:entry.primaryId+'@direct-identification',vocabularyId:entry.id,selectedSenseId:sense.id,enabled:true,construction:'direct-identification-only'});
+      }
+    }
+    // Reference-list vocabulary is still available centrally to Word Game.
+    // Only the migrated lexical roles are presented as sentence blocks.
+    if(!l.catalogVersion)for(const rows of Object.values(l.bindings))for(const b of rows){if(['why-kiuki','why-iskarke','why-islai'].includes(b.id))b.enabled=true;}
+    l.catalogVersion=policy.version;l.catalogMigration=l.catalogMigration||count;l.catalogAliases=Object.assign({},policy.merges);
+    for(const entry of Object.values(l.entries))if(entry.importedDataset&&!protectedEntry(entry))rt.importedBaselines.set(entry.id,stableJSON(entry));
+    for(const [category,rows] of Object.entries(l.bindings))for(const b of rows)if(l.entries[b.vocabularyId]?.importedDataset&&!protectedEntry(l.entries[b.vocabularyId]))rt.importedBindings.set(category+':'+b.id,stableJSON(b));
+    syncRuntime(rt);
+  }
   function install(state, options) {
     if (!record(state)) throw new TypeError('A state object is required.');
     options = options || {};
+    if(!options.catalogPolicy&&state.linguistic&&state.linguistic.catalogVersion)options=Object.assign({},options,{catalogPolicy:bundledCatalogPolicy});
     let rt = runtimes.get(state);
     if (!rt) {
       const legacyVocab = state.vocab, legacyVerbs = state.verbs;
@@ -546,6 +598,24 @@
       rt.linguistic.auditVersion = rt.audit && rt.audit.version || 1;
     }
     syncRuntime(rt);
+    if(options.catalogPolicy){
+      const policy=options.catalogPolicy, firstCatalogLoad=!rt.linguistic.catalogVersion;
+      if(!rt.linguistic.catalogVersion&&options.beforeCatalogChange&&options.beforeCatalogChange()===false)rt.linguistic.catalogMigrationBlocked=true;
+      else if(!rt.linguistic.catalogVersion){applySentenceCatalog(rt,policy);delete rt.linguistic.catalogMigrationBlocked;}
+      else {
+        // Reconstructed unmodified imports are retired again on every load.
+        // Progress consolidation runs only for entries still present.
+        applySentenceCatalog(rt,policy);
+      }
+      if((firstCatalogLoad||options.catalogNormalizationPass)&&!rt.linguistic.catalogMigrationBlocked&&(options.catalogNormalizationPass||0)<2){
+        // Hydrate the compact representation once so newly merged source
+        // aliases and derived role bindings have the same shape on first load
+        // and reload. Keep saved sentences/settings on their original objects.
+        state.linguistic=JSON.parse(JSON.stringify(snapshot(state,{compact:true}).linguistic));
+        runtimes.delete(state);
+        return install(state,Object.assign({},options,{catalogNormalizationPass:(options.catalogNormalizationPass||0)+1}));
+      }
+    }
     return state;
   }
   function upsert(state, row, options) {
@@ -804,6 +874,12 @@
     syncRuntime(rt);
     return true;
   }
+  function shortTitle(value, fallback) {
+    const phrases={'so that':'purpose','after that':'afterward','so / therefore':'therefore','because of this / therefore':'therefore','for this reason':'therefore','how much':'quantity','how many':'quantity','how long':'duration','how far':'distance','what else':'else'};
+    if(phrases[value])return phrases[value];
+    const first=text(value).replace(/^to /i,'').replace(/^(?:about|at|in|on|with|for|from|because) (?:the |my |your |it is )?/i,'').split(/[,;/]/)[0].replace(/\([^)]*\)/g,'').trim().replace(/^(?:a|an|the) /i,'');
+    return first.split(/\s+/)[0]||fallback||value;
+  }
   function vocabulary(state, options) {
     const rt = runtime(state);
     options = options || {};
@@ -862,6 +938,9 @@
           if (Array.isArray(sense.semanticTags)) view.semanticTags = sense.semanticTags.slice();
         }
       }
+      view.dictionaryEnglish=view.english;
+      if(rt.linguistic.catalogVersion)view.english=shortTitle(view.english, entry.displayLabel);
+      view.meaning=(view.dictionaryEnglish||'').split(/\s+/).slice(0,10).join(' ');
       output.push(view);
     }
     return output;
@@ -897,7 +976,7 @@
         }
       }
       for (const [id, vocabularyId] of Object.entries(linguistic.aliases)) {
-        if (!rt.importedAliases.has(id)) central.aliases[id] = vocabularyId;
+        if (!rt.importedAliases.has(id) || linguistic.tombstones[id] && linguistic.tombstones[id].reason === 'duplicate-consolidated') central.aliases[id] = vocabularyId;
       }
       for (const [id, category] of Object.entries(linguistic.categories)) {
         central.categories[id] = Object.assign({}, category, { vocabularyIds: [] });
@@ -905,7 +984,7 @@
       central.verbIds = linguistic.verbIds.filter(id => own(central.entries, id));
       central.bundledDataset = { id: BUNDLED_DATASET, schemaVersion: SCHEMA_VERSION };
       persisted.linguistic = central;
-      return clone(persisted);
+      return JSON.parse(stableJSON(clone(persisted)));
     }
     return clone(state);
   }

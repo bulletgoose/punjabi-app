@@ -382,6 +382,7 @@
     pastState: ['oh kal khush sī', 'ਉਹ ਕੱਲ੍ਹ ਖ਼ੁਸ਼ ਸੀ', 'She was happy yesterday.'], pastProgressObject: ['oh kal kitāb paṛh rahī sī', 'ਉਹ ਕੱਲ੍ਹ ਕਿਤਾਬ ਪੜ੍ਹ ਰਹੀ ਸੀ', 'She was reading a book yesterday.'], pastHabit: ['main pehlā̃ kitāb paṛhdā sī', 'ਮੈਂ ਪਹਿਲਾਂ ਕਿਤਾਬ ਪੜ੍ਹਦਾ ਸੀ', 'I used to read a book.'], pastWent: ['oh kal ghar gaī sī', 'ਉਹ ਕੱਲ੍ਹ ਘਰ ਗਈ ਸੀ', 'She went home yesterday.']
   };
   function metadataFor(template) {
+    if(template.engine==='sentence-learning-v1')return {requiredRoles:template.requiredRoles||[],optionalRoles:[],grammarConceptIds:template.grammarConceptIds||[],prerequisiteGrammarConceptIds:template.grammarConceptIds||[],requiredVocabularyIds:template.requiredVocabularyIds||[],scenarioIds:template.scenarioIds||[],semanticRestrictions:{scope:'explicit connector/quantity/question/citation construction'},agreementRules:['construction-specific'],reviewStatus:template.reviewStatus};
     if (newById[template.id]) {
       const metadata = JSON.parse(JSON.stringify(newById[template.id]));
       // Connecting registries must preserve the learner's template settings.
@@ -427,6 +428,7 @@
       example: example ? { roman: example[0] + (question ? '?' : '.'), gurmukhi: example[1] + (question ? '?' : '।'), english: example[2], reviewStatus: 'illustrative; native-review-pending' } : null, source: REFERENCE, reviewStatus: legacyRoles[pattern] ? 'curated-pattern; native-review-pending' : 'experimental-custom-slots' };
   }
   function dependenciesFor(template) {
+    if(template&&template.engine==='sentence-learning-v1')return (template.requiredVocabularyIds||[]).slice();
     const pattern = newById[template && template.id] ? newById[template.id].pattern : template && template.pattern;
     const dependencies = { finiteFutureMotion: ['v-jana'], finiteFutureQuestion: ['q-ki'], perfectiveOrigin: ['v-auna'], originProgressive: ['v-auna'], accompaniment: ['v-jana'], giveRecipient: ['v-dena'], perfectiveRecipient: ['v-dena'], instrument: ['v-likhna'], causalProgressive: ['v-intazar'], nominalWhereQuestion: ['q-kithe'] };
     return (dependencies[pattern] || legacyDependencies[pattern] || []).slice();

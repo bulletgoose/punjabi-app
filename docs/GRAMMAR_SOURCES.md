@@ -104,3 +104,44 @@ meaning classes. Unmapped specialized targets remain restricted at sense level
 with explicit reasons; other supported senses of the same lexical entry remain
 available. These constraints reflect the retained dictionary's usage wording.
 They do not constitute newly obtained fluent-speaker verification.
+
+## Connector and reference-list constructions (2026-10-13)
+
+P72–P86 provide distinct placements for and, but, purpose, condition, temporal
+when, then, however, or, because, result, concession, also, first, after that
+and finally. The forms come from the existing authored connector entries;
+lexical IDs are retained in the emitted breakdown. Habitual clauses use the
+existing checked conjugator and subject agreement. Cause/result examples use
+a bounded work/tired relationship rather than randomly linking unrelated
+clauses. Concessive ਭਾਵੇਂ … ਪਰ is represented by natural English “although”
+without duplicating English “but.” Independent speaker review remains pending.
+
+The purpose clause uses a bare checked verb stem plus the explicit subjunctive
+of ਸਕ: ਸਕਾਂ, ਸਕੇਂ, ਸਕੇ, ਸਕੀਏ, ਸਕੋ, ਸਕਣ, selected by person and number. These
+are the §5.21 subjunctive pattern; gender does not select a different
+subjunctive. Indicative ਸਕਦਾ ਹਾਂ is not substituted into this purpose frame.
+
+P87 identifies a numeral, without inferring agreement of an arbitrary counted
+noun. P96 has the explicitly bounded feminine consonant-stem pair ਕਿਤਾਬ /
+ਕਿਤਾਬਾਂ (§5.4), cardinal one versus two–twenty and singular ਹੈ versus plural ਹਨ.
+This rule does not license automatic pluralization of every imported noun.
+
+P88 quotes the unchanged canonical spelling in “X ਕਹੋ” (say X). ਕਹੋ is the
+existing polite imperative supported by §5.23. Quoting an adjective, infinitive,
+expression or number does not establish its conversational argument structure
+or grammatical inflection. Coverage through P88 is reported separately from
+ordinary sentence-role coverage. Seven additional question constructions
+(P89–P95) use identity, dative recipients, gender agreement of whose,
+additional things, masculine ਚਿਰ duration, distance and independent quantity.
+
+These are deterministic reference-supported constructions, not newly obtained
+fluent-speaker verification. Existing sense restrictions and unsupported verb
+paradigms remain restricted. Full source evidence is retained even when an
+entry is excluded from the active catalog by the user's cleanup policy.
+
+The October 13 regression suite also distinguishes the exact dictionary sense
+“pupil (of the eye)” from a student. Its anatomical qualifier is retained
+before definition-head classification, and it cannot provide a human subject
+for work/sleep connector clauses. Connector subjects must have a compatible
+selected human sense (or pronoun); entry-level homograph tags alone do not
+establish compatibility.

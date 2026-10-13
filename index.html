@@ -332,6 +332,8 @@
   .breakdown-actions{display:flex;gap:8px;flex-wrap:wrap;grid-column:1/-1}.breakdown-actions button{min-height:36px!important}
   .vocabulary-toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:12px 0}.vocabulary-toolbar label{display:flex;align-items:center;gap:6px}.vocabulary-toolbar input[type="search"]{flex:1 1 190px;min-height:42px;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--ink)}
   .vocabulary-category{margin-bottom:12px}.vocabulary-category summary{cursor:pointer;font-size:20px;font-weight:700;list-style-position:inside}.vocabulary-category[open] summary{margin-bottom:14px}.vocabulary-cache{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px}.vocabulary-cache .note{margin:0}.vocabulary-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}.vocabulary-word{border:1px solid var(--border);border-radius:12px;padding:12px;background:var(--surface-2);cursor:pointer}.vocabulary-word:hover,.vocabulary-word:focus-visible{border-color:var(--teal);box-shadow:0 0 0 2px color-mix(in srgb,var(--teal) 20%,transparent);outline:none}.vocabulary-word[aria-busy="true"]{opacity:.7}
+  .vocabulary-list{display:flex;flex-direction:column;gap:4px}.vocabulary-word{display:grid;grid-template-columns:minmax(0,1fr) 105px;column-gap:12px;padding:7px 10px;border-radius:7px}.vocab-word-main{display:grid;grid-template-columns:minmax(100px,1fr) 85px minmax(100px,1fr) minmax(100px,1fr);align-items:center;gap:3px 12px}.vocab-word-main strong{font-size:16px!important}.vocab-pos{font-size:12px;color:var(--muted)}.vocab-gurmukhi{font-size:20px}.vocab-roman{font-size:14px}.vocab-short-meaning{grid-column:1/-1;font-size:12px;color:var(--muted);line-height:1.3}.vocab-word-mastery{font-size:11px;align-self:center}.word-details{grid-column:1/-1;font-size:13px}.word-details summary{font-size:12px!important}.word-details:not([open]){margin:2px 0 0}.word-meaning-details ul{margin:5px 0;padding-left:18px}.vocabulary-word .speech-message:empty{display:none}.vocabulary-category.panel{padding:10px}.vocabulary-cache{margin-bottom:6px}.vocabulary-category[open] summary{margin-bottom:6px}
+  @media(max-width:650px){.vocab-word-main{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:2px 8px}.vocab-pos{justify-self:end}.vocab-gurmukhi{grid-column:1}.vocab-roman{grid-column:2}.vocabulary-word{grid-template-columns:minmax(0,1fr) 75px;gap:5px 8px}.vocab-short-meaning{overflow-wrap:anywhere}.vocab-word-mastery{font-size:10px}}
   .vocabulary-word strong{font-size:19px}.vocabulary-word p{margin:4px 0}.vocabulary-progress{width:100%;height:9px;accent-color:var(--teal)}.vocabulary-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted)}
   .fluency-badge{padding:3px 8px;border-radius:999px;background:var(--surface-2);font-weight:700;color:var(--ink)}.fluency-fluent,.fluency-strong{background:color-mix(in srgb,var(--teal) 18%,var(--surface));color:var(--teal)}.fluency-needs-practice{background:color-mix(in srgb,var(--magenta) 14%,var(--surface));color:var(--magenta)}
   .chip-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.chip-actions button{min-height:34px!important;min-width:34px}
@@ -481,6 +483,8 @@
 <script src="./data/source-evidence.js?v=1"></script>
 <script src="./data/authored-category-baselines.js?v=1"></script>
 <script src="./vocabulary-audit.js?v=1"></script>
+<script src="./data/sentence-catalog-policy.js?v=1"></script>
+<script src="./sentence-learning.js?v=1"></script>
 <script src="./data/vocabulary-expansion.js?v=1"></script>
 <script src="./data/grammar-ready-vocabulary.js?v=1"></script>
 <script src="./vendor/ts-fsrs-5.4.2/index.umd.js"></script>
@@ -724,7 +728,7 @@
     const questionExtras=[
       word('q-kehra','kehṛā','which',{role:'which'}), word('q-kinna','kinnā','how much',{role:'amount'}), word('q-kinne','kinne','how many',{role:'count'}),
       word('q-kisnu','kis nū̃','whom',{role:'personObject'}), word('q-kisda','kis dā','whose',{role:'possessive'}), word('q-kihor','hor kī','what else',{role:'thing'}),
-      word('q-kinnichir','kinnī cir','how long',{role:'duration'}), word('q-kiniduur','kinnī dūr','how far',{role:'distance'})
+      word('q-kinnichir','kinnā cir','how long',{role:'duration'}), word('q-kiniduur','kinnī dūr','how far',{role:'distance'})
     ];
     addMany('QUESTION',questionExtras);
     const qRoles={'q-ki':'thing','q-kithe':'place','q-kado':'time','q-kive':'manner','q-kiu':'reason','q-kaun':'person'};
@@ -1018,8 +1022,8 @@
     catch(e){ console.warn('Could not save data.', e); }
   }
 
-  const CATEGORY_LABELS = {LEXICON:'Dictionary words',WHO:'Who', WHEN:'When', WHERE:'Where', WHAT:'What', HOW:'How', WHY:'Reasons', ABOUT:'About', QUESTION:'Question words', CONNECTOR:'Connectors', STATE:'States & feelings', ADJECTIVE:'Descriptive words (word game)', NUMBER:'Numbers (word game)', GAME_VEGETABLES:'Vegetables (word game)',GAME_FRUITS:'Fruits (word game)',GAME_SPICES:'Spices (word game)',GAME_EDUCATION:'Education (word game)',GAME_CLOTHES:'Clothes (word game)',GAME_BODY:'Parts of the body (word game)',GAME_NATURE:'Nature (word game)',GAME_EVERYDAY:'Everyday items (word game)'};
-  const CATEGORY_ORDER = ['WHO','WHEN','WHERE','WHAT','HOW','WHY','ABOUT','QUESTION','CONNECTOR','STATE','ADJECTIVE','NUMBER','GAME_VEGETABLES','GAME_FRUITS','GAME_SPICES','GAME_EDUCATION','GAME_CLOTHES','GAME_BODY','GAME_NATURE','GAME_EVERYDAY'];
+  const CATEGORY_LABELS = {LEXICON:'Dictionary words',WHO:'Who', WHEN:'When', WHERE:'Where', WHAT:'What', HOW:'How', WHY:'Reasons', ABOUT:'About', QUESTION:'Question words', CONNECTOR:'Connectors', STATE:'States & feelings', WORD:'Word practice',ADJECTIVE:'Adjectives', NUMBER:'Numbers', GAME_VEGETABLES:'Vegetables (word game)',GAME_FRUITS:'Fruits (word game)',GAME_SPICES:'Spices (word game)',GAME_EDUCATION:'Education (word game)',GAME_CLOTHES:'Clothes (word game)',GAME_BODY:'Parts of the body (word game)',GAME_NATURE:'Nature (word game)',GAME_EVERYDAY:'Everyday items (word game)'};
+  const CATEGORY_ORDER = ['WHO','WHEN','WHERE','WHAT','HOW','WHY','ABOUT','QUESTION','CONNECTOR','STATE','ADJECTIVE','NUMBER','WORD'];
 
   function uid(prefix){ return prefix + '-' + Math.random().toString(36).slice(2,9); }
 
@@ -1652,6 +1656,10 @@
   function meaningAndUsageMarkup(word,context,options){
     if(!word)return '';
     context=context||{};options=options||{};
+    if(options.compact){
+      const definitions=window.PunjabiLexicalSemantics.normalizeSenses(word).map(s=>s.english);
+      return '<div class="word-meaning-details"><strong>Meaning and usage</strong><ul>'+Array.from(new Set(definitions)).map(d=>'<li>'+escapeHtml(d)+'</li>').join('')+'</ul></div>';
+    }
     const visibility=options.visibility||{},global=Boolean(options.useGlobalPrefs);
     const englishClass=global?' learning-script-english':'';
     const englishHidden=visibility.english===false?' hidden':'';
@@ -1689,7 +1697,7 @@
     const pronunciation=options.pronunciation&&(word.g||word.gurmukhi)?'<div class="breakdown-actions"><button type="button" class="btn" data-speak-word="play">🔊 Dictionary form</button><button type="button" class="btn" data-speak-word="slow">🐢 Slow dictionary form</button></div>':'';
     return '<section class="lexical-usage-details" data-vocabulary-id="'+escAttr(word.id||'')+'"'+(context.senseId?' data-selected-sense-id="'+escAttr(context.senseId)+'"':'')+' data-word data-roman="'+escAttr(word.p||word.roman||'')+'" data-gurmukhi="'+escAttr(word.g||word.gurmukhi||'')+'" data-english="'+escAttr(selectedMeaning||word.e||word.english||'')+'">'+canonical+
       '<div'+(englishClass?' class="'+englishClass.trim()+'"':'')+englishHidden+'>'+ (grammar.length?'<p class="note">'+escapeHtml(grammar.join(' · '))+'</p>':'')+(topics.length?'<p class="note">Topics: '+escapeHtml(topics.join(' · '))+'</p>':'')+'</div>'+explanations+
-      '<div'+(englishClass?' class="'+englishClass.trim()+'"':'')+englishHidden+'>'+usage.map(function(note){return '<p><strong>Usage:</strong> '+escapeHtml(note)+'</p>';}).join('')+(exampleMarkup?'<p><strong>Recorded examples:</strong></p>'+exampleMarkup:'')+'<p class="note">'+escapeHtml(lexicalReviewDescription(word))+'</p>'+lexicalAssessmentMarkup(word)+sourceLink+'</div>'+pronunciation+'</section>';
+      '<div'+(englishClass?' class="'+englishClass.trim()+'"':'')+englishHidden+'>'+usage.map(function(note){return '<p><strong>Usage:</strong> '+escapeHtml(note)+'</p>';}).join('')+(exampleMarkup?'<p><strong>Recorded examples:</strong></p>'+exampleMarkup:'')+sourceLink+'</div>'+pronunciation+'</section>';
   }
   function sentencePartDetailsMarkup(part,visibility,useGlobalPrefs){
     const lexical=window.PunjabiLinguisticSystem;
@@ -2443,7 +2451,7 @@
     HOW:'ਬਹੁਤ|ਥੋੜ੍ਹਾ|ਬਹੁਤ ਜ਼ਿਆਦਾ|ਚੰਗੀ ਤਰ੍ਹਾਂ|ਹੌਲੀ-ਹੌਲੀ|ਧਿਆਨ ਨਾਲ|ਇਕੱਠੇ|ਇਕੱਲੇ|ਆਨਲਾਈਨ|ਆਸਾਨੀ ਨਾਲ|ਮੁਸ਼ਕਲ ਨਾਲ|ਖ਼ੁਸ਼ੀ ਨਾਲ|ਦੁਬਾਰਾ|ਸਾਫ਼ ਤੌਰ ਤੇ|ਚੁੱਪ-ਚਾਪ|ਸਿੱਧੇ ਤੌਰ ਤੇ|ਫ਼ੋਨ ਤੇ',
     WHY:'ਕਿਉਂਕਿ|ਇਸ ਕਰਕੇ|ਇਸ ਲਈ|ਕਿਉਂਕਿ ਇਹ ਜ਼ਰੂਰੀ ਹੈ|ਕਿਉਂਕਿ ਸਮਾਂ ਘੱਟ ਹੈ|ਕਿਉਂਕਿ ਮੌਸਮ ਚੰਗਾ ਹੈ|ਕਿਉਂਕਿ ਅੱਜ ਛੁੱਟੀ ਹੈ|ਕਿਉਂਕਿ ਇਹ ਸੌਖਾ ਹੈ|ਕਿਉਂਕਿ ਇਹ ਫ਼ਾਇਦੇਮੰਦ ਹੈ|ਕਿਉਂਕਿ ਦੇਰ ਹੋ ਰਹੀ ਹੈ|ਕਿਉਂਕਿ ਇਸ ਦੀ ਲੋੜ ਹੈ',
     ABOUT:'ਏਆਈ ਬਾਰੇ|ਪੰਜਾਬੀ ਬਾਰੇ|ਤੁਹਾਡੇ ਕੰਮ ਬਾਰੇ|ਪਰਿਵਾਰ ਬਾਰੇ|ਕੰਮ ਬਾਰੇ|ਮੌਸਮ ਬਾਰੇ|ਸਫ਼ਰ ਬਾਰੇ|ਖਾਣੇ ਬਾਰੇ|ਸਿਹਤ ਬਾਰੇ|ਪੈਸੇ ਬਾਰੇ|ਯੋਜਨਾ ਬਾਰੇ|ਸਮੱਸਿਆ ਬਾਰੇ|ਖ਼ਬਰਾਂ ਬਾਰੇ|ਫ਼ਿਲਮ ਬਾਰੇ|ਪੜ੍ਹਾਈ ਬਾਰੇ',
-    QUESTION:'ਕੀ|ਕਿੱਥੇ|ਕਦੋਂ|ਕਿਵੇਂ|ਕਿਉਂ|ਕੌਣ|ਕਿਹੜਾ|ਕਿੰਨਾ|ਕਿੰਨੇ|ਕਿਸ ਨੂੰ|ਕਿਸ ਦਾ|ਹੋਰ ਕੀ|ਕਿੰਨੀ ਚਿਰ|ਕਿੰਨੀ ਦੂਰ',
+    QUESTION:'ਕੀ|ਕਿੱਥੇ|ਕਦੋਂ|ਕਿਵੇਂ|ਕਿਉਂ|ਕੌਣ|ਕਿਹੜਾ|ਕਿੰਨਾ|ਕਿੰਨੇ|ਕਿਸ ਨੂੰ|ਕਿਸ ਦਾ|ਹੋਰ ਕੀ|ਕਿੰਨਾ ਚਿਰ|ਕਿੰਨੀ ਦੂਰ',
     CONNECTOR:'ਅਤੇ|ਪਰ|ਤਾਂ ਜੋ|ਜੇ|ਜਦੋਂ|ਫਿਰ|ਲੇਕਿਨ|ਜਾਂ|ਕਿਉਂਕਿ|ਇਸ ਕਰਕੇ|ਭਾਵੇਂ|ਵੀ|ਪਹਿਲਾਂ|ਉਸ ਤੋਂ ਬਾਅਦ|ਆਖ਼ਰ ਵਿੱਚ',
     STATE:'ਠੀਕ|ਖ਼ੁਸ਼|ਰੁੱਝਿਆ|ਥੱਕਿਆ|ਤਿਆਰ|ਭੁੱਖਾ|ਪਿਆਸਾ|ਬਿਮਾਰ|ਵੇਹਲਾ|ਲੇਟ|ਪੱਕਾ|ਫ਼ਿਕਰਮੰਦ'
   };
@@ -2623,6 +2631,7 @@
   // same selection tape; no fresh randomness, reroll, or transliteration occurs.
   function assembleFromTemplate(template){
     if(!template||!template.enabled)return null;
+    if(window.PunjabiSentenceLearning&&window.PunjabiSentenceLearning.handles(template))return window.PunjabiSentenceLearning.generate(template,state,pickRandom,{grammar:window.PunjabiGrammarEngine,semantics:window.PunjabiLexicalSemantics,lexical:window.PunjabiLinguisticSystem});
     if(window.PunjabiGrammarEngine.isStructuredTemplate(template))return window.PunjabiGrammarEngine.generate(template,state,pickRandom);
     // Fixed grammatical words are explicit dependencies, too: an enabled
     // template cannot silently reintroduce a disabled subject, verb or question.
@@ -3095,10 +3104,11 @@
       return '<details class="panel vocabulary-category" data-vocabulary-group="'+escAttr(category)+'"'+(isOpen?' open':'')+'><summary>'+escapeHtml(category)+' <span class="pill">'+items.length+'</span></summary><div class="vocabulary-cache"><button type="button" class="btn" data-cache-category="'+escapeHtml(category)+'">Download section</button><p class="note vocabulary-cache-status" role="status" aria-live="polite">Only missing recordings will be downloaded.</p></div><div class="vocabulary-list">'+(isOpen?items.slice(0,limit):[]).map(item=>{
         const progress=window.PunjabiLearningContext.wordProgress(item,wordProgress),correct=progress.correct||0,wrong=progress.wrong||0,total=correct+wrong,accuracy=total?Math.round(correct/total*100):0;
         const fluency=fluencyStatus(progress);
-        const gender=item.gender==='m'?'masculine':item.gender==='f'?'feminine':'gender unrecorded';
         const source=window.PunjabiLinguisticSystem.get(state,item.vocabularyId);
-        const grammar=[item.partOfSpeech,gender,item.number==='pl'?'plural':item.number==='sg'?'singular':'',...(source&&source.roles||[])].filter(Boolean).join(' · ');
-        return '<article class="vocabulary-word" role="button" tabindex="0" aria-label="Play '+escapeHtml(item.english)+'" data-id="'+escapeHtml(item.id)+'"><strong>'+escapeHtml(item.english)+'</strong><p class="vocab-gurmukhi" lang="pa-Guru"'+(vocabularyPrefs.gurmukhi?'':' hidden')+'>'+escapeHtml(item.gurmukhi)+'</p><p class="vocab-roman" lang="pa-Latn"'+(vocabularyPrefs.roman?'':' hidden')+'>'+escapeHtml(item.roman)+'</p><p class="note">'+escapeHtml(grammar)+'</p><p class="note">'+escapeHtml(thematicLabels(item).join(' · '))+'</p><details class="word-details"><summary>Meaning and usage</summary>'+meaningAndUsageMarkup(source||item,{senseId:item.displaySenseId}, {dictionaryForm:false})+'</details><button type="button" class="btn ghost" data-edit-vocabulary="'+escapeHtml(item.vocabularyId)+'">Edit word</button><div class="vocabulary-meta"><span class="fluency-badge fluency-'+fluency.toLowerCase().replace(/\s+/g,'-')+'">'+fluency+'</span><span>'+correct+' / 100 correct</span><span>'+wrong+' wrong</span>'+(total?'<span>'+accuracy+'% accuracy</span>':'')+'</div><div class="note">'+escapeHtml(memoryLabel(progress))+'</div><progress class="vocabulary-progress" value="'+Math.min(correct,100)+'" max="100" aria-label="Fluency progress"></progress><p class="speech-message" role="status" aria-live="polite"></p></article>';
+        const memory=window.PunjabiMemory?window.PunjabiMemory.state(progress):null;
+        const mastery=memory&&!memory.new?Math.min(100,Math.round(100*Math.log1p(memory.stability)/Math.log1p(90)*(memory.retrievability||0))):Math.min(correct,25);
+        const meaning=(item.meaning||item.dictionaryEnglish||item.english).split(/\s+/).slice(0,10).join(' ');
+        return '<article class="vocabulary-word" role="button" tabindex="0" aria-label="Play '+escapeHtml(item.english)+'" data-id="'+escapeHtml(item.id)+'"><div class="vocab-word-main"><strong>'+escapeHtml(item.english)+'</strong><span class="vocab-pos">'+escapeHtml(item.partOfSpeech)+'</span><span class="vocab-gurmukhi" lang="pa-Guru"'+(vocabularyPrefs.gurmukhi?'':' hidden')+'>'+escapeHtml(item.gurmukhi)+'</span><span class="vocab-roman" lang="pa-Latn"'+(vocabularyPrefs.roman?'':' hidden')+'>'+escapeHtml(item.roman)+'</span><span class="vocab-short-meaning">'+escapeHtml(meaning)+'</span></div><div class="vocab-word-mastery"><span>Mastery '+mastery+'%</span><progress class="vocabulary-progress" value="'+mastery+'" max="100" aria-label="Vocabulary mastery"></progress></div><details class="word-details"><summary>Meaning</summary>'+meaningAndUsageMarkup(source||item,{senseId:item.displaySenseId},{compact:true})+'<button type="button" class="btn ghost" data-edit-vocabulary="'+escapeHtml(item.vocabularyId)+'">Edit word</button></details><p class="speech-message" role="status" aria-live="polite"></p></article>';
       }).join('')+'</div>'+(isOpen&&items.length>limit?'<button type="button" class="btn" data-more-vocabulary="'+escapeHtml(category)+'">Show more words</button>':'')+'</details>';
     }).join('')||'<p class="panel">No words match this search.</p>';
   }
@@ -3475,14 +3485,20 @@
   function renderWordGame(){if(gameSession.phase==='setup')renderGameSetup();else if(gameSession.phase==='round')renderGameRound();}
   function initializeLearning(){
     installScriptData();
-    window.PunjabiLinguisticSystem.install(state,{categories:window.PunjabiLearningContext.categories,expansion:bundledVocabulary,audit:window.PunjabiVocabularyAudit,grammar:window.PunjabiGrammarEngine});
+    window.PunjabiLinguisticSystem.install(state,{categories:window.PunjabiLearningContext.categories,expansion:bundledVocabulary,audit:window.PunjabiVocabularyAudit,grammar:window.PunjabiGrammarEngine,catalogPolicy:window.PUNJABI_SENTENCE_CATALOG_POLICY,beforeCatalogChange:function(){
+      try{const key='punjabi-app-state-before-sentence-catalog-v1';if(!localStorage.getItem(key))localStorage.setItem(key,JSON.stringify(window.PunjabiLinguisticSystem.snapshot(state,{compact:true})));return true;}catch(error){return false;}
+    }});
     window.PunjabiGrammarEngine.templates.forEach(template=>{
+      if(!state.templates.some(t=>t.id===template.id))state.templates.push(JSON.parse(JSON.stringify(template)));
+    });
+    window.PunjabiSentenceLearning.templates.forEach(template=>{
       if(!state.templates.some(t=>t.id===template.id))state.templates.push(JSON.parse(JSON.stringify(template)));
     });
     window.PunjabiLearningContext.connect(state,window.PunjabiGrammarEngine,window.PunjabiLinguisticSystem);
     state.schemaVersion=6;
     save();
     if(!linguisticMigrationAllowed)showSpeechStatus('Your library is available for this session. Browser storage could not save a migration backup; new library changes cannot be saved until device storage is available.');
+    if(state.linguistic.catalogMigrationBlocked)showSpeechStatus('Your previous vocabulary has been preserved because the browser could not save a cleanup backup. Free browser storage and reload to apply the catalog update.');
     initializeFlashcardEvents();
     document.addEventListener('click',async event=>{
       const savePart=event.target.closest('[data-save-word]');
