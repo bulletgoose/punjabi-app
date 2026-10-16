@@ -38,6 +38,42 @@
     return gloss.replace(/[.!]$/,'');
   }
   function rolesOf(sense){return list(sense.compatibleRoles||sense.roles||sense.sentenceRoles||sense.buildingBlockRoles).map(role=>roleAliases[role]||role);}
+  const physicalTags=['physical-object','concrete','edible','drinkable','material','plant','animal','human','wearable','readable','tool','place'];
+  function contextTags(entry){
+    const tags=list(entry&&(entry.semanticTags||entry.tags)).slice();
+    if(tags.some(tag=>physicalTags.includes(tag))&&!tags.includes('physical-object'))tags.push('physical-object');
+    return tags;
+  }
+  // Restrictions describe argument classes, never Punjabi spellings. They
+  // apply even to an explicitly bound sense: a binding is not context proof.
+  function argumentCompatibility(sense,entry,context,meaning){
+    const role=roleAliases[context.role]||context.role,restrictions=sense.semanticRestrictions||{};
+    const described=context.described||(role==='description'&&(context.object||context.subject));
+    const targets=list(sense.modifierTargets||entry.modifierTargets);
+    if(described&&targets.length&&!targets.some(tag=>tag==='entity'||contextTags(described).includes(tag)))return false;
+    for(const argument of ['subject','object','recipient','described']){
+      const required=list(restrictions[argument+'Tags']),excluded=list(restrictions['excluded'+argument.charAt(0).toUpperCase()+argument.slice(1)+'Tags']);
+      const value=argument==='described'?described:context[argument];
+      if(value&&((required.length&&!required.some(tag=>contextTags(value).includes(tag)))||excluded.some(tag=>contextTags(value).includes(tag))))return false;
+    }
+    const head=key(meaning||sense.contextualGloss||sense.english).split(/[,;]/)[0];
+    // Evaluation of a task is not a botanical property; the same distinction
+    // applies to every adjective carrying these English senses.
+    if(described&&['difficult','hazardous','easy','arduous'].includes(head)&&!contextTags(described).some(tag=>['abstract','activity','task','human'].includes(tag)))return false;
+    if(role==='verb'&&context.object&&['allocate','allot'].includes(head)&&!contextTags(context.object).some(tag=>['economic','quantity','abstract'].includes(tag)))return false;
+    return true;
+  }
+  function dictionaryDisplayGloss(value,sense,entry){
+    const gloss=clean(value),match=gloss.match(/^(.*?) \(([^()]*)\)$/);
+    if(!match)return gloss;
+    const tags=list(sense.semanticTags).length?contextTags(sense):contextTags(entry);
+    const labels={plant:['plant','edible'],fruit:['plant','edible'],vegetable:['plant','edible'],animal:['animal'],person:['human']};
+    const label=match[2].toLowerCase(),pos=sense.partOfSpeech||entry.partOfSpeech||entry.pos;
+    // Remove only recognized dictionary category labels corroborated by the
+    // selected sense. Meaning-bearing parentheses and edited phrases survive.
+    if((labels[label]&&labels[label].some(tag=>tags.includes(tag)))||label===pos||(label==='informal'&&pos==='pronoun'))return match[1];
+    return gloss;
+  }
   function authoredPredicateMeaning(entry,sense){
     if(!entry||!sense||!((sense.partOfSpeech||entry.partOfSpeech)==='verb'||entry.infinitive)||!entry.base)return null;
     const alternatives=string(sense.english).split(/[,;/]/).map(value=>key(value));
@@ -52,15 +88,23 @@
     let gloss=overrideApplies?string(override.english):string(byRole[role]||byRole[context.role]||sense.contextualGloss||sense.sentenceGloss);
     if(!gloss&&(entry.id==='when-kal'||entry.primaryId==='when-kal'))gloss=context.tense==='past'||context.timeReference==='past'?'yesterday':context.tense==='future'||context.timeReference==='future'?'tomorrow':'';
     if(!gloss&&context.senseId&&entry.contextualGloss)gloss=string(entry.contextualGloss);
-    if(gloss)return conciseGloss(gloss,entry);
+    function render(gloss){
+      // Dividing/giving away food is naturally expressed as sharing it. This
+      // realizes the existing distribution sense, retaining its source ID and
+      // arguments; it does not add a dictionary definition or a recipient.
+      const alternatives=string(sense.english).split(/[,;]/).map(key);
+      if(!overrideApplies&&role==='verb'&&contextTags(context.object).some(tag=>['edible','drinkable'].includes(tag))&&alternatives.includes('give away')&&alternatives.includes('distribute')&&['distribute','divide'].includes(key(gloss)))gloss='to share';
+      return conciseGloss(overrideApplies?gloss:dictionaryDisplayGloss(gloss,sense,entry),entry);
+    }
+    if(gloss)return render(gloss);
     // An existing authored verb base is an explicit lexical choice. Verify it
     // against complete source alternatives; do not choose an alternative by
     // its position in a comma/slash-separated dictionary definition.
     const predicateMeaning=authoredPredicateMeaning(entry,sense);
-    if(predicateMeaning)return predicateMeaning;
+    if(predicateMeaning)return render(predicateMeaning);
     const bindingMeaning=conciseGloss(entry.e||entry.english,entry);
-    if(bindingMeaning&&key(bindingMeaning)===key(sense.english))return bindingMeaning;
-    return conciseGloss(sense.english,entry);
+    if(bindingMeaning&&key(bindingMeaning)===key(sense.english))return render(bindingMeaning);
+    return render(sense.english);
   }
   function selectSense(entry,context){
     context=context||{};
@@ -68,7 +112,11 @@
     const requested=context.senseId||context.selectedSenseId||entry&&entry.selectedSenseId||entry&&entry.senseId;
     const semanticTags=list(context.semanticTags).slice();
     const verb=context.verb||{};
-    if(verb.takesTags)semanticTags.push(...list(verb.takesTags));else if(verb.takesTag)semanticTags.push(verb.takesTag);
+    if(role==='object'){
+      if(verb.takesTags)semanticTags.push(...list(verb.takesTags));else if(verb.takesTag)semanticTags.push(verb.takesTag);
+    }
+    const related=role==='description'?context.described||context.object||context.subject:role==='verb'?context.object:null;
+    semanticTags.push(...contextTags(related));
     const candidates=[];
     for(const sense of senses){
       if(requested&&sense.id!==requested&&sense.sourceSenseId!==requested)continue;
@@ -86,6 +134,7 @@
       if(context.transitive===true&&sense.tags.includes('intransitive')&&!sense.tags.includes('transitive'))continue;
       if(context.transitive===false&&sense.tags.includes('transitive')&&!sense.tags.includes('intransitive'))continue;
       const meaning=contextualGloss(sense,entry,context);
+      if(!argumentCompatibility(sense,entry,context,meaning))continue;
       const evidence=[];let score=0;
       if(requested){score+=100;evidence.push('explicit-stable-sense-id');}
       if(role&&roles.includes(role))evidence.push('construction-role-compatibility');
@@ -93,6 +142,12 @@
       if(verbIds.length)evidence.push('authored-predicate-compatibility');
       const matches=sense.semanticTags.filter(tag=>semanticTags.includes(tag));
       if(matches.length){score+=matches.length*10;evidence.push('semantic-context:'+matches.join(','));}
+      if(related){
+        const targets=list(sense.modifierTargets||entry.modifierTargets).filter(tag=>contextTags(related).includes(tag));
+        if(targets.length){score+=targets.length*10;evidence.push('modifier-target:'+targets.join(','));}
+        evidence.push('sentence-argument-compatibility');
+        if(key(meaning)==='share'&&!string(sense.english).split(/[,;]/).map(key).includes('share'))evidence.push('food-context-realization-of-distribution-sense');
+      }
       if(context.transitive!==undefined&&sense.tags.includes(context.transitive?'transitive':'intransitive')){score+=5;evidence.push('source-argument-structure');}
       if(context.englishBase&&key(sense.english)===key(context.englishBase)){score+=20;evidence.push('authored-verb-gloss');}
       if(entry.translationOverride&&entry.translationOverride.source==='user'&&(entry.translationOverride.senseId===sense.id||entry.translationOverride.senseId===sense.sourceSenseId))evidence.push('user-edited-translation;review-needed');
@@ -122,7 +177,7 @@
     if(phraseMeaning){projected.e=phraseMeaning;projected.english=phraseMeaning;projected.phraseMeaning=phraseMeaning;projected.phraseTranslationEvidence='user-edited-phrase-translation;review-needed';projected.lexicalSelection.phraseTranslation={english:phraseMeaning,source:'user',reviewStatus:'unverified'};}
     if((entry.partOfSpeech||entry.pos)==='verb'||entry.infinitive)projected.base=result.contextualMeaning.replace(/^to /,'');
     const tags=result.sense.tags;
-    for(const field of ['gender','number','countability','englishCountability','person','englishPerson','inflections','gScript'])if(result.sense[field]!=null)projected[field]=result.sense[field];
+    for(const field of ['gender','number','countability','englishCountability','englishNumber','person','englishPerson','inflections','gScript','modifierTargets','modifierKind'])if(result.sense[field]!=null)projected[field]=result.sense[field];
     if(!projected.countability){if(tags.includes('uncountable'))projected.countability='mass';else if(tags.includes('countable'))projected.countability='count';}
     if(!result.sense.gender){if(tags.includes('feminine')&&!tags.includes('masculine'))projected.gender='f';else if(tags.includes('masculine')&&!tags.includes('feminine'))projected.gender='m';}
     const enrichedSemantics=result.sense.classification||result.sense.semanticProperties||result.sense.semanticTags.length;
@@ -159,9 +214,12 @@
     // English determiner behavior is independent of the Punjabi noun's
     // grammatical countability; an audited translation hint may supply it.
     const countability=entry&&(entry.englishCountability||entry.countability||entry.grammar&&entry.grammar.countability);
-    if(options.article==='definite')return 'the '+value;
-    if(options.article==='indefinite'||countability==='count'||countability==='countable'){
-      if(entry.number==='pl'||entry.englishNumber==='pl')return value;
+    const article=entry&&(entry.englishArticle||entry.definiteness)||options.article||(options.definite===true?'definite':options.definite===false?'indefinite':null);
+    if(article==='definite')return 'the '+value;
+    if(article==='bare'||article==='generic'||article==='none')return value;
+    if(['mass','uncountable'].includes(countability))return value;
+    if(article==='indefinite'||countability==='count'||countability==='countable'){
+      if((entry.englishNumber||entry.number)==='pl')return value;
       return (/^(?:honest|hour|heir|[aeiou])/i.test(value)&&!/^uni(?:vers|form|t)|^use|^euro/i.test(value)?'an ':'a ')+value;
     }
     // Unknown countability stays bare rather than inventing mass/count facts.

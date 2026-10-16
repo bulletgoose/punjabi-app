@@ -486,8 +486,8 @@
       const objectTags=tagsOf(object),cacheKey=objectTags.slice().sort().join('|');if(modifierCache.has(cacheKey))return modifierCache.get(cacheKey);
       const physical=objectTags.some(t=>['physical-object','concrete','edible','drinkable','buyable','wearable','readable','material','plant','animal'].includes(t));
       const allowed=['new','old','big','small','clean','dirty','heavy','light','long','short','expensive','cheap','beautiful'];
-      const candidates=adjectiveCandidates.filter(a=> {
-        const gloss=semantics&&semantics.selectSense(a,{role:'ADJECTIVE'}).contextualMeaning||a.e;
+      const candidates=adjectiveCandidates.map(a=>contextualize(a,{role:'ADJECTIVE',template:definition,described:object})).filter(Boolean).filter(a=> {
+        const gloss=a.e;
         if(['sweet','salty','sour','bitter','tasteless','bland','tasty','spicy'].includes(gloss)&&!objectTags.some(t=>['edible','drinkable'].includes(t)))return false;
         if(['empty','full','hollow'].includes(gloss)&&!objectTags.some(t=>['container','place','space'].includes(t)))return false;
         if(['thorny','prickly'].includes(gloss)&&!objectTags.includes('plant'))return false;
@@ -525,7 +525,7 @@
         part(location,'location',r,g,locationEnglish(location),'Checked locative noun phrase or locative adverb.');part(null,'auxiliary',auxR,auxG,plural?'are':'is','Copula agrees with the located noun.');
         return finish(nounEnglish(object,true)+' '+(plural?'are ':'is ')+locationEnglish(location));
       }
-      const description=select(adjectivesFor(object),'ADJECTIVE');
+      const description=select(adjectivesFor(object),'ADJECTIVE',{described:object});
       if(!description)return null;
       const key=agreementKey(object),r=description.forms[key]||(description.indeclinable?description.p:null),g=description.gScript.forms[key]||(description.indeclinable?description.g:null);
       if(!part(description,'description',r,g,description.e,'Adjective agrees with the described noun where its paradigm varies.'))return null;
@@ -594,7 +594,7 @@
     const mannerPool=pattern==='mannerProgressive'?enabled(vocab.HOW).map(t=>contextualize(t,{role:'HOW',template:definition})).filter(t=>t&&bilingual(t)):[];
     const fitsManner=(m,v)=>mannerActions.includes(v.base)&&(generalManners.includes(m.e)||(m.e==='together'||m.e==='separately')&&numberOf(subject)==='pl'||Array.isArray(specificManners[m.e])&&specificManners[m.e].includes(v.base));
     const mannerVerbs=enabled(state.verbs).filter(v=>mannerActions.includes(v.base)&&['roman','gurmukhi'].every(script=>conjugate({verb:v,subject,aspect,script}).ok)&&mannerPool.some(m=>fitsManner(m,v)));
-    const verb=select(pattern==='mannerProgressive'?mannerVerbs:verbs,'VERB');if(!verb)return null;
+    const verb=select(pattern==='mannerProgressive'?mannerVerbs:verbs,'VERB',{subject});if(!verb)return null;
     const args={verb,subject,aspect};const r=conjugate(args),g=conjugate({...args,script:'gurmukhi'});if(!r.ok||!g.ok)return null;
     part(subject,'subject',r.subjectText,g.subjectText,englishSubject(subject),r.grammarNote);
     let time,manner;
@@ -633,6 +633,7 @@
         const support = new Map();
         objects.forEach(object => {
           if (!compatible(verb, object) || !['m','f'].includes(object.gender) || !['sg','pl'].includes(object.number) || !validText(textOf(object,'roman'),'roman') || !validText(textOf(object,'gurmukhi'),'gurmukhi')) return;
+          if(!contextualize(verb,{role:'VERB',template:definition,subject:selected.subject,object,transitive:true}))return;
           const key = aspect === 'perfective' ? agreementKey(object) : 'subject';
           if (!support.has(key)) support.set(key, ['roman','gurmukhi'].every(script => conjugate({verb,object,subject:selected.subject,aspect,negative,question,script}).ok));
           if (support.get(key)) candidatePairs.push({verb,object});
@@ -679,7 +680,7 @@
     }
     for (const role of Object.keys(selected)) {
       if (!selected[role]) continue;
-      const projection = contextualize(selected[role], { role: ({subject:'WHO',object:'WHAT',verb:'VERB',recipient:'WHO',companion:'WHO',comparison:'WHAT',instrument:'WHAT',description:'ADJECTIVE',origin:'WHERE',destination:'WHERE'}[role] || role), verb: selected.verb, template: definition, transitive: role === 'verb' ? verbRulesFor(selected.verb).transitive : undefined });
+      const projection = contextualize(selected[role], { role: ({subject:'WHO',object:'WHAT',verb:'VERB',recipient:'WHO',companion:'WHO',comparison:'WHAT',instrument:'WHAT',description:'ADJECTIVE',origin:'WHERE',destination:'WHERE'}[role] || role), subject:selected.subject,object:selected.object,recipient:selected.recipient,described:role==='description'?selected.object:undefined,verb: selected.verb, template: definition, transitive: role === 'verb' ? verbRulesFor(selected.verb).transitive : undefined });
       if (!projection) return null;
       selected[role] = projection;
     }

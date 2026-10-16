@@ -1067,7 +1067,7 @@
   // that tag appears on the What-word's own tags. Verbs with a blank takesTag
   // never take a direct object at all (e.g. "gall karṇā" — to talk) — they are
   // only used in an object-less slot, never guessed against a random What-word.
-  function pickCompatibleWhatAndComplement(){
+  function pickCompatibleWhatAndComplement(context){
     const whats = enabledOf(state.vocab.WHAT);
     const complements = enabledOf(state.verbs).filter(function(v){ return v.isModalComplement && ((v.takesTags&&v.takesTags.length)||v.takesTag); });
     const pairs = [];
@@ -1075,10 +1075,14 @@
       complements.forEach(function(c){
         const required = (c.takesTags&&c.takesTags.length) ? c.takesTags : [c.takesTag];
         if(required.some(function(tag){return (w.tags||[]).indexOf(tag)!==-1;})){
+          const semantics=window.PunjabiLexicalSemantics;
+          const word=semantics?semantics.contextualEntry(w,Object.assign({},context,{role:'WHAT',verb:c})):w;
+          const verb=word&&(semantics?semantics.contextualEntry(c,Object.assign({},context,{role:'VERB',object:word,transitive:true})):c);
+          if(!word||!verb)return;
           // Compound predicates such as “answer” govern a postposition:
           // savāl dā javāb deṇā, not savāl javāb deṇā.
-          pairs.push({what:c.objectPostposition?Object.assign({},w,{p:w.p+' '+c.objectPostposition}):w,
-            verb:c.englishByObject&&c.englishByObject[w.id]?Object.assign({},c,{base:c.englishByObject[w.id]}):c});
+          pairs.push({what:verb.objectPostposition?Object.assign({},word,{p:word.p+' '+verb.objectPostposition}):word,
+            verb:verb.englishByObject&&verb.englishByObject[word.id]?Object.assign({},verb,{base:verb.englishByObject[word.id]}):verb});
         }
       });
     });
@@ -1378,13 +1382,13 @@
         if(part.category==='WHAT')precedingObject=part.value;
         if(part.category==='VERB'){
           const override=constructionOverrides.find(value=>value.objectRoman===precedingObject);
-          if(override){part.lexicalOverrides=[override.selection];part.grammarNote=(part.grammarNote?part.grammarNote+'; ':'')+override.note;}
+          if(override){part.lexicalOverrides=[override.selection];if(override.note)part.grammarNote=(part.grammarNote?part.grammarNote+'; ':'')+override.note;}
         }
       });
       const pu=phrases.map(function(part){return part.value;}).join(' ');
       return {punjabi:pu.replace(/\s+/g,' ').trim()+punc,english:capitalizeSentence(en)+punc,templateId:template.id,templateName:template.name,difficulty:template.difficulty,breakdown:breakdown,phraseBreakdown:phrases,signature:sig.join('|')};
     }
-    function pickPair(){ return pickCompatibleWhatAndComplement(); }
+    function pickPair(){ return pickCompatibleWhatAndComplement({subject:who,template:template}); }
     function bareVerb(exclude){
       const list=enabledOf(state.verbs).filter(function(v){
         return v.type==='simple' && (!v.takesTags||!v.takesTags.length) && !v.takesTag && (!exclude||exclude.indexOf(v.id)===-1);
@@ -1460,10 +1464,10 @@
       add('What',pair.what.p,'WHAT',pair.what.id); add('Action',pair.verb.infinitive,'VERB',pair.verb.id);
       if(pair.verb.englishByObject&&pair.verb.englishByObject[pair.what.id]&&pair.verb.lexicalSelection){
         constructionOverrides.push({objectRoman:pair.what.p,selection:Object.assign({},pair.verb.lexicalSelection,{contextualMeaning:pair.verb.base,meaningKind:'construction-translation',evidence:['authored-english-by-object'],constructionId:pair.verb.id+':'+pair.what.id}),note:'The light verb is translated with its object using the authored English expression “'+pair.verb.base+' '+pair.what.e+'”. Its dictionary sense remains unchanged.'});
-      }
+      }else if(pair.verb.lexicalSelection)constructionOverrides.push({objectRoman:pair.what.p,selection:pair.verb.lexicalSelection});
     }
     function subjectPart(subject,value,meaning,note){return phrase(value||subject.p,meaning||englishSubject(subject),'WHO',note);}
-    function objectPart(value,item,meaning,note){return phrase(value,meaning||englishObject(item),'WHAT',note);}
+    function objectPart(value,item,meaning,note){const part=phrase(value,meaning||englishObject(item),'WHAT',note);if(item.lexicalSelection)part.lexicalOverrides=[item.lexicalSelection];return part;}
     function habitualMeaning(verb,subject){return conjugateEnglish(verb.base,subject.englishPerson||subject.person||'3sg');}
     function progressiveMeaning(verb,subject){return englishBe(subject)+' '+englishGerund(verb.base);}
     function pastProgressiveMeaning(verb,subject){return englishPastBe(subject)+' '+englishGerund(verb.base);}
@@ -2557,7 +2561,7 @@
     }));
     return projected;
   }
-  const SENTENCE_ROW_FIELDS=['id','vocabularyId','primaryId','enabled','p','g','e','english','partOfSpeech','pos','selectedSenseId','senseId','senses','meanings','source','translationOverride','phraseTranslationOverride','contextualGloss','construction','semanticTags','tags','gender','number','countability','englishCountability','englishNumber','person','englishPerson','semanticProperties','semantic','semantics','ageClass','grammar','roleEligibility','verifiedGrammar','inflections','nounForms','gScript','root','infinitive','base','forms','type','prefix','habitual','future','perfective','takesTags','takesTag','subjectClass','isModalComplement','imperative','objectPostposition','englishByObject','dest','dative','withPossession','time','timeContexts','modifierTargets','modifierKind','indeclinable'];
+  const SENTENCE_ROW_FIELDS=['id','vocabularyId','primaryId','enabled','p','g','e','english','partOfSpeech','pos','selectedSenseId','senseId','senses','meanings','source','translationOverride','phraseTranslationOverride','contextualGloss','construction','semanticTags','tags','gender','number','countability','englishCountability','englishNumber','englishArticle','definiteness','person','englishPerson','semanticProperties','semantic','semantics','ageClass','grammar','roleEligibility','verifiedGrammar','inflections','nounForms','gScript','root','infinitive','base','forms','type','prefix','habitual','future','perfective','takesTags','takesTag','subjectClass','isModalComplement','imperative','objectPostposition','englishByObject','dest','dative','withPossession','time','timeContexts','modifierTargets','modifierKind','indeclinable'];
   function sentenceRowView(entry,overrides,fields){
     // Read only sentence fields from the live registry. Materialize them once
     // so compatibility loops use ordinary objects rather than nested proxies.

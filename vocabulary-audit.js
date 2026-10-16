@@ -142,6 +142,7 @@
   function adjective(words,kind,targets,categories){for(const word of words.split('|'))adjectiveHeads[word]={kind,targets,categories};}
   adjective('new|old|big|large|small|little|clean|dirty|filthy|heavy|light|long|short|wide|broad|narrow|thin|thick|tall|high|low|deep|shallow|flat|round|straight|crooked|soft|hard|solid|rough|smooth|wet|dry|moist|damp|empty|full|broken|fresh|raw|ripe|unripe|hot|warm|cold|cool|lukewarm|bitter|sweet|sour|salty|black|white|red|blue|green|yellow|brown|grey|gray|pink|purple|violet|orange|golden|bright|dark','physical',['physical-object'],['descriptions','appearance']);
   adjective('good|bad|useful|useless|beautiful|expensive|cheap|priceless|valuable|invaluable|common|rare|ordinary|strange|wonderful|easy|difficult|complete|incomplete','evaluation',['physical-object','human','abstract'],['descriptions']);
+  adjective('thorny|prickly','physical',['plant'],['descriptions']);
   adjective('happy|sad|angry|afraid|tired|hungry|thirsty|ready|alone|young|blind|deaf|sick|ill|healthy|naked|pregnant|married|unmarried|rich|poor','state',['human','animal'],['emotions','health']);
   adjective('honest|dishonest|kind|gentle|cruel|brave|cowardly|clever|intelligent|wise|foolish|stupid|polite|rude|lazy|active|generous|selfish|greedy|humble|proud|arrogant|patient|impatient|innocent|guilty|obstinate|cantankerous|quarrelsome|silent','personality',['human'],['personality']);
   for(const h of Object.keys(adjectiveHeads))if(adjectiveHeads[h].kind==='physical')adjectiveHeads[h].categories=['descriptions'];
