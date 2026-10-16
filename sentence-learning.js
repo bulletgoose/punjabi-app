@@ -35,7 +35,7 @@ function generate(template,state,choose,tools){
   const ids=new Set(Object.keys(state.vocab).filter(role=>!['WORD','LEXICON'].includes(role)&&!role.startsWith('GAME_')).flatMap(role=>enabled(state.vocab[role])).concat(enabled(state.verbs)).map(row=>row.id));
   if(def.requiredVocabularyIds.some(id=>!ids.has(id)))return null;
  }
- const eview=(r,role)=>semantics.contextualEntry(r,{role,senseId:r.selectedSenseId})||r;
+ const eview=(r,role,context)=>semantics.contextualEntry(r,{template:def,...context,role,senseId:r.selectedSenseId});
  function p(row,role,roman,gurmukhi,english,note,category){
   const id=row&&(row.vocabularyId||lexical.resolveId(state,row.id)),senseId=row&&(row.selectedSenseId||(row.senses||[])[0]?.id);
   parts.push({roman,gurmukhi,english,role,category:category||role.toUpperCase(),vocabularyId:id||null,vocabularyIds:id?[id]:[],selectedSenseId:senseId||null,lexicalSelections:id?[{vocabularyId:id,senseId,contextualMeaning:english,evidence:[role==='word'?'quoted-canonical-form':'authored-construction-context']}]:[],grammarNote:note||'',grammarConceptIds:def.grammarConceptIds});
@@ -63,8 +63,8 @@ function generate(template,state,choose,tools){
  }
  const subjects=enabled(state.vocab.WHO).filter(s=>{
   if(!['1sg','2sg','3sg','1pl','2pl','3pl'].includes(s.person)||!['m','f'].includes(s.gender)||s.ageClass==='infant')return false;
-  const view=eview(s,'WHO'),tags=view.semanticTags||[];
-  return !tags.includes('anatomical')&&(view.partOfSpeech==='pronoun'||view.semanticProperties?.human===true||tags.includes('human'));
+  const view=eview(s,'WHO'),tags=view&&view.semanticTags||[];
+  return !!view&&!tags.includes('anatomical')&&(view.partOfSpeech==='pronoun'||view.semanticProperties?.human===true||tags.includes('human'));
  });
  const subject=choose(subjects);if(!subject)return null;
  const sv=eview(subject,'WHO');if(sv.partOfSpeech==='pronoun')for(const key of ['gender','number','person','englishPerson'])if(subject[key]!=null)sv[key]=subject[key];const engSubject=semantics.englishSubject(sv),person=sv.person||'3sg',engPerson=sv.englishPerson||person;
@@ -72,7 +72,7 @@ function generate(template,state,choose,tools){
  function verb(base){return enabled(state.verbs).find(v=>(v.base===base||v.id==='v-'+base)&&v.root&&v.gScript);}
  function routineBase(){const candidates=enabled(state.verbs).filter(v=>v.root&&v.gScript&&!grammar.verbRulesFor(v).transitive&&['human','animate','any'].includes(grammar.verbRulesFor(v).subjectClass)&&v.type!=='modal'&&!['want','do','make','learn','understand'].includes(v.base));return (choose(candidates)||{}).base||'work';}
  function action(base,object,negative=false,aspect='habitual'){
-  const raw=verb(base),v=raw&&eview(raw,'VERB');if(!v)return null;
+  const raw=verb(base),v=raw&&eview(raw,'VERB',{subject:sv,object});if(!v)return null;
   const r=grammar.conjugate({verb:v,subject:sv,object,negative,aspect,script:'roman'}),g=grammar.conjugate({verb:v,subject:sv,object,negative,aspect,script:'gurmukhi'});if(!r.ok||!g.ok)return null;
   if(object)p(object,'object',object.p,object.g,object.e,'Selected compatible direct object.','WHAT');
   const b=(v.lexicalSelection?.contextualMeaning||v.e||v.base).replace(/^to /,'');if(/[,;/]/.test(b))return null;const meaning=negative?(engPerson==='3sg'?'does not ':'do not ')+b:semantics.inflectEnglish(b,'habitual',engPerson);
@@ -117,7 +117,7 @@ function generate(template,state,choose,tools){
   if(kind==='who'){fixed('demonstrative','eh','ਇਹ','this');p(q,'question',q.p,q.g,'who','Personal identity question.','QUESTION');fixed('auxiliary','hai','ਹੈ','is');return result('who is this',true);}
   if(kind==='else'){p(q,'question',q.p,q.g,'what else','Additional-thing question.','QUESTION');fixed('predicate','chāhīdā hai','ਚਾਹੀਦਾ ਹੈ','is needed');return result('what else is needed',true);}
   if(kind==='whose'){
-   const raw=choose(enabled(state.vocab.WHAT).filter(o=>['m','f'].includes(o.gender)&&o.number!=='pl'&&!(o.semanticTags||o.tags||[]).some(t=>['human','animal','animate'].includes(t))&&(o.semanticTags||o.tags||[]).some(t=>['buyable','wearable','readable','container','tool','vehicle'].includes(t))&&eview(o,'WHAT')!==o)),o=raw&&eview(raw,'WHAT');if(!o)return null;
+   const raw=choose(enabled(state.vocab.WHAT).filter(o=>['m','f'].includes(o.gender)&&o.number!=='pl'&&!(o.semanticTags||o.tags||[]).some(t=>['human','animal','animate'].includes(t))&&(o.semanticTags||o.tags||[]).some(t=>['buyable','wearable','readable','container','tool','vehicle'].includes(t))&&!!eview(o,'WHAT'))),o=raw&&eview(raw,'WHAT');if(!o)return null;
    fixed('demonstrative','eh','ਇਹ','this');p(q,'question',o.gender==='f'?'kis dī':'kis dā',o.gender==='f'?'ਕਿਸ ਦੀ':'ਕਿਸ ਦਾ','whose','Possessive question agrees with possessed noun.','QUESTION');p(raw,'object',o.p,o.g,o.e,'Direct singular possessed noun.','WHAT');fixed('auxiliary','hai','ਹੈ','is');return result('whose '+o.e+' is this',true);
   }
   if(kind==='count'){p(q,'question',q.p,q.g,'how many','Independent quantity interrogative.','QUESTION');fixed('predicate','chāhīde han','ਚਾਹੀਦੇ ਹਨ','are needed');return result('how many are needed',true);}
@@ -129,7 +129,8 @@ function generate(template,state,choose,tools){
   if(kind==='origin'){p(q,'question',q.p,q.g,'where from','Origin question.','QUESTION');fixed('predicate','āunde ho','ਆਉਂਦੇ ਹੋ','come');return result('where do you come from',true);}
   if(kind==='whom'){
    const object=choose(enabled(state.vocab.WHAT).filter(o=>grammar.compatible(enabled(state.verbs).find(v=>v.id==='v-dena'),o))),o=object&&eview(object,'WHAT');if(!o)return null;
-   p(q,'question',q.p,q.g,'to whom','Dative/recipient interrogative.','QUESTION');p(object,'object',o.p,o.g,o.e,'Direct object of give.','WHAT');if(!politeVerb('give',o))return null;return result('to whom do you give '+semantics.englishNounPhrase(o,{definite:true}),true);
+   const objectEnglish=semantics.englishNounPhrase(o,{article:'definite'});
+   p(q,'question',q.p,q.g,'who … to','Dative/recipient interrogative; English places the preposition after the object.','QUESTION');p(object,'object',o.p,o.g,objectEnglish,'Direct object of give; this question template treats it as identifiable.','WHAT');if(!politeVerb('give',o))return null;return result('who do you give '+objectEnglish+' to',true);
   }
  }
  return null;
