@@ -68,9 +68,12 @@ function generate(template,state,choose,tools){
  });
  const subject=choose(subjects);if(!subject)return null;
  const sv=eview(subject,'WHO');if(sv.partOfSpeech==='pronoun')for(const key of ['gender','number','person','englishPerson'])if(subject[key]!=null)sv[key]=subject[key];const engSubject=semantics.englishSubject(sv),person=sv.person||'3sg',engPerson=sv.englishPerson||person;
- function subjectPart(){p(subject,'subject',sv.p,sv.g,engSubject,'Direct subject with person/number agreement.','WHO');}
+ const continuedSubject=engSubject.replace(/^(?:a|an) /i,'the ');
+ const continueClause=clause=>clause&&clause.startsWith(engSubject+' ')?continuedSubject+clause.slice(engSubject.length):clause;
+ let subjectMentions=0;
+ function subjectPart(){p(subject,'subject',sv.p,sv.g,subjectMentions++?continuedSubject:engSubject,'Direct subject with person/number agreement; repeated nouns refer to the established actor.','WHO');}
  function verb(base){return enabled(state.verbs).find(v=>(v.base===base||v.id==='v-'+base)&&v.root&&v.gScript);}
- function routineBase(){const candidates=enabled(state.verbs).filter(v=>v.root&&v.gScript&&!grammar.verbRulesFor(v).transitive&&['human','animate','any'].includes(grammar.verbRulesFor(v).subjectClass)&&v.type!=='modal'&&!['want','do','make','learn','understand'].includes(v.base));return (choose(candidates)||{}).base||'work';}
+ function routineBase(exclude){const candidates=enabled(state.verbs).filter(v=>v.root&&v.gScript&&!grammar.verbRulesFor(v).transitive&&['human','animate','any'].includes(grammar.verbRulesFor(v).subjectClass)&&v.type!=='modal'&&!['want','do','make','learn','understand',exclude].includes(v.base)&&semantics.predicateCompatibility(v,{subject:sv,complete:true}).ok);return (choose(candidates)||{}).base||(!exclude?'work':null);}
  function action(base,object,negative=false,aspect='habitual'){
   const raw=verb(base),v=raw&&eview(raw,'VERB',{subject:sv,object});if(!v)return null;
   const r=grammar.conjugate({verb:v,subject:sv,object,negative,aspect,script:'roman'}),g=grammar.conjugate({verb:v,subject:sv,object,negative,aspect,script:'gurmukhi'});if(!r.ok||!g.ok)return null;
@@ -95,22 +98,23 @@ function generate(template,state,choose,tools){
    const v=enabled(state.verbs).find(v=>v.id==='v-arams' || v.base==='rest')||enabled(state.verbs).find(v=>v.base==='sleep');if(!v)return null;
    const infinitiveR=(v.prefix?v.prefix+' ':'')+v.root,infinitiveG=(v.gScript.prefix?v.gScript.prefix+' ':'')+v.gScript.root;
    const subjunctive={'1sg':['sakā̃','ਸਕਾਂ'],'2sg':['sakẽ','ਸਕੇਂ'],'3sg':['sake','ਸਕੇ'],'1pl':['sakīe','ਸਕੀਏ'],'2pl':['sako','ਸਕੋ'],'3pl':['sakaṇ','ਸਕਣ']}[person];if(!subjunctive)return null;
-   p(v,'verb',infinitiveR+' '+subjunctive[0],infinitiveG+' '+subjunctive[1],'can '+v.base,'Purpose clause uses the explicit person/number subjunctive of sak; it does not inflect for gender.','VERB');return result(a+' so that '+engSubject+' can '+v.base);
+   p(v,'verb',infinitiveR+' '+subjunctive[0],infinitiveG+' '+subjunctive[1],'can '+v.base,'Purpose clause uses the explicit person/number subjunctive of sak; it does not inflect for gender.','VERB');return result(a+' so that '+continuedSubject+' can '+v.base);
   }
   if(kind==='because'||kind==='therefore'||kind==='reasonResult'){
    if(kind==='because'){a=stateClause('tired');if(!a)return null;connector('because');subjectPart();b=action('work');}
    else {subjectPart();a=action('work');connector(kind==='reasonResult'?'for this reason':'therefore');b=stateClause('tired');}
-   return a&&b?result(a+(kind==='because'?' because ':kind==='reasonResult'?'; for this reason, ':'; therefore, ')+b):null;
+   return a&&b?result(a+(kind==='because'?' because ':kind==='reasonResult'?'; for this reason, ':'; therefore, ')+continueClause(b)):null;
   }
-  if(kind==='although'){connector('although');a=stateClause('tired');const but=find('CONNECTOR','c-par');if(!but)return null;p(but,'connector',but.p,but.g,'but','Punjabi concessive pairing; natural English omits redundant but.','CONNECTOR');subjectPart();b=action('work');return a&&b?result('although '+a+', '+b):null;}
-  if(kind==='but'||kind==='however'){a=stateClause('tired');connector(kind);subjectPart();b=action('work');return a&&b?result(a+(kind==='but'?' but ':'; however, ')+b):null;}
+  if(kind==='although'){connector('although');a=stateClause('tired');const but=find('CONNECTOR','c-par');if(!but)return null;p(but,'connector',but.p,but.g,'but','Punjabi concessive pairing; natural English omits redundant but.','CONNECTOR');subjectPart();b=action('work');return a&&b?result('although '+a+', '+continueClause(b)):null;}
+  if(kind==='but'||kind==='however'){a=stateClause('tired');connector(kind);subjectPart();b=action('work');return a&&b?result(a+(kind==='but'?' but ':'; however, ')+continueClause(b)):null;}
   if(kind==='if'||kind==='when'){
    connector(kind);a=stateClause('tired');
-   fixed('consequent','tā̃','ਤਾਂ','then');subjectPart();b=action('sleep');return a&&b?result(kind+' '+a+', then '+b):null;
+   fixed('consequent','tā̃','ਤਾਂ','then');subjectPart();b=action('sleep');return a&&b?result(kind+' '+a+', then '+continueClause(b)):null;
   }
   if(['first','afterward','finally'].includes(kind)){connector(kind==='afterward'?'after that':kind);subjectPart();a=action(kind==='finally'?'sleep':routineBase());return a?result((kind==='afterward'?'after that':kind)+', '+a):null;}
   if(kind==='also'){const base=routineBase();subjectPart();connector('also');a=action(base);if(!a)return null;return result(a.replace(engSubject+' ',engSubject+' also '));}
-  subjectPart();a=action(routineBase());if(!a)return null;connector(kind);subjectPart();b=action(routineBase());return b?result(a+' '+(kind==='then'?'and then':kind)+' '+b):null;
+  const firstBase=routineBase(),secondBase=routineBase(firstBase);if(!firstBase||!secondBase)return null;
+  subjectPart();a=action(firstBase);if(!a)return null;connector(kind);subjectPart();b=action(secondBase);return b?result(a+' '+(kind==='then'?'and then':kind)+' '+continueClause(b)):null;
  }
  if(def.pattern.startsWith('question:')){
   const kind=def.pattern.split(':')[1],q=find('QUESTION',def.questionId);if(!q)return null;
@@ -118,7 +122,8 @@ function generate(template,state,choose,tools){
   if(kind==='else'){p(q,'question',q.p,q.g,'what else','Additional-thing question.','QUESTION');fixed('predicate','chāhīdā hai','ਚਾਹੀਦਾ ਹੈ','is needed');return result('what else is needed',true);}
   if(kind==='whose'){
    const raw=choose(enabled(state.vocab.WHAT).filter(o=>['m','f'].includes(o.gender)&&o.number!=='pl'&&!(o.semanticTags||o.tags||[]).some(t=>['human','animal','animate'].includes(t))&&(o.semanticTags||o.tags||[]).some(t=>['buyable','wearable','readable','container','tool','vehicle'].includes(t))&&!!eview(o,'WHAT'))),o=raw&&eview(raw,'WHAT');if(!o)return null;
-   fixed('demonstrative','eh','ਇਹ','this');p(q,'question',o.gender==='f'?'kis dī':'kis dā',o.gender==='f'?'ਕਿਸ ਦੀ':'ਕਿਸ ਦਾ','whose','Possessive question agrees with possessed noun.','QUESTION');p(raw,'object',o.p,o.g,o.e,'Direct singular possessed noun.','WHAT');fixed('auxiliary','hai','ਹੈ','is');return result('whose '+o.e+' is this',true);
+   const noun=o.e.replace(/^(?:a|an|the)\s+/i,'');
+   fixed('demonstrative','eh','ਇਹ','this');p(q,'question',o.gender==='f'?'kis dī':'kis dā',o.gender==='f'?'ਕਿਸ ਦੀ':'ਕਿਸ ਦਾ','whose','Possessive question agrees with possessed noun.','QUESTION');p(raw,'object',o.p,o.g,noun,'Direct singular possessed noun; whose supplies the English determiner.','WHAT');fixed('auxiliary','hai','ਹੈ','is');return result('whose '+noun+' is this',true);
   }
   if(kind==='count'){p(q,'question',q.p,q.g,'how many','Independent quantity interrogative.','QUESTION');fixed('predicate','chāhīde han','ਚਾਹੀਦੇ ਹਨ','are needed');return result('how many are needed',true);}
   // Polite second-person questions retain a checked subject and auxiliary.

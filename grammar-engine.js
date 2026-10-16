@@ -146,7 +146,7 @@
   function compatible(verb, object) {
     const required = requiredTags(verb);
     if (!object) return !required.length;
-    return required.length > 0 && required.some(tag => tagsOf(object).includes(tag));
+    return required.length > 0 && required.some(tag => tagsOf(object).includes(tag))&&(!semantics||!semantics.predicateCompatibility||semantics.predicateCompatibility(verb,{object}).ok);
   }
   function reviewedMorphology(verb) {
     const row = morphology[verb.id];
@@ -198,6 +198,7 @@
     if (object && !compatible(verb, object)) return bad('The object does not satisfy the action’s semantic constraints.');
     if (object && (!['m', 'f'].includes(object.gender) || !['sg', 'pl'].includes(object.number))) return bad('An object needs gender and number metadata.');
     if (context.recipient && !human(context.recipient)) return bad('This recipient must be human.');
+    if(semantics&&semantics.predicateCompatibility){const result=semantics.predicateCompatibility(verb,context);if(!result.ok)return bad(result.reason);}
     return { ok: true };
   }
 
@@ -449,7 +450,8 @@
   const englishHabit = (base, subject) => semantics ? semantics.inflectEnglish(base, 'habitual', subject.englishPerson || subject.person) : fallbackHabit(base, subject);
   function contextualize(item, context) { return semantics ? semantics.contextualEntry(item, context) : item; }
   function generateExpanded(template, definition, state, choose) {
-    const pattern = definition.pattern, vocab = state.vocab || {}, enabled = rows => (rows || []).filter(x => x.enabled !== false);
+    const pattern = definition.pattern, vocab = Object.assign({},state.vocab), enabled = rows => (rows || []).filter(x => x.enabled !== false);
+    for(const role of ['WHO','WHAT','ADJECTIVE','WHERE'])vocab[role]=enabled(vocab[role]).map(item=>contextualize(item,{role,template:definition})).filter(Boolean);
     const select = (rows, role, extra) => {
       const candidates = rows.slice();
       while(candidates.length) {
@@ -558,7 +560,7 @@
       const ingredientPreference=preference&&tagsOf(object).some(t=>['edible','drinkable'].includes(t));
       part(object,'object',object.p,object.g,object.e,'Direct noun; its number controls the copula.'+(ingredientPreference?' English uses the bare food or ingredient meaning for a general preference; Punjabi noun number is unchanged.':''));
       const plural=object.number==='pl';part(null,'predicate',(preference?'pasand ':'')+(plural?'han':'hai'),(preference?'ਪਸੰਦ ':'')+(plural?'ਹਨ':'ਹੈ'),preference?'like':'have','Copula agrees with the object in number.');
-      return finish(englishSubject(subject)+' '+englishHabit(preference?'like':'have',subject)+' '+(preference?(ingredientPreference?nounEnglish({...object,englishCountability:'uncountable'}):nounEnglish(object,true)):nounEnglish(object)));
+      return finish(englishSubject(subject)+' '+englishHabit(preference?'like':'have',subject)+' '+(preference?(ingredientPreference?nounEnglish({...object,englishCountability:'uncountable'}):nounEnglish(object)):nounEnglish(object)));
     }
     if(pattern==='occupationIdentity') {
       const occupations=enabled(vocab.WHAT).filter(o=>nominal(o)&&human(o)&&tagsOf(o).includes('occupation')&&o.number===subject.number);
@@ -617,8 +619,8 @@
     choose = choose || (items => items[Math.floor(Math.random() * items.length)]);
     if (['nominalIdentity','nominalDescription','nominalLocation','nominalWhereQuestion','occupationIdentity','finiteFutureBare','perfectiveBare','mannerProgressive','nominalPastDescription','nominalNegativeDescription','nominalPossession','nominalPreference','causalProgressive'].includes(definition.pattern)) return generateExpanded(template, definition, state, choose);
     const enabled = items => (items || []).filter(x => x.enabled !== false);
-    const vocab = state.vocab || {}, people = enabled(vocab.WHO).filter(human);
-    const verbs = enabled(state.verbs), objects = enabled(vocab.WHAT), places = enabled(vocab.WHERE);
+    const vocab = state.vocab || {}, people = enabled(vocab.WHO).map(item=>contextualize(item,{role:'WHO',template:definition})).filter(Boolean).filter(human);
+    const verbs = enabled(state.verbs), objects = enabled(vocab.WHAT).map(item=>contextualize(item,{role:'WHAT',template:definition})).filter(Boolean), places = enabled(vocab.WHERE);
     const definitionPattern = definition.pattern;
     const question = definitionPattern === 'finiteFutureQuestion', negative = definitionPattern === 'finiteFutureNegative';
     const selected = {}, aspect = definition.aspect;
@@ -665,7 +667,7 @@
       phraseRoles = ['object', 'comparison', 'description'];
     } else if (definitionPattern === 'instrument') {
       selected.verb = verbs.find(v => v.id === 'v-likhna');
-      if (!selected.verb || !pick('object', objects.filter(o => compatible(selected.verb, o) && validText(o.g, 'gurmukhi')))) return null;
+      if (!selected.verb || !pick('object', objects.filter(o => compatible(selected.verb, o) && validText(o.g, 'gurmukhi')&&(!semantics||!semantics.propertiesOf(o).digital)))) return null;
       const all = Object.values(vocab).flat();
       if (!pick('instrument', all.filter(o => writingInstrument(o) && dualPhrase(o, 'instrument')))) return null;
       phraseRoles = ['subject', 'instrument', 'object', 'verb'];

@@ -304,6 +304,22 @@
       sense.compatibleRoles=[];
       sense.sentenceEligible=!restricted&&!!sense.contextualGloss&&!(modifierContext&&modifierContext.status==='unresolved-target');
       sense.restrictionReason=modifierContext&&modifierContext.status==='unresolved-target'?modifierContext.reason:restricted?'Inflected, alternative or construction-restricted dictionary sense requires a separate lexical review.':!sense.contextualGloss?'Dictionary definition lacks an unambiguous concise contextual rendering.':null;
+      if(semantics.semanticMetadata){
+        const metadata=semantics.semanticMetadata(sense,entry);
+        if(entry.partOfSpeech==='noun'){
+          sense.semanticProperties=metadata.properties;sense.semanticTags=unique(sense.semanticTags.concat(metadata.extraTags));
+          if(metadata.englishCountability)sense.englishCountability=metadata.englishCountability;
+          if(metadata.englishNumber)sense.englishNumber=metadata.englishNumber;
+        }
+        if(entry.partOfSpeech==='adjective'&&metadata.modifierTargets){sense.modifierTargets=metadata.modifierTargets.slice();sense.modifierKind=sense.modifierKind||'semantic-property';}
+        if(metadata.review){
+          sense.sentenceSemanticReview=clone(metadata.review);
+          if(metadata.review.gender)sense.gender=metadata.review.gender;
+          if(metadata.review.sentenceEligible===false){sense.sentenceEligible=false;sense.restrictionReason=metadata.review.reason;}
+        }
+        if(/\b(?:generally|usually|only) in compounds\b/i.test(sense.english)){sense.sentenceEligible=false;sense.restrictionReason='The source limits this sense to compounds; no standalone construction is approved.';}
+        sense.sentenceSemanticEvidence={version:1,method:'selected-definition-head-and-existing-semantic-properties',nativeReviewed:false};
+      }
       return sense;
     });
     result.senses=senses;
@@ -352,7 +368,7 @@
     if(preservedAuthoredVerb&&verbReady||preservedAuthoredPronoun)result.verifiedGrammar=true;
     if(verbReady)for(const sense of senses.filter(s=>s.sentenceEligible&&(!list(entry.eligibleSenses).length||entry.eligibleSenses.some(v=>typeof v==='string'?v===s.id:v.senseId===s.id)))){
       const profile=list(entry.eligibleSenses).find(v=>typeof v==='string'?v===sense.id:v.senseId===sense.id);
-      const binding=profile&&typeof profile==='object'?{base:profile.base,transitive:profile.transitive,takesTags:profile.requiredObjectTags,selectedSenseId:sense.id}:{selectedSenseId:sense.id};
+      const binding=profile&&typeof profile==='object'?{base:profile.base,transitive:profile.transitive,takesTags:profile.base==='suck'?['suckable']:profile.requiredObjectTags,selectedSenseId:sense.id}:{selectedSenseId:sense.id};
       add('VERB',sense,['habitual-present','progressive'].concat(entry.perfective?'simple-past':[],entry.future?'finite-future':[]),{binding});
     }
     let adjectiveReady=false,adverbReady=false;

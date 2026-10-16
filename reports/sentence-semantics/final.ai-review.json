@@ -1,0 +1,5086 @@
+{
+  "summary": {
+    "sampleSize": 545,
+    "templates": 96,
+    "validity": {
+      "plausible": 522,
+      "incorrect": 2,
+      "uncertain": 21
+    },
+    "translation": {
+      "accurate": 526,
+      "incorrect": 13,
+      "uncertain": 6
+    },
+    "natural": 509,
+    "method": "Development-time assistant review of every record in each deterministic, template-stratified review sample, including Gurmukhi, English and selected source senses. This is not independent human/native review. The full corpus is separately screened by the frozen explicit rubric. Sparse exceptions below override the reviewed default of plausible meaning, accurate translation and natural wording; uncertainty is never counted as a confirmed error.",
+    "sampling": "Up to six evenly spaced distinct main-corpus slots per enabled template, excluding quoted-word practice. Withdrawn final regression slots use seeded, outcome-independent replacements from the same template. Descriptive sample rates, not population estimates or fluent-speaker certification.",
+    "validityRate": 0.9577981651376147,
+    "contextualTranslationAccuracy": 0.9651376146788991,
+    "naturalnessRate": 0.9339449541284404
+  },
+  "reviews": [
+    {
+      "id": "final-000001",
+      "templateId": "P01",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000034",
+      "templateId": "P01",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000067",
+      "templateId": "P01",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024296",
+      "templateId": "P01",
+      "validity": "plausible",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "C",
+        "F"
+      ],
+      "note": "The singular count noun gift needs a determiner; a remaining article path in the source meaning is uncovered."
+    },
+    {
+      "id": "final-000134",
+      "templateId": "P01",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000167",
+      "templateId": "P01",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024318",
+      "templateId": "P02",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000234",
+      "templateId": "P02",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000267",
+      "templateId": "P02",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000301",
+      "templateId": "P02",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000334",
+      "templateId": "P02",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025812",
+      "templateId": "P02",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000401",
+      "templateId": "P03",
+      "validity": "uncertain",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "A",
+        "E",
+        "G"
+      ],
+      "note": "The ordinary scene does not establish being in earth/soil. The location needs an on-the-ground reading or additional subterranean context."
+    },
+    {
+      "id": "final-025817",
+      "templateId": "P03",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "C",
+        "E"
+      ],
+      "note": "Always is unnaturally placed at the end of this English habitual clause."
+    },
+    {
+      "id": "final-000467",
+      "templateId": "P03",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024322",
+      "templateId": "P03",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000534",
+      "templateId": "P03",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000567",
+      "templateId": "P03",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000601",
+      "templateId": "P04",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000634",
+      "templateId": "P04",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000667",
+      "templateId": "P04",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000701",
+      "templateId": "P04",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000734",
+      "templateId": "P04",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000767",
+      "templateId": "P04",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000801",
+      "templateId": "P05",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000834",
+      "templateId": "P05",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000867",
+      "templateId": "P05",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000901",
+      "templateId": "P05",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000934",
+      "templateId": "P05",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-000967",
+      "templateId": "P05",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001001",
+      "templateId": "P06",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [
+        "F",
+        "G"
+      ],
+      "note": "The imported masculine agreement alongside the uncommon wife sense requires independent source/native adjudication; no gender fact is invented from the English gloss."
+    },
+    {
+      "id": "final-001034",
+      "templateId": "P06",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001067",
+      "templateId": "P06",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001101",
+      "templateId": "P06",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001134",
+      "templateId": "P06",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001167",
+      "templateId": "P06",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024424",
+      "templateId": "P07",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001234",
+      "templateId": "P07",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001267",
+      "templateId": "P07",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001301",
+      "templateId": "P07",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001334",
+      "templateId": "P07",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024427",
+      "templateId": "P07",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001401",
+      "templateId": "P08",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001434",
+      "templateId": "P08",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001467",
+      "templateId": "P08",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025944",
+      "templateId": "P08",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001534",
+      "templateId": "P08",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001567",
+      "templateId": "P08",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001601",
+      "templateId": "P09",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001634",
+      "templateId": "P09",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [
+        "F",
+        "G"
+      ],
+      "note": "The imported masculine agreement alongside the uncommon wife sense requires independent source/native adjudication; no gender fact is invented from the English gloss."
+    },
+    {
+      "id": "final-024461",
+      "templateId": "P09",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001701",
+      "templateId": "P09",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024452",
+      "templateId": "P09",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001767",
+      "templateId": "P09",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001801",
+      "templateId": "P10",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001834",
+      "templateId": "P10",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E"
+      ],
+      "note": "Meaning-bearing dictionary detail is retained, but the full explanatory or loanword phrase is less natural in ordinary English."
+    },
+    {
+      "id": "final-025957",
+      "templateId": "P10",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-001901",
+      "templateId": "P10",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024500",
+      "templateId": "P10",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024502",
+      "templateId": "P10",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025974",
+      "templateId": "P11",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002034",
+      "templateId": "P11",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002067",
+      "templateId": "P11",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002101",
+      "templateId": "P11",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002134",
+      "templateId": "P11",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024531",
+      "templateId": "P11",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002201",
+      "templateId": "P12",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002234",
+      "templateId": "P12",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002267",
+      "templateId": "P12",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025991",
+      "templateId": "P12",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002334",
+      "templateId": "P12",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002367",
+      "templateId": "P12",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002401",
+      "templateId": "P13",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002434",
+      "templateId": "P13",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002467",
+      "templateId": "P13",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002501",
+      "templateId": "P13",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002534",
+      "templateId": "P13",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002567",
+      "templateId": "P13",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002601",
+      "templateId": "P14",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002634",
+      "templateId": "P14",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002667",
+      "templateId": "P14",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026025",
+      "templateId": "P14",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002734",
+      "templateId": "P14",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002767",
+      "templateId": "P14",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002801",
+      "templateId": "P15",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026052",
+      "templateId": "P15",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002867",
+      "templateId": "P15",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002901",
+      "templateId": "P15",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002934",
+      "templateId": "P15",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-002967",
+      "templateId": "P15",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003001",
+      "templateId": "P16",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003034",
+      "templateId": "P16",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003067",
+      "templateId": "P16",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003101",
+      "templateId": "P16",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026079",
+      "templateId": "P16",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003167",
+      "templateId": "P16",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003201",
+      "templateId": "P17",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003234",
+      "templateId": "P17",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003267",
+      "templateId": "P17",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003301",
+      "templateId": "P17",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003334",
+      "templateId": "P17",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003367",
+      "templateId": "P17",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003401",
+      "templateId": "P18",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003434",
+      "templateId": "P18",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003467",
+      "templateId": "P18",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003501",
+      "templateId": "P18",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003534",
+      "templateId": "P18",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024672",
+      "templateId": "P18",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003601",
+      "templateId": "P19",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003634",
+      "templateId": "P19",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003667",
+      "templateId": "P19",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003701",
+      "templateId": "P19",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003734",
+      "templateId": "P19",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003767",
+      "templateId": "P19",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003801",
+      "templateId": "P20",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003834",
+      "templateId": "P20",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003867",
+      "templateId": "P20",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003901",
+      "templateId": "P20",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-003934",
+      "templateId": "P20",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E",
+        "G"
+      ],
+      "note": "The smell action on an ordinarily unremarkable object needs an unstated inspection/odor context; possible, not definitively invalid."
+    },
+    {
+      "id": "final-003967",
+      "templateId": "P20",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004001",
+      "templateId": "P21",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026125",
+      "templateId": "P21",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004067",
+      "templateId": "P21",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004101",
+      "templateId": "P21",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004134",
+      "templateId": "P21",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026120",
+      "templateId": "P21",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004201",
+      "templateId": "P22",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004234",
+      "templateId": "P22",
+      "validity": "plausible",
+      "translation": "uncertain",
+      "natural": true,
+      "categories": [
+        "A",
+        "F",
+        "G"
+      ],
+      "note": "The selected aunt sense for nanan differs from its common sister-in-law reading; the source kinship relation needs independent adjudication."
+    },
+    {
+      "id": "final-026157",
+      "templateId": "P22",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004301",
+      "templateId": "P22",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004334",
+      "templateId": "P22",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E",
+        "G"
+      ],
+      "note": "Holding a cow may mean restraining it, but the unqualified physical-hold sense does not establish how. Keeping a cow is the usual ordinary reading."
+    },
+    {
+      "id": "final-004367",
+      "templateId": "P22",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004401",
+      "templateId": "P23",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004434",
+      "templateId": "P23",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004467",
+      "templateId": "P23",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004501",
+      "templateId": "P23",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004534",
+      "templateId": "P23",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004567",
+      "templateId": "P23",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024752",
+      "templateId": "P24",
+      "validity": "plausible",
+      "translation": "uncertain",
+      "natural": false,
+      "categories": [
+        "D",
+        "G"
+      ],
+      "note": "Everyone does not like can be read as not everyone rather than the Punjabi universal negative; English negative scope is ambiguous."
+    },
+    {
+      "id": "final-004634",
+      "templateId": "P24",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004667",
+      "templateId": "P24",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024737",
+      "templateId": "P24",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004734",
+      "templateId": "P24",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004767",
+      "templateId": "P24",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004801",
+      "templateId": "P25",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004834",
+      "templateId": "P25",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004867",
+      "templateId": "P25",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E"
+      ],
+      "note": "Meaning-bearing dictionary detail is retained, but the full explanatory or loanword phrase is less natural in ordinary English."
+    },
+    {
+      "id": "final-026211",
+      "templateId": "P25",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004934",
+      "templateId": "P25",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-004967",
+      "templateId": "P25",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005001",
+      "templateId": "P26",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005034",
+      "templateId": "P26",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005067",
+      "templateId": "P26",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005101",
+      "templateId": "P26",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026261",
+      "templateId": "P26",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005167",
+      "templateId": "P26",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005201",
+      "templateId": "P27",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005234",
+      "templateId": "P27",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024797",
+      "templateId": "P27",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005301",
+      "templateId": "P27",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005334",
+      "templateId": "P27",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005367",
+      "templateId": "P27",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005401",
+      "templateId": "P28",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026295",
+      "templateId": "P28",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005467",
+      "templateId": "P28",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005501",
+      "templateId": "P28",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005534",
+      "templateId": "P28",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005567",
+      "templateId": "P28",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005601",
+      "templateId": "P29",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005634",
+      "templateId": "P29",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005667",
+      "templateId": "P29",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005701",
+      "templateId": "P29",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005734",
+      "templateId": "P29",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005767",
+      "templateId": "P29",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005801",
+      "templateId": "P30",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005834",
+      "templateId": "P30",
+      "validity": "plausible",
+      "translation": "uncertain",
+      "natural": true,
+      "categories": [
+        "A",
+        "F",
+        "G"
+      ],
+      "note": "The dictionary happy sense of shubh needs independent review against the ordinary auspicious/good reading; do not assume the source gloss proves correctness."
+    },
+    {
+      "id": "final-005867",
+      "templateId": "P30",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024870",
+      "templateId": "P30",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024852",
+      "templateId": "P30",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-005967",
+      "templateId": "P30",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006001",
+      "templateId": "P31",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006034",
+      "templateId": "P31",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006067",
+      "templateId": "P31",
+      "validity": "plausible",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "C",
+        "E"
+      ],
+      "note": "The existential retains a definite keys phrase where natural presentational English needs the keys are ...; world also lacks its required article when present."
+    },
+    {
+      "id": "final-006101",
+      "templateId": "P31",
+      "validity": "plausible",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "C",
+        "E"
+      ],
+      "note": "The existential retains a definite keys phrase where natural presentational English needs the keys are ...; world also lacks its required article when present."
+    },
+    {
+      "id": "final-006134",
+      "templateId": "P31",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006167",
+      "templateId": "P31",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006201",
+      "templateId": "P32",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006234",
+      "templateId": "P32",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006267",
+      "templateId": "P32",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006301",
+      "templateId": "P32",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006334",
+      "templateId": "P32",
+      "validity": "plausible",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "C"
+      ],
+      "note": "The English location world needs the definite article."
+    },
+    {
+      "id": "final-006367",
+      "templateId": "P32",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024880",
+      "templateId": "P33",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006434",
+      "templateId": "P33",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006467",
+      "templateId": "P33",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006501",
+      "templateId": "P33",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006534",
+      "templateId": "P33",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006567",
+      "templateId": "P33",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E",
+        "G"
+      ],
+      "note": "The smell action on an ordinarily unremarkable object needs an unstated inspection/odor context; possible, not definitively invalid."
+    },
+    {
+      "id": "final-006601",
+      "templateId": "P34",
+      "validity": "plausible",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "C",
+        "F"
+      ],
+      "note": "A count noun or human noun phrase is missing a required English determiner."
+    },
+    {
+      "id": "final-006634",
+      "templateId": "P34",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006667",
+      "templateId": "P34",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006701",
+      "templateId": "P34",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006734",
+      "templateId": "P34",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006767",
+      "templateId": "P34",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006801",
+      "templateId": "P35",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006834",
+      "templateId": "P35",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006867",
+      "templateId": "P35",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-006901",
+      "templateId": "P35",
+      "validity": "plausible",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "C",
+        "F"
+      ],
+      "note": "A count noun or human noun phrase is missing a required English determiner."
+    },
+    {
+      "id": "final-006934",
+      "templateId": "P35",
+      "validity": "plausible",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "C",
+        "F"
+      ],
+      "note": "A count noun or human noun phrase is missing a required English determiner."
+    },
+    {
+      "id": "final-006967",
+      "templateId": "P35",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "C",
+        "E"
+      ],
+      "note": "A source-initial capitalized article survives in mid-sentence (about A canal)."
+    },
+    {
+      "id": "final-007001",
+      "templateId": "P36",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "D",
+        "E",
+        "G"
+      ],
+      "note": "The causal relationship is not ordinary without extra context. Both propositions can be valid; do not label it impossible."
+    },
+    {
+      "id": "final-007034",
+      "templateId": "P36",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007067",
+      "templateId": "P36",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024938",
+      "templateId": "P36",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007134",
+      "templateId": "P36",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "D",
+        "E",
+        "G"
+      ],
+      "note": "The causal relationship is not ordinary without extra context. Both propositions can be valid; do not label it impossible."
+    },
+    {
+      "id": "final-007167",
+      "templateId": "P36",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007201",
+      "templateId": "P37",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [
+        "F",
+        "G"
+      ],
+      "note": "The imported masculine agreement alongside the uncommon wife sense requires independent source/native adjudication; no gender fact is invented from the English gloss."
+    },
+    {
+      "id": "final-007234",
+      "templateId": "P37",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007267",
+      "templateId": "P37",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007301",
+      "templateId": "P37",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007334",
+      "templateId": "P37",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [
+        "F",
+        "G"
+      ],
+      "note": "The imported masculine agreement alongside the uncommon wife sense requires independent source/native adjudication; no gender fact is invented from the English gloss."
+    },
+    {
+      "id": "final-007367",
+      "templateId": "P37",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007401",
+      "templateId": "P38",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024986",
+      "templateId": "P38",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007467",
+      "templateId": "P38",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026453",
+      "templateId": "P38",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007534",
+      "templateId": "P38",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007567",
+      "templateId": "P38",
+      "validity": "plausible",
+      "translation": "uncertain",
+      "natural": true,
+      "categories": [
+        "A",
+        "F",
+        "G"
+      ],
+      "note": "The selected aunt sense for nanan differs from its common sister-in-law reading; the source kinship relation needs independent adjudication."
+    },
+    {
+      "id": "final-007601",
+      "templateId": "P39",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007634",
+      "templateId": "P39",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007667",
+      "templateId": "P39",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007701",
+      "templateId": "P39",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024993",
+      "templateId": "P39",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007767",
+      "templateId": "P39",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007801",
+      "templateId": "P40",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007834",
+      "templateId": "P40",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007867",
+      "templateId": "P40",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007901",
+      "templateId": "P40",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023525",
+      "templateId": "P40",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023558",
+      "templateId": "P40",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007927",
+      "templateId": "P41",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007928",
+      "templateId": "P42",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007929",
+      "templateId": "P42",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007930",
+      "templateId": "P42",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007931",
+      "templateId": "P42",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007932",
+      "templateId": "P42",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007933",
+      "templateId": "P43",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-007966",
+      "templateId": "P43",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E",
+        "G"
+      ],
+      "note": "Being young last week needs a birthday/life-stage or retrospective context; the time and state are grammatical but under-motivated."
+    },
+    {
+      "id": "final-007999",
+      "templateId": "P43",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025019",
+      "templateId": "P43",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008066",
+      "templateId": "P43",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008099",
+      "templateId": "P43",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026528",
+      "templateId": "P44",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026527",
+      "templateId": "P44",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008199",
+      "templateId": "P44",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008233",
+      "templateId": "P44",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026513",
+      "templateId": "P44",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008299",
+      "templateId": "P44",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008333",
+      "templateId": "P45",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008366",
+      "templateId": "P45",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008399",
+      "templateId": "P45",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008433",
+      "templateId": "P45",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008466",
+      "templateId": "P45",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008499",
+      "templateId": "P45",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008533",
+      "templateId": "P46",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [
+        "F",
+        "G"
+      ],
+      "note": "The imported masculine agreement alongside the uncommon wife sense requires independent source/native adjudication; no gender fact is invented from the English gloss."
+    },
+    {
+      "id": "final-008566",
+      "templateId": "P46",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008599",
+      "templateId": "P46",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008633",
+      "templateId": "P46",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008666",
+      "templateId": "P46",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008699",
+      "templateId": "P46",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008733",
+      "templateId": "P47",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [
+        "F",
+        "G"
+      ],
+      "note": "The imported masculine agreement alongside the uncommon wife sense requires independent source/native adjudication; no gender fact is invented from the English gloss."
+    },
+    {
+      "id": "final-026603",
+      "templateId": "P47",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008799",
+      "templateId": "P47",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008833",
+      "templateId": "P47",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008866",
+      "templateId": "P47",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [
+        "F",
+        "G"
+      ],
+      "note": "The imported masculine agreement alongside the uncommon wife sense requires independent source/native adjudication; no gender fact is invented from the English gloss."
+    },
+    {
+      "id": "final-008899",
+      "templateId": "P47",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008933",
+      "templateId": "P48",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008966",
+      "templateId": "P48",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-008999",
+      "templateId": "P48",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026619",
+      "templateId": "P48",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009066",
+      "templateId": "P48",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009099",
+      "templateId": "P48",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009133",
+      "templateId": "P49",
+      "validity": "uncertain",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "B",
+        "C",
+        "E"
+      ],
+      "note": "Tell Punjabi lacks an appropriate information/complement or recipient frame; speaking/teaching a language cannot be silently substituted for this predicate."
+    },
+    {
+      "id": "final-009166",
+      "templateId": "P49",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009199",
+      "templateId": "P49",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009233",
+      "templateId": "P49",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009266",
+      "templateId": "P49",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009299",
+      "templateId": "P49",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009333",
+      "templateId": "P50",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009366",
+      "templateId": "P50",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009399",
+      "templateId": "P50",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009433",
+      "templateId": "P50",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009466",
+      "templateId": "P50",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009499",
+      "templateId": "P50",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025160",
+      "templateId": "P51",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009566",
+      "templateId": "P51",
+      "validity": "incorrect",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [
+        "C",
+        "F"
+      ],
+      "note": "The feminine bottle object requires feminine perfective agreement, rather than giniya; this remaining morphology path needs separate review."
+    },
+    {
+      "id": "final-009599",
+      "templateId": "P51",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009633",
+      "templateId": "P51",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009666",
+      "templateId": "P51",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009699",
+      "templateId": "P51",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009733",
+      "templateId": "P52",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009766",
+      "templateId": "P52",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009799",
+      "templateId": "P52",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009833",
+      "templateId": "P52",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009866",
+      "templateId": "P52",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009899",
+      "templateId": "P52",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026696",
+      "templateId": "P53",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-009966",
+      "templateId": "P53",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025715",
+      "templateId": "P53",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010033",
+      "templateId": "P53",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025709",
+      "templateId": "P53",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010099",
+      "templateId": "P53",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025718",
+      "templateId": "P54",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026720",
+      "templateId": "P54",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [
+        "D",
+        "G"
+      ],
+      "note": "The plural agent includes the singular recipient. A group giving to one of its own members is possible, but the collective/self-transfer relationship is not established."
+    },
+    {
+      "id": "final-026728",
+      "templateId": "P54",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010233",
+      "templateId": "P54",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010266",
+      "templateId": "P54",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010299",
+      "templateId": "P54",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [
+        "F",
+        "G"
+      ],
+      "note": "The imported masculine agreement alongside the uncommon wife sense requires independent source/native adjudication; no gender fact is invented from the English gloss."
+    },
+    {
+      "id": "final-010333",
+      "templateId": "P55",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010366",
+      "templateId": "P55",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010399",
+      "templateId": "P55",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "B",
+        "E",
+        "G"
+      ],
+      "note": "Coming from the world/earth needs a special travel, burial or figurative context; it is not an ordinary established origin here."
+    },
+    {
+      "id": "final-025199",
+      "templateId": "P55",
+      "validity": "plausible",
+      "translation": "uncertain",
+      "natural": true,
+      "categories": [
+        "A",
+        "G"
+      ],
+      "note": "The authored college/university equivalence remains unverified, consistently with the baseline assessment."
+    },
+    {
+      "id": "final-010466",
+      "templateId": "P55",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025212",
+      "templateId": "P55",
+      "validity": "plausible",
+      "translation": "uncertain",
+      "natural": true,
+      "categories": [
+        "A",
+        "G"
+      ],
+      "note": "College and university are not universally interchangeable; the authored contextual equivalence needs review."
+    },
+    {
+      "id": "final-010533",
+      "templateId": "P56",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010566",
+      "templateId": "P56",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025747",
+      "templateId": "P56",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010633",
+      "templateId": "P56",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010666",
+      "templateId": "P56",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010699",
+      "templateId": "P56",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010733",
+      "templateId": "P57",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010766",
+      "templateId": "P57",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010799",
+      "templateId": "P57",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "D",
+        "E",
+        "G"
+      ],
+      "note": "Two source nouns both realize as food. A colder-than comparison needs distinguishable portions/referents that this sentence does not supply."
+    },
+    {
+      "id": "final-010833",
+      "templateId": "P57",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010866",
+      "templateId": "P57",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010899",
+      "templateId": "P57",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010933",
+      "templateId": "P58",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010966",
+      "templateId": "P58",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-010999",
+      "templateId": "P58",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026780",
+      "templateId": "P58",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011066",
+      "templateId": "P58",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011099",
+      "templateId": "P58",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011133",
+      "templateId": "P59",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011166",
+      "templateId": "P59",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011199",
+      "templateId": "P59",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E"
+      ],
+      "note": "Meaning-bearing dictionary detail is retained, but the full explanatory or loanword phrase is less natural in ordinary English."
+    },
+    {
+      "id": "final-011233",
+      "templateId": "P59",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011266",
+      "templateId": "P59",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011299",
+      "templateId": "P59",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011333",
+      "templateId": "P60",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011366",
+      "templateId": "P60",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E",
+        "G"
+      ],
+      "note": "Lukewarm applied to a living tree needs a specific temperature-measurement context; ordinary description is unusual."
+    },
+    {
+      "id": "final-011399",
+      "templateId": "P60",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011433",
+      "templateId": "P60",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011466",
+      "templateId": "P60",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011499",
+      "templateId": "P60",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011533",
+      "templateId": "P61",
+      "validity": "incorrect",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "B",
+        "F"
+      ],
+      "note": "An ordinary full-size train does not fit in a kitchen. Vehicle-to-room scale remains insufficiently constrained."
+    },
+    {
+      "id": "final-011566",
+      "templateId": "P61",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011599",
+      "templateId": "P61",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011633",
+      "templateId": "P61",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011666",
+      "templateId": "P61",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011699",
+      "templateId": "P61",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011733",
+      "templateId": "P62",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011766",
+      "templateId": "P62",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011799",
+      "templateId": "P62",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011833",
+      "templateId": "P62",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011866",
+      "templateId": "P62",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011899",
+      "templateId": "P62",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011933",
+      "templateId": "P63",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011966",
+      "templateId": "P63",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-011999",
+      "templateId": "P63",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012033",
+      "templateId": "P63",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012066",
+      "templateId": "P63",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012099",
+      "templateId": "P63",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012133",
+      "templateId": "P64",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012166",
+      "templateId": "P64",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012199",
+      "templateId": "P64",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012233",
+      "templateId": "P64",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012266",
+      "templateId": "P64",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012299",
+      "templateId": "P64",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025228",
+      "templateId": "P65",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012366",
+      "templateId": "P65",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012399",
+      "templateId": "P65",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E"
+      ],
+      "note": "Meaning-bearing dictionary detail is retained, but the full explanatory or loanword phrase is less natural in ordinary English."
+    },
+    {
+      "id": "final-012433",
+      "templateId": "P65",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012466",
+      "templateId": "P65",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012499",
+      "templateId": "P65",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012533",
+      "templateId": "P66",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012566",
+      "templateId": "P66",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012599",
+      "templateId": "P66",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "C",
+        "E"
+      ],
+      "note": "Always is placed unnaturally at the end of this English progressive clause; nitt may also favor every day in context."
+    },
+    {
+      "id": "final-026837",
+      "templateId": "P66",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012666",
+      "templateId": "P66",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "C",
+        "E"
+      ],
+      "note": "Always is placed unnaturally at the end of this English progressive clause; nitt may also favor every day in context."
+    },
+    {
+      "id": "final-012699",
+      "templateId": "P66",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012733",
+      "templateId": "P67",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012766",
+      "templateId": "P67",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012799",
+      "templateId": "P67",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012833",
+      "templateId": "P67",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012866",
+      "templateId": "P67",
+      "validity": "plausible",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "A",
+        "F"
+      ],
+      "note": "Bad tamiz ordinarily expresses rudeness/ill manners; the selected stupid dictionary sense distorts the meaning."
+    },
+    {
+      "id": "final-012899",
+      "templateId": "P67",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012933",
+      "templateId": "P68",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012966",
+      "templateId": "P68",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-012999",
+      "templateId": "P68",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013033",
+      "templateId": "P68",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013066",
+      "templateId": "P68",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013099",
+      "templateId": "P68",
+      "validity": "plausible",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "C",
+        "F"
+      ],
+      "note": "English people/news requires its English plural/mass agreement independently of Punjabi grammatical number; this remaining agreement path is not fixed in Pass 2."
+    },
+    {
+      "id": "final-013133",
+      "templateId": "P69",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013166",
+      "templateId": "P69",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026872",
+      "templateId": "P69",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013233",
+      "templateId": "P69",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013266",
+      "templateId": "P69",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026866",
+      "templateId": "P69",
+      "validity": "plausible",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "C",
+        "F"
+      ],
+      "note": "Someone has gift lacks a required singular count determiner."
+    },
+    {
+      "id": "final-013333",
+      "templateId": "P70",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013366",
+      "templateId": "P70",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013399",
+      "templateId": "P70",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013433",
+      "templateId": "P70",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026877",
+      "templateId": "P70",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013499",
+      "templateId": "P70",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013533",
+      "templateId": "P71",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013566",
+      "templateId": "P71",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013599",
+      "templateId": "P71",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013633",
+      "templateId": "P71",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026914",
+      "templateId": "P71",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013699",
+      "templateId": "P71",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013733",
+      "templateId": "P72",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013766",
+      "templateId": "P72",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026918",
+      "templateId": "P72",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013833",
+      "templateId": "P72",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013866",
+      "templateId": "P72",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013899",
+      "templateId": "P72",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013933",
+      "templateId": "P73",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025352",
+      "templateId": "P73",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-013999",
+      "templateId": "P73",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014033",
+      "templateId": "P73",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014066",
+      "templateId": "P73",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014099",
+      "templateId": "P73",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014133",
+      "templateId": "P74",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014166",
+      "templateId": "P74",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E"
+      ],
+      "note": "Meaning-bearing dictionary detail is retained, but the full explanatory or loanword phrase is less natural in ordinary English."
+    },
+    {
+      "id": "final-014199",
+      "templateId": "P74",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023612",
+      "templateId": "P74",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023645",
+      "templateId": "P74",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023678",
+      "templateId": "P74",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014213",
+      "templateId": "P75",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014246",
+      "templateId": "P75",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025421",
+      "templateId": "P75",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014313",
+      "templateId": "P75",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014346",
+      "templateId": "P75",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014379",
+      "templateId": "P75",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014413",
+      "templateId": "P76",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014446",
+      "templateId": "P76",
+      "validity": "plausible",
+      "translation": "incorrect",
+      "natural": false,
+      "categories": [
+        "A",
+        "D",
+        "F"
+      ],
+      "note": "The queen chess-piece sense of vazir does not establish an ordinary human queen who is tired and sleeps; source role classification remains ambiguous."
+    },
+    {
+      "id": "final-014479",
+      "templateId": "P76",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014513",
+      "templateId": "P76",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014546",
+      "templateId": "P76",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014579",
+      "templateId": "P76",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014613",
+      "templateId": "P77",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014646",
+      "templateId": "P77",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-026981",
+      "templateId": "P77",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014713",
+      "templateId": "P77",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014746",
+      "templateId": "P77",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014779",
+      "templateId": "P77",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025493",
+      "templateId": "P78",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E"
+      ],
+      "note": "The full explanatory second-marriage noun phrase is accurate but cumbersome in repeated ordinary English."
+    },
+    {
+      "id": "final-014846",
+      "templateId": "P78",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014879",
+      "templateId": "P78",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014913",
+      "templateId": "P78",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014946",
+      "templateId": "P78",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-014979",
+      "templateId": "P78",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025536",
+      "templateId": "P80",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015046",
+      "templateId": "P80",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015079",
+      "templateId": "P80",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015113",
+      "templateId": "P80",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025528",
+      "templateId": "P80",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025529",
+      "templateId": "P80",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015213",
+      "templateId": "P82",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025556",
+      "templateId": "P82",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015279",
+      "templateId": "P82",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015313",
+      "templateId": "P82",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-027051",
+      "templateId": "P82",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E"
+      ],
+      "note": "The meaning-bearing kinship explanation is retained but cumbersome when repeated."
+    },
+    {
+      "id": "final-015379",
+      "templateId": "P82",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015413",
+      "templateId": "P83",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015446",
+      "templateId": "P83",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015479",
+      "templateId": "P83",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025575",
+      "templateId": "P83",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025572",
+      "templateId": "P83",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015579",
+      "templateId": "P83",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015613",
+      "templateId": "P84",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015646",
+      "templateId": "P84",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015679",
+      "templateId": "P84",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015713",
+      "templateId": "P84",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-027102",
+      "templateId": "P84",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015779",
+      "templateId": "P84",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015813",
+      "templateId": "P85",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015846",
+      "templateId": "P85",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025630",
+      "templateId": "P85",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015913",
+      "templateId": "P85",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015946",
+      "templateId": "P85",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-015979",
+      "templateId": "P85",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016013",
+      "templateId": "P86",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016046",
+      "templateId": "P86",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016079",
+      "templateId": "P86",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016113",
+      "templateId": "P86",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016146",
+      "templateId": "P86",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025644",
+      "templateId": "P86",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016213",
+      "templateId": "P87",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016216",
+      "templateId": "P87",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016220",
+      "templateId": "P87",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016223",
+      "templateId": "P87",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016227",
+      "templateId": "P87",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016230",
+      "templateId": "P87",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016434",
+      "templateId": "P89",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016435",
+      "templateId": "P90",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016468",
+      "templateId": "P90",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016501",
+      "templateId": "P90",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": false,
+      "categories": [
+        "E"
+      ],
+      "note": "Meaning-bearing dictionary detail is retained, but the full explanatory or loanword phrase is less natural in ordinary English."
+    },
+    {
+      "id": "final-023723",
+      "templateId": "P90",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023756",
+      "templateId": "P90",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023789",
+      "templateId": "P90",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016524",
+      "templateId": "P91",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016541",
+      "templateId": "P91",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016558",
+      "templateId": "P91",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023826",
+      "templateId": "P91",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023843",
+      "templateId": "P91",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023860",
+      "templateId": "P91",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016573",
+      "templateId": "P92",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016574",
+      "templateId": "P93",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016575",
+      "templateId": "P94",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016576",
+      "templateId": "P95",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016577",
+      "templateId": "P96",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016580",
+      "templateId": "P96",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016583",
+      "templateId": "P96",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016587",
+      "templateId": "P96",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016590",
+      "templateId": "P96",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016593",
+      "templateId": "P96",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016597",
+      "templateId": "P97",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016630",
+      "templateId": "P97",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-025670",
+      "templateId": "P97",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016697",
+      "templateId": "P97",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016730",
+      "templateId": "P97",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-016763",
+      "templateId": "P97",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023878",
+      "templateId": "P79",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-027029",
+      "templateId": "P79",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023944",
+      "templateId": "P79",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-023978",
+      "templateId": "P79",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024011",
+      "templateId": "P79",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024044",
+      "templateId": "P79",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024078",
+      "templateId": "P81",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-027042",
+      "templateId": "P81",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024144",
+      "templateId": "P81",
+      "validity": "uncertain",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [
+        "F",
+        "G"
+      ],
+      "note": "The imported masculine agreement alongside the uncommon wife sense requires independent source/native adjudication; no gender fact is invented from the English gloss."
+    },
+    {
+      "id": "final-024178",
+      "templateId": "P81",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024211",
+      "templateId": "P81",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    },
+    {
+      "id": "final-024244",
+      "templateId": "P81",
+      "validity": "plausible",
+      "translation": "accurate",
+      "natural": true,
+      "categories": [],
+      "note": "Reviewed under the stated ordinary-usage criteria; no clear defect identified."
+    }
+  ]
+}

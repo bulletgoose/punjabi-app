@@ -1,0 +1,397 @@
+{
+  "label": "baseline",
+  "criteriaVersion": 1,
+  "scope": "Frozen rule-based full-corpus screening, not a fluent-speaker accuracy measurement. See the separate development-time AI review ledger for sampled language-quality estimates.",
+  "totals": {
+    "screen-clear": 19404,
+    "incorrect": 639,
+    "questionable": 1009,
+    "quoted": 3306
+  },
+  "main": {
+    "sentences": 17339,
+    "incorrect": 628,
+    "questionable": 1001,
+    "screenClearRate": 0.9060499452102198
+  },
+  "all": {
+    "sentences": 21052,
+    "incorrect": 639,
+    "questionable": 1009,
+    "screenClearRate": 0.9217176515295459
+  },
+  "distinctRootCauseRules": 28,
+  "rules": {
+    "manipulation-of-fixed-entity": {
+      "category": "B",
+      "severity": "error",
+      "count": 189,
+      "exampleIds": [
+        "baseline-000014",
+        "baseline-000035",
+        "baseline-000077",
+        "baseline-000421",
+        "baseline-000442",
+        "baseline-000459",
+        "baseline-000483",
+        "baseline-000525"
+      ]
+    },
+    "singular-distribution-realization": {
+      "category": "E",
+      "severity": "questionable",
+      "count": 201,
+      "exampleIds": [
+        "baseline-000023",
+        "baseline-000056",
+        "baseline-000067",
+        "baseline-000078",
+        "baseline-000123",
+        "baseline-000135",
+        "baseline-000168",
+        "baseline-000423"
+      ]
+    },
+    "unexpressed-container": {
+      "category": "G",
+      "severity": "questionable",
+      "count": 81,
+      "exampleIds": [
+        "baseline-000055",
+        "baseline-000144",
+        "baseline-000159",
+        "baseline-000166",
+        "baseline-000409",
+        "baseline-000737",
+        "baseline-000844",
+        "baseline-000855"
+      ]
+    },
+    "physical-action-on-digital-content": {
+      "category": "B",
+      "severity": "error",
+      "count": 82,
+      "exampleIds": [
+        "baseline-000083",
+        "baseline-000088",
+        "baseline-000155",
+        "baseline-000431",
+        "baseline-000443",
+        "baseline-000449",
+        "baseline-000575",
+        "baseline-000654"
+      ]
+    },
+    "consumption-mode": {
+      "category": "E",
+      "severity": "questionable",
+      "count": 23,
+      "exampleIds": [
+        "baseline-000107",
+        "baseline-000118",
+        "baseline-000140",
+        "baseline-000162",
+        "baseline-000184",
+        "baseline-000828",
+        "baseline-001050",
+        "baseline-001180"
+      ]
+    },
+    "source-qualified-agent": {
+      "category": "A",
+      "severity": "error",
+      "count": 76,
+      "exampleIds": [
+        "baseline-000207",
+        "baseline-000208",
+        "baseline-000285",
+        "baseline-000319",
+        "baseline-000368",
+        "baseline-000379",
+        "baseline-001219",
+        "baseline-001286"
+      ]
+    },
+    "kinship-agreement-metadata": {
+      "category": "C",
+      "severity": "error",
+      "count": 83,
+      "exampleIds": [
+        "baseline-000250",
+        "baseline-000467",
+        "baseline-000548",
+        "baseline-000634",
+        "baseline-000818",
+        "baseline-001218",
+        "baseline-001731",
+        "baseline-002028"
+      ]
+    },
+    "missing-copular-complement": {
+      "category": "C",
+      "severity": "error",
+      "count": 18,
+      "exampleIds": [
+        "baseline-000393",
+        "baseline-001216",
+        "baseline-001304",
+        "baseline-001387",
+        "baseline-012140",
+        "baseline-012207",
+        "baseline-012229",
+        "baseline-012250"
+      ]
+    },
+    "compound-only-usage": {
+      "category": "F",
+      "severity": "questionable",
+      "count": 45,
+      "exampleIds": [
+        "baseline-000646",
+        "baseline-001310",
+        "baseline-001479",
+        "baseline-001592",
+        "baseline-001615",
+        "baseline-001966",
+        "baseline-002167",
+        "baseline-002495"
+      ]
+    },
+    "progressive-stative": {
+      "category": "E",
+      "severity": "questionable",
+      "count": 52,
+      "exampleIds": [
+        "baseline-001038",
+        "baseline-001045",
+        "baseline-001056",
+        "baseline-001061",
+        "baseline-001077",
+        "baseline-001082",
+        "baseline-001093",
+        "baseline-001100"
+      ]
+    },
+    "unsupported-extended-noun-sense": {
+      "category": "A",
+      "severity": "error",
+      "count": 8,
+      "exampleIds": [
+        "baseline-001153",
+        "baseline-003713",
+        "baseline-006656",
+        "baseline-007846",
+        "baseline-008492",
+        "baseline-008896",
+        "baseline-010815",
+        "baseline-016841"
+      ]
+    },
+    "natural-process-agent": {
+      "category": "B",
+      "severity": "error",
+      "count": 20,
+      "exampleIds": [
+        "baseline-001234",
+        "baseline-012191",
+        "baseline-012202",
+        "baseline-012415",
+        "baseline-012426",
+        "baseline-012459",
+        "baseline-013747",
+        "baseline-013758"
+      ]
+    },
+    "progressive-search-sense": {
+      "category": "E",
+      "severity": "questionable",
+      "count": 3,
+      "exampleIds": [
+        "baseline-001559",
+        "baseline-008288",
+        "baseline-008310"
+      ]
+    },
+    "mass-existential-agreement": {
+      "category": "C",
+      "severity": "error",
+      "count": 36,
+      "exampleIds": [
+        "baseline-006009",
+        "baseline-006022",
+        "baseline-006034",
+        "baseline-006046",
+        "baseline-006059",
+        "baseline-006068",
+        "baseline-006090",
+        "baseline-006098"
+      ]
+    },
+    "mass-quantity-question": {
+      "category": "C",
+      "severity": "error",
+      "count": 2,
+      "exampleIds": [
+        "baseline-007937",
+        "baseline-020838"
+      ]
+    },
+    "self-comparison": {
+      "category": "E",
+      "severity": "questionable",
+      "count": 1,
+      "exampleIds": [
+        "baseline-010815"
+      ]
+    },
+    "instrument-medium": {
+      "category": "B",
+      "severity": "error",
+      "count": 93,
+      "exampleIds": [
+        "baseline-010941",
+        "baseline-010943",
+        "baseline-010946",
+        "baseline-010948",
+        "baseline-010949",
+        "baseline-010952",
+        "baseline-010957",
+        "baseline-010963"
+      ]
+    },
+    "length-context-unestablished": {
+      "category": "G",
+      "severity": "questionable",
+      "count": 9,
+      "exampleIds": [
+        "baseline-011364",
+        "baseline-011399",
+        "baseline-011400",
+        "baseline-011416",
+        "baseline-011458",
+        "baseline-011465",
+        "baseline-012789",
+        "baseline-012949"
+      ]
+    },
+    "noun-gloss-as-adjective": {
+      "category": "A",
+      "severity": "error",
+      "count": 6,
+      "exampleIds": [
+        "baseline-011368",
+        "baseline-011509",
+        "baseline-012766",
+        "baseline-012786",
+        "baseline-012841",
+        "baseline-012971"
+      ]
+    },
+    "height-context-unestablished": {
+      "category": "G",
+      "severity": "questionable",
+      "count": 18,
+      "exampleIds": [
+        "baseline-011371",
+        "baseline-011394",
+        "baseline-011403",
+        "baseline-011440",
+        "baseline-011483",
+        "baseline-012744",
+        "baseline-012775",
+        "baseline-012783"
+      ]
+    },
+    "depth-without-depth-referent": {
+      "category": "B",
+      "severity": "error",
+      "count": 12,
+      "exampleIds": [
+        "baseline-011383",
+        "baseline-011435",
+        "baseline-012718",
+        "baseline-012808",
+        "baseline-012837",
+        "baseline-012903",
+        "baseline-012945",
+        "baseline-012976"
+      ]
+    },
+    "moisture-of-liquid": {
+      "category": "E",
+      "severity": "questionable",
+      "count": 1,
+      "exampleIds": [
+        "baseline-011502"
+      ]
+    },
+    "location-scale-mismatch": {
+      "category": "B",
+      "severity": "error",
+      "count": 4,
+      "exampleIds": [
+        "baseline-011639",
+        "baseline-011654",
+        "baseline-011655",
+        "baseline-011724"
+      ]
+    },
+    "ripeness-without-produce": {
+      "category": "B",
+      "severity": "error",
+      "count": 1,
+      "exampleIds": [
+        "baseline-012745"
+      ]
+    },
+    "solid-property-of-liquid": {
+      "category": "B",
+      "severity": "error",
+      "count": 2,
+      "exampleIds": [
+        "baseline-012777",
+        "baseline-012801"
+      ]
+    },
+    "freshness-context-unestablished": {
+      "category": "G",
+      "severity": "questionable",
+      "count": 3,
+      "exampleIds": [
+        "baseline-012805",
+        "baseline-012883",
+        "baseline-012932"
+      ]
+    },
+    "established-actor-reference": {
+      "category": "D",
+      "severity": "questionable",
+      "count": 591,
+      "exampleIds": [
+        "baseline-013717",
+        "baseline-013729",
+        "baseline-013742",
+        "baseline-013747",
+        "baseline-013749",
+        "baseline-013769",
+        "baseline-013770",
+        "baseline-013776"
+      ]
+    },
+    "possessive-determiner": {
+      "category": "C",
+      "severity": "error",
+      "count": 11,
+      "exampleIds": [
+        "baseline-016890",
+        "baseline-016895",
+        "baseline-016897",
+        "baseline-016927",
+        "baseline-016929",
+        "baseline-016933",
+        "baseline-016938",
+        "baseline-016940"
+      ]
+    }
+  }
+}

@@ -2,9 +2,9 @@
  * This module never edits the source entry or mistakes synonym separators for
  * evidence that a meaning is appropriate in a particular construction. */
 (function(root,factory){
-  if(typeof module==='object'&&module.exports)module.exports=factory();
-  else root.PunjabiLexicalSemantics=factory();
-})(typeof globalThis!=='undefined'?globalThis:this,function(){
+  if(typeof module==='object'&&module.exports)module.exports=factory(require('./data/sentence-semantic-parameters'));
+  else root.PunjabiLexicalSemantics=factory(root.PUNJABI_SENTENCE_SEMANTIC_PARAMETERS);
+})(typeof globalThis!=='undefined'?globalThis:this,function(parameters){
   'use strict';
   const string=value=>typeof value==='string'?value.trim():'';
   const list=value=>Array.isArray(value)?value:[];
@@ -12,6 +12,82 @@
   const key=value=>clean(value).toLowerCase().replace(/^to /,'').replace(/^(a|an|the) /,'').replace(/[.!]$/,'');
   const roleAliases={WHO:'subject',WHAT:'object',WHERE:'location',WHEN:'time',HOW:'manner',WHY:'reason',ABOUT:'topic',VERBS:'verb',VERB:'verb',STATE:'description',ADJECTIVE:'description'};
   const englishArgumentPhrases={listen:'listen to',wait:'wait for'};
+  parameters=parameters||{heads:{},predicates:{},modifiers:{},senseReviews:{}};
+  const headGroups=Object.fromEntries(Object.entries(parameters.heads).map(([name,words])=>[name,new Set(words.split('|'))]));
+  const inGroup=(name,head)=>!!headGroups[name]&&headGroups[name].has(head);
+  function selectedSource(entry){return list(entry&&entry.senses).find(s=>s.id===(entry.selectedSenseId||entry.senseId))||{};}
+  function propertiesOf(entry,sense){
+    entry=entry||{};sense=sense||selectedSource(entry);
+    // An audited empty tag list is unresolved evidence, not permission to
+    // borrow tags from another sense of the canonical entry.
+    const tags=sense.classification?list(sense.semanticTags):list(sense.semanticTags).length?sense.semanticTags:list(entry.semanticTags||entry.tags),has=tag=>tags.includes(tag);
+    const props=Object.assign({},sense.classification?{}:entry.semantic,sense.classification?{}:entry.semantics,sense.classification?{}:entry.semanticProperties,sense.semanticProperties),head=sense.classification&&sense.classification.head||key(sense.contextualGloss||entry.e||entry.english).replace(/^(?:at|in|on|to|from) (?:a |an |the )?/,'').replace(/^(?:my|your|our|their|his|her) /,'').replace(/ \([^)]*\)$/,'');
+    const digital=['email','e-mail','software','website','internet','information','news','language'].includes(head);
+    const celestial=inGroup('celestial',head),place=has('place')||has('geographical'),human=entry.partOfSpeech==='pronoun'||props.human===true||(!sense.classification||!!sense.classification.head)&&(has('human')||inGroup('human',head));
+    const animal=has('animal'),food=has('edible'),drinkable=has('drinkable'),liquid=drinkable||inGroup('liquid',head),gas=inGroup('gas',head);
+    const material=has('material'),manufactured=has('concrete')||has('tool')||has('wearable')||has('readable');
+    const physical=!digital&&(manufactured||material||food||drinkable||has('plant')||animal||human||place||has('physical-object')||has('anatomical'))&&!celestial;
+    const portable=!place&&!digital&&!celestial&&!gas&&(manufactured||material||food||drinkable||inGroup('portable',head)||inGroup('smallAnimal',head)||['baby','infant','child'].includes(head));
+    const solid=physical&&!liquid&&!gas&&!place&&!has('anatomical')&&!human&&!animal;
+    const communicative=has('communication')||has('readable')||digital||['help','aid','assistance','advice','permission'].includes(head);
+    const produce=list(sense.categories).includes('produce')&&food;
+    const abstract=has('abstract')||has('emotion')||has('character')||has('temporal')||has('quantity')||digital;
+    const grains=['sand','soil','flour','sugar','rice','salt','dust','cement'].includes(head);
+    const values={head,human,animal,plant:has('plant'),food,solidFood:food&&!liquid&&!['flour','sugar','salt'].includes(head),suckable:drinkable||food&&inGroup('juicyFood',head),drinkable,liquid,gas,digital,celestial,place,geographical:has('geographical'),material,abstract,communicative,produce,
+      portable,liftable:portable&&!liquid&&!grains,graspable:portable&&!liquid&&!grains||human||animal||has('anatomical'),
+      weighable:physical&&!place&&!gas&&!digital&&!celestial,accessible:physical&&!has('geographical'),scentBearing:physical&&!place&&!digital,
+      transferable:portable||digital||!place&&!celestial&&['giveable','takeable','bringable','sendable','loanable'].some(has),purchasable:portable||digital||['land','house','home','building','apartment','car','bus','ship','boat'].includes(head),
+      heightBearing:human||inGroup('tall',head),lengthBearing:inGroup('length',head)||has('wearable'),depthBearing:inGroup('depth',head),
+      textureBearing:solid&&!digital||has('anatomical'),shapeBearing:solid||inGroup('surface',head),moistureBearing:solid||inGroup('surface',head)||has('plant'),
+      freshnessBearing:food||drinkable||has('plant')||head==='soil',colourBearing:physical&&!human&&!has('anatomical')&&!celestial,
+      temperatureBearing:physical,transparent:inGroup('transparent',head),breakable:manufactured&&!food&&!drinkable||has('plant'),
+      indoor:inGroup('indoor',head),container:has('container'),space:has('space'),economic:has('economic'),quantity:has('quantity'),serviceProvider:has('occupation'),cuttable:has('cuttable')||inGroup('slicedFood',head)};
+    // A dictionary head such as drill is polysemous in English as well. The
+    // complete definition takes precedence over the tool-head shortcut.
+    if(head==='drill'&&/\b(?:parade|exercise|military)\b/i.test(sense.english||''))for(const name of ['portable','liftable','graspable','weighable','accessible','scentBearing','transferable','purchasable','textureBearing','shapeBearing','colourBearing','temperatureBearing','breakable'])values[name]=false;
+    return Object.assign({},props,values);
+  }
+  function semanticMetadata(sense,entry){
+    const properties=propertiesOf(entry,sense),head=properties.head;
+    const extraTags=Object.entries(properties).filter(([,value])=>value===true).map(([name])=>name);
+    let englishCountability=sense.englishCountability,englishNumber=sense.englishNumber;
+    if(inGroup('pluralEnglish',head)){englishNumber='pl';englishCountability='countable';}
+    else if(inGroup('massEnglish',head)||properties.drinkable){englishNumber='sg';englishCountability='uncountable';}
+    else if((properties.human||properties.animal||properties.produce||inGroup('discreteFood',head)||sense.semanticProperties&&sense.semanticProperties.countability==='countable')&&head&&head!=='household'){englishNumber='sg';englishCountability='countable';}
+    const modifierTargets=parameters.modifiers[key(sense.contextualGloss||sense.english)];
+    const review=parameters.senseReviews[sense.sourceSenseId]||parameters.senseReviews[sense.id];
+    return {properties,extraTags,englishCountability,englishNumber,modifierTargets:!sense.modifierRestriction&&modifierTargets?modifierTargets:null,review};
+  }
+  function aspectOf(context){return context.aspect||context.template&&context.template.aspect||(/(?:progress|Progress)/.test(context.template&&context.template.pattern||'')?'progressive':null);}
+  function predicateCompatibility(entry,context,sense,meaning){
+    context=context||{};sense=sense||selectedSource(entry);const base=key(meaning||sense.contextualGloss||entry.base||entry.e||entry.english),frame=parameters.predicates[base],rules=[];
+    const fail=(rule,reason)=>({ok:false,rule,reason,rules});
+    const subject=context.subject&&propertiesOf(context.subject),object=context.object&&propertiesOf(context.object);
+    for(const qualifier of list(sense.qualifiers)){
+      if(/^for sun$/i.test(qualifier)&&subject&&subject.head!=='sun')return fail('source-qualified-agent','This source sense requires the sun as subject.');
+    }
+    const alternatives=string(sense.english).split(/[,;]/).map(key);
+    if(subject&&alternatives.includes('fall')&&alternatives.includes('flow')&&subject.human)return fail('natural-process-agent','The fall/flow sense describes a natural process, not a person falling.');
+    if(/\bappear\b.*\bseem\b.*\bbe felt\b/.test(sense.english||''))return fail('copular-complement-required','This source sense requires a predicative complement not supplied by action templates.');
+    if(frame&&frame.stative&&/progressive/i.test(aspectOf(context)||''))return fail('stative-aspect','The ordinary stative sense is not supported in this progressive construction.');
+    if(frame&&frame.objectAny){
+      if(!object&&context.complete)return fail('predicate-object-required','This predicate requires an object.');
+      if(object&&!frame.objectAny.some(p=>object[p]===true||contextTags(context.object).includes(p)))return fail('predicate-'+frame.family,'The object lacks the required '+frame.objectAny.join('/')+' property.');
+      if(object)rules.push('predicate-'+frame.family);
+    }
+    if(object&&base==='see'&&['news','television'].includes(object.head)&&list(entry.senses).some(s=>/\bwatch\b/.test(s.english||'')))return fail('media-predicate-sense','The available watch sense is the supported ordinary reading for this media object.');
+    if(context.instrument&&object&&object.digital&&!propertiesOf(context.instrument).digital)return fail('instrument-medium','A physical writing instrument does not produce this digital object.');
+    return {ok:true,rules};
+  }
+  function modifierCompatibility(sense,entry,noun,meaning){
+    const props=propertiesOf(noun),gloss=key(meaning||sense.contextualGloss||sense.english),targets=parameters.modifiers[gloss];
+    const explicit=list(sense.modifierRestriction&&sense.modifierRestriction.targets);
+    if(explicit.length&&!explicit.some(t=>contextTags(noun).includes(t)||props[t]===true))return false;
+    if(targets&&!targets.some(t=>props[t]===true||contextTags(noun).includes(t)))return false;
+    if(gloss==='long'&&props.human)return false;
+    if(gloss==='deep'&&/\bfast\b/.test(sense.english||''))return false;
+    return true;
+  }
   function lexicalId(entry){const id=string(entry&&entry.vocabularyId)||string(entry&&entry.id)||string(entry&&entry.primaryId);return id&&(!id.startsWith('lex:')?'lex:'+id:id);}
   function normalizeSenses(entry){
     if(!entry)return [];
@@ -50,7 +126,8 @@
     const role=roleAliases[context.role]||context.role,restrictions=sense.semanticRestrictions||{};
     const described=context.described||(role==='description'&&(context.object||context.subject));
     const targets=list(sense.modifierTargets||entry.modifierTargets);
-    if(described&&targets.length&&!targets.some(tag=>tag==='entity'||contextTags(described).includes(tag)))return false;
+    if(described&&targets.length&&!targets.some(tag=>tag==='entity'||contextTags(described).includes(tag)||propertiesOf(described)[tag]===true))return false;
+    if(described&&!modifierCompatibility(sense,entry,described,meaning))return false;
     for(const argument of ['subject','object','recipient','described']){
       const required=list(restrictions[argument+'Tags']),excluded=list(restrictions['excluded'+argument.charAt(0).toUpperCase()+argument.slice(1)+'Tags']);
       const value=argument==='described'?described:context[argument];
@@ -61,6 +138,9 @@
     // applies to every adjective carrying these English senses.
     if(described&&['difficult','hazardous','easy','arduous'].includes(head)&&!contextTags(described).some(tag=>['abstract','activity','task','human'].includes(tag)))return false;
     if(role==='verb'&&context.object&&['allocate','allot'].includes(head)&&!contextTags(context.object).some(tag=>['economic','quantity','abstract'].includes(tag)))return false;
+    if(role==='verb'&&!predicateCompatibility(entry,context,sense,meaning).ok)return false;
+    const primary=key(entry.e||entry.english).split(/[,;]/)[0];
+    if(['object','subject','topic'].includes(role)&&primary==='water'&&sense.classification&&sense.classification.head==='juice'&&!list(context.semanticTags).includes('extract-source'))return false;
     return true;
   }
   function dictionaryDisplayGloss(value,sense,entry){
@@ -72,6 +152,8 @@
     // Remove only recognized dictionary category labels corroborated by the
     // selected sense. Meaning-bearing parentheses and edited phrases survive.
     if((labels[label]&&labels[label].some(tag=>tags.includes(tag)))||label===pos||(label==='informal'&&pos==='pronoun'))return match[1];
+    if(/^(?:plant and seed|flower and plant|plant or seed|fruit or tree)$/.test(label)&&tags.some(t=>['plant','ingredient','edible'].includes(t)))return match[1];
+    if(/^(?:(?:kind|type|sort) of )?(?:rice dish|ice cream|indian shirt)$/.test(label)&&tags.some(t=>['edible','food','wearable'].includes(t)))return match[1];
     return gloss;
   }
   function authoredPredicateMeaning(entry,sense){
@@ -94,6 +176,13 @@
       // arguments; it does not add a dictionary definition or a recipient.
       const alternatives=string(sense.english).split(/[,;]/).map(key);
       if(!overrideApplies&&role==='verb'&&contextTags(context.object).some(tag=>['edible','drinkable'].includes(tag))&&alternatives.includes('give away')&&alternatives.includes('distribute')&&['distribute','divide'].includes(key(gloss)))gloss='to share';
+      else if(!overrideApplies&&role==='verb'&&context.object&&alternatives.includes('give away')&&alternatives.includes('distribute')&&['distribute','divide'].includes(key(gloss))&&(context.object.englishNumber||context.object.number)!=='pl')gloss='to give away';
+      if(!overrideApplies&&role==='verb'&&/progressive/i.test(aspectOf(context)||'')&&alternatives.includes('find')&&(alternatives.includes('search')||alternatives.includes('seek')))gloss='to search for';
+      if(!overrideApplies&&role==='verb'&&context.subject&&propertiesOf(context.subject).human&&alternatives.includes('drown')&&alternatives.includes('dive'))gloss='to drown';
+      if(!overrideApplies&&role==='description'&&context.described&&key(gloss)==='high'){
+        const p=propertiesOf(context.described);if(p.heightBearing&&!p.geographical)gloss='tall';
+      }
+      if(!overrideApplies&&(role==='subject'||role==='object')&&alternatives.includes('daughter')&&alternatives.includes('child'))gloss='child';
       return conciseGloss(overrideApplies?gloss:dictionaryDisplayGloss(gloss,sense,entry),entry);
     }
     if(gloss)return render(gloss);
@@ -232,5 +321,45 @@
     if(kind==='perfective')form=verb==='lie'&&parts[0]==='down'?'lay':{be:'was',have:'had',do:'did',go:'went',come:'came',eat:'ate',drink:'drank',give:'gave',take:'took',read:'read',write:'wrote',send:'sent',buy:'bought',bring:'brought',find:'found',think:'thought',speak:'spoke',sleep:'slept',rise:'rose',sit:'sat',run:'ran',see:'saw',hear:'heard',teach:'taught',understand:'understood',make:'made',pay:'paid',meet:'met',feel:'felt',leave:'left',keep:'kept',sell:'sold',tell:'told',say:'said',hold:'held',fall:'fell',stand:'stood',wear:'wore',break:'broke',lose:'lost',choose:'chose',drive:'drove',swim:'swam',put:'put',cut:'cut',set:'set',let:'let',cost:'cost',hit:'hit',get:'got',wake:'woke',sing:'sang',fly:'flew',grow:'grew',become:'became',know:'knew',begin:'began',forget:'forgot',forgive:'forgave',win:'won',dig:'dug',catch:'caught',throw:'threw',draw:'drew',build:'built',fight:'fought',feed:'fed',lead:'led',lend:'lent',spend:'spent',shut:'shut'}[verb]||(/[^aeiou]y$/.test(verb)?verb.slice(0,-1)+'ied':/e$/.test(verb)?verb+'d':({stop:'stopped',plan:'planned',prefer:'preferred',travel:'travelled'}[verb]||verb+'ed'));
     return [form].concat(parts).join(' ');
   }
-  return {version:1,normalizeSenses,selectSense,contextualEntry,lexicalSelection,lexicalId,conciseGloss,authoredPredicateMeaning,englishSubject,englishObjective,englishNounPhrase,inflectEnglish};
+  function validateGeneratedSentence(sentence,resolve,template){
+    if(!sentence)return {ok:false,reason:'No sentence.'};
+    if(template&&template.pattern==='wordPractice')return {ok:true,rules:['quoted-dictionary-form']};
+    const nodes=[],rules=new Set(),fail=(rule,reason)=>({ok:false,rule,reason,rules:[...rules]});
+    for(const [index,part] of (sentence.sentenceBreakdown||[]).entries())for(const selection of part.lexicalSelections||[]){
+      const entry=resolve(selection.vocabularyId);if(!entry)continue;
+      const sense=normalizeSenses(entry).find(s=>s.id===selection.senseId);if(!sense)return fail('stable-sense-reference','The selected sense is absent.');
+      const authoredFunction=['CONNECTOR','QUESTION','NUMBER'].includes(part.category)&&list(selection.evidence).includes('authored-construction-context');
+      if(sense.sentenceEligible===false&&!authoredFunction)return fail('unsupported-sense-construction',sense.restrictionReason||'This source sense is not approved for sentence construction.');
+      const node=Object.assign({},entry,{selectedSenseId:sense.id,e:selection.contextualMeaning,semanticTags:sense.semanticTags.length?sense.semanticTags:entry.semanticTags,semanticProperties:Object.assign({},entry.semanticProperties,sense.semanticProperties)});
+      nodes.push({entry:node,source:entry,sense,index,part,selection});
+    }
+    const subjects=nodes.filter(n=>n.part.category==='WHO'||['subject','experiencer','possessor','addressee'].includes(n.part.role));
+    for(const node of nodes.filter(n=>n.part.category==='WHO'))if(!propertiesOf(node.entry).human)return fail('human-role-evidence','This person slot needs human evidence for the selected sense, not another sense of the word.');
+    const objects=nodes.filter(n=>n.part.category==='WHAT'||n.part.role==='object');
+    const subject=subjects[0]&&subjects[0].entry,recipient=nodes.find(n=>n.part.role==='recipient'||n.part.category==='RECIPIENT');
+    const instrument=nodes.find(n=>n.part.role==='instrument'||n.part.category==='INSTRUMENT');
+    for(const n of nodes){
+      const pos=n.sense.partOfSpeech||n.entry.partOfSpeech;
+      if(pos==='verb'){
+        const object=objects.filter(o=>o.index<n.index).at(-1)||objects[0];
+        const result=predicateCompatibility(n.entry,{subject,object:object&&object.entry,recipient:recipient&&recipient.entry,instrument:instrument&&instrument.entry,template,complete:true},n.sense,n.selection.contextualMeaning);
+        if(!result.ok)return result;result.rules.forEach(r=>rules.add(r));
+      }
+      if(pos==='adjective'){
+        const described=(objects[0]||subjects[0]);
+        if(described&&!modifierCompatibility(n.sense,n.entry,described.entry,n.selection.contextualMeaning))return fail('modifier-dimension','The noun lacks this modifier’s supported property.');
+        if(described)rules.add('modifier-dimension');
+      }
+    }
+    const location=nodes.find(n=>n.part.role==='location'||n.part.category==='WHERE');
+    if(location&&objects[0]&&/nominalLocation|thereIs/.test(template&&template.pattern||'')){
+      const item=propertiesOf(objects[0].entry),place=propertiesOf(location.entry);
+      if(place.indoor&&(item.geographical||item.celestial||item.place&&!['room','bedroom','bathroom','kitchen'].includes(item.head)))return fail('location-scale','The entity does not fit this ordinary indoor location.');
+      rules.add('location-scale');
+    }
+    if(template&&template.pattern==='comparison'&&objects.length>1&&lexicalId(objects[0].entry)===lexicalId(objects[1].entry))return fail('distinct-comparison','The comparison needs distinct referents.');
+    if(recipient&&subject&&subject.partOfSpeech==='pronoun'&&lexicalId(recipient.entry)===lexicalId(subject))return fail('reflexive-recipient-required','This self-transfer needs a reflexive construction not supported by this template.');
+    return {ok:true,rules:[...rules]};
+  }
+  return {version:2,normalizeSenses,selectSense,contextualEntry,lexicalSelection,lexicalId,conciseGloss,authoredPredicateMeaning,englishSubject,englishObjective,englishNounPhrase,inflectEnglish,propertiesOf,semanticMetadata,predicateCompatibility,modifierCompatibility,validateGeneratedSentence};
 });
