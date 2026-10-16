@@ -1,0 +1,5162 @@
+{
+  "baseline": {
+    "coverage": {
+      "label": "baseline",
+      "seed": 20261016,
+      "sourceRef": "332513d279bbd757615d44077860e5acf7f2be14",
+      "corpusSha256": "cdbf9ffffe6a737ce96c4dedf27b99b00777992ae7804f94d2a4f524eba1272a",
+      "enabledTemplates": 97,
+      "templates": [
+        {
+          "id": "P01",
+          "pattern": "habitObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P02",
+          "pattern": "habitBare",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P03",
+          "pattern": "habitDetailed",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P04",
+          "pattern": "habitNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 205,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P05",
+          "pattern": "habitQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P06",
+          "pattern": "progressObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 206,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P07",
+          "pattern": "progressBare",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 212,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P08",
+          "pattern": "progressNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P09",
+          "pattern": "whatDoing",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 786,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P10",
+          "pattern": "whereGoing",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 743,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P11",
+          "pattern": "whenComing",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 831,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P12",
+          "pattern": "whyDoing",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P13",
+          "pattern": "howDoing",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P14",
+          "pattern": "wantObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P15",
+          "pattern": "wantNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P16",
+          "pattern": "wantGo",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 222,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P17",
+          "pattern": "canObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 202,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P18",
+          "pattern": "cannotObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P19",
+          "pattern": "canYou",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 354,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P20",
+          "pattern": "politeRequest",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 341,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P21",
+          "pattern": "needTo",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P22",
+          "pattern": "shouldDo",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 202,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P23",
+          "pattern": "likes",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 322,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P24",
+          "pattern": "dislikes",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 281,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P25",
+          "pattern": "hasObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 301,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P26",
+          "pattern": "hasNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 298,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P27",
+          "pattern": "haveQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 314,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P28",
+          "pattern": "state",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 209,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P29",
+          "pattern": "stateNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 210,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P30",
+          "pattern": "stateQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 209,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P31",
+          "pattern": "thereIs",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 244,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P32",
+          "pattern": "thereIsNot",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 243,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P33",
+          "pattern": "plannedFuture",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P34",
+          "pattern": "talkAbout",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P35",
+          "pattern": "askAbout",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 205,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P36",
+          "pattern": "because",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P37",
+          "pattern": "andActions",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 202,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P38",
+          "pattern": "butContrast",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P39",
+          "pattern": "conditional",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 208,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P40",
+          "pattern": "choiceQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 1200,
+          "shortfall": 0,
+          "reason": null,
+          "quotaCompletionAttempts": 415
+        },
+        {
+          "id": "P41",
+          "pattern": "whichWant",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P42",
+          "pattern": "amountQuestion",
+          "requested": 200,
+          "generated": 4,
+          "attempts": 213,
+          "shortfall": 196,
+          "reason": "Bounded diverse-pool attempts exhausted; unique outputs/compatibility are limited."
+        },
+        {
+          "id": "P43",
+          "pattern": "pastState",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 202,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P44",
+          "pattern": "pastProgressObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P45",
+          "pattern": "pastHabit",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 207,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P46",
+          "pattern": "pastWent",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 206,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P47",
+          "pattern": "finiteFutureObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 202,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P48",
+          "pattern": "finiteFutureMotion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 226,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P49",
+          "pattern": "finiteFutureNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P50",
+          "pattern": "finiteFutureQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P51",
+          "pattern": "perfectiveObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 204,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P52",
+          "pattern": "perfectiveOrigin",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 205,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P53",
+          "pattern": "giveRecipient",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P54",
+          "pattern": "perfectiveRecipient",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 208,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P55",
+          "pattern": "originProgressive",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 207,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P56",
+          "pattern": "accompaniment",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P57",
+          "pattern": "comparison",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 931,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P58",
+          "pattern": "instrument",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 338,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P59",
+          "pattern": "nominalIdentity",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 578,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P60",
+          "pattern": "nominalDescription",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 225,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P61",
+          "pattern": "nominalLocation",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 217,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P62",
+          "pattern": "nominalWhereQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 1200,
+          "shortfall": 0,
+          "reason": null,
+          "quotaCompletionAttempts": 277
+        },
+        {
+          "id": "P63",
+          "pattern": "occupationIdentity",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 553,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P64",
+          "pattern": "finiteFutureBare",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 205,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P65",
+          "pattern": "perfectiveBare",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 205,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P66",
+          "pattern": "mannerProgressive",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 219,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P67",
+          "pattern": "nominalPastDescription",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 222,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P68",
+          "pattern": "nominalNegativeDescription",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 213,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P69",
+          "pattern": "nominalPossession",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 223,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P70",
+          "pattern": "nominalPreference",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 223,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P71",
+          "pattern": "causalProgressive",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 213,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P72",
+          "pattern": "connector:and",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P73",
+          "pattern": "connector:but",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 1183,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "quotaCompletionAttempts": 630
+        },
+        {
+          "id": "P74",
+          "pattern": "connector:purpose",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 1200,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "quotaCompletionAttempts": 630
+        },
+        {
+          "id": "P75",
+          "pattern": "connector:if",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 1101,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P76",
+          "pattern": "connector:when",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 1200,
+          "shortfall": 0,
+          "reason": null,
+          "quotaCompletionAttempts": 532
+        },
+        {
+          "id": "P77",
+          "pattern": "connector:then",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P78",
+          "pattern": "connector:however",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 1200,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "quotaCompletionAttempts": 630
+        },
+        {
+          "id": "P79",
+          "pattern": "connector:or",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P80",
+          "pattern": "connector:because",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 1133,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "quotaCompletionAttempts": 630
+        },
+        {
+          "id": "P81",
+          "pattern": "connector:therefore",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 1200,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "quotaCompletionAttempts": 630
+        },
+        {
+          "id": "P82",
+          "pattern": "connector:although",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 1063,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "quotaCompletionAttempts": 630
+        },
+        {
+          "id": "P83",
+          "pattern": "connector:also",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 211,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P84",
+          "pattern": "connector:first",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 215,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P85",
+          "pattern": "connector:afterward",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 215,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P86",
+          "pattern": "connector:finally",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 1200,
+          "shortfall": 0,
+          "reason": null,
+          "quotaCompletionAttempts": 433
+        },
+        {
+          "id": "P87",
+          "pattern": "numberIdentity",
+          "requested": 200,
+          "generated": 21,
+          "attempts": 62,
+          "shortfall": 179,
+          "reason": "Finite existing numeral inventory."
+        },
+        {
+          "id": "P88",
+          "pattern": "wordPractice",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 270,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P89",
+          "pattern": "question:who",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P90",
+          "pattern": "question:whom",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 1200,
+          "shortfall": 0,
+          "reason": null,
+          "quotaCompletionAttempts": 6658
+        },
+        {
+          "id": "P91",
+          "pattern": "question:whose",
+          "requested": 200,
+          "generated": 95,
+          "attempts": 1200,
+          "shortfall": 105,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "quotaCompletionAttempts": 11031
+        },
+        {
+          "id": "P92",
+          "pattern": "question:else",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P93",
+          "pattern": "question:duration",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P94",
+          "pattern": "question:distance",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P95",
+          "pattern": "question:count",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P96",
+          "pattern": "countedPossession",
+          "requested": 200,
+          "generated": 20,
+          "attempts": 228,
+          "shortfall": 180,
+          "reason": "Bounded diverse-pool attempts exhausted; unique outputs/compatibility are limited."
+        },
+        {
+          "id": "P97",
+          "pattern": "connector:reasonResult",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 1200,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "quotaCompletionAttempts": 630
+        }
+      ],
+      "mainSentences": 17539,
+      "supplementarySentences": 6819,
+      "totalSentences": 24358,
+      "distinctSemanticEntries": 3004,
+      "distinctQuotedEntries": 3111,
+      "distinctEntries": 3111,
+      "enabledBoundEntries": 3111,
+      "bindings": 8661,
+      "exercisedBindings": 8533,
+      "unreachedBindings": 128,
+      "unboundEntries": 0,
+      "generationExceptions": {},
+      "method": "Seeded rotating pools from every enabled binding, semantic-tag anchors and fixed dependencies. Up to 1200 attempts/template; 200 unique bilingual outputs where reachable. At most five templates × three attempts for supplementary uncovered role/sense bindings. Fixed-surface and finite-inventory shortfalls are explicit. Quote-only vocabulary is counted separately from propositional usage.",
+      "quotaCompletion": "Shortfalls with variable content also receive up to three forced-pool attempts for every enabled target binding, retaining fixed dependencies and sleeping/work support verbs. Exact surface duplicates are discarded."
+    },
+    "screen": {
+      "label": "baseline",
+      "criteriaVersion": 1,
+      "scope": "Frozen rule-based full-corpus screening, not a fluent-speaker accuracy measurement. See the separate development-time AI review ledger for sampled language-quality estimates.",
+      "totals": {
+        "screen-clear": 19404,
+        "incorrect": 639,
+        "questionable": 1009,
+        "quoted": 3306
+      },
+      "main": {
+        "sentences": 17339,
+        "incorrect": 628,
+        "questionable": 1001,
+        "screenClearRate": 0.9060499452102198
+      },
+      "all": {
+        "sentences": 21052,
+        "incorrect": 639,
+        "questionable": 1009,
+        "screenClearRate": 0.9217176515295459
+      },
+      "distinctRootCauseRules": 28,
+      "rules": {
+        "manipulation-of-fixed-entity": {
+          "category": "B",
+          "severity": "error",
+          "count": 189,
+          "exampleIds": [
+            "baseline-000014",
+            "baseline-000035",
+            "baseline-000077",
+            "baseline-000421",
+            "baseline-000442",
+            "baseline-000459",
+            "baseline-000483",
+            "baseline-000525"
+          ]
+        },
+        "singular-distribution-realization": {
+          "category": "E",
+          "severity": "questionable",
+          "count": 201,
+          "exampleIds": [
+            "baseline-000023",
+            "baseline-000056",
+            "baseline-000067",
+            "baseline-000078",
+            "baseline-000123",
+            "baseline-000135",
+            "baseline-000168",
+            "baseline-000423"
+          ]
+        },
+        "unexpressed-container": {
+          "category": "G",
+          "severity": "questionable",
+          "count": 81,
+          "exampleIds": [
+            "baseline-000055",
+            "baseline-000144",
+            "baseline-000159",
+            "baseline-000166",
+            "baseline-000409",
+            "baseline-000737",
+            "baseline-000844",
+            "baseline-000855"
+          ]
+        },
+        "physical-action-on-digital-content": {
+          "category": "B",
+          "severity": "error",
+          "count": 82,
+          "exampleIds": [
+            "baseline-000083",
+            "baseline-000088",
+            "baseline-000155",
+            "baseline-000431",
+            "baseline-000443",
+            "baseline-000449",
+            "baseline-000575",
+            "baseline-000654"
+          ]
+        },
+        "consumption-mode": {
+          "category": "E",
+          "severity": "questionable",
+          "count": 23,
+          "exampleIds": [
+            "baseline-000107",
+            "baseline-000118",
+            "baseline-000140",
+            "baseline-000162",
+            "baseline-000184",
+            "baseline-000828",
+            "baseline-001050",
+            "baseline-001180"
+          ]
+        },
+        "source-qualified-agent": {
+          "category": "A",
+          "severity": "error",
+          "count": 76,
+          "exampleIds": [
+            "baseline-000207",
+            "baseline-000208",
+            "baseline-000285",
+            "baseline-000319",
+            "baseline-000368",
+            "baseline-000379",
+            "baseline-001219",
+            "baseline-001286"
+          ]
+        },
+        "kinship-agreement-metadata": {
+          "category": "C",
+          "severity": "error",
+          "count": 83,
+          "exampleIds": [
+            "baseline-000250",
+            "baseline-000467",
+            "baseline-000548",
+            "baseline-000634",
+            "baseline-000818",
+            "baseline-001218",
+            "baseline-001731",
+            "baseline-002028"
+          ]
+        },
+        "missing-copular-complement": {
+          "category": "C",
+          "severity": "error",
+          "count": 18,
+          "exampleIds": [
+            "baseline-000393",
+            "baseline-001216",
+            "baseline-001304",
+            "baseline-001387",
+            "baseline-012140",
+            "baseline-012207",
+            "baseline-012229",
+            "baseline-012250"
+          ]
+        },
+        "compound-only-usage": {
+          "category": "F",
+          "severity": "questionable",
+          "count": 45,
+          "exampleIds": [
+            "baseline-000646",
+            "baseline-001310",
+            "baseline-001479",
+            "baseline-001592",
+            "baseline-001615",
+            "baseline-001966",
+            "baseline-002167",
+            "baseline-002495"
+          ]
+        },
+        "progressive-stative": {
+          "category": "E",
+          "severity": "questionable",
+          "count": 52,
+          "exampleIds": [
+            "baseline-001038",
+            "baseline-001045",
+            "baseline-001056",
+            "baseline-001061",
+            "baseline-001077",
+            "baseline-001082",
+            "baseline-001093",
+            "baseline-001100"
+          ]
+        },
+        "unsupported-extended-noun-sense": {
+          "category": "A",
+          "severity": "error",
+          "count": 8,
+          "exampleIds": [
+            "baseline-001153",
+            "baseline-003713",
+            "baseline-006656",
+            "baseline-007846",
+            "baseline-008492",
+            "baseline-008896",
+            "baseline-010815",
+            "baseline-016841"
+          ]
+        },
+        "natural-process-agent": {
+          "category": "B",
+          "severity": "error",
+          "count": 20,
+          "exampleIds": [
+            "baseline-001234",
+            "baseline-012191",
+            "baseline-012202",
+            "baseline-012415",
+            "baseline-012426",
+            "baseline-012459",
+            "baseline-013747",
+            "baseline-013758"
+          ]
+        },
+        "progressive-search-sense": {
+          "category": "E",
+          "severity": "questionable",
+          "count": 3,
+          "exampleIds": [
+            "baseline-001559",
+            "baseline-008288",
+            "baseline-008310"
+          ]
+        },
+        "mass-existential-agreement": {
+          "category": "C",
+          "severity": "error",
+          "count": 36,
+          "exampleIds": [
+            "baseline-006009",
+            "baseline-006022",
+            "baseline-006034",
+            "baseline-006046",
+            "baseline-006059",
+            "baseline-006068",
+            "baseline-006090",
+            "baseline-006098"
+          ]
+        },
+        "mass-quantity-question": {
+          "category": "C",
+          "severity": "error",
+          "count": 2,
+          "exampleIds": [
+            "baseline-007937",
+            "baseline-020838"
+          ]
+        },
+        "self-comparison": {
+          "category": "E",
+          "severity": "questionable",
+          "count": 1,
+          "exampleIds": [
+            "baseline-010815"
+          ]
+        },
+        "instrument-medium": {
+          "category": "B",
+          "severity": "error",
+          "count": 93,
+          "exampleIds": [
+            "baseline-010941",
+            "baseline-010943",
+            "baseline-010946",
+            "baseline-010948",
+            "baseline-010949",
+            "baseline-010952",
+            "baseline-010957",
+            "baseline-010963"
+          ]
+        },
+        "length-context-unestablished": {
+          "category": "G",
+          "severity": "questionable",
+          "count": 9,
+          "exampleIds": [
+            "baseline-011364",
+            "baseline-011399",
+            "baseline-011400",
+            "baseline-011416",
+            "baseline-011458",
+            "baseline-011465",
+            "baseline-012789",
+            "baseline-012949"
+          ]
+        },
+        "noun-gloss-as-adjective": {
+          "category": "A",
+          "severity": "error",
+          "count": 6,
+          "exampleIds": [
+            "baseline-011368",
+            "baseline-011509",
+            "baseline-012766",
+            "baseline-012786",
+            "baseline-012841",
+            "baseline-012971"
+          ]
+        },
+        "height-context-unestablished": {
+          "category": "G",
+          "severity": "questionable",
+          "count": 18,
+          "exampleIds": [
+            "baseline-011371",
+            "baseline-011394",
+            "baseline-011403",
+            "baseline-011440",
+            "baseline-011483",
+            "baseline-012744",
+            "baseline-012775",
+            "baseline-012783"
+          ]
+        },
+        "depth-without-depth-referent": {
+          "category": "B",
+          "severity": "error",
+          "count": 12,
+          "exampleIds": [
+            "baseline-011383",
+            "baseline-011435",
+            "baseline-012718",
+            "baseline-012808",
+            "baseline-012837",
+            "baseline-012903",
+            "baseline-012945",
+            "baseline-012976"
+          ]
+        },
+        "moisture-of-liquid": {
+          "category": "E",
+          "severity": "questionable",
+          "count": 1,
+          "exampleIds": [
+            "baseline-011502"
+          ]
+        },
+        "location-scale-mismatch": {
+          "category": "B",
+          "severity": "error",
+          "count": 4,
+          "exampleIds": [
+            "baseline-011639",
+            "baseline-011654",
+            "baseline-011655",
+            "baseline-011724"
+          ]
+        },
+        "ripeness-without-produce": {
+          "category": "B",
+          "severity": "error",
+          "count": 1,
+          "exampleIds": [
+            "baseline-012745"
+          ]
+        },
+        "solid-property-of-liquid": {
+          "category": "B",
+          "severity": "error",
+          "count": 2,
+          "exampleIds": [
+            "baseline-012777",
+            "baseline-012801"
+          ]
+        },
+        "freshness-context-unestablished": {
+          "category": "G",
+          "severity": "questionable",
+          "count": 3,
+          "exampleIds": [
+            "baseline-012805",
+            "baseline-012883",
+            "baseline-012932"
+          ]
+        },
+        "established-actor-reference": {
+          "category": "D",
+          "severity": "questionable",
+          "count": 591,
+          "exampleIds": [
+            "baseline-013717",
+            "baseline-013729",
+            "baseline-013742",
+            "baseline-013747",
+            "baseline-013749",
+            "baseline-013769",
+            "baseline-013770",
+            "baseline-013776"
+          ]
+        },
+        "possessive-determiner": {
+          "category": "C",
+          "severity": "error",
+          "count": 11,
+          "exampleIds": [
+            "baseline-016890",
+            "baseline-016895",
+            "baseline-016897",
+            "baseline-016927",
+            "baseline-016929",
+            "baseline-016933",
+            "baseline-016938",
+            "baseline-016940"
+          ]
+        }
+      }
+    },
+    "aiReview": {
+      "sampleSize": 544,
+      "templates": 96,
+      "validity": {
+        "plausible": 498,
+        "incorrect": 18,
+        "uncertain": 28
+      },
+      "translation": {
+        "accurate": 523,
+        "incorrect": 17,
+        "uncertain": 4
+      },
+      "natural": 459,
+      "method": "Development-time assistant review of every record in each deterministic, template-stratified review sample, including Gurmukhi, English and selected source senses. This is not independent human/native review. The full corpus is separately screened by the frozen explicit rubric. Sparse exceptions below override the reviewed default of plausible meaning, accurate translation and natural wording; uncertainty is never counted as a confirmed error.",
+      "sampling": "Up to six evenly spaced distinct main-corpus slots per enabled template, excluding quoted-word practice. Withdrawn final regression slots use seeded, outcome-independent replacements from the same template. Descriptive sample rates, not population estimates or fluent-speaker certification.",
+      "validityRate": 0.9154411764705882,
+      "contextualTranslationAccuracy": 0.9613970588235294,
+      "naturalnessRate": 0.84375
+    },
+    "runtimeSha256": "5ae626a335f5582a619bbc9e14e0307d3d824b54a58af540f2e32b9384e4434c"
+  },
+  "final": {
+    "coverage": {
+      "label": "final",
+      "seed": 20261016,
+      "sourceRef": "working-tree",
+      "corpusSha256": "ec589b53d894f7dfbca1830049ae8507307a55834c97240f64e71f33a8a0bdc4",
+      "enabledTemplates": 97,
+      "templates": [
+        {
+          "id": "P01",
+          "pattern": "habitObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 56
+        },
+        {
+          "id": "P02",
+          "pattern": "habitBare",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 207,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 61
+        },
+        {
+          "id": "P03",
+          "pattern": "habitDetailed",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 25
+        },
+        {
+          "id": "P04",
+          "pattern": "habitNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 27
+        },
+        {
+          "id": "P05",
+          "pattern": "habitQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 55
+        },
+        {
+          "id": "P06",
+          "pattern": "progressObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 56
+        },
+        {
+          "id": "P07",
+          "pattern": "progressBare",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 204,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 82
+        },
+        {
+          "id": "P08",
+          "pattern": "progressNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 202,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 24
+        },
+        {
+          "id": "P09",
+          "pattern": "whatDoing",
+          "requested": 200,
+          "generated": 198,
+          "attempts": 564,
+          "shortfall": 2,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        },
+        {
+          "id": "P10",
+          "pattern": "whereGoing",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 588,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        },
+        {
+          "id": "P11",
+          "pattern": "whenComing",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 510,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        },
+        {
+          "id": "P12",
+          "pattern": "whyDoing",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 29
+        },
+        {
+          "id": "P13",
+          "pattern": "howDoing",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 28
+        },
+        {
+          "id": "P14",
+          "pattern": "wantObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 29
+        },
+        {
+          "id": "P15",
+          "pattern": "wantNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 28
+        },
+        {
+          "id": "P16",
+          "pattern": "wantGo",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 215,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 57
+        },
+        {
+          "id": "P17",
+          "pattern": "canObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 22
+        },
+        {
+          "id": "P18",
+          "pattern": "cannotObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 28
+        },
+        {
+          "id": "P19",
+          "pattern": "canYou",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 394,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P20",
+          "pattern": "politeRequest",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 361,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P21",
+          "pattern": "needTo",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 207,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 26
+        },
+        {
+          "id": "P22",
+          "pattern": "shouldDo",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 204,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 67
+        },
+        {
+          "id": "P23",
+          "pattern": "likes",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 262,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 89
+        },
+        {
+          "id": "P24",
+          "pattern": "dislikes",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 292,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 90
+        },
+        {
+          "id": "P25",
+          "pattern": "hasObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 286,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 102
+        },
+        {
+          "id": "P26",
+          "pattern": "hasNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 290,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 93
+        },
+        {
+          "id": "P27",
+          "pattern": "haveQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 300,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 67
+        },
+        {
+          "id": "P28",
+          "pattern": "state",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 208,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 63
+        },
+        {
+          "id": "P29",
+          "pattern": "stateNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 216,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 63
+        },
+        {
+          "id": "P30",
+          "pattern": "stateQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 204,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 30
+        },
+        {
+          "id": "P31",
+          "pattern": "thereIs",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 255,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P32",
+          "pattern": "thereIsNot",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 264,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P33",
+          "pattern": "plannedFuture",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 23
+        },
+        {
+          "id": "P34",
+          "pattern": "talkAbout",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 207,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 27
+        },
+        {
+          "id": "P35",
+          "pattern": "askAbout",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 204,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 29
+        },
+        {
+          "id": "P36",
+          "pattern": "because",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 30
+        },
+        {
+          "id": "P37",
+          "pattern": "andActions",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 23
+        },
+        {
+          "id": "P38",
+          "pattern": "butContrast",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 27
+        },
+        {
+          "id": "P39",
+          "pattern": "conditional",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 67
+        },
+        {
+          "id": "P40",
+          "pattern": "choiceQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 1200,
+          "shortfall": 0,
+          "reason": null,
+          "quotaCompletionAttempts": 285
+        },
+        {
+          "id": "P41",
+          "pattern": "whichWant",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P42",
+          "pattern": "amountQuestion",
+          "requested": 200,
+          "generated": 5,
+          "attempts": 323,
+          "shortfall": 195,
+          "reason": "Bounded diverse-pool attempts exhausted; unique outputs/compatibility are limited."
+        },
+        {
+          "id": "P43",
+          "pattern": "pastState",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 202,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 30
+        },
+        {
+          "id": "P44",
+          "pattern": "pastProgressObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 29
+        },
+        {
+          "id": "P45",
+          "pattern": "pastHabit",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 59
+        },
+        {
+          "id": "P46",
+          "pattern": "pastWent",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 29
+        },
+        {
+          "id": "P47",
+          "pattern": "finiteFutureObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 29
+        },
+        {
+          "id": "P48",
+          "pattern": "finiteFutureMotion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 220,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 60
+        },
+        {
+          "id": "P49",
+          "pattern": "finiteFutureNegative",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 203,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 22
+        },
+        {
+          "id": "P50",
+          "pattern": "finiteFutureQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 202,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 21
+        },
+        {
+          "id": "P51",
+          "pattern": "perfectiveObject",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 204,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 30
+        },
+        {
+          "id": "P52",
+          "pattern": "perfectiveOrigin",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 208,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 60
+        },
+        {
+          "id": "P53",
+          "pattern": "giveRecipient",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 26
+        },
+        {
+          "id": "P54",
+          "pattern": "perfectiveRecipient",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 206,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 30
+        },
+        {
+          "id": "P55",
+          "pattern": "originProgressive",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 209,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 61
+        },
+        {
+          "id": "P56",
+          "pattern": "accompaniment",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 202,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 30
+        },
+        {
+          "id": "P57",
+          "pattern": "comparison",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 903,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P58",
+          "pattern": "instrument",
+          "requested": 200,
+          "generated": 169,
+          "attempts": 550,
+          "shortfall": 31,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        },
+        {
+          "id": "P59",
+          "pattern": "nominalIdentity",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 560,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P60",
+          "pattern": "nominalDescription",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 241,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P61",
+          "pattern": "nominalLocation",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 212,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P62",
+          "pattern": "nominalWhereQuestion",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 1189,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P63",
+          "pattern": "occupationIdentity",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 356,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 19
+        },
+        {
+          "id": "P64",
+          "pattern": "finiteFutureBare",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 209,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 76
+        },
+        {
+          "id": "P65",
+          "pattern": "perfectiveBare",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 207,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 76
+        },
+        {
+          "id": "P66",
+          "pattern": "mannerProgressive",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 354,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 22
+        },
+        {
+          "id": "P67",
+          "pattern": "nominalPastDescription",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 223,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P68",
+          "pattern": "nominalNegativeDescription",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 220,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P69",
+          "pattern": "nominalPossession",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 225,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 67
+        },
+        {
+          "id": "P70",
+          "pattern": "nominalPreference",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 222,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 69
+        },
+        {
+          "id": "P71",
+          "pattern": "causalProgressive",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 220,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 73
+        },
+        {
+          "id": "P72",
+          "pattern": "connector:and",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 55
+        },
+        {
+          "id": "P73",
+          "pattern": "connector:but",
+          "requested": 200,
+          "generated": 198,
+          "attempts": 615,
+          "shortfall": 2,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        },
+        {
+          "id": "P74",
+          "pattern": "connector:purpose",
+          "requested": 200,
+          "generated": 198,
+          "attempts": 1200,
+          "shortfall": 2,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "quotaCompletionAttempts": 627,
+          "repairRole": "WHO"
+        },
+        {
+          "id": "P75",
+          "pattern": "connector:if",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 624,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        },
+        {
+          "id": "P76",
+          "pattern": "connector:when",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 546,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        },
+        {
+          "id": "P77",
+          "pattern": "connector:then",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 200,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 29
+        },
+        {
+          "id": "P78",
+          "pattern": "connector:however",
+          "requested": 200,
+          "generated": 198,
+          "attempts": 563,
+          "shortfall": 2,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        },
+        {
+          "id": "P79",
+          "pattern": "connector:or",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 220,
+          "shortfall": 0,
+          "reason": null,
+          "quotaCompletionAttempts": 57,
+          "repairRole": "WHO"
+        },
+        {
+          "id": "P80",
+          "pattern": "connector:because",
+          "requested": 200,
+          "generated": 198,
+          "attempts": 620,
+          "shortfall": 2,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        },
+        {
+          "id": "P81",
+          "pattern": "connector:therefore",
+          "requested": 200,
+          "generated": 198,
+          "attempts": 220,
+          "shortfall": 2,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "quotaCompletionAttempts": 627,
+          "repairRole": "WHO"
+        },
+        {
+          "id": "P82",
+          "pattern": "connector:although",
+          "requested": 200,
+          "generated": 198,
+          "attempts": 526,
+          "shortfall": 2,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        },
+        {
+          "id": "P83",
+          "pattern": "connector:also",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 209,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 79
+        },
+        {
+          "id": "P84",
+          "pattern": "connector:first",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 201,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 68
+        },
+        {
+          "id": "P85",
+          "pattern": "connector:afterward",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 207,
+          "shortfall": 0,
+          "reason": null,
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 65
+        },
+        {
+          "id": "P86",
+          "pattern": "connector:finally",
+          "requested": 200,
+          "generated": 199,
+          "attempts": 581,
+          "shortfall": 1,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        },
+        {
+          "id": "P87",
+          "pattern": "numberIdentity",
+          "requested": 200,
+          "generated": 21,
+          "attempts": 48,
+          "shortfall": 179,
+          "reason": "Finite existing numeral inventory."
+        },
+        {
+          "id": "P88",
+          "pattern": "wordPractice",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 280,
+          "shortfall": 0,
+          "reason": null
+        },
+        {
+          "id": "P89",
+          "pattern": "question:who",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P90",
+          "pattern": "question:whom",
+          "requested": 200,
+          "generated": 200,
+          "attempts": 1200,
+          "shortfall": 0,
+          "reason": null,
+          "quotaCompletionAttempts": 6622
+        },
+        {
+          "id": "P91",
+          "pattern": "question:whose",
+          "requested": 200,
+          "generated": 104,
+          "attempts": 1200,
+          "shortfall": 96,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "quotaCompletionAttempts": 11028
+        },
+        {
+          "id": "P92",
+          "pattern": "question:else",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P93",
+          "pattern": "question:duration",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P94",
+          "pattern": "question:distance",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P95",
+          "pattern": "question:count",
+          "requested": 200,
+          "generated": 1,
+          "attempts": 1,
+          "shortfall": 199,
+          "reason": "The template has one fixed surface sentence."
+        },
+        {
+          "id": "P96",
+          "pattern": "countedPossession",
+          "requested": 200,
+          "generated": 20,
+          "attempts": 229,
+          "shortfall": 180,
+          "reason": "Bounded diverse-pool attempts exhausted; unique outputs/compatibility are limited."
+        },
+        {
+          "id": "P97",
+          "pattern": "connector:reasonResult",
+          "requested": 200,
+          "generated": 198,
+          "attempts": 618,
+          "shortfall": 2,
+          "reason": "All enabled target bindings were offered in bounded forced-pool quota completion; the engine did not yield 200 distinct accepted surfaces.",
+          "repairRole": "WHO",
+          "quotaCompletionAttempts": 627
+        }
+      ],
+      "mainSentences": 17504,
+      "supplementarySentences": 6541,
+      "totalSentences": 24045,
+      "distinctSemanticEntries": 2977,
+      "distinctQuotedEntries": 3111,
+      "distinctEntries": 3111,
+      "enabledBoundEntries": 3111,
+      "bindings": 8658,
+      "exercisedBindings": 8276,
+      "unreachedBindings": 382,
+      "unboundEntries": 0,
+      "generationExceptions": {},
+      "method": "Seeded rotating pools from every enabled binding, semantic-tag anchors and fixed dependencies. Up to 1200 attempts/template; 200 unique bilingual outputs where reachable. At most five templates × three attempts for supplementary uncovered role/sense bindings. Fixed-surface and finite-inventory shortfalls are explicit. Quote-only vocabulary is counted separately from propositional usage.",
+      "quotaCompletion": "Shortfalls with variable content also receive up to three forced-pool attempts for every enabled target binding, retaining fixed dependencies and sleeping/work support verbs. Exact surface duplicates are discarded.",
+      "pass2RegressionRepair": {
+        "templates": [
+          "P79",
+          "P81"
+        ],
+        "reason": "The final acceptance check incorrectly blocked authored function-word constructions when their dictionary display gloss was ineligible. Only the affected templates were regenerated after a focused regression passed."
+      },
+      "pass2PropertyRegressionRepair": {
+        "changedSenses": 660,
+        "invalidRecordsReplacedOrWithdrawn": 3105,
+        "mainReplacements": 2925,
+        "withdrawnRoleBindings": 39,
+        "reason": "Audited senses must not inherit entry-wide tags from other senses or gain human bindings from unresolved imported tags. Only records referencing affected senses were revalidated and invalid cases replaced/withdrawn; unaffected records retained."
+      },
+      "pass2QuotaCompletion": {
+        "templates": [
+          "P53",
+          "P54",
+          "P56",
+          "P58",
+          "P63"
+        ],
+        "reason": "Bounded replacement quota completion retained distinct recipient/companion support and occupation candidates. Finite/remaining shortfalls are reported without further regeneration."
+      }
+    },
+    "screen": {
+      "label": "final",
+      "criteriaVersion": 1,
+      "scope": "Frozen rule-based full-corpus screening, not a fluent-speaker accuracy measurement. See the separate development-time AI review ledger for sampled language-quality estimates.",
+      "totals": {
+        "screen-clear": 20736,
+        "questionable": 2,
+        "incorrect": 5,
+        "quoted": 3302
+      },
+      "main": {
+        "sentences": 17304,
+        "incorrect": 2,
+        "questionable": 2,
+        "screenClearRate": 0.9997688395746648
+      },
+      "all": {
+        "sentences": 20743,
+        "incorrect": 5,
+        "questionable": 2,
+        "screenClearRate": 0.9996625367593888
+      },
+      "distinctRootCauseRules": 4,
+      "rules": {
+        "singular-distribution-realization": {
+          "category": "E",
+          "severity": "questionable",
+          "count": 1,
+          "exampleIds": [
+            "final-007549"
+          ]
+        },
+        "english-number-or-mass-article": {
+          "category": "C",
+          "severity": "error",
+          "count": 4,
+          "exampleIds": [
+            "final-010155",
+            "final-010210",
+            "final-017939",
+            "final-020057"
+          ]
+        },
+        "self-comparison": {
+          "category": "E",
+          "severity": "questionable",
+          "count": 1,
+          "exampleIds": [
+            "final-010836"
+          ]
+        },
+        "unsupported-extended-noun-sense": {
+          "category": "A",
+          "severity": "error",
+          "count": 1,
+          "exampleIds": [
+            "final-019659"
+          ]
+        }
+      }
+    },
+    "aiReview": {
+      "sampleSize": 545,
+      "templates": 96,
+      "validity": {
+        "plausible": 522,
+        "incorrect": 2,
+        "uncertain": 21
+      },
+      "translation": {
+        "accurate": 526,
+        "incorrect": 13,
+        "uncertain": 6
+      },
+      "natural": 509,
+      "method": "Development-time assistant review of every record in each deterministic, template-stratified review sample, including Gurmukhi, English and selected source senses. This is not independent human/native review. The full corpus is separately screened by the frozen explicit rubric. Sparse exceptions below override the reviewed default of plausible meaning, accurate translation and natural wording; uncertainty is never counted as a confirmed error.",
+      "sampling": "Up to six evenly spaced distinct main-corpus slots per enabled template, excluding quoted-word practice. Withdrawn final regression slots use seeded, outcome-independent replacements from the same template. Descriptive sample rates, not population estimates or fluent-speaker certification.",
+      "validityRate": 0.9577981651376147,
+      "contextualTranslationAccuracy": 0.9651376146788991,
+      "naturalnessRate": 0.9339449541284404
+    },
+    "runtimeSha256": "54618e255afce20ffb1b1973d28e88e5c875424bd1bc3f4b631fe956463d8e2a"
+  },
+  "metadataRecordsUpdated": 1354,
+  "metadataSensesUpdated": 1610,
+  "rules": {
+    "nounPropertyGroups": 17,
+    "predicateFrames": 49,
+    "adjectiveRequirements": 60,
+    "sourceSenseReviews": 2,
+    "screenRootCauseGroups": 28
+  },
+  "retention": {
+    "dictionaryEntriesBefore": 3111,
+    "dictionaryEntriesAfter": 3111,
+    "dictionaryDefinitionsChanged": 0,
+    "wordPracticeBefore": 3111,
+    "wordPracticeAfter": 3111,
+    "note": "Coverage loss is reported by role/sense in the coverage ledgers; blocked contexts do not delete vocabulary. Focused regressions retain goods measurement, help/prize transfer, digital storage, ordinary figurative priceless descriptions, length/depth for matching objects, and the four PR #8 cases."
+  },
+  "examples": [
+    {
+      "id": "baseline-000014",
+      "templateId": "P01",
+      "gurmukhi": "ਮਸੇਰਾ ਸਕੂਲ ਰੱਖਦਾ ਹੈ।",
+      "roman": "maserā sakūl rakkhdā hai.",
+      "originalEnglish": "The cousin (maternal aunt's son) holds a school.",
+      "category": "B",
+      "fix": "Fixed institutions/places fail the physical holding frame; choose a manipulable object.",
+      "observedSamePunjabiFinalEnglish": null,
+      "sourceSelections": [
+        {
+          "vocabularyId": "lex:wt-pa-fb12ee3758012e73194d",
+          "senseId": "wt-sense-e2342605e7d7b20d8c69",
+          "dictionary": "cousin (maternal aunt's son)",
+          "meaning": "cousin (maternal aunt's son)",
+          "role": "WHO"
+        },
+        {
+          "vocabularyId": "lex:game-education-1",
+          "senseId": "sense:lex:game-education-1:legacy-1",
+          "dictionary": "school",
+          "meaning": "school",
+          "role": "WHAT"
+        },
+        {
+          "vocabularyId": "lex:wt-pa-54d140b051e24d99ea6a",
+          "senseId": "wt-sense-eedb20ba5b3a78063b1c",
+          "dictionary": "to hold",
+          "meaning": "to hold",
+          "role": "VERB"
+        }
+      ]
+    },
+    {
+      "id": "baseline-000207",
+      "templateId": "P02",
+      "gurmukhi": "ਪੁਰਖ ਨਿੱਕਲਦਾ ਹੈ।",
+      "roman": "purakh nikkaldā hai.",
+      "originalEnglish": "A man rises.",
+      "category": "A/F",
+      "fix": "Reject the sun-only rise binding for a human. The valid come-out sense remains a separate, currently unprofiled construction.",
+      "observedSamePunjabiFinalEnglish": null,
+      "sourceSelections": [
+        {
+          "vocabularyId": "lex:wt-pa-dfb3e691db564e517935",
+          "senseId": "wt-sense-17a390f08808e49ed3ab",
+          "dictionary": "a man, male human being",
+          "meaning": "man",
+          "role": "WHO"
+        },
+        {
+          "vocabularyId": "lex:wt-pa-44823cf59a560f400f5e",
+          "senseId": "wt-sense-88c6af4c7c09df12e8df",
+          "dictionary": "to rise",
+          "meaning": "to rise",
+          "role": "VERB"
+        }
+      ]
+    },
+    {
+      "id": "baseline-003701",
+      "templateId": "P19",
+      "gurmukhi": "ਕੀ ਤੁਸੀਂ ਈਮੇਲ ਰੱਖ ਸਕਦੇ ਹੋ?",
+      "roman": "kī tusī̃ email rakkh sakde ho?",
+      "originalEnglish": "Can you hold an email?",
+      "category": "B",
+      "fix": "Digital content is distinct from a physical sheet; holding is rejected while digital keeping/storage remains allowed.",
+      "observedSamePunjabiFinalEnglish": "Can you keep an email?",
+      "sourceSelections": [
+        {
+          "vocabularyId": "lex:q-ki",
+          "senseId": "sense:lex:q-ki:legacy-1",
+          "dictionary": "what",
+          "meaning": "polar question marker",
+          "role": "QUESTION"
+        },
+        {
+          "vocabularyId": "lex:who-tusi",
+          "senseId": "sense:lex:who-tusi:legacy-1",
+          "dictionary": "you",
+          "meaning": "you",
+          "role": "WHO"
+        },
+        {
+          "vocabularyId": "lex:what-email",
+          "senseId": "sense:lex:what-email:legacy-1",
+          "dictionary": "an email",
+          "meaning": "an email",
+          "role": "WHAT"
+        },
+        {
+          "vocabularyId": "lex:wt-pa-54d140b051e24d99ea6a",
+          "senseId": "wt-sense-eedb20ba5b3a78063b1c",
+          "dictionary": "to hold",
+          "meaning": "to hold",
+          "role": "VERB"
+        }
+      ]
+    },
+    {
+      "id": "baseline-006034",
+      "templateId": "P31",
+      "gurmukhi": "ਆਕਲੈਂਡ ਵਿੱਚ ਪੈਸੇ ਹਨ।",
+      "roman": "Auckland vich paise han.",
+      "originalEnglish": "There are money in Auckland.",
+      "category": "C",
+      "fix": "English money is singular mass: “There is money in Auckland.” Punjabi ਪੈਸੇ ਹਨ stays plural.",
+      "observedSamePunjabiFinalEnglish": "There is money in Auckland.",
+      "sourceSelections": [
+        {
+          "vocabularyId": "lex:where-auckland",
+          "senseId": "sense:lex:where-auckland:legacy-1",
+          "dictionary": "in Auckland",
+          "meaning": "in Auckland",
+          "role": "WHERE"
+        },
+        {
+          "vocabularyId": "lex:what-paisa",
+          "senseId": "sense:lex:what-paisa:legacy-1",
+          "dictionary": "money",
+          "meaning": "money",
+          "role": "WHAT"
+        }
+      ]
+    },
+    {
+      "id": "baseline-007937",
+      "templateId": "P42",
+      "gurmukhi": "ਤੁਹਾਨੂੰ ਕਿੰਨੇ ਪੈਸੇ ਚਾਹੀਦੇ ਹਨ?",
+      "roman": "tuhānū̃ kinne paise chāhīde han?",
+      "originalEnglish": "How many money do you need?",
+      "category": "C",
+      "fix": "Use “How much money do you need?” while retaining Punjabi plural quantity agreement.",
+      "observedSamePunjabiFinalEnglish": "How much money do you need?",
+      "sourceSelections": [
+        {
+          "vocabularyId": "lex:who-tusi",
+          "senseId": "sense:lex:who-tusi:legacy-1",
+          "dictionary": "you",
+          "meaning": "you",
+          "role": "WHO"
+        },
+        {
+          "vocabularyId": "lex:q-kinna",
+          "senseId": "sense:lex:q-kinna:legacy-1",
+          "dictionary": "how much",
+          "meaning": "how much",
+          "role": "QUESTION"
+        },
+        {
+          "vocabularyId": "lex:what-paisa",
+          "senseId": "sense:lex:what-paisa:legacy-1",
+          "dictionary": "money",
+          "meaning": "money",
+          "role": "WHAT"
+        }
+      ]
+    },
+    {
+      "id": "baseline-010941",
+      "templateId": "P58",
+      "gurmukhi": "ਉਹ ਕਲਮ ਨਾਲ ਈਮੇਲ ਲਿਖਦਾ ਹੈ।",
+      "roman": "oh kalam nāl email likhdā hai.",
+      "originalEnglish": "He or she writes an email with the pen.",
+      "category": "B",
+      "fix": "The writing instrument and medium must agree; choose a physical message/letter for a pen.",
+      "observedSamePunjabiFinalEnglish": null,
+      "sourceSelections": [
+        {
+          "vocabularyId": "lex:who-oh",
+          "senseId": "sense:lex:who-oh:legacy-1",
+          "dictionary": "he/she",
+          "meaning": "he or she",
+          "role": "subject"
+        },
+        {
+          "vocabularyId": "lex:game-education-9",
+          "senseId": "sense:lex:game-education-9:legacy-1",
+          "dictionary": "pen",
+          "meaning": "pen",
+          "role": "instrument"
+        },
+        {
+          "vocabularyId": "lex:what-email",
+          "senseId": "sense:lex:what-email:legacy-1",
+          "dictionary": "an email",
+          "meaning": "an email",
+          "role": "object"
+        },
+        {
+          "vocabularyId": "lex:v-likhna",
+          "senseId": "sense:lex:v-likhna:legacy-1",
+          "dictionary": "to write",
+          "meaning": "to write",
+          "role": "verb"
+        }
+      ]
+    },
+    {
+      "id": "baseline-011368",
+      "templateId": "P60",
+      "gurmukhi": "ਸੁਨੇਹਾ ਵੱਡਾ ਹੈ।",
+      "roman": "sunehā vaḍḍā hai.",
+      "originalEnglish": "The message is renown.",
+      "category": "A/F",
+      "fix": "The nominal English gloss renown is not approved as a predicative adjective; retain the other valid senses and dictionary record.",
+      "observedSamePunjabiFinalEnglish": null,
+      "sourceSelections": [
+        {
+          "vocabularyId": "lex:what-message",
+          "senseId": "sense:lex:what-message:legacy-1",
+          "dictionary": "message",
+          "meaning": "message",
+          "role": "object"
+        },
+        {
+          "vocabularyId": "lex:state-extra-big",
+          "senseId": "wt-sense-8682427d7b690bf22fee",
+          "dictionary": "renown",
+          "meaning": "renown",
+          "role": "description"
+        }
+      ]
+    },
+    {
+      "id": "baseline-016927",
+      "templateId": "P91",
+      "gurmukhi": "ਇਹ ਕਿਸ ਦਾ ਉਸਤਰਾ ਹੈ?",
+      "roman": "eh kis dā ustarā hai?",
+      "originalEnglish": "Whose a razor is this?",
+      "category": "C",
+      "fix": "Whose supplies the determiner: “Whose razor is this?”",
+      "observedSamePunjabiFinalEnglish": "Whose razor is this?",
+      "sourceSelections": [
+        {
+          "vocabularyId": "lex:q-kisda",
+          "senseId": "sense:lex:q-kisda:legacy-1",
+          "dictionary": "whose",
+          "meaning": "whose",
+          "role": "question"
+        },
+        {
+          "vocabularyId": "lex:wt-pa-a8ef2304aee568e5ed00",
+          "senseId": "wt-sense-476d4b63d2a467bca7d3",
+          "dictionary": "a razor",
+          "meaning": "a razor",
+          "role": "object"
+        }
+      ]
+    },
+    {
+      "id": "baseline-000467",
+      "templateId": "P03",
+      "gurmukhi": "ਦੇਵਰ ਪਤਝੜ ਵਿੱਚ ਦੁਕਾਨ ਵਿੱਚ ਮੇਜ਼ ਵੰਡਦੀ ਹੈ।",
+      "roman": "devar patjhaṛ vich dukān vich mez vaṇḍdī hai.",
+      "originalEnglish": "The brother-in-law distributes a table in the shop in autumn.",
+      "category": "C/E",
+      "fix": "Use masculine agreement for devar; a single table uses the existing give-away alternative.",
+      "observedSamePunjabiFinalEnglish": null,
+      "sourceSelections": [
+        {
+          "vocabularyId": "lex:wt-pa-832d6e8fb149288dc6e7",
+          "senseId": "wt-sense-08eff499561a866b9fc4",
+          "dictionary": "brother-in-law",
+          "meaning": "brother-in-law",
+          "role": "WHO"
+        },
+        {
+          "vocabularyId": "lex:wt-pa-dfac073289cf3de5dd30",
+          "senseId": "wt-sense-216507a0d2ad5b5a2850",
+          "dictionary": "autumn, fall",
+          "meaning": "autumn",
+          "role": "WHEN"
+        },
+        {
+          "vocabularyId": "lex:where-dukan",
+          "senseId": "sense:lex:where-dukan:legacy-1",
+          "dictionary": "in the shop",
+          "meaning": "in the shop",
+          "role": "WHERE"
+        },
+        {
+          "vocabularyId": "lex:game-everyday-1",
+          "senseId": "sense:lex:game-everyday-1:legacy-1",
+          "dictionary": "table",
+          "meaning": "table",
+          "role": "WHAT"
+        },
+        {
+          "vocabularyId": "lex:wt-pa-8cb18b69ca5d69754481",
+          "senseId": "wt-sense-fbf5f863a16d35d9448c",
+          "dictionary": "to divide, give away, distribute",
+          "meaning": "to distribute",
+          "role": "VERB"
+        }
+      ]
+    },
+    {
+      "id": "baseline-002901",
+      "templateId": "P15",
+      "gurmukhi": "ਮਹਿਲ ਮੁੰਗਫਲੀ ਵੰਡਣੀ ਨਹੀਂ ਚਾਹੁੰਦਾ ਹੈ।",
+      "roman": "mahil muṅgphalī vaṇḍṇī nahī̃ chāhũdā hai.",
+      "originalEnglish": "The wife does not want to share peanut.",
+      "category": "C/G",
+      "fix": "Peanut receives a singular count determiner. The uncommon wife sense remains explicitly uncertain rather than receiving an invented gender correction.",
+      "observedSamePunjabiFinalEnglish": null,
+      "sourceSelections": [
+        {
+          "vocabularyId": "lex:wt-pa-20630308415a1d0825ed",
+          "senseId": "wt-sense-8b91a8a36d1db3942aa1",
+          "dictionary": "wife",
+          "meaning": "wife",
+          "role": "WHO"
+        },
+        {
+          "vocabularyId": "lex:wt-pa-c21a59cec9deb409100e",
+          "senseId": "wt-sense-e7534639dc65fb465f1f",
+          "dictionary": "peanut, groundnut",
+          "meaning": "peanut",
+          "role": "WHAT"
+        },
+        {
+          "vocabularyId": "lex:wt-pa-8cb18b69ca5d69754481",
+          "senseId": "wt-sense-fbf5f863a16d35d9448c",
+          "dictionary": "to divide, give away, distribute",
+          "meaning": "to share",
+          "role": "VERB"
+        },
+        {
+          "vocabularyId": "lex:v-chahuna",
+          "senseId": "sense:lex:v-chahuna:legacy-1",
+          "dictionary": "to want",
+          "meaning": "to want",
+          "role": "VERB"
+        }
+      ]
+    }
+  ],
+  "templateVocabularyCoverage": {
+    "baseline": [
+      {
+        "id": "P01",
+        "sentences": 227,
+        "uniqueGurmukhiSentences": 227,
+        "uniqueEnglishSentences": 225,
+        "uniqueVocabulary": 220,
+        "roles": {
+          "WHO": 111,
+          "WHAT": 68,
+          "VERB": 41
+        }
+      },
+      {
+        "id": "P02",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 194,
+        "uniqueVocabulary": 164,
+        "roles": {
+          "WHO": 108,
+          "VERB": 56
+        }
+      },
+      {
+        "id": "P03",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 320,
+        "roles": {
+          "WHO": 110,
+          "WHEN": 45,
+          "WHERE": 71,
+          "WHAT": 54,
+          "VERB": 42
+        }
+      },
+      {
+        "id": "P04",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 194,
+        "uniqueVocabulary": 186,
+        "roles": {
+          "WHO": 104,
+          "WHAT": 46,
+          "VERB": 36
+        }
+      },
+      {
+        "id": "P05",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 195,
+        "roles": {
+          "QUESTION": 1,
+          "WHO": 110,
+          "WHAT": 44,
+          "VERB": 40
+        }
+      },
+      {
+        "id": "P06",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 195,
+        "roles": {
+          "WHO": 104,
+          "WHAT": 49,
+          "VERB": 43
+        }
+      },
+      {
+        "id": "P07",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 196,
+        "uniqueEnglishSentences": 190,
+        "uniqueVocabulary": 155,
+        "roles": {
+          "WHO": 102,
+          "VERB": 53
+        }
+      },
+      {
+        "id": "P08",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 198,
+        "uniqueVocabulary": 200,
+        "roles": {
+          "WHO": 107,
+          "WHAT": 50,
+          "VERB": 43
+        }
+      },
+      {
+        "id": "P09",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 178,
+        "uniqueEnglishSentences": 109,
+        "uniqueVocabulary": 180,
+        "roles": {
+          "WHO": 178,
+          "QUESTION": 1,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P10",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 179,
+        "uniqueEnglishSentences": 109,
+        "uniqueVocabulary": 181,
+        "roles": {
+          "WHO": 179,
+          "QUESTION": 1,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P11",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 179,
+        "uniqueEnglishSentences": 111,
+        "uniqueVocabulary": 181,
+        "roles": {
+          "WHO": 179,
+          "QUESTION": 1,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P12",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 193,
+        "roles": {
+          "WHO": 100,
+          "WHAT": 49,
+          "QUESTION": 1,
+          "VERB": 43
+        }
+      },
+      {
+        "id": "P13",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 197,
+        "uniqueVocabulary": 191,
+        "roles": {
+          "WHO": 100,
+          "WHAT": 51,
+          "QUESTION": 1,
+          "VERB": 39
+        }
+      },
+      {
+        "id": "P14",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 193,
+        "roles": {
+          "WHO": 105,
+          "WHAT": 47,
+          "VERB": 41
+        }
+      },
+      {
+        "id": "P15",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 198,
+        "uniqueVocabulary": 206,
+        "roles": {
+          "WHO": 112,
+          "WHAT": 48,
+          "VERB": 46
+        }
+      },
+      {
+        "id": "P16",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 190,
+        "uniqueVocabulary": 140,
+        "roles": {
+          "WHO": 111,
+          "WHERE": 27,
+          "VERB": 2
+        }
+      },
+      {
+        "id": "P17",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 185,
+        "roles": {
+          "WHO": 104,
+          "WHAT": 43,
+          "VERB": 38
+        }
+      },
+      {
+        "id": "P18",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 182,
+        "roles": {
+          "WHO": 102,
+          "WHAT": 41,
+          "VERB": 39
+        }
+      },
+      {
+        "id": "P19",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 183,
+        "uniqueEnglishSentences": 188,
+        "uniqueVocabulary": 100,
+        "roles": {
+          "QUESTION": 1,
+          "WHO": 1,
+          "WHAT": 55,
+          "VERB": 43
+        }
+      },
+      {
+        "id": "P20",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 183,
+        "uniqueEnglishSentences": 183,
+        "uniqueVocabulary": 100,
+        "roles": {
+          "WHAT": 56,
+          "VERB": 44
+        }
+      },
+      {
+        "id": "P21",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 197,
+        "uniqueVocabulary": 160,
+        "roles": {
+          "WHO": 68,
+          "WHAT": 48,
+          "VERB": 44
+        }
+      },
+      {
+        "id": "P22",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 158,
+        "roles": {
+          "WHO": 75,
+          "WHAT": 42,
+          "VERB": 41
+        }
+      },
+      {
+        "id": "P23",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 194,
+        "uniqueEnglishSentences": 172,
+        "uniqueVocabulary": 85,
+        "roles": {
+          "WHO": 75,
+          "WHAT": 10
+        }
+      },
+      {
+        "id": "P24",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 197,
+        "uniqueEnglishSentences": 172,
+        "uniqueVocabulary": 92,
+        "roles": {
+          "WHO": 78,
+          "WHAT": 14
+        }
+      },
+      {
+        "id": "P25",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 196,
+        "uniqueEnglishSentences": 176,
+        "uniqueVocabulary": 87,
+        "roles": {
+          "WHO": 78,
+          "WHAT": 9
+        }
+      },
+      {
+        "id": "P26",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 171,
+        "uniqueVocabulary": 90,
+        "roles": {
+          "WHO": 80,
+          "WHAT": 10
+        }
+      },
+      {
+        "id": "P27",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 196,
+        "uniqueEnglishSentences": 174,
+        "uniqueVocabulary": 92,
+        "roles": {
+          "QUESTION": 1,
+          "WHO": 80,
+          "WHAT": 11
+        }
+      },
+      {
+        "id": "P28",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 192,
+        "uniqueVocabulary": 144,
+        "roles": {
+          "WHO": 107,
+          "HOW": 37
+        }
+      },
+      {
+        "id": "P29",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 191,
+        "uniqueVocabulary": 139,
+        "roles": {
+          "WHO": 103,
+          "HOW": 36
+        }
+      },
+      {
+        "id": "P30",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 186,
+        "uniqueVocabulary": 136,
+        "roles": {
+          "QUESTION": 1,
+          "WHO": 98,
+          "HOW": 37
+        }
+      },
+      {
+        "id": "P31",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 192,
+        "uniqueEnglishSentences": 181,
+        "uniqueVocabulary": 81,
+        "roles": {
+          "WHERE": 72,
+          "WHAT": 9
+        }
+      },
+      {
+        "id": "P32",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 195,
+        "uniqueEnglishSentences": 191,
+        "uniqueVocabulary": 82,
+        "roles": {
+          "WHERE": 72,
+          "WHAT": 10
+        }
+      },
+      {
+        "id": "P33",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 201,
+        "uniqueVocabulary": 246,
+        "roles": {
+          "WHO": 111,
+          "WHEN": 48,
+          "WHAT": 45,
+          "VERB": 42
+        }
+      },
+      {
+        "id": "P34",
+        "sentences": 1177,
+        "uniqueGurmukhiSentences": 1171,
+        "uniqueEnglishSentences": 1167,
+        "uniqueVocabulary": 963,
+        "roles": {
+          "WHO": 185,
+          "ABOUT": 852,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P35",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 236,
+        "roles": {
+          "WHO": 106,
+          "ABOUT": 138,
+          "VERB": 2
+        }
+      },
+      {
+        "id": "P36",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 198,
+        "roles": {
+          "WHO": 102,
+          "WHAT": 47,
+          "VERB": 42,
+          "WHY": 8
+        }
+      },
+      {
+        "id": "P37",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 201,
+        "uniqueVocabulary": 202,
+        "roles": {
+          "WHO": 98,
+          "WHAT": 58,
+          "VERB": 45,
+          "CONNECTOR": 1
+        }
+      },
+      {
+        "id": "P38",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 201,
+        "uniqueVocabulary": 214,
+        "roles": {
+          "WHO": 106,
+          "WHAT": 62,
+          "VERB": 45,
+          "CONNECTOR": 1
+        }
+      },
+      {
+        "id": "P39",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 195,
+        "uniqueVocabulary": 151,
+        "roles": {
+          "CONNECTOR": 1,
+          "WHO": 64,
+          "WHAT": 46,
+          "VERB": 40
+        }
+      },
+      {
+        "id": "P40",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 195,
+        "uniqueEnglishSentences": 180,
+        "uniqueVocabulary": 113,
+        "roles": {
+          "WHO": 1,
+          "WHAT": 111,
+          "QUESTION": 1
+        }
+      },
+      {
+        "id": "P41",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 3,
+        "roles": {
+          "WHO": 1,
+          "QUESTION": 1,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P42",
+        "sentences": 5,
+        "uniqueGurmukhiSentences": 4,
+        "uniqueEnglishSentences": 4,
+        "uniqueVocabulary": 6,
+        "roles": {
+          "WHO": 1,
+          "QUESTION": 1,
+          "WHAT": 4
+        }
+      },
+      {
+        "id": "P43",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 197,
+        "uniqueVocabulary": 153,
+        "roles": {
+          "WHO": 103,
+          "WHEN": 13,
+          "HOW": 37
+        }
+      },
+      {
+        "id": "P44",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 204,
+        "roles": {
+          "WHO": 107,
+          "WHEN": 13,
+          "WHAT": 43,
+          "VERB": 41
+        }
+      },
+      {
+        "id": "P45",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 197,
+        "uniqueVocabulary": 189,
+        "roles": {
+          "WHO": 105,
+          "WHAT": 45,
+          "VERB": 39
+        }
+      },
+      {
+        "id": "P46",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 197,
+        "uniqueVocabulary": 137,
+        "roles": {
+          "WHO": 96,
+          "WHEN": 13,
+          "WHERE": 27,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P47",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 197,
+        "uniqueVocabulary": 174,
+        "roles": {
+          "subject": 96,
+          "object": 40,
+          "verb": 38
+        }
+      },
+      {
+        "id": "P48",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 187,
+        "uniqueVocabulary": 139,
+        "roles": {
+          "subject": 111,
+          "destination": 27,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P49",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 197,
+        "uniqueVocabulary": 181,
+        "roles": {
+          "subject": 102,
+          "object": 42,
+          "verb": 37
+        }
+      },
+      {
+        "id": "P50",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 196,
+        "uniqueVocabulary": 175,
+        "roles": {
+          "question": 1,
+          "subject": 105,
+          "object": 36,
+          "verb": 34
+        }
+      },
+      {
+        "id": "P51",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 197,
+        "uniqueVocabulary": 148,
+        "roles": {
+          "subject": 65,
+          "object": 45,
+          "verb": 38
+        }
+      },
+      {
+        "id": "P52",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 191,
+        "uniqueVocabulary": 164,
+        "roles": {
+          "subject": 111,
+          "origin": 53,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P53",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 168,
+        "roles": {
+          "subject": 114,
+          "recipient": 69,
+          "object": 28,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P54",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 114,
+        "roles": {
+          "subject": 70,
+          "recipient": 72,
+          "object": 22,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P55",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 188,
+        "uniqueVocabulary": 161,
+        "roles": {
+          "subject": 105,
+          "origin": 55,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P56",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 157,
+        "roles": {
+          "subject": 104,
+          "companion": 66,
+          "destination": 27,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P57",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 192,
+        "uniqueVocabulary": 94,
+        "roles": {
+          "object": 76,
+          "comparison": 30,
+          "description": 5
+        }
+      },
+      {
+        "id": "P58",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 186,
+        "uniqueEnglishSentences": 140,
+        "uniqueVocabulary": 144,
+        "roles": {
+          "subject": 138,
+          "instrument": 2,
+          "object": 3,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P59",
+        "sentences": 2844,
+        "uniqueGurmukhiSentences": 2185,
+        "uniqueEnglishSentences": 2266,
+        "uniqueVocabulary": 2193,
+        "roles": {
+          "object": 2193
+        }
+      },
+      {
+        "id": "P60",
+        "sentences": 213,
+        "uniqueGurmukhiSentences": 213,
+        "uniqueEnglishSentences": 203,
+        "uniqueVocabulary": 142,
+        "roles": {
+          "object": 63,
+          "description": 79
+        }
+      },
+      {
+        "id": "P61",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 190,
+        "uniqueVocabulary": 122,
+        "roles": {
+          "object": 53,
+          "location": 71
+        }
+      },
+      {
+        "id": "P62",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 194,
+        "uniqueEnglishSentences": 178,
+        "uniqueVocabulary": 197,
+        "roles": {
+          "object": 196,
+          "question": 1
+        }
+      },
+      {
+        "id": "P63",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 184,
+        "uniqueEnglishSentences": 123,
+        "uniqueVocabulary": 161,
+        "roles": {
+          "subject": 158,
+          "occupation": 21
+        }
+      },
+      {
+        "id": "P64",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 196,
+        "uniqueEnglishSentences": 186,
+        "uniqueVocabulary": 151,
+        "roles": {
+          "subject": 100,
+          "verb": 51
+        }
+      },
+      {
+        "id": "P65",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 196,
+        "uniqueEnglishSentences": 194,
+        "uniqueVocabulary": 162,
+        "roles": {
+          "subject": 110,
+          "verb": 52
+        }
+      },
+      {
+        "id": "P66",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 169,
+        "roles": {
+          "subject": 95,
+          "time": 28,
+          "manner": 31,
+          "verb": 15
+        }
+      },
+      {
+        "id": "P67",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 194,
+        "uniqueEnglishSentences": 196,
+        "uniqueVocabulary": 137,
+        "roles": {
+          "object": 67,
+          "description": 70
+        }
+      },
+      {
+        "id": "P68",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 194,
+        "uniqueVocabulary": 118,
+        "roles": {
+          "object": 49,
+          "description": 69
+        }
+      },
+      {
+        "id": "P69",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 188,
+        "uniqueVocabulary": 123,
+        "roles": {
+          "subject": 77,
+          "object": 46
+        }
+      },
+      {
+        "id": "P70",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 194,
+        "uniqueVocabulary": 124,
+        "roles": {
+          "subject": 73,
+          "object": 51
+        }
+      },
+      {
+        "id": "P71",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 157,
+        "uniqueVocabulary": 122,
+        "roles": {
+          "subject": 104,
+          "reason": 17,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P72",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 198,
+        "uniqueVocabulary": 167,
+        "roles": {
+          "subject": 107,
+          "verb": 59,
+          "connector": 1
+        }
+      },
+      {
+        "id": "P73",
+        "sentences": 199,
+        "uniqueGurmukhiSentences": 176,
+        "uniqueEnglishSentences": 103,
+        "uniqueVocabulary": 179,
+        "roles": {
+          "subject": 176,
+          "state": 1,
+          "connector": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P74",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 176,
+        "uniqueEnglishSentences": 103,
+        "uniqueVocabulary": 179,
+        "roles": {
+          "subject": 176,
+          "verb": 2,
+          "connector": 1
+        }
+      },
+      {
+        "id": "P75",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 176,
+        "uniqueEnglishSentences": 104,
+        "uniqueVocabulary": 179,
+        "roles": {
+          "connector": 1,
+          "subject": 176,
+          "state": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P76",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 176,
+        "uniqueEnglishSentences": 104,
+        "uniqueVocabulary": 179,
+        "roles": {
+          "connector": 1,
+          "subject": 176,
+          "state": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P77",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 170,
+        "roles": {
+          "subject": 110,
+          "verb": 59,
+          "connector": 1
+        }
+      },
+      {
+        "id": "P78",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 176,
+        "uniqueEnglishSentences": 103,
+        "uniqueVocabulary": 179,
+        "roles": {
+          "subject": 176,
+          "state": 1,
+          "connector": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P79",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 201,
+        "uniqueVocabulary": 164,
+        "roles": {
+          "subject": 105,
+          "verb": 58,
+          "connector": 1
+        }
+      },
+      {
+        "id": "P80",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 176,
+        "uniqueEnglishSentences": 103,
+        "uniqueVocabulary": 179,
+        "roles": {
+          "subject": 176,
+          "state": 1,
+          "connector": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P81",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 176,
+        "uniqueEnglishSentences": 103,
+        "uniqueVocabulary": 179,
+        "roles": {
+          "subject": 176,
+          "verb": 1,
+          "connector": 1,
+          "state": 1
+        }
+      },
+      {
+        "id": "P82",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 176,
+        "uniqueEnglishSentences": 103,
+        "uniqueVocabulary": 180,
+        "roles": {
+          "connector": 2,
+          "subject": 176,
+          "state": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P83",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 196,
+        "uniqueEnglishSentences": 190,
+        "uniqueVocabulary": 158,
+        "roles": {
+          "subject": 100,
+          "connector": 1,
+          "verb": 57
+        }
+      },
+      {
+        "id": "P84",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 190,
+        "uniqueVocabulary": 158,
+        "roles": {
+          "connector": 1,
+          "subject": 104,
+          "verb": 53
+        }
+      },
+      {
+        "id": "P85",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 191,
+        "uniqueVocabulary": 164,
+        "roles": {
+          "connector": 1,
+          "subject": 107,
+          "verb": 56
+        }
+      },
+      {
+        "id": "P86",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 176,
+        "uniqueEnglishSentences": 104,
+        "uniqueVocabulary": 178,
+        "roles": {
+          "connector": 1,
+          "subject": 176,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P87",
+        "sentences": 42,
+        "uniqueGurmukhiSentences": 21,
+        "uniqueEnglishSentences": 21,
+        "uniqueVocabulary": 21,
+        "roles": {
+          "quantity": 21
+        }
+      },
+      {
+        "id": "P88",
+        "sentences": 3306,
+        "uniqueGurmukhiSentences": 3001,
+        "uniqueEnglishSentences": 3031,
+        "uniqueVocabulary": 3111,
+        "roles": {
+          "word": 3111
+        }
+      },
+      {
+        "id": "P89",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 1,
+        "roles": {
+          "question": 1
+        }
+      },
+      {
+        "id": "P90",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 193,
+        "uniqueEnglishSentences": 153,
+        "uniqueVocabulary": 197,
+        "roles": {
+          "subject": 1,
+          "question": 1,
+          "object": 194,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P91",
+        "sentences": 96,
+        "uniqueGurmukhiSentences": 92,
+        "uniqueEnglishSentences": 76,
+        "uniqueVocabulary": 94,
+        "roles": {
+          "question": 1,
+          "object": 93
+        }
+      },
+      {
+        "id": "P92",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 1,
+        "roles": {
+          "question": 1
+        }
+      },
+      {
+        "id": "P93",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 3,
+        "roles": {
+          "subject": 1,
+          "question": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P94",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 3,
+        "roles": {
+          "subject": 1,
+          "question": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P95",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 1,
+        "roles": {
+          "question": 1
+        }
+      },
+      {
+        "id": "P96",
+        "sentences": 20,
+        "uniqueGurmukhiSentences": 20,
+        "uniqueEnglishSentences": 20,
+        "uniqueVocabulary": 22,
+        "roles": {
+          "possessor": 1,
+          "quantity": 20,
+          "object": 1
+        }
+      },
+      {
+        "id": "P97",
+        "sentences": 199,
+        "uniqueGurmukhiSentences": 176,
+        "uniqueEnglishSentences": 103,
+        "uniqueVocabulary": 179,
+        "roles": {
+          "subject": 176,
+          "verb": 1,
+          "reason": 1,
+          "state": 1
+        }
+      }
+    ],
+    "final": [
+      {
+        "id": "P01",
+        "sentences": 216,
+        "uniqueGurmukhiSentences": 216,
+        "uniqueEnglishSentences": 214,
+        "uniqueVocabulary": 204,
+        "roles": {
+          "WHO": 92,
+          "WHAT": 70,
+          "VERB": 42
+        }
+      },
+      {
+        "id": "P02",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 197,
+        "uniqueEnglishSentences": 189,
+        "uniqueVocabulary": 144,
+        "roles": {
+          "WHO": 94,
+          "VERB": 50
+        }
+      },
+      {
+        "id": "P03",
+        "sentences": 202,
+        "uniqueGurmukhiSentences": 202,
+        "uniqueEnglishSentences": 202,
+        "uniqueVocabulary": 300,
+        "roles": {
+          "WHO": 87,
+          "WHEN": 45,
+          "WHERE": 72,
+          "WHAT": 56,
+          "VERB": 42
+        }
+      },
+      {
+        "id": "P04",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 197,
+        "uniqueVocabulary": 195,
+        "roles": {
+          "WHO": 98,
+          "WHAT": 53,
+          "VERB": 44
+        }
+      },
+      {
+        "id": "P05",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 190,
+        "roles": {
+          "QUESTION": 1,
+          "WHO": 95,
+          "WHAT": 51,
+          "VERB": 43
+        }
+      },
+      {
+        "id": "P06",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 181,
+        "roles": {
+          "WHO": 86,
+          "WHAT": 56,
+          "VERB": 39
+        }
+      },
+      {
+        "id": "P07",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 196,
+        "uniqueEnglishSentences": 192,
+        "uniqueVocabulary": 127,
+        "roles": {
+          "WHO": 80,
+          "VERB": 47
+        }
+      },
+      {
+        "id": "P08",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 192,
+        "roles": {
+          "WHO": 95,
+          "WHAT": 53,
+          "VERB": 44
+        }
+      },
+      {
+        "id": "P09",
+        "sentences": 198,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 101,
+        "uniqueVocabulary": 177,
+        "roles": {
+          "WHO": 175,
+          "QUESTION": 1,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P10",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 102,
+        "uniqueVocabulary": 177,
+        "roles": {
+          "WHO": 175,
+          "QUESTION": 1,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P11",
+        "sentences": 199,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 102,
+        "uniqueVocabulary": 177,
+        "roles": {
+          "WHO": 175,
+          "QUESTION": 1,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P12",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 191,
+        "roles": {
+          "WHO": 93,
+          "WHAT": 58,
+          "QUESTION": 1,
+          "VERB": 39
+        }
+      },
+      {
+        "id": "P13",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 198,
+        "roles": {
+          "WHO": 91,
+          "WHAT": 60,
+          "QUESTION": 1,
+          "VERB": 46
+        }
+      },
+      {
+        "id": "P14",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 195,
+        "uniqueVocabulary": 181,
+        "roles": {
+          "WHO": 86,
+          "WHAT": 50,
+          "VERB": 45
+        }
+      },
+      {
+        "id": "P15",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 198,
+        "uniqueVocabulary": 184,
+        "roles": {
+          "WHO": 87,
+          "WHAT": 54,
+          "VERB": 43
+        }
+      },
+      {
+        "id": "P16",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 185,
+        "uniqueVocabulary": 122,
+        "roles": {
+          "WHO": 93,
+          "WHERE": 27,
+          "VERB": 2
+        }
+      },
+      {
+        "id": "P17",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 190,
+        "roles": {
+          "WHO": 94,
+          "WHAT": 52,
+          "VERB": 44
+        }
+      },
+      {
+        "id": "P18",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 197,
+        "uniqueVocabulary": 176,
+        "roles": {
+          "WHO": 82,
+          "WHAT": 55,
+          "VERB": 39
+        }
+      },
+      {
+        "id": "P19",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 188,
+        "uniqueEnglishSentences": 178,
+        "uniqueVocabulary": 111,
+        "roles": {
+          "QUESTION": 1,
+          "WHO": 1,
+          "WHAT": 60,
+          "VERB": 49
+        }
+      },
+      {
+        "id": "P20",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 191,
+        "uniqueEnglishSentences": 185,
+        "uniqueVocabulary": 107,
+        "roles": {
+          "WHAT": 59,
+          "VERB": 48
+        }
+      },
+      {
+        "id": "P21",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 194,
+        "uniqueVocabulary": 163,
+        "roles": {
+          "WHO": 66,
+          "WHAT": 54,
+          "VERB": 43
+        }
+      },
+      {
+        "id": "P22",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 192,
+        "uniqueVocabulary": 164,
+        "roles": {
+          "WHO": 61,
+          "WHAT": 56,
+          "VERB": 47
+        }
+      },
+      {
+        "id": "P23",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 177,
+        "uniqueVocabulary": 94,
+        "roles": {
+          "WHO": 74,
+          "WHAT": 20
+        }
+      },
+      {
+        "id": "P24",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 181,
+        "uniqueVocabulary": 96,
+        "roles": {
+          "WHO": 73,
+          "WHAT": 23
+        }
+      },
+      {
+        "id": "P25",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 197,
+        "uniqueEnglishSentences": 173,
+        "uniqueVocabulary": 85,
+        "roles": {
+          "WHO": 68,
+          "WHAT": 17
+        }
+      },
+      {
+        "id": "P26",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 196,
+        "uniqueEnglishSentences": 176,
+        "uniqueVocabulary": 87,
+        "roles": {
+          "WHO": 70,
+          "WHAT": 17
+        }
+      },
+      {
+        "id": "P27",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 175,
+        "uniqueVocabulary": 86,
+        "roles": {
+          "QUESTION": 1,
+          "WHO": 68,
+          "WHAT": 17
+        }
+      },
+      {
+        "id": "P28",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 177,
+        "uniqueVocabulary": 121,
+        "roles": {
+          "WHO": 84,
+          "HOW": 37
+        }
+      },
+      {
+        "id": "P29",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 188,
+        "uniqueVocabulary": 123,
+        "roles": {
+          "WHO": 86,
+          "HOW": 37
+        }
+      },
+      {
+        "id": "P30",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 181,
+        "uniqueVocabulary": 127,
+        "roles": {
+          "QUESTION": 1,
+          "WHO": 89,
+          "HOW": 37
+        }
+      },
+      {
+        "id": "P31",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 192,
+        "uniqueEnglishSentences": 181,
+        "uniqueVocabulary": 82,
+        "roles": {
+          "WHERE": 73,
+          "WHAT": 9
+        }
+      },
+      {
+        "id": "P32",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 193,
+        "uniqueEnglishSentences": 187,
+        "uniqueVocabulary": 83,
+        "roles": {
+          "WHERE": 74,
+          "WHAT": 9
+        }
+      },
+      {
+        "id": "P33",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 245,
+        "roles": {
+          "WHO": 95,
+          "WHEN": 50,
+          "WHAT": 60,
+          "VERB": 40
+        }
+      },
+      {
+        "id": "P34",
+        "sentences": 986,
+        "uniqueGurmukhiSentences": 979,
+        "uniqueEnglishSentences": 978,
+        "uniqueVocabulary": 825,
+        "roles": {
+          "WHO": 166,
+          "ABOUT": 725,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P35",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 238,
+        "roles": {
+          "WHO": 96,
+          "ABOUT": 143,
+          "VERB": 2
+        }
+      },
+      {
+        "id": "P36",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 196,
+        "roles": {
+          "WHO": 88,
+          "WHAT": 60,
+          "VERB": 40,
+          "WHY": 8
+        }
+      },
+      {
+        "id": "P37",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 201,
+        "uniqueVocabulary": 208,
+        "roles": {
+          "WHO": 92,
+          "WHAT": 66,
+          "VERB": 49,
+          "CONNECTOR": 1
+        }
+      },
+      {
+        "id": "P38",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 201,
+        "uniqueVocabulary": 199,
+        "roles": {
+          "WHO": 79,
+          "WHAT": 70,
+          "VERB": 49,
+          "CONNECTOR": 1
+        }
+      },
+      {
+        "id": "P39",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 198,
+        "uniqueVocabulary": 157,
+        "roles": {
+          "CONNECTOR": 1,
+          "WHO": 58,
+          "WHAT": 52,
+          "VERB": 46
+        }
+      },
+      {
+        "id": "P40",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 187,
+        "uniqueVocabulary": 106,
+        "roles": {
+          "WHO": 1,
+          "WHAT": 104,
+          "QUESTION": 1
+        }
+      },
+      {
+        "id": "P41",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 3,
+        "roles": {
+          "WHO": 1,
+          "QUESTION": 1,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P42",
+        "sentences": 6,
+        "uniqueGurmukhiSentences": 5,
+        "uniqueEnglishSentences": 5,
+        "uniqueVocabulary": 7,
+        "roles": {
+          "WHO": 1,
+          "QUESTION": 1,
+          "WHAT": 5
+        }
+      },
+      {
+        "id": "P43",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 198,
+        "uniqueVocabulary": 142,
+        "roles": {
+          "WHO": 92,
+          "WHEN": 13,
+          "HOW": 37
+        }
+      },
+      {
+        "id": "P44",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 200,
+        "uniqueVocabulary": 195,
+        "roles": {
+          "WHO": 85,
+          "WHEN": 13,
+          "WHAT": 54,
+          "VERB": 43
+        }
+      },
+      {
+        "id": "P45",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 196,
+        "uniqueVocabulary": 184,
+        "roles": {
+          "WHO": 94,
+          "WHAT": 49,
+          "VERB": 41
+        }
+      },
+      {
+        "id": "P46",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 137,
+        "roles": {
+          "WHO": 96,
+          "WHEN": 13,
+          "WHERE": 27,
+          "VERB": 1
+        }
+      },
+      {
+        "id": "P47",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 194,
+        "uniqueVocabulary": 179,
+        "roles": {
+          "subject": 88,
+          "object": 51,
+          "verb": 40
+        }
+      },
+      {
+        "id": "P48",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 188,
+        "uniqueVocabulary": 122,
+        "roles": {
+          "subject": 94,
+          "destination": 27,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P49",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 184,
+        "roles": {
+          "subject": 92,
+          "object": 55,
+          "verb": 37
+        }
+      },
+      {
+        "id": "P50",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 198,
+        "uniqueVocabulary": 169,
+        "roles": {
+          "question": 1,
+          "subject": 89,
+          "object": 43,
+          "verb": 36
+        }
+      },
+      {
+        "id": "P51",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 197,
+        "uniqueVocabulary": 143,
+        "roles": {
+          "subject": 55,
+          "object": 50,
+          "verb": 38
+        }
+      },
+      {
+        "id": "P52",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 197,
+        "uniqueEnglishSentences": 187,
+        "uniqueVocabulary": 151,
+        "roles": {
+          "subject": 97,
+          "origin": 54,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P53",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 198,
+        "uniqueVocabulary": 154,
+        "roles": {
+          "subject": 94,
+          "recipient": 61,
+          "object": 32,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P54",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 195,
+        "uniqueVocabulary": 118,
+        "roles": {
+          "subject": 59,
+          "recipient": 59,
+          "object": 32,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P55",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 197,
+        "uniqueEnglishSentences": 188,
+        "uniqueVocabulary": 143,
+        "roles": {
+          "subject": 87,
+          "origin": 55,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P56",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 195,
+        "uniqueVocabulary": 145,
+        "roles": {
+          "subject": 90,
+          "companion": 61,
+          "destination": 27,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P57",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 191,
+        "uniqueVocabulary": 99,
+        "roles": {
+          "object": 79,
+          "comparison": 29,
+          "description": 5
+        }
+      },
+      {
+        "id": "P58",
+        "sentences": 169,
+        "uniqueGurmukhiSentences": 155,
+        "uniqueEnglishSentences": 99,
+        "uniqueVocabulary": 151,
+        "roles": {
+          "subject": 146,
+          "instrument": 2,
+          "object": 2,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P59",
+        "sentences": 2766,
+        "uniqueGurmukhiSentences": 2151,
+        "uniqueEnglishSentences": 2204,
+        "uniqueVocabulary": 2159,
+        "roles": {
+          "object": 2159
+        }
+      },
+      {
+        "id": "P60",
+        "sentences": 224,
+        "uniqueGurmukhiSentences": 223,
+        "uniqueEnglishSentences": 212,
+        "uniqueVocabulary": 158,
+        "roles": {
+          "object": 78,
+          "description": 80
+        }
+      },
+      {
+        "id": "P61",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 189,
+        "uniqueVocabulary": 120,
+        "roles": {
+          "object": 52,
+          "location": 70
+        }
+      },
+      {
+        "id": "P62",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 186,
+        "uniqueEnglishSentences": 182,
+        "uniqueVocabulary": 189,
+        "roles": {
+          "object": 188,
+          "question": 1
+        }
+      },
+      {
+        "id": "P63",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 187,
+        "uniqueEnglishSentences": 136,
+        "uniqueVocabulary": 147,
+        "roles": {
+          "subject": 142,
+          "occupation": 26
+        }
+      },
+      {
+        "id": "P64",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 194,
+        "uniqueEnglishSentences": 187,
+        "uniqueVocabulary": 152,
+        "roles": {
+          "subject": 108,
+          "verb": 44
+        }
+      },
+      {
+        "id": "P65",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 196,
+        "uniqueEnglishSentences": 191,
+        "uniqueVocabulary": 126,
+        "roles": {
+          "subject": 82,
+          "verb": 44
+        }
+      },
+      {
+        "id": "P66",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 198,
+        "uniqueVocabulary": 146,
+        "roles": {
+          "subject": 90,
+          "time": 28,
+          "manner": 21,
+          "verb": 7
+        }
+      },
+      {
+        "id": "P67",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 193,
+        "uniqueVocabulary": 148,
+        "roles": {
+          "object": 82,
+          "description": 66
+        }
+      },
+      {
+        "id": "P68",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 196,
+        "uniqueEnglishSentences": 189,
+        "uniqueVocabulary": 131,
+        "roles": {
+          "object": 65,
+          "description": 66
+        }
+      },
+      {
+        "id": "P69",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 194,
+        "uniqueVocabulary": 116,
+        "roles": {
+          "subject": 65,
+          "object": 51
+        }
+      },
+      {
+        "id": "P70",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 197,
+        "uniqueEnglishSentences": 193,
+        "uniqueVocabulary": 117,
+        "roles": {
+          "subject": 54,
+          "object": 63
+        }
+      },
+      {
+        "id": "P71",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 157,
+        "uniqueVocabulary": 122,
+        "roles": {
+          "subject": 104,
+          "reason": 17,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P72",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 200,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 140,
+        "roles": {
+          "subject": 85,
+          "verb": 54,
+          "connector": 1
+        }
+      },
+      {
+        "id": "P73",
+        "sentences": 198,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 101,
+        "uniqueVocabulary": 178,
+        "roles": {
+          "subject": 175,
+          "state": 1,
+          "connector": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P74",
+        "sentences": 198,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 101,
+        "uniqueVocabulary": 178,
+        "roles": {
+          "subject": 175,
+          "verb": 2,
+          "connector": 1
+        }
+      },
+      {
+        "id": "P75",
+        "sentences": 199,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 102,
+        "uniqueVocabulary": 178,
+        "roles": {
+          "connector": 1,
+          "subject": 175,
+          "state": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P76",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 102,
+        "uniqueVocabulary": 178,
+        "roles": {
+          "connector": 1,
+          "subject": 175,
+          "state": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P77",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 201,
+        "uniqueEnglishSentences": 199,
+        "uniqueVocabulary": 143,
+        "roles": {
+          "subject": 89,
+          "verb": 53,
+          "connector": 1
+        }
+      },
+      {
+        "id": "P78",
+        "sentences": 199,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 101,
+        "uniqueVocabulary": 178,
+        "roles": {
+          "subject": 175,
+          "state": 1,
+          "connector": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P80",
+        "sentences": 199,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 101,
+        "uniqueVocabulary": 178,
+        "roles": {
+          "subject": 175,
+          "state": 1,
+          "connector": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P82",
+        "sentences": 199,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 101,
+        "uniqueVocabulary": 179,
+        "roles": {
+          "connector": 2,
+          "subject": 175,
+          "state": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P83",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 191,
+        "uniqueVocabulary": 146,
+        "roles": {
+          "subject": 97,
+          "connector": 1,
+          "verb": 48
+        }
+      },
+      {
+        "id": "P84",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 199,
+        "uniqueEnglishSentences": 196,
+        "uniqueVocabulary": 144,
+        "roles": {
+          "connector": 1,
+          "subject": 93,
+          "verb": 50
+        }
+      },
+      {
+        "id": "P85",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 185,
+        "uniqueVocabulary": 148,
+        "roles": {
+          "connector": 1,
+          "subject": 98,
+          "verb": 49
+        }
+      },
+      {
+        "id": "P86",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 102,
+        "uniqueVocabulary": 177,
+        "roles": {
+          "connector": 1,
+          "subject": 175,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P87",
+        "sentences": 42,
+        "uniqueGurmukhiSentences": 21,
+        "uniqueEnglishSentences": 21,
+        "uniqueVocabulary": 21,
+        "roles": {
+          "quantity": 21
+        }
+      },
+      {
+        "id": "P88",
+        "sentences": 3302,
+        "uniqueGurmukhiSentences": 3001,
+        "uniqueEnglishSentences": 3031,
+        "uniqueVocabulary": 3111,
+        "roles": {
+          "word": 3111
+        }
+      },
+      {
+        "id": "P89",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 1,
+        "roles": {
+          "question": 1
+        }
+      },
+      {
+        "id": "P90",
+        "sentences": 201,
+        "uniqueGurmukhiSentences": 194,
+        "uniqueEnglishSentences": 155,
+        "uniqueVocabulary": 198,
+        "roles": {
+          "subject": 1,
+          "question": 1,
+          "object": 195,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P91",
+        "sentences": 105,
+        "uniqueGurmukhiSentences": 92,
+        "uniqueEnglishSentences": 82,
+        "uniqueVocabulary": 93,
+        "roles": {
+          "question": 1,
+          "object": 92
+        }
+      },
+      {
+        "id": "P92",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 1,
+        "roles": {
+          "question": 1
+        }
+      },
+      {
+        "id": "P93",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 3,
+        "roles": {
+          "subject": 1,
+          "question": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P94",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 3,
+        "roles": {
+          "subject": 1,
+          "question": 1,
+          "verb": 1
+        }
+      },
+      {
+        "id": "P95",
+        "sentences": 2,
+        "uniqueGurmukhiSentences": 1,
+        "uniqueEnglishSentences": 1,
+        "uniqueVocabulary": 1,
+        "roles": {
+          "question": 1
+        }
+      },
+      {
+        "id": "P96",
+        "sentences": 20,
+        "uniqueGurmukhiSentences": 20,
+        "uniqueEnglishSentences": 20,
+        "uniqueVocabulary": 22,
+        "roles": {
+          "possessor": 1,
+          "quantity": 20,
+          "object": 1
+        }
+      },
+      {
+        "id": "P97",
+        "sentences": 198,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 101,
+        "uniqueVocabulary": 178,
+        "roles": {
+          "subject": 175,
+          "verb": 1,
+          "reason": 1,
+          "state": 1
+        }
+      },
+      {
+        "id": "P79",
+        "sentences": 200,
+        "uniqueGurmukhiSentences": 198,
+        "uniqueEnglishSentences": 195,
+        "uniqueVocabulary": 58,
+        "roles": {
+          "subject": 51,
+          "verb": 6,
+          "connector": 1
+        }
+      },
+      {
+        "id": "P81",
+        "sentences": 198,
+        "uniqueGurmukhiSentences": 175,
+        "uniqueEnglishSentences": 101,
+        "uniqueVocabulary": 178,
+        "roles": {
+          "subject": 175,
+          "verb": 1,
+          "connector": 1,
+          "state": 1
+        }
+      }
+    ]
+  }
+}

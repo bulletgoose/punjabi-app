@@ -1,0 +1,61 @@
+{
+  "label": "final",
+  "criteriaVersion": 1,
+  "scope": "Frozen rule-based full-corpus screening, not a fluent-speaker accuracy measurement. See the separate development-time AI review ledger for sampled language-quality estimates.",
+  "totals": {
+    "screen-clear": 20736,
+    "questionable": 2,
+    "incorrect": 5,
+    "quoted": 3302
+  },
+  "main": {
+    "sentences": 17304,
+    "incorrect": 2,
+    "questionable": 2,
+    "screenClearRate": 0.9997688395746648
+  },
+  "all": {
+    "sentences": 20743,
+    "incorrect": 5,
+    "questionable": 2,
+    "screenClearRate": 0.9996625367593888
+  },
+  "distinctRootCauseRules": 4,
+  "rules": {
+    "singular-distribution-realization": {
+      "category": "E",
+      "severity": "questionable",
+      "count": 1,
+      "exampleIds": [
+        "final-007549"
+      ]
+    },
+    "english-number-or-mass-article": {
+      "category": "C",
+      "severity": "error",
+      "count": 4,
+      "exampleIds": [
+        "final-010155",
+        "final-010210",
+        "final-017939",
+        "final-020057"
+      ]
+    },
+    "self-comparison": {
+      "category": "E",
+      "severity": "questionable",
+      "count": 1,
+      "exampleIds": [
+        "final-010836"
+      ]
+    },
+    "unsupported-extended-noun-sense": {
+      "category": "A",
+      "severity": "error",
+      "count": 1,
+      "exampleIds": [
+        "final-019659"
+      ]
+    }
+  }
+}

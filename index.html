@@ -475,6 +475,7 @@
 <script src="./firebase-config.js?v=7"></script>
 <script src="./speech-client.js?v=10"></script>
 <script src="./game-vocabulary.js?v=1"></script>
+<script src="./data/sentence-semantic-parameters.js?v=1"></script>
 <script src="./lexical-semantics.js?v=1"></script>
 <script src="./learning-context.js?v=3"></script>
 <script src="./linguistic-system.js?v=3"></script>
@@ -1388,10 +1389,10 @@
       const pu=phrases.map(function(part){return part.value;}).join(' ');
       return {punjabi:pu.replace(/\s+/g,' ').trim()+punc,english:capitalizeSentence(en)+punc,templateId:template.id,templateName:template.name,difficulty:template.difficulty,breakdown:breakdown,phraseBreakdown:phrases,signature:sig.join('|')};
     }
-    function pickPair(){ return pickCompatibleWhatAndComplement({subject:who,template:template}); }
+    function pickPair(){ return pickCompatibleWhatAndComplement({subject:who,template:template,aspect:window.PunjabiGrammarEngine.metadataFor(template).aspect}); }
     function bareVerb(exclude){
       const list=enabledOf(state.verbs).filter(function(v){
-        return v.type==='simple' && (!v.takesTags||!v.takesTags.length) && !v.takesTag && (!exclude||exclude.indexOf(v.id)===-1);
+        return v.type==='simple' && (!v.takesTags||!v.takesTags.length) && !v.takesTag && (!exclude||exclude.indexOf(v.id)===-1)&&(!window.PunjabiLexicalSemantics||!window.PunjabiLexicalSemantics.predicateCompatibility||window.PunjabiLexicalSemantics.predicateCompatibility(v,{subject:who,template:template,complete:true}).ok);
       });
       return list.length?pickRandom(list):null;
     }
@@ -1421,7 +1422,7 @@
       return ({I:'me',he:'him',she:'her',we:'us',they:'them','he or she':'him or her'})[text]||text;
     }
     function bareEnglishObject(item){ return englishObject(item).replace(/^(a|an|the)\s+/i,''); }
-    function englishExistenceIs(item){ return (item.englishNumber||item.number)!=='pl'; }
+    function englishExistenceIs(item){ return ['mass','uncountable'].includes(item.englishCountability||item.countability)||(item.englishNumber||item.number)!=='pl'; }
     function thirdSingular(subject){ return (subject.englishPerson||subject.person||'3sg')==='3sg'; }
     function englishNegative(subject,verb){ return (thirdSingular(subject)?'does not ':'do not ')+verb.base; }
     function englishQuestionAux(subject){ return thirdSingular(subject)?'Does':'Do'; }
@@ -1591,7 +1592,7 @@
       case 'amountQuestion':
         item=pickRandom(whatPool.filter(function(x){return ['what-pani','what-dudh','what-coffee','what-juice','what-paisa'].indexOf(x.id)!==-1;}));if(!item)return null;add('Question',item.number==='pl'?L('kinne'):L('kinnā'),'QUESTION');add('What',item.p,'WHAT',item.id);
         const amountWord=item.number==='pl'?(item.gender==='f'?L('kinnīā̃'):L('kinne')):(item.gender==='f'?L('kinnī'):L('kinnā'));
-        return result([phrase(L('tuhānū̃'),'to you','WHO','dative experiencer'),phrase(amountWord,item.number==='pl'?'how many':'how much','QUESTION','agrees with the noun'),objectPart(item.p,item),phrase(chahida(item),'do you need','VERB','need construction; agrees with the noun')],(item.number==='pl'?'how many ':'how much ')+englishObject(item)+' do you need',true);
+        return result([phrase(L('tuhānū̃'),'to you','WHO','dative experiencer'),phrase(amountWord,item.number==='pl'?'how many':'how much','QUESTION','agrees with the noun'),objectPart(item.p,item),phrase(chahida(item),'do you need','VERB','need construction; agrees with the noun')],(englishExistenceIs(item)?'how much ':'how many ')+bareEnglishObject(item)+' do you need',true);
       case 'pastState':
         time=timeFor('past');item=pickRandom(statePool);if(!time||!item)return null;noteWho(who);add('When',time.p,'WHEN',time.id);add('State',stateForm(who,item),'HOW',item.id);
         return result([subjectPart(who),phrase(time.p,timeEnglish(time,'past'),'WHEN'),phrase(stateForm(who,item)+' '+pastAux(who),englishSubject(who)+' '+englishPastBe(who)+' '+item.e,'HOW','past state; adjective and auxiliary agree with the subject')],englishSubject(who)+' '+englishPastBe(who)+' '+item.e+' '+timeEnglish(time,'past'));
@@ -2587,7 +2588,7 @@
     const semantics=window.PunjabiLexicalSemantics;
     if(!semantics)return source;
     const metadata=window.PunjabiGrammarEngine.metadataFor(template);
-    const context={template:template.id,tense:metadata.tense,timeReference:metadata.timeReference};
+    const context={template:template.id,tense:metadata.tense,timeReference:metadata.timeReference,aspect:metadata.aspect};
     const projected=Object.assign({},source,{vocab:{},verbs:[]});
     const roleCategories={subject:'WHO',addressee:'WHO',experiencer:'WHO',possessor:'WHO',object:'WHAT',secondObject:'WHAT',choice:'WHAT',secondChoice:'WHAT',location:'WHERE',destination:'WHERE',time:'WHEN',manner:'HOW',politeness:'HOW',topic:'ABOUT',reasonClause:'WHY',description:'STATE',question:'QUESTION',questionMarker:'QUESTION',quantityQuestion:'QUESTION',connector:'CONNECTOR',conditionClause:'CONNECTOR'};
     // Legacy patterns inspect WHO during their common setup. Other pools are
@@ -2636,6 +2637,17 @@
   // Only the first pass chooses words. The second is a script rendering of the
   // same selection tape; no fresh randomness, reroll, or transliteration occurs.
   function assembleFromTemplate(template){
+    if(!template||!template.enabled)return null;
+    for(let attempt=0;attempt<8;attempt++){
+      const sentence=assembleSentenceCandidate(template);
+      if(!sentence)continue;
+      const semantics=window.PunjabiLexicalSemantics,lexical=window.PunjabiLinguisticSystem;
+      const validation=semantics&&semantics.validateGeneratedSentence?semantics.validateGeneratedSentence(sentence,id=>lexical.get(state,id),Object.assign({},template,{aspect:window.PunjabiGrammarEngine.metadataFor(template).aspect})):{ok:true,rules:[]};
+      if(validation.ok){sentence.semanticValidation=validation;return sentence;}
+    }
+    return null;
+  }
+  function assembleSentenceCandidate(template){
     if(!template||!template.enabled)return null;
     if(window.PunjabiSentenceLearning&&window.PunjabiSentenceLearning.handles(template))return window.PunjabiSentenceLearning.generate(template,state,pickRandom,{grammar:window.PunjabiGrammarEngine,semantics:window.PunjabiLexicalSemantics,lexical:window.PunjabiLinguisticSystem});
     if(window.PunjabiGrammarEngine.isStructuredTemplate(template))return window.PunjabiGrammarEngine.generate(template,state,pickRandom);
