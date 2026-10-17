@@ -1,0 +1,4505 @@
+{
+  "baseline": {
+    "label": "baseline",
+    "sourceRef": "de5527aded10b16d057aec904395d6113ad00f91",
+    "inventoryRecords": 3111,
+    "uniqueActiveRecords": 3111,
+    "archivedCompatibilityRecords": 0,
+    "totalBuildingBlockRows": 8843,
+    "roles": {
+      "ABOUT": {
+        "rows": 1240,
+        "enabled": 1240,
+        "uniqueLexemes": 921
+      },
+      "ADJECTIVE": {
+        "rows": 128,
+        "enabled": 128,
+        "uniqueLexemes": 98
+      },
+      "CONNECTOR": {
+        "rows": 15,
+        "enabled": 15,
+        "uniqueLexemes": 15
+      },
+      "GAME_BODY": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_CLOTHES": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_EDUCATION": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_EVERYDAY": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_FRUITS": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_NATURE": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_SPICES": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_VEGETABLES": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "HOW": {
+        "rows": 42,
+        "enabled": 42,
+        "uniqueLexemes": 42
+      },
+      "LEXICON": {
+        "rows": 3244,
+        "enabled": 3244,
+        "uniqueLexemes": 3111
+      },
+      "NUMBER": {
+        "rows": 21,
+        "enabled": 21,
+        "uniqueLexemes": 21
+      },
+      "QUESTION": {
+        "rows": 14,
+        "enabled": 14,
+        "uniqueLexemes": 14
+      },
+      "STATE": {
+        "rows": 40,
+        "enabled": 40,
+        "uniqueLexemes": 37
+      },
+      "VERBS": {
+        "rows": 146,
+        "enabled": 146,
+        "uniqueLexemes": 116
+      },
+      "WHAT": {
+        "rows": 3676,
+        "enabled": 3676,
+        "uniqueLexemes": 2671
+      },
+      "WHEN": {
+        "rows": 82,
+        "enabled": 82,
+        "uniqueLexemes": 70
+      },
+      "WHERE": {
+        "rows": 87,
+        "enabled": 87,
+        "uniqueLexemes": 81
+      },
+      "WHO": {
+        "rows": 209,
+        "enabled": 209,
+        "uniqueLexemes": 185
+      },
+      "WHY": {
+        "rows": 32,
+        "enabled": 32,
+        "uniqueLexemes": 30
+      },
+      "WORD": {
+        "rows": 3111,
+        "enabled": 3111,
+        "uniqueLexemes": 3111
+      }
+    },
+    "exactRedundantRecords": 5,
+    "exactDuplicateGroups": [
+      [
+        "lex:game-body-17",
+        "lex:wt-pa-aa1adce6e80c04e0a22d"
+      ],
+      [
+        "lex:game-body-5",
+        "lex:wt-pa-5959f821b3f8079ecfbd"
+      ],
+      [
+        "lex:game-clothes-13",
+        "lex:wt-pa-640cd23914c4cf8d86e7"
+      ],
+      [
+        "lex:what-animal-elephant",
+        "lex:wt-pa-7cc519063b87669f7b99"
+      ],
+      [
+        "lex:what-kitab",
+        "lex:wt-pa-c970efe61404121b7eed"
+      ]
+    ],
+    "redundantBindingRows": 339,
+    "duplicateBindings": [
+      {
+        "category": "ADJECTIVE",
+        "ids": [
+          "state-extra-clean",
+          "state-extra-clean@wt-sense-bc792abf9480d3a1ca9a"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "ADJECTIVE",
+        "ids": [
+          "state-extra-big",
+          "state-extra-big@sense:lex:state-extra-big:legacy-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "ADJECTIVE",
+        "ids": [
+          "state-extra-small",
+          "state-extra-small@sense:lex:state-extra-small:legacy-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "ADJECTIVE",
+        "ids": [
+          "state-extra-difficult",
+          "state-extra-difficult@sense:lex:state-extra-difficult:legacy-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "ADJECTIVE",
+        "ids": [
+          "state-extra-expensive",
+          "state-extra-expensive@sense:lex:state-extra-expensive:legacy-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "ADJECTIVE",
+        "ids": [
+          "state-extra-cheap",
+          "state-extra-cheap@sense:lex:state-extra-cheap:legacy-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-84345a4aec6625953718",
+          "when-aksar"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-de76cfb44b9630b430b2",
+          "c-ate"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-f4fecef80514917a72f9",
+          "game-education-3"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-445e245d757dd7626205",
+          "game-fruits-20"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-cb9f54bdd3ffb2bff9c8",
+          "game-fruits-7"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-f3ee290f2c3caff5d4f0",
+          "game-fruits-6"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-0c67aab498cf8e2234ff",
+          "who-asi"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-67acbcbf4bef8ca4b260",
+          "game-body-23"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-d9f2afee1430c7a26bd6",
+          "game-fruits-23"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-51737efdf7d045198fe8",
+          "game-fruits-3"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-e12e8a01dffea4ae42a5",
+          "when-ajj"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-651013d40b5ffe5b4efe",
+          "game-vegetables-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-78c7cb06211ae2320384",
+          "game-education-24"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-8b0d565690af1c074298",
+          "number-nineteen"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-7067b9c4aa34af13899a",
+          "state-extra-difficult"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-f64bfaece4dd893c52fa",
+          "game-body-27"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-27c399bbc8f085c24050",
+          "game-clothes-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-f568d6282be8af854d21",
+          "game-everyday-2"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-236de25c1a7d89ae16f3",
+          "what-animal-dog"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-ec26e34a6330fe57fc14",
+          "game-body-19"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-4b55c77671c0f6cc0bf0",
+          "game-fruits-2"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-2a2dcb44c8a382d81958",
+          "game-body-8"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-4a02c38fad26427d637c",
+          "game-education-26"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-831d18d5248e5258d962",
+          "what-kam"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-2b12f0d8ab0d3623e932",
+          "when-kal"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-e39a9ef8ee79278830c2",
+          "game-spices-27"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-d3433137793ba8b522d0",
+          "game-vegetables-14"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-b620c4837992a12e9999",
+          "game-education-22"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-a1c024326ab6b16cbf66",
+          "game-body-16"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-b0be77cad9f88283e2ca",
+          "what-animal-cow"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-6e1a6aa968b73ff1a595",
+          "game-vegetables-7"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-518d1299e1b23b7a091f",
+          "game-body-20"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-dbf8fbb2a008add21c2f",
+          "game-body-29"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-6026faef136ca5e2296c",
+          "game-body-10"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-8e7bed548119227b7054",
+          "game-nature-22"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-914d66139a313fb30476",
+          "game-everyday-16"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-3387c9334c467b1aa517",
+          "game-everyday-8"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-1c48512ce2f81240c35b",
+          "what-cah"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-8499a63020b2b408ffa2",
+          "game-body-3"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-6263e77b98f845151ded",
+          "game-nature-2"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-e05f8fdccf728179f6d8",
+          "game-body-24"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-9c708fc9fe77358ec6cf",
+          "state-extra-small"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-6d847fc5908088b388c1",
+          "game-spices-21"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-1856ca01f5306dc681a1",
+          "game-body-14"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-9776d9c4d250e13ccecc",
+          "game-nature-27"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-07d58042126588c7bf73",
+          "game-everyday-30"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-9c61f4ef390969ca2de9",
+          "game-nature-13"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-b6a80b0026ab597f9d5c",
+          "game-vegetables-3"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-5c4953d3637bde4e9e18",
+          "game-nature-28"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-3b679e7c068e9d3b3b05",
+          "game-body-15"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-74215f19e298829acef9",
+          "game-fruits-17"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-b37575f078f0e7cb0f35",
+          "game-nature-3"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-8b20a35c75cdd71ad561",
+          "state-ready"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-f54c34e2d751d5b0dd7b",
+          "what-tohfa"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-81d8c1e11bc00b13cd83",
+          "game-everyday-22"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-b18a2077733b4edb0bff",
+          "game-nature-12"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-1616da25551f575938d5",
+          "number-two"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-d6f2c7b3d69b4150bd6d",
+          "game-body-13"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-af615c59cb56381cbd36",
+          "what-nashta"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-1eee4c2bf73b3d26539f",
+          "c-par"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-a9386e023f019d7aacce",
+          "game-nature-15"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-76121dc56076f916b4d5",
+          "what-pani"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-f7fafbede4f725fc3228",
+          "game-body-26"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-1135b42a6798c18861c9",
+          "game-body-30"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-b3484772bbd6bfed579b",
+          "game-everyday-13"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-791c1a2987be68cc2403",
+          "game-nature-20"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-ec08295be344ddaa7ccb",
+          "game-nature-26"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-bf0974756c481d13c3c6",
+          "what-phal"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-bc0b67efe8222614f9cf",
+          "game-nature-21"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-d89581863d09eab98f91",
+          "game-vegetables-4"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-ddc3414401c8a850305e",
+          "game-body-18"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-77dfc99a0cc1f3a02518",
+          "game-nature-10"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-ee9a0b75ffbfb501d819",
+          "what-animal-cat"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-720654003db25becc0e8",
+          "game-body-12"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-e4e76939a185aaf29688",
+          "game-everyday-19"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-8efefca82d39f93ca781",
+          "game-body-6"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-26e3b58e4943524e39cf",
+          "game-education-21"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-76c72c3e1e7cac827f5d",
+          "game-vegetables-11"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-933806c2fac0b0683ff3",
+          "game-education-25"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-fc2adc12f8711f1fd7a4",
+          "what-madad"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-d79fa2478f579ef0785d",
+          "state-extra-expensive"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-bece62867dfe4931f106",
+          "game-nature-29"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-167f64ffd3b1d143d244",
+          "state-extra-sweet"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-d152a6f109e31c7e93d7",
+          "game-nature-6"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-1dbd5d8531c2e663ef35",
+          "game-vegetables-8"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-bcd77e7bfed1e9892e3c",
+          "game-everyday-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-5a9c6e4ece9e4218d45c",
+          "game-body-4"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-8177fd735b2a71a6f15f",
+          "game-nature-19"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-989f0fb5803d0260f48b",
+          "game-nature-24"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-771e1704a6cba1239027",
+          "game-spices-24"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-edc76ebd620f6bddaa25",
+          "game-education-19"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-371602700fa51288166d",
+          "game-spices-14"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-36cb62b606b5e8c0e308",
+          "game-body-28"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-7831897e575bea58ce08",
+          "game-clothes-24"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-46c497c7437c84e67d40",
+          "game-nature-17"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-3f35655893fe81dcd5f8",
+          "game-body-2"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-b27bc898d906279bbee5",
+          "game-education-23"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-0011178ae05b666bac65",
+          "game-education-4"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-d2e297c055a699b0d7d1",
+          "state-extra-big"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-3754e48c565e19ec3d12",
+          "game-education-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-5a596e80debb8e85b651",
+          "game-education-6"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-3d0cdc01c082ecb94b70",
+          "state-extra-cheap"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-cba8db1b1cc44819c8c7",
+          "game-vegetables-24"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-f9614b473d529f2ba492",
+          "game-education-20"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-c1d3048121e491e536dc",
+          "game-vegetables-9"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-f5cfa6766dcdb8e52d6b",
+          "game-clothes-15"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-2374fd641efba546e801",
+          "state-extra-clean"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-f6087ecd0d5bb1c49da1",
+          "game-everyday-21"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-853d090be4667e4d8572",
+          "number-zero"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-2e984899110ea98752b5",
+          "game-body-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-d984e331b2df66173f74",
+          "game-everyday-4"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-8a173de41a44fe24d546",
+          "what-message"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-d6bf9885a0af405459b3",
+          "game-spices-25"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-aa3d7db08aec04905da8",
+          "game-nature-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-7322d51d34b295b67605",
+          "when-hamesha"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-906d7e559ad2b03a1719",
+          "when-hun"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "LEXICON",
+        "ids": [
+          "wt-pa-0b4cc48292da0c640a92",
+          "game-body-21"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "VERBS",
+        "ids": [
+          "v-sikhna",
+          "v-sikhna@wt-sense-06836ab2f5b74c805ab0"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "VERBS",
+        "ids": [
+          "v-sochna",
+          "v-sochna@wt-sense-66859dfdc9c686c05b27"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "VERBS",
+        "ids": [
+          "v-parhna",
+          "v-parhna@wt-sense-6fa3940909a868803c31"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "VERBS",
+        "ids": [
+          "v-kharidna",
+          "v-kharidna@wt-sense-fdc7c5e0e0446c9a0a13"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "VERBS",
+        "ids": [
+          "v-labhna",
+          "v-labhna@wt-sense-32d125f1d3c66bff7b23"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "VERBS",
+        "ids": [
+          "v-bolna",
+          "v-bolna@wt-sense-d39796a8c2343c2e8c89"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "VERBS",
+        "ids": [
+          "v-hasna",
+          "v-hasna@wt-sense-a8e529a7e77d568958f5"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "VERBS",
+        "ids": [
+          "v-khedna",
+          "v-khedna@wt-sense-078fc055e2076c5103db"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "what-pani",
+          "what-pani@sense:lex:what-pani:legacy-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "what-cah",
+          "what-cah@wt-sense-aa1f118a0dbd65362a99"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "what-khana",
+          "what-khana@wt-sense-158e1efa6bb348c01361"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "what-phal",
+          "what-phal@wt-sense-593e236423fdf12e5901"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-14",
+          "game-spices-14@wt-sense-325a2f179e29a966b327"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-4",
+          "game-body-4@wt-sense-650d0f5359f7c76ca7d7"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-23",
+          "game-body-23@wt-sense-8d11b059d8274ddeff01"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-30",
+          "game-body-30@wt-sense-126ddfa7e86394efee1f"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-3",
+          "game-nature-3@wt-sense-2d1c5d469f5f4a0de22d",
+          "game-nature-3@wt-sense-69685fa7336c1179b2cc"
+        ],
+        "redundant": 2
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-10",
+          "game-nature-10@wt-sense-1bb5246f876bd305c483"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-13",
+          "game-nature-13@wt-sense-3a2d4cad6d5cc66f7f71"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-20",
+          "game-nature-20@wt-sense-b052456cb5a08dbbb92a"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "who-dost@direct-identification",
+          "who-dost"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "who-parivar@direct-identification",
+          "who-parivar"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "who-lok@direct-identification",
+          "who-lok"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "who-bhai@direct-identification",
+          "who-bhai"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "who-bhain@direct-identification",
+          "who-bhain"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "who-ma@direct-identification",
+          "who-ma"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "who-pio@direct-identification",
+          "who-pio"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "who-mape@direct-identification",
+          "who-mape"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "who-bacce@direct-identification",
+          "who-bacce"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "who-sathi@direct-identification",
+          "who-sathi"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "where-ghar@direct-identification",
+          "where-ghar"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-2@direct-identification",
+          "game-vegetables-2"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-4@direct-identification",
+          "game-vegetables-4"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-5@direct-identification",
+          "game-vegetables-5"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-6@direct-identification",
+          "game-vegetables-6"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-9@direct-identification",
+          "game-vegetables-9"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-10@direct-identification",
+          "game-vegetables-10"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-12@direct-identification",
+          "game-vegetables-12"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-13@direct-identification",
+          "game-vegetables-13"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-15@direct-identification",
+          "game-vegetables-15"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-16@direct-identification",
+          "game-vegetables-16"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-17@direct-identification",
+          "game-vegetables-17"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-18@direct-identification",
+          "game-vegetables-18"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-19@direct-identification",
+          "game-vegetables-19"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-20@direct-identification",
+          "game-vegetables-20"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-21@direct-identification",
+          "game-vegetables-21"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-22@direct-identification",
+          "game-vegetables-22"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-23@direct-identification",
+          "game-vegetables-23"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-24@direct-identification",
+          "game-vegetables-24"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-25@direct-identification",
+          "game-vegetables-25"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-26@direct-identification",
+          "game-vegetables-26"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-27@direct-identification",
+          "game-vegetables-27"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-28@direct-identification",
+          "game-vegetables-28"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-29@direct-identification",
+          "game-vegetables-29"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-vegetables-30@direct-identification",
+          "game-vegetables-30"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-1@direct-identification",
+          "game-fruits-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-2@direct-identification",
+          "game-fruits-2"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-3@direct-identification",
+          "game-fruits-3"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-4@direct-identification",
+          "game-fruits-4"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-5@direct-identification",
+          "game-fruits-5"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-6@direct-identification",
+          "game-fruits-6"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-8@direct-identification",
+          "game-fruits-8"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-9@direct-identification",
+          "game-fruits-9"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-10@direct-identification",
+          "game-fruits-10"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-11@direct-identification",
+          "game-fruits-11"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-12@direct-identification",
+          "game-fruits-12"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-13@direct-identification",
+          "game-fruits-13"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-14@direct-identification",
+          "game-fruits-14"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-15@direct-identification",
+          "game-fruits-15"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-16@direct-identification",
+          "game-fruits-16"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-18@direct-identification",
+          "game-fruits-18"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-19@direct-identification",
+          "game-fruits-19"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-21@direct-identification",
+          "game-fruits-21"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-22@direct-identification",
+          "game-fruits-22"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-23@direct-identification",
+          "game-fruits-23"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-24@direct-identification",
+          "game-fruits-24"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-25@direct-identification",
+          "game-fruits-25"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-26@direct-identification",
+          "game-fruits-26"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-27@direct-identification",
+          "game-fruits-27"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-28@direct-identification",
+          "game-fruits-28"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-29@direct-identification",
+          "game-fruits-29"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-fruits-30@direct-identification",
+          "game-fruits-30"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-1@direct-identification",
+          "game-spices-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-2@direct-identification",
+          "game-spices-2"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-3@direct-identification",
+          "game-spices-3"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-4@direct-identification",
+          "game-spices-4"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-5@direct-identification",
+          "game-spices-5"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-6@direct-identification",
+          "game-spices-6"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-7@direct-identification",
+          "game-spices-7"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-8@direct-identification",
+          "game-spices-8"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-9@direct-identification",
+          "game-spices-9"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-10@direct-identification",
+          "game-spices-10"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-11@direct-identification",
+          "game-spices-11"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-12@direct-identification",
+          "game-spices-12"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-13@direct-identification",
+          "game-spices-13"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-15@direct-identification",
+          "game-spices-15"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-16@direct-identification",
+          "game-spices-16"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-17@direct-identification",
+          "game-spices-17"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-18@direct-identification",
+          "game-spices-18"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-19@direct-identification",
+          "game-spices-19"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-20@direct-identification",
+          "game-spices-20"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-22@direct-identification",
+          "game-spices-22"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-23@direct-identification",
+          "game-spices-23"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-25@direct-identification",
+          "game-spices-25"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-26@direct-identification",
+          "game-spices-26"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-27@direct-identification",
+          "game-spices-27"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-28@direct-identification",
+          "game-spices-28"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-29@direct-identification",
+          "game-spices-29"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-spices-30@direct-identification",
+          "game-spices-30"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-2@direct-identification",
+          "game-education-2"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-4@direct-identification",
+          "game-education-4"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-5@direct-identification",
+          "game-education-5"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-8@direct-identification",
+          "game-education-8"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-10@direct-identification",
+          "game-education-10"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-11@direct-identification",
+          "game-education-11"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-12@direct-identification",
+          "game-education-12"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-13@direct-identification",
+          "game-education-13"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-14@direct-identification",
+          "game-education-14"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-15@direct-identification",
+          "game-education-15"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-16@direct-identification",
+          "game-education-16"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-20@direct-identification",
+          "game-education-20"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-21@direct-identification",
+          "game-education-21"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-23@direct-identification",
+          "game-education-23"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-27@direct-identification",
+          "game-education-27"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-28@direct-identification",
+          "game-education-28"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-29@direct-identification",
+          "game-education-29"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-education-30@direct-identification",
+          "game-education-30"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-2@direct-identification",
+          "game-clothes-2"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-3@direct-identification",
+          "game-clothes-3"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-4@direct-identification",
+          "game-clothes-4"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-5@direct-identification",
+          "game-clothes-5"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-6@direct-identification",
+          "game-clothes-6"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-7@direct-identification",
+          "game-clothes-7"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-8@direct-identification",
+          "game-clothes-8"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-9@direct-identification",
+          "game-clothes-9"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-10@direct-identification",
+          "game-clothes-10"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-11@direct-identification",
+          "game-clothes-11"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-12@direct-identification",
+          "game-clothes-12"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-13@direct-identification",
+          "game-clothes-13"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-14@direct-identification",
+          "game-clothes-14"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-15@direct-identification",
+          "game-clothes-15"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-16@direct-identification",
+          "game-clothes-16"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-17@direct-identification",
+          "game-clothes-17"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-18@direct-identification",
+          "game-clothes-18"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-19@direct-identification",
+          "game-clothes-19"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-20@direct-identification",
+          "game-clothes-20"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-21@direct-identification",
+          "game-clothes-21"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-22@direct-identification",
+          "game-clothes-22"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-23@direct-identification",
+          "game-clothes-23"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-25@direct-identification",
+          "game-clothes-25"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-26@direct-identification",
+          "game-clothes-26"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-27@direct-identification",
+          "game-clothes-27"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-28@direct-identification",
+          "game-clothes-28"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-29@direct-identification",
+          "game-clothes-29"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-clothes-30@direct-identification",
+          "game-clothes-30"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-1@direct-identification",
+          "game-body-1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-3@direct-identification",
+          "game-body-3"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-5@direct-identification",
+          "game-body-5"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-7@direct-identification",
+          "game-body-7"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-9@direct-identification",
+          "game-body-9"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-11@direct-identification",
+          "game-body-11"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-13@direct-identification",
+          "game-body-13"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-17@direct-identification",
+          "game-body-17"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-20@direct-identification",
+          "game-body-20"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-21@direct-identification",
+          "game-body-21"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-22@direct-identification",
+          "game-body-22"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-24@direct-identification",
+          "game-body-24"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-25@direct-identification",
+          "game-body-25"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-28@direct-identification",
+          "game-body-28"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-2@direct-identification",
+          "game-nature-2"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-4@direct-identification",
+          "game-nature-4"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-5@direct-identification",
+          "game-nature-5"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-7@direct-identification",
+          "game-nature-7"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-8@direct-identification",
+          "game-nature-8"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-9@direct-identification",
+          "game-nature-9"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-11@direct-identification",
+          "game-nature-11"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-14@direct-identification",
+          "game-nature-14"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-16@direct-identification",
+          "game-nature-16"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-18@direct-identification",
+          "game-nature-18"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-19@direct-identification",
+          "game-nature-19"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-21@direct-identification",
+          "game-nature-21"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-23@direct-identification",
+          "game-nature-23"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-25@direct-identification",
+          "game-nature-25"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-27@direct-identification",
+          "game-nature-27"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-nature-30@direct-identification",
+          "game-nature-30"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-3@direct-identification",
+          "game-everyday-3"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-5@direct-identification",
+          "game-everyday-5"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-8@direct-identification",
+          "game-everyday-8"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-9@direct-identification",
+          "game-everyday-9"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-10@direct-identification",
+          "game-everyday-10"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-11@direct-identification",
+          "game-everyday-11"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-12@direct-identification",
+          "game-everyday-12"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-14@direct-identification",
+          "game-everyday-14"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-15@direct-identification",
+          "game-everyday-15"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-16@direct-identification",
+          "game-everyday-16"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-17@direct-identification",
+          "game-everyday-17"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-18@direct-identification",
+          "game-everyday-18"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-20@direct-identification",
+          "game-everyday-20"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-23@direct-identification",
+          "game-everyday-23"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-24@direct-identification",
+          "game-everyday-24"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-26@direct-identification",
+          "game-everyday-26"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-27@direct-identification",
+          "game-everyday-27"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-28@direct-identification",
+          "game-everyday-28"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-everyday-29@direct-identification",
+          "game-everyday-29"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "game-body-21@wt-sense-e3ac0c229dd1ab2ab3f5",
+          "game-body-21@wt-sense-8cd8cfcb175a95446a0f"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "wt-pa-db09762016208fb4a6e8",
+          "wt-pa-db09762016208fb4a6e8@wt-sense-7ba5e1a61d1b737a68b3",
+          "wt-pa-db09762016208fb4a6e8@wt-sense-e08817b7f6da1932c74b",
+          "wt-pa-db09762016208fb4a6e8@wt-sense-348de644d40758de8186"
+        ],
+        "redundant": 3
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "wt-pa-a70fe962aecaf10da096",
+          "wt-pa-a70fe962aecaf10da096@wt-sense-d92be3cb88b4f30eb693"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHAT",
+        "ids": [
+          "wt-pa-eb52530f7eca7f3b672b",
+          "wt-pa-eb52530f7eca7f3b672b@wt-sense-8a29a06df5a7b3220bbf"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHEN",
+        "ids": [
+          "when-ajj",
+          "when-ajj@wt-sense-f8ae66f5a2e9194222d2"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHEN",
+        "ids": [
+          "when-hun",
+          "when-hun@wt-sense-a618e243b287b14cdaf1"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHEN",
+        "ids": [
+          "when-aksar",
+          "when-aksar@wt-sense-8c773fcdf309d60b9700"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHEN",
+        "ids": [
+          "when-hamesha",
+          "when-hamesha@wt-sense-4fcfbdee92cbc0b22baa"
+        ],
+        "redundant": 1
+      },
+      {
+        "category": "WHY",
+        "ids": [
+          "why-kiuki",
+          "c-kiuki",
+          "c-kiuki@sense:lex:why-kiuki:legacy-1"
+        ],
+        "redundant": 1
+      }
+    ],
+    "sameSpellingGroups": 80,
+    "nearRomanGroups": 29,
+    "sharedEnglishGroups": 251,
+    "measuredFrequencyRecords": 0,
+    "utilityTiers": {
+      "1": 527,
+      "2": 979,
+      "3": 1590,
+      "4": 15
+    },
+    "rawSources": {
+      "dictionaryRows": 5184,
+      "duplicateDictionaryIds": 0,
+      "grammarReadyOverrides": 30,
+      "sourceEvidenceEntries": 5184,
+      "priorCatalogExcluded": 2469
+    },
+    "cleanup": null,
+    "recordIdsSha256": "3712274c65aef1a66e0794dfa25c3a300317526e5daa309835fb116ca866de2e",
+    "manualBrowserState": "Unavailable: repository-default inventory only. Actual user browser deletions were not inspected.",
+    "normalization": "NFC, whitespace and English article/case normalization for comparison only. Gurmukhi diacritics and original spellings remain unchanged. Roman near-variants are candidates, not automatic identity proof."
+  },
+  "final": {
+    "label": "final",
+    "sourceRef": "working-tree",
+    "inventoryRecords": 3111,
+    "uniqueActiveRecords": 2983,
+    "archivedCompatibilityRecords": 128,
+    "totalBuildingBlockRows": 8328,
+    "roles": {
+      "ABOUT": {
+        "rows": 1212,
+        "enabled": 1212,
+        "uniqueLexemes": 893
+      },
+      "ADJECTIVE": {
+        "rows": 119,
+        "enabled": 119,
+        "uniqueLexemes": 95
+      },
+      "CONNECTOR": {
+        "rows": 15,
+        "enabled": 15,
+        "uniqueLexemes": 15
+      },
+      "GAME_BODY": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_CLOTHES": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_EDUCATION": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_EVERYDAY": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_FRUITS": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_NATURE": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_SPICES": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "GAME_VEGETABLES": {
+        "rows": 30,
+        "enabled": 30,
+        "uniqueLexemes": 30
+      },
+      "HOW": {
+        "rows": 41,
+        "enabled": 41,
+        "uniqueLexemes": 41
+      },
+      "LEXICON": {
+        "rows": 2983,
+        "enabled": 2983,
+        "uniqueLexemes": 2983
+      },
+      "NUMBER": {
+        "rows": 21,
+        "enabled": 21,
+        "uniqueLexemes": 21
+      },
+      "QUESTION": {
+        "rows": 14,
+        "enabled": 14,
+        "uniqueLexemes": 14
+      },
+      "STATE": {
+        "rows": 40,
+        "enabled": 40,
+        "uniqueLexemes": 37
+      },
+      "VERBS": {
+        "rows": 138,
+        "enabled": 138,
+        "uniqueLexemes": 115
+      },
+      "WHAT": {
+        "rows": 3350,
+        "enabled": 3350,
+        "uniqueLexemes": 2549
+      },
+      "WHEN": {
+        "rows": 77,
+        "enabled": 77,
+        "uniqueLexemes": 69
+      },
+      "WHERE": {
+        "rows": 85,
+        "enabled": 85,
+        "uniqueLexemes": 79
+      },
+      "WHO": {
+        "rows": 204,
+        "enabled": 204,
+        "uniqueLexemes": 180
+      },
+      "WHY": {
+        "rows": 29,
+        "enabled": 29,
+        "uniqueLexemes": 29
+      },
+      "WORD": {
+        "rows": 2983,
+        "enabled": 2983,
+        "uniqueLexemes": 2983
+      }
+    },
+    "exactRedundantRecords": 0,
+    "exactDuplicateGroups": [],
+    "redundantBindingRows": 0,
+    "duplicateBindings": [],
+    "sameSpellingGroups": 48,
+    "nearRomanGroups": 19,
+    "sharedEnglishGroups": 178,
+    "measuredFrequencyRecords": 0,
+    "utilityTiers": {
+      "1": 527,
+      "2": 979,
+      "3": 1590,
+      "4": 15
+    },
+    "rawSources": {
+      "dictionaryRows": 5184,
+      "duplicateDictionaryIds": 0,
+      "grammarReadyOverrides": 30,
+      "sourceEvidenceEntries": 5184,
+      "priorCatalogExcluded": 2469
+    },
+    "cleanup": {
+      "version": 1,
+      "exactMerges": {
+        "lex:wt-pa-a8f1cad4f4c52d12b71e": "lex:game-body-11",
+        "lex:wt-pa-aa1adce6e80c04e0a22d": "lex:game-body-17",
+        "lex:wt-pa-5959f821b3f8079ecfbd": "lex:game-body-5",
+        "lex:wt-pa-1924ce3df5e04b66d7ff": "lex:game-body-9",
+        "lex:wt-pa-640cd23914c4cf8d86e7": "lex:game-clothes-13",
+        "lex:wt-pa-e6b2ccdd960dec0c8a99": "lex:game-clothes-6",
+        "lex:wt-pa-c619afa7cc43d90a193d": "lex:game-education-11",
+        "lex:wt-pa-cbc38806a26537b4dcb6": "lex:game-education-15",
+        "lex:wt-pa-04a0254cd82e85019d2e": "lex:game-education-8",
+        "lex:wt-pa-68d25f0aabfbe0f31f8f": "lex:game-everyday-10",
+        "lex:wt-pa-e31d2d6af4ae110db6d3": "lex:game-everyday-11",
+        "lex:wt-pa-afa6d262fd2c72007c96": "lex:game-fruits-19",
+        "lex:wt-pa-0aadc03ace34c3001a27": "lex:game-fruits-29",
+        "lex:wt-pa-af73cd303fba7039ce98": "lex:game-nature-23",
+        "lex:wt-pa-2b0be51f9d7107311661": "lex:game-nature-30",
+        "lex:wt-pa-7bbd80ee04b5df827674": "lex:game-nature-7",
+        "lex:wt-pa-775a0931555dd00f77e0": "lex:game-nature-8",
+        "lex:wt-pa-a70663fbfa3a0eb85f98": "lex:v-vekna",
+        "lex:wt-pa-4ff736470aefb32341eb": "lex:what-animal-bird",
+        "lex:wt-pa-7cc519063b87669f7b99": "lex:what-animal-elephant",
+        "lex:wt-pa-e55f5b656683ad240126": "lex:what-animal-fish",
+        "lex:wt-pa-d00a3d86ceed71194eb3": "lex:what-animal-goat",
+        "lex:wt-pa-91b749161b3d3e16f4ae": "lex:what-animal-horse",
+        "lex:wt-pa-dc1ab1467c4aee5a2323": "lex:what-animal-lion",
+        "lex:wt-pa-3fb6bc6f94cc7aa662b8": "lex:what-animal-monkey",
+        "lex:wt-pa-4dfde4f3968b2755b5dd": "lex:what-darwaza",
+        "lex:wt-pa-728e6397b0e5cefc817f": "lex:what-film",
+        "lex:wt-pa-80badfd60e4843edff9d": "lex:what-jawab",
+        "lex:wt-pa-199dff4b701edf9906cc": "lex:what-khidki",
+        "lex:wt-pa-c970efe61404121b7eed": "lex:what-kitab",
+        "lex:wt-pa-a3eef3c10bc996c0ac14": "lex:what-samassia",
+        "lex:wt-pa-fff7ffefa35ab8d8a3a4": "lex:when-savere"
+      },
+      "synonymAlternatives": {
+        "lex:wt-pa-9c104f175fe4b5f5f4d3": "lex:game-nature-4",
+        "lex:wt-pa-5458d98982be51558976": "lex:game-nature-4",
+        "lex:wt-pa-54d2bbaf96b4873c13e6": "lex:what-khidki",
+        "lex:wt-pa-94024e35d31d33877e86": "lex:what-khidki",
+        "lex:wt-pa-fe865c2b3dc01b1e3f91": "lex:wt-pa-36e7c09f2d1aaee59d58",
+        "lex:wt-pa-d515f1226c6fc68f3077": "lex:wt-pa-e3628e1e32e2cb0e3166",
+        "lex:wt-pa-272b0dbaaef8bceaf5ac": "lex:wt-pa-e3628e1e32e2cb0e3166",
+        "lex:wt-pa-dac7b56d5e4b4c99f31f": "lex:wt-pa-f0ccbff10af7411aab55",
+        "lex:wt-pa-7ee13f2a09ea3822b7df": "lex:wt-pa-f0ccbff10af7411aab55",
+        "lex:wt-pa-49113179308356ad8b9b": "lex:wt-pa-7e14d785abd27be4acd7",
+        "lex:wt-pa-c95388b667a8fdd5a97a": "lex:wt-pa-7e14d785abd27be4acd7",
+        "lex:wt-pa-a36bd5a858e43fb70d21": "lex:wt-pa-1db2098cdae611e7ae3a",
+        "lex:wt-pa-88740133fac60f4d243f": "lex:wt-pa-1db2098cdae611e7ae3a",
+        "lex:wt-pa-b4fcb36b616aee3ab2b4": "lex:wt-pa-1db2098cdae611e7ae3a",
+        "lex:wt-pa-49709183c8fdc0e2f09d": "lex:game-body-11",
+        "lex:wt-pa-5e9367f62cf4f421c4ae": "lex:game-education-19",
+        "lex:wt-pa-74e59e3e2aad4c93bc9d": "lex:game-education-19",
+        "lex:wt-pa-0000d2b83400bfb3b9b3": "lex:game-everyday-11",
+        "lex:wt-pa-5802c4e2cd7f9b41ddeb": "lex:game-everyday-11",
+        "lex:wt-pa-3d2f778c268263f0917b": "lex:game-nature-29",
+        "lex:wt-pa-4e5da1f677e3d496820d": "lex:what-animal-bird",
+        "lex:wt-pa-87a92203c4dc4d1df118": "lex:what-kitab",
+        "lex:wt-pa-026024af8d88abd51542": "lex:wt-pa-bfdd5f992ddb81a31360",
+        "lex:wt-pa-9a24223e54310893ee4b": "lex:wt-pa-bfdd5f992ddb81a31360",
+        "lex:wt-pa-2751d9fd6d693392762b": "lex:wt-pa-ce8839525a394b47575c",
+        "lex:wt-pa-eb9f9334a6a270a24256": "lex:wt-pa-ce8839525a394b47575c",
+        "lex:wt-pa-20aeb168763a90adaa4d": "lex:wt-pa-23c43ce3c967f3b502fa",
+        "lex:wt-pa-b57212a8eb58d89314e3": "lex:wt-pa-23c43ce3c967f3b502fa",
+        "lex:wt-pa-104b44ac37457d28434a": "lex:wt-pa-ddc57f93ed9a7fcde6fe",
+        "lex:wt-pa-d28fc8f17b942a76aed0": "lex:wt-pa-a4ede38e2cffe3c469e7",
+        "lex:wt-pa-163cfc1c08d45002e1a4": "lex:wt-pa-a4ede38e2cffe3c469e7",
+        "lex:wt-pa-a1ec5c5c246d5dba4509": "lex:game-body-10",
+        "lex:wt-pa-797449e86bde5d3f330a": "lex:game-nature-21",
+        "lex:wt-pa-0b55ef86fb1971738f8e": "lex:game-nature-24",
+        "lex:wt-pa-90d628d9fa32501bd224": "lex:game-nature-3",
+        "lex:wt-pa-b92a7c4997af78f0eff9": "lex:game-nature-6",
+        "lex:wt-pa-00d037fe4ca8bee4d774": "lex:game-spices-2",
+        "lex:wt-pa-714fda68cbdef70d5bbf": "lex:game-vegetables-10",
+        "lex:wt-pa-996753503136e320a258": "lex:game-vegetables-3",
+        "lex:wt-pa-8c0b2c7628af623b63ec": "lex:state-extra-easy",
+        "lex:wt-pa-a4d410852b93bcee0313": "lex:what-animal-dog",
+        "lex:wt-pa-d38eab261245bfb86ec7": "lex:what-tv",
+        "lex:wt-pa-315d86b3e8852c0f5333": "lex:wt-pa-7642609ca4dae38f24d3",
+        "lex:wt-pa-91976059b0588c1c023e": "lex:wt-pa-cfca713c78270f8ba219",
+        "lex:wt-pa-f5d2eaa24d4371cf4aa6": "lex:wt-pa-7f4f0ea9ef0b871a0388",
+        "lex:wt-pa-6224d213fdb204bcff74": "lex:wt-pa-d367aa198154bd1ae476",
+        "lex:wt-pa-7bd49aef448befb30661": "lex:wt-pa-d789f03358a989910da7",
+        "lex:wt-pa-02fc13d3ccd1755b3a3c": "lex:wt-pa-e2852e20c15f958e3c4e",
+        "lex:wt-pa-a36851208f9f6a58e51c": "lex:wt-pa-c74b996bccbb060d5172",
+        "lex:wt-pa-eaedb890e68afbb5b92c": "lex:wt-pa-855f7cc53cb0b881cadc",
+        "lex:wt-pa-61bf5ea3811dbffe6bf5": "lex:wt-pa-c475e5b4f6d79b5cbd62",
+        "lex:wt-pa-11d21f364991fa9cee19": "lex:wt-pa-fa67a1c65b2a45ff2788",
+        "lex:wt-pa-28bc4b83ca39e4c917ce": "lex:wt-pa-9bbf893dff628cdd4ee0",
+        "lex:wt-pa-c8aa168b208a28acc0a9": "lex:wt-pa-255d79f3365823bac857",
+        "lex:wt-pa-5e6c28b4373ff1219657": "lex:wt-pa-42d275353d55349ef502",
+        "lex:wt-pa-15b2195e8790a2c0e41a": "lex:wt-pa-738bd9e63e181b5185db",
+        "lex:wt-pa-1d9a59e4c780a29094fc": "lex:wt-pa-99d94f22d9fe82f056d7",
+        "lex:wt-pa-4a9ef5df4cc4da75b792": "lex:wt-pa-cf858c576c92287df43c",
+        "lex:wt-pa-62bcba0cab8694a3280b": "lex:wt-pa-ef95ed4599c6efb2bb2b",
+        "lex:wt-pa-966dcd386b9a055a0a23": "lex:wt-pa-01bba8b078207d6f66d2",
+        "lex:wt-pa-c2c4019df3d1808d4f9a": "lex:wt-pa-ba566d5b514027c75aa6",
+        "lex:wt-pa-a140db77103c6282e240": "lex:wt-pa-848dcb5c0a90650388f1",
+        "lex:wt-pa-24f3b3939d8e431cf49b": "lex:wt-pa-bb2bb19f5813a43094d3",
+        "lex:wt-pa-b6c119039adcac30b8e0": "lex:wt-pa-3e62e9fc24c3cf49187b",
+        "lex:wt-pa-b3e630e3b4412c27d8c0": "lex:wt-pa-e6b099040dd90b8e4af8",
+        "lex:wt-pa-e9c11413f1d5a1771048": "lex:wt-pa-64b125cbe18f69cc7880",
+        "lex:wt-pa-53f3c1a3b23d8100608f": "lex:wt-pa-db51d1d70a82757b60d3",
+        "lex:wt-pa-e6e9a0d44f7f06c6d972": "lex:wt-pa-0cc9bae9eede8fe8d228",
+        "lex:wt-pa-1ac46c59ba85f255fa84": "lex:wt-pa-45f260e12870de84ef18",
+        "lex:wt-pa-9b9e507edd241854b0e8": "lex:wt-pa-a6844a6c54644f053aa8",
+        "lex:wt-pa-2dd070cdc3f11a8e5056": "lex:wt-pa-ec5d49baaec657d3328e",
+        "lex:wt-pa-ab7c21404aed651840fd": "lex:wt-pa-49ef417a1683a7e7853f",
+        "lex:wt-pa-88e224a36b5bc59e67d6": "lex:wt-pa-bda2325f3fc5645a7bed",
+        "lex:wt-pa-667da3a84d93f39d567f": "lex:wt-pa-e30b7c27a76d1c4d3252",
+        "lex:wt-pa-3bbff8b3571c4babd3e8": "lex:wt-pa-013844a0b9264bd946d9",
+        "lex:wt-pa-5be1ac71870d7ff70803": "lex:wt-pa-ebda7e1cab84e6f5a65d",
+        "lex:wt-pa-797992a2c7fa9b169aae": "lex:wt-pa-5caff9e9bb71628a8809",
+        "lex:wt-pa-30c410bc275acccba61e": "lex:wt-pa-81da64ecc3643eedceaf",
+        "lex:wt-pa-7b7aa0c0af98815ea3da": "lex:wt-pa-188df3688e4934ba73c6",
+        "lex:wt-pa-ce6ff91bb068c8f05538": "lex:wt-pa-a76e15284f6ba20c16cf",
+        "lex:wt-pa-9fb89af4b6a5fe15a637": "lex:wt-pa-b62cd5ebf7246d401273"
+      },
+      "fringe": {
+        "lex:wt-pa-34f374ec15e2e73eb40d": "Specialised political-philosophical doctrine rather than general conversational vocabulary.",
+        "lex:wt-pa-f841b9dcd62478e0023a": "Specialised political-philosophical doctrine rather than general conversational vocabulary.",
+        "lex:wt-pa-62a8f9e7b7f33b7fa728": "A narrowly specified weapon subtype; culturally useful kirpan and general sword vocabulary remain.",
+        "lex:wt-pa-5222b775f6850c61fa46": "Specialised academic subdiscipline; general science vocabulary remains.",
+        "lex:wt-pa-db73e29c257e66188735": "Historical military-administrative office.",
+        "lex:wt-pa-27a7be70c924c7028bd0": "Specialist dictionary-compilation discipline; ordinary dictionary and language words remain.",
+        "lex:wt-pa-ddb4daa420c710da6daa": "Specialised astronomical distance unit.",
+        "lex:wt-pa-244b670005bd8a56c266": "Specialised concealed weapon.",
+        "lex:wt-pa-82e376756ff62d497bd8": "Specific joinery joint component; general household and tool vocabulary remains.",
+        "lex:wt-pa-4e42ee9949cd69ca2ad5": "Specialised mathematical function beyond ordinary arithmetic and shopping quantities.",
+        "lex:wt-pa-0f6c539f377fa1f824da": "Specialised mathematical function beyond ordinary arithmetic and shopping quantities.",
+        "lex:wt-pa-9d57b495bd2f4cab312a": "Specialist dictionary-compilation discipline; ordinary dictionary and language words remain.",
+        "lex:wt-pa-3d105c3796415a69eb0a": "The source entry denotes a historical feudal social rank.",
+        "lex:wt-pa-a962b9085d557c28b3d3": "Specialised historical social-system term.",
+        "lex:wt-pa-7d3f3bbcb1a449bb4af6": "Specific mineral/ore terminology; ordinary metals and materials remain."
+      },
+      "bindingAliases": {
+        "ADJECTIVE:state-extra-clean@wt-sense-bc792abf9480d3a1ca9a": "state-extra-clean",
+        "ADJECTIVE:state-extra-big@sense:lex:state-extra-big:legacy-1": "state-extra-big",
+        "ADJECTIVE:state-extra-small@sense:lex:state-extra-small:legacy-1": "state-extra-small",
+        "ADJECTIVE:state-extra-difficult@sense:lex:state-extra-difficult:legacy-1": "state-extra-difficult",
+        "ADJECTIVE:state-extra-expensive@sense:lex:state-extra-expensive:legacy-1": "state-extra-expensive",
+        "ADJECTIVE:state-extra-cheap@sense:lex:state-extra-cheap:legacy-1": "state-extra-cheap",
+        "LEXICON:who-asi": "wt-pa-0c67aab498cf8e2234ff",
+        "LEXICON:when-ajj": "wt-pa-e12e8a01dffea4ae42a5",
+        "LEXICON:when-kal": "wt-pa-2b12f0d8ab0d3623e932",
+        "LEXICON:when-hun": "wt-pa-906d7e559ad2b03a1719",
+        "LEXICON:when-aksar": "wt-pa-84345a4aec6625953718",
+        "LEXICON:when-hamesha": "wt-pa-7322d51d34b295b67605",
+        "LEXICON:what-pani": "wt-pa-76121dc56076f916b4d5",
+        "LEXICON:what-cah": "wt-pa-1c48512ce2f81240c35b",
+        "LEXICON:what-kam": "wt-pa-831d18d5248e5258d962",
+        "LEXICON:what-khana": "wt-pa-89ea1b8bc1fb20d5068f",
+        "LEXICON:what-phal": "wt-pa-bf0974756c481d13c3c6",
+        "LEXICON:what-nashta": "wt-pa-af615c59cb56381cbd36",
+        "LEXICON:what-dudh": "wt-pa-79a59111dc33fb0bc073",
+        "LEXICON:what-message": "wt-pa-8a173de41a44fe24d546",
+        "LEXICON:what-tohfa": "wt-pa-f54c34e2d751d5b0dd7b",
+        "LEXICON:what-madad": "wt-pa-fc2adc12f8711f1fd7a4",
+        "LEXICON:what-animal-dog": "wt-pa-236de25c1a7d89ae16f3",
+        "LEXICON:what-animal-cat": "wt-pa-ee9a0b75ffbfb501d819",
+        "LEXICON:what-animal-cow": "wt-pa-b0be77cad9f88283e2ca",
+        "LEXICON:wt-pa-de76cfb44b9630b430b2": "c-ate",
+        "LEXICON:wt-pa-1eee4c2bf73b3d26539f": "c-par",
+        "LEXICON:why-kiuki": "c-kiuki",
+        "LEXICON:why-iskarke": "c-iskarke",
+        "LEXICON:state-ready": "wt-pa-8b20a35c75cdd71ad561",
+        "LEXICON:number-zero": "wt-pa-853d090be4667e4d8572",
+        "LEXICON:number-two": "wt-pa-1616da25551f575938d5",
+        "LEXICON:number-nineteen": "wt-pa-8b0d565690af1c074298",
+        "LEXICON:state-extra-clean": "wt-pa-2374fd641efba546e801",
+        "LEXICON:state-extra-big": "wt-pa-d2e297c055a699b0d7d1",
+        "LEXICON:state-extra-small": "wt-pa-9c708fc9fe77358ec6cf",
+        "LEXICON:state-extra-sweet": "wt-pa-167f64ffd3b1d143d244",
+        "LEXICON:state-extra-difficult": "wt-pa-7067b9c4aa34af13899a",
+        "LEXICON:state-extra-expensive": "wt-pa-d79fa2478f579ef0785d",
+        "LEXICON:state-extra-cheap": "wt-pa-3d0cdc01c082ecb94b70",
+        "LEXICON:game-vegetables-1": "wt-pa-651013d40b5ffe5b4efe",
+        "LEXICON:game-vegetables-3": "wt-pa-b6a80b0026ab597f9d5c",
+        "LEXICON:game-vegetables-4": "wt-pa-d89581863d09eab98f91",
+        "LEXICON:game-vegetables-7": "wt-pa-6e1a6aa968b73ff1a595",
+        "LEXICON:game-vegetables-8": "wt-pa-1dbd5d8531c2e663ef35",
+        "LEXICON:game-vegetables-9": "wt-pa-c1d3048121e491e536dc",
+        "LEXICON:game-vegetables-11": "wt-pa-76c72c3e1e7cac827f5d",
+        "LEXICON:game-vegetables-14": "wt-pa-d3433137793ba8b522d0",
+        "LEXICON:game-vegetables-24": "wt-pa-cba8db1b1cc44819c8c7",
+        "LEXICON:game-fruits-2": "wt-pa-4b55c77671c0f6cc0bf0",
+        "LEXICON:game-fruits-3": "wt-pa-51737efdf7d045198fe8",
+        "LEXICON:game-fruits-6": "wt-pa-f3ee290f2c3caff5d4f0",
+        "LEXICON:game-fruits-7": "wt-pa-cb9f54bdd3ffb2bff9c8",
+        "LEXICON:game-fruits-17": "wt-pa-74215f19e298829acef9",
+        "LEXICON:game-fruits-20": "wt-pa-445e245d757dd7626205",
+        "LEXICON:game-fruits-23": "wt-pa-d9f2afee1430c7a26bd6",
+        "LEXICON:game-spices-14": "wt-pa-371602700fa51288166d",
+        "LEXICON:game-spices-21": "wt-pa-6d847fc5908088b388c1",
+        "LEXICON:game-spices-24": "wt-pa-771e1704a6cba1239027",
+        "LEXICON:game-spices-25": "wt-pa-d6bf9885a0af405459b3",
+        "LEXICON:game-spices-27": "wt-pa-e39a9ef8ee79278830c2",
+        "LEXICON:game-education-1": "wt-pa-3754e48c565e19ec3d12",
+        "LEXICON:game-education-3": "wt-pa-f4fecef80514917a72f9",
+        "LEXICON:game-education-4": "wt-pa-0011178ae05b666bac65",
+        "LEXICON:game-education-6": "wt-pa-5a596e80debb8e85b651",
+        "LEXICON:game-education-9": "wt-pa-29953143c98b3fd546bf",
+        "LEXICON:game-education-19": "wt-pa-edc76ebd620f6bddaa25",
+        "LEXICON:game-education-20": "wt-pa-f9614b473d529f2ba492",
+        "LEXICON:game-education-21": "wt-pa-26e3b58e4943524e39cf",
+        "LEXICON:game-education-22": "wt-pa-b620c4837992a12e9999",
+        "LEXICON:game-education-23": "wt-pa-b27bc898d906279bbee5",
+        "LEXICON:game-education-24": "wt-pa-78c7cb06211ae2320384",
+        "LEXICON:game-education-25": "wt-pa-933806c2fac0b0683ff3",
+        "LEXICON:game-education-26": "wt-pa-4a02c38fad26427d637c",
+        "LEXICON:game-clothes-1": "wt-pa-27c399bbc8f085c24050",
+        "LEXICON:game-clothes-15": "wt-pa-f5cfa6766dcdb8e52d6b",
+        "LEXICON:game-clothes-24": "wt-pa-7831897e575bea58ce08",
+        "LEXICON:game-body-1": "wt-pa-2e984899110ea98752b5",
+        "LEXICON:game-body-2": "wt-pa-3f35655893fe81dcd5f8",
+        "LEXICON:game-body-3": "wt-pa-8499a63020b2b408ffa2",
+        "LEXICON:game-body-4": "wt-pa-5a9c6e4ece9e4218d45c",
+        "LEXICON:game-body-6": "wt-pa-8efefca82d39f93ca781",
+        "LEXICON:game-body-8": "wt-pa-2a2dcb44c8a382d81958",
+        "LEXICON:game-body-10": "wt-pa-6026faef136ca5e2296c",
+        "LEXICON:game-body-12": "wt-pa-720654003db25becc0e8",
+        "LEXICON:game-body-13": "wt-pa-d6f2c7b3d69b4150bd6d",
+        "LEXICON:game-body-14": "wt-pa-1856ca01f5306dc681a1",
+        "LEXICON:game-body-15": "wt-pa-3b679e7c068e9d3b3b05",
+        "LEXICON:game-body-16": "wt-pa-a1c024326ab6b16cbf66",
+        "LEXICON:game-body-18": "wt-pa-ddc3414401c8a850305e",
+        "LEXICON:game-body-19": "wt-pa-ec26e34a6330fe57fc14",
+        "LEXICON:game-body-20": "wt-pa-518d1299e1b23b7a091f",
+        "LEXICON:game-body-21": "wt-pa-0b4cc48292da0c640a92",
+        "LEXICON:game-body-23": "wt-pa-67acbcbf4bef8ca4b260",
+        "LEXICON:game-body-24": "wt-pa-e05f8fdccf728179f6d8",
+        "LEXICON:game-body-26": "wt-pa-f7fafbede4f725fc3228",
+        "LEXICON:game-body-27": "wt-pa-f64bfaece4dd893c52fa",
+        "LEXICON:game-body-28": "wt-pa-36cb62b606b5e8c0e308",
+        "LEXICON:game-body-29": "wt-pa-dbf8fbb2a008add21c2f",
+        "LEXICON:game-body-30": "wt-pa-1135b42a6798c18861c9",
+        "LEXICON:game-nature-1": "wt-pa-aa3d7db08aec04905da8",
+        "LEXICON:game-nature-2": "wt-pa-6263e77b98f845151ded",
+        "LEXICON:game-nature-3": "wt-pa-b37575f078f0e7cb0f35",
+        "LEXICON:game-nature-6": "wt-pa-d152a6f109e31c7e93d7",
+        "LEXICON:game-nature-10": "wt-pa-77dfc99a0cc1f3a02518",
+        "LEXICON:game-nature-12": "wt-pa-b18a2077733b4edb0bff",
+        "LEXICON:game-nature-13": "wt-pa-9c61f4ef390969ca2de9",
+        "LEXICON:game-nature-15": "wt-pa-a9386e023f019d7aacce",
+        "LEXICON:game-nature-17": "wt-pa-46c497c7437c84e67d40",
+        "LEXICON:game-nature-19": "wt-pa-8177fd735b2a71a6f15f",
+        "LEXICON:game-nature-20": "wt-pa-791c1a2987be68cc2403",
+        "LEXICON:game-nature-21": "wt-pa-bc0b67efe8222614f9cf",
+        "LEXICON:game-nature-22": "wt-pa-8e7bed548119227b7054",
+        "LEXICON:game-nature-24": "wt-pa-989f0fb5803d0260f48b",
+        "LEXICON:game-nature-26": "wt-pa-ec08295be344ddaa7ccb",
+        "LEXICON:game-nature-27": "wt-pa-9776d9c4d250e13ccecc",
+        "LEXICON:game-nature-28": "wt-pa-5c4953d3637bde4e9e18",
+        "LEXICON:game-nature-29": "wt-pa-bece62867dfe4931f106",
+        "LEXICON:game-everyday-1": "wt-pa-bcd77e7bfed1e9892e3c",
+        "LEXICON:game-everyday-2": "wt-pa-f568d6282be8af854d21",
+        "LEXICON:game-everyday-4": "wt-pa-d984e331b2df66173f74",
+        "LEXICON:game-everyday-8": "wt-pa-3387c9334c467b1aa517",
+        "LEXICON:game-everyday-13": "wt-pa-b3484772bbd6bfed579b",
+        "LEXICON:game-everyday-16": "wt-pa-914d66139a313fb30476",
+        "LEXICON:game-everyday-19": "wt-pa-e4e76939a185aaf29688",
+        "LEXICON:game-everyday-21": "wt-pa-f6087ecd0d5bb1c49da1",
+        "LEXICON:game-everyday-22": "wt-pa-81d8c1e11bc00b13cd83",
+        "LEXICON:game-everyday-30": "wt-pa-07d58042126588c7bf73",
+        "LEXICON:v-sikhna": "wt-pa-6630413d63581c41915a",
+        "LEXICON:v-khana": "wt-pa-f3d83dddbb9d1af53dcb",
+        "LEXICON:v-sochna": "wt-pa-7b3b263933cb04edf4ed",
+        "LEXICON:v-parhna": "wt-pa-73c354fe3201c83177e0",
+        "LEXICON:v-kharidna": "wt-pa-0700319500e857be9f56",
+        "LEXICON:wt-pa-89923e05fb57b4f08977": "v-likhna",
+        "LEXICON:v-labhna": "wt-pa-e8c3eec0b96fcaee43eb",
+        "LEXICON:v-bolna": "wt-pa-15e865a9c722044d259c",
+        "LEXICON:wt-pa-c4fe64b3c33f27ba0726": "v-sona",
+        "LEXICON:v-hasna": "wt-pa-41104b4d60a382e6588d",
+        "LEXICON:v-khedna": "wt-pa-3eeefc8baacbd5d92cf6",
+        "LEXICON:wt-pa-5959f821b3f8079ecfbd": "game-body-5",
+        "LEXICON:wt-pa-cbc38806a26537b4dcb6": "game-education-15",
+        "LEXICON:wt-pa-04a0254cd82e85019d2e": "game-education-8",
+        "LEXICON:wt-pa-c970efe61404121b7eed": "what-kitab",
+        "LEXICON:wt-pa-e6b2ccdd960dec0c8a99": "game-clothes-6",
+        "LEXICON:wt-pa-199dff4b701edf9906cc": "what-khidki",
+        "LEXICON:wt-pa-91b749161b3d3e16f4ae": "what-animal-horse",
+        "LEXICON:wt-pa-68d25f0aabfbe0f31f8f": "game-everyday-10",
+        "LEXICON:wt-pa-0aadc03ace34c3001a27": "game-fruits-29",
+        "LEXICON:wt-pa-80badfd60e4843edff9d": "what-jawab",
+        "LEXICON:wt-pa-4dfde4f3968b2755b5dd": "what-darwaza",
+        "LEXICON:wt-pa-1924ce3df5e04b66d7ff": "game-body-9",
+        "LEXICON:wt-pa-afa6d262fd2c72007c96": "game-fruits-19",
+        "LEXICON:wt-pa-4ff736470aefb32341eb": "what-animal-bird",
+        "LEXICON:wt-pa-640cd23914c4cf8d86e7": "game-clothes-13",
+        "LEXICON:wt-pa-728e6397b0e5cefc817f": "what-film",
+        "LEXICON:wt-pa-7bbd80ee04b5df827674": "game-nature-7",
+        "LEXICON:wt-pa-3fb6bc6f94cc7aa662b8": "what-animal-monkey",
+        "LEXICON:wt-pa-d00a3d86ceed71194eb3": "what-animal-goat",
+        "LEXICON:wt-pa-af73cd303fba7039ce98": "game-nature-23",
+        "LEXICON:wt-pa-a8f1cad4f4c52d12b71e": "game-body-11",
+        "LEXICON:wt-pa-aa1adce6e80c04e0a22d": "game-body-17",
+        "LEXICON:wt-pa-e55f5b656683ad240126": "what-animal-fish",
+        "LEXICON:wt-pa-c619afa7cc43d90a193d": "game-education-11",
+        "LEXICON:wt-pa-a70663fbfa3a0eb85f98": "v-vekna",
+        "LEXICON:wt-pa-2b0be51f9d7107311661": "game-nature-30",
+        "LEXICON:wt-pa-a3eef3c10bc996c0ac14": "what-samassia",
+        "LEXICON:wt-pa-fff7ffefa35ab8d8a3a4": "when-savere",
+        "LEXICON:wt-pa-e31d2d6af4ae110db6d3": "game-everyday-11",
+        "LEXICON:wt-pa-dc1ab1467c4aee5a2323": "what-animal-lion",
+        "LEXICON:wt-pa-775a0931555dd00f77e0": "game-nature-8",
+        "LEXICON:wt-pa-7cc519063b87669f7b99": "what-animal-elephant",
+        "VERBS:v-sikhna@wt-sense-06836ab2f5b74c805ab0": "v-sikhna",
+        "VERBS:v-sochna@wt-sense-66859dfdc9c686c05b27": "v-sochna",
+        "VERBS:v-parhna@wt-sense-6fa3940909a868803c31": "v-parhna",
+        "VERBS:v-kharidna@wt-sense-fdc7c5e0e0446c9a0a13": "v-kharidna",
+        "VERBS:v-labhna@wt-sense-32d125f1d3c66bff7b23": "v-labhna",
+        "VERBS:v-bolna@wt-sense-d39796a8c2343c2e8c89": "v-bolna",
+        "VERBS:v-hasna@wt-sense-a8e529a7e77d568958f5": "v-hasna",
+        "VERBS:v-khedna@wt-sense-078fc055e2076c5103db": "v-khedna",
+        "WHAT:what-pani@sense:lex:what-pani:legacy-1": "what-pani",
+        "WHAT:what-cah@wt-sense-aa1f118a0dbd65362a99": "what-cah",
+        "WHAT:what-khana@wt-sense-158e1efa6bb348c01361": "what-khana",
+        "WHAT:what-phal@wt-sense-593e236423fdf12e5901": "what-phal",
+        "WHAT:game-spices-14@wt-sense-325a2f179e29a966b327": "game-spices-14",
+        "WHAT:game-body-4@wt-sense-650d0f5359f7c76ca7d7": "game-body-4",
+        "WHAT:game-body-23@wt-sense-8d11b059d8274ddeff01": "game-body-23",
+        "WHAT:game-body-30@wt-sense-126ddfa7e86394efee1f": "game-body-30",
+        "WHAT:game-nature-10@wt-sense-1bb5246f876bd305c483": "game-nature-10",
+        "WHAT:game-nature-13@wt-sense-3a2d4cad6d5cc66f7f71": "game-nature-13",
+        "WHAT:game-nature-20@wt-sense-b052456cb5a08dbbb92a": "game-nature-20",
+        "WHAT:game-body-1": "game-body-1@direct-identification",
+        "WHAT:game-body-11": "game-body-11@direct-identification",
+        "WHAT:game-body-13": "game-body-13@direct-identification",
+        "WHAT:game-body-17": "game-body-17@direct-identification",
+        "WHAT:game-body-20": "game-body-20@direct-identification",
+        "WHAT:game-body-21": "game-body-21@direct-identification",
+        "WHAT:game-body-21@wt-sense-8cd8cfcb175a95446a0f": "game-body-21@wt-sense-e3ac0c229dd1ab2ab3f5",
+        "WHAT:game-body-22": "game-body-22@direct-identification",
+        "WHAT:game-body-24": "game-body-24@direct-identification",
+        "WHAT:game-body-25": "game-body-25@direct-identification",
+        "WHAT:game-body-28": "game-body-28@direct-identification",
+        "WHAT:game-body-3": "game-body-3@direct-identification",
+        "WHAT:game-body-5": "game-body-5@direct-identification",
+        "WHAT:game-body-7": "game-body-7@direct-identification",
+        "WHAT:game-body-9": "game-body-9@direct-identification",
+        "WHAT:game-clothes-10": "game-clothes-10@direct-identification",
+        "WHAT:game-clothes-11": "game-clothes-11@direct-identification",
+        "WHAT:game-clothes-12": "game-clothes-12@direct-identification",
+        "WHAT:game-clothes-13": "game-clothes-13@direct-identification",
+        "WHAT:game-clothes-14": "game-clothes-14@direct-identification",
+        "WHAT:game-clothes-15": "game-clothes-15@direct-identification",
+        "WHAT:game-clothes-16": "game-clothes-16@direct-identification",
+        "WHAT:game-clothes-17": "game-clothes-17@direct-identification",
+        "WHAT:game-clothes-18": "game-clothes-18@direct-identification",
+        "WHAT:game-clothes-19": "game-clothes-19@direct-identification",
+        "WHAT:game-clothes-2": "game-clothes-2@direct-identification",
+        "WHAT:game-clothes-20": "game-clothes-20@direct-identification",
+        "WHAT:game-clothes-21": "game-clothes-21@direct-identification",
+        "WHAT:game-clothes-22": "game-clothes-22@direct-identification",
+        "WHAT:game-clothes-23": "game-clothes-23@direct-identification",
+        "WHAT:game-clothes-25": "game-clothes-25@direct-identification",
+        "WHAT:game-clothes-26": "game-clothes-26@direct-identification",
+        "WHAT:game-clothes-27": "game-clothes-27@direct-identification",
+        "WHAT:game-clothes-28": "game-clothes-28@direct-identification",
+        "WHAT:game-clothes-29": "game-clothes-29@direct-identification",
+        "WHAT:game-clothes-3": "game-clothes-3@direct-identification",
+        "WHAT:game-clothes-30": "game-clothes-30@direct-identification",
+        "WHAT:game-clothes-4": "game-clothes-4@direct-identification",
+        "WHAT:game-clothes-5": "game-clothes-5@direct-identification",
+        "WHAT:game-clothes-6": "game-clothes-6@direct-identification",
+        "WHAT:game-clothes-7": "game-clothes-7@direct-identification",
+        "WHAT:game-clothes-8": "game-clothes-8@direct-identification",
+        "WHAT:game-clothes-9": "game-clothes-9@direct-identification",
+        "WHAT:game-education-10": "game-education-10@direct-identification",
+        "WHAT:game-education-11": "game-education-11@direct-identification",
+        "WHAT:game-education-12": "game-education-12@direct-identification",
+        "WHAT:game-education-13": "game-education-13@direct-identification",
+        "WHAT:game-education-14": "game-education-14@direct-identification",
+        "WHAT:game-education-15": "game-education-15@direct-identification",
+        "WHAT:game-education-16": "game-education-16@direct-identification",
+        "WHAT:game-education-2": "game-education-2@direct-identification",
+        "WHAT:game-education-20": "game-education-20@direct-identification",
+        "WHAT:game-education-21": "game-education-21@direct-identification",
+        "WHAT:game-education-23": "game-education-23@direct-identification",
+        "WHAT:game-education-27": "game-education-27@direct-identification",
+        "WHAT:game-education-28": "game-education-28@direct-identification",
+        "WHAT:game-education-29": "game-education-29@direct-identification",
+        "WHAT:game-education-30": "game-education-30@direct-identification",
+        "WHAT:game-education-4": "game-education-4@direct-identification",
+        "WHAT:game-education-5": "game-education-5@direct-identification",
+        "WHAT:game-education-8": "game-education-8@direct-identification",
+        "WHAT:game-everyday-10": "game-everyday-10@direct-identification",
+        "WHAT:game-everyday-11": "game-everyday-11@direct-identification",
+        "WHAT:game-everyday-12": "game-everyday-12@direct-identification",
+        "WHAT:game-everyday-14": "game-everyday-14@direct-identification",
+        "WHAT:game-everyday-15": "game-everyday-15@direct-identification",
+        "WHAT:game-everyday-16": "game-everyday-16@direct-identification",
+        "WHAT:game-everyday-17": "game-everyday-17@direct-identification",
+        "WHAT:game-everyday-18": "game-everyday-18@direct-identification",
+        "WHAT:game-everyday-20": "game-everyday-20@direct-identification",
+        "WHAT:game-everyday-23": "game-everyday-23@direct-identification",
+        "WHAT:game-everyday-24": "game-everyday-24@direct-identification",
+        "WHAT:game-everyday-26": "game-everyday-26@direct-identification",
+        "WHAT:game-everyday-27": "game-everyday-27@direct-identification",
+        "WHAT:game-everyday-28": "game-everyday-28@direct-identification",
+        "WHAT:game-everyday-29": "game-everyday-29@direct-identification",
+        "WHAT:game-everyday-3": "game-everyday-3@direct-identification",
+        "WHAT:game-everyday-5": "game-everyday-5@direct-identification",
+        "WHAT:game-everyday-8": "game-everyday-8@direct-identification",
+        "WHAT:game-everyday-9": "game-everyday-9@direct-identification",
+        "WHAT:game-fruits-1": "game-fruits-1@direct-identification",
+        "WHAT:game-fruits-10": "game-fruits-10@direct-identification",
+        "WHAT:game-fruits-11": "game-fruits-11@direct-identification",
+        "WHAT:game-fruits-12": "game-fruits-12@direct-identification",
+        "WHAT:game-fruits-13": "game-fruits-13@direct-identification",
+        "WHAT:game-fruits-14": "game-fruits-14@direct-identification",
+        "WHAT:game-fruits-15": "game-fruits-15@direct-identification",
+        "WHAT:game-fruits-16": "game-fruits-16@direct-identification",
+        "WHAT:game-fruits-18": "game-fruits-18@direct-identification",
+        "WHAT:game-fruits-19": "game-fruits-19@direct-identification",
+        "WHAT:game-fruits-2": "game-fruits-2@direct-identification",
+        "WHAT:game-fruits-21": "game-fruits-21@direct-identification",
+        "WHAT:game-fruits-22": "game-fruits-22@direct-identification",
+        "WHAT:game-fruits-23": "game-fruits-23@direct-identification",
+        "WHAT:game-fruits-24": "game-fruits-24@direct-identification",
+        "WHAT:game-fruits-25": "game-fruits-25@direct-identification",
+        "WHAT:game-fruits-26": "game-fruits-26@direct-identification",
+        "WHAT:game-fruits-27": "game-fruits-27@direct-identification",
+        "WHAT:game-fruits-28": "game-fruits-28@direct-identification",
+        "WHAT:game-fruits-29": "game-fruits-29@direct-identification",
+        "WHAT:game-fruits-3": "game-fruits-3@direct-identification",
+        "WHAT:game-fruits-30": "game-fruits-30@direct-identification",
+        "WHAT:game-fruits-4": "game-fruits-4@direct-identification",
+        "WHAT:game-fruits-5": "game-fruits-5@direct-identification",
+        "WHAT:game-fruits-6": "game-fruits-6@direct-identification",
+        "WHAT:game-fruits-8": "game-fruits-8@direct-identification",
+        "WHAT:game-fruits-9": "game-fruits-9@direct-identification",
+        "WHAT:game-nature-11": "game-nature-11@direct-identification",
+        "WHAT:game-nature-14": "game-nature-14@direct-identification",
+        "WHAT:game-nature-16": "game-nature-16@direct-identification",
+        "WHAT:game-nature-18": "game-nature-18@direct-identification",
+        "WHAT:game-nature-19": "game-nature-19@direct-identification",
+        "WHAT:game-nature-2": "game-nature-2@direct-identification",
+        "WHAT:game-nature-21": "game-nature-21@direct-identification",
+        "WHAT:game-nature-23": "game-nature-23@direct-identification",
+        "WHAT:game-nature-25": "game-nature-25@direct-identification",
+        "WHAT:game-nature-27": "game-nature-27@direct-identification",
+        "WHAT:game-nature-3@wt-sense-2d1c5d469f5f4a0de22d": "game-nature-3",
+        "WHAT:game-nature-3@wt-sense-69685fa7336c1179b2cc": "game-nature-3",
+        "WHAT:game-nature-30": "game-nature-30@direct-identification",
+        "WHAT:game-nature-4": "game-nature-4@direct-identification",
+        "WHAT:game-nature-5": "game-nature-5@direct-identification",
+        "WHAT:game-nature-7": "game-nature-7@direct-identification",
+        "WHAT:game-nature-8": "game-nature-8@direct-identification",
+        "WHAT:game-nature-9": "game-nature-9@direct-identification",
+        "WHAT:game-spices-1": "game-spices-1@direct-identification",
+        "WHAT:game-spices-10": "game-spices-10@direct-identification",
+        "WHAT:game-spices-11": "game-spices-11@direct-identification",
+        "WHAT:game-spices-12": "game-spices-12@direct-identification",
+        "WHAT:game-spices-13": "game-spices-13@direct-identification",
+        "WHAT:game-spices-15": "game-spices-15@direct-identification",
+        "WHAT:game-spices-16": "game-spices-16@direct-identification",
+        "WHAT:game-spices-17": "game-spices-17@direct-identification",
+        "WHAT:game-spices-18": "game-spices-18@direct-identification",
+        "WHAT:game-spices-19": "game-spices-19@direct-identification",
+        "WHAT:game-spices-2": "game-spices-2@direct-identification",
+        "WHAT:game-spices-20": "game-spices-20@direct-identification",
+        "WHAT:game-spices-22": "game-spices-22@direct-identification",
+        "WHAT:game-spices-23": "game-spices-23@direct-identification",
+        "WHAT:game-spices-25": "game-spices-25@direct-identification",
+        "WHAT:game-spices-26": "game-spices-26@direct-identification",
+        "WHAT:game-spices-27": "game-spices-27@direct-identification",
+        "WHAT:game-spices-28": "game-spices-28@direct-identification",
+        "WHAT:game-spices-29": "game-spices-29@direct-identification",
+        "WHAT:game-spices-3": "game-spices-3@direct-identification",
+        "WHAT:game-spices-30": "game-spices-30@direct-identification",
+        "WHAT:game-spices-4": "game-spices-4@direct-identification",
+        "WHAT:game-spices-5": "game-spices-5@direct-identification",
+        "WHAT:game-spices-6": "game-spices-6@direct-identification",
+        "WHAT:game-spices-7": "game-spices-7@direct-identification",
+        "WHAT:game-spices-8": "game-spices-8@direct-identification",
+        "WHAT:game-spices-9": "game-spices-9@direct-identification",
+        "WHAT:game-vegetables-10": "game-vegetables-10@direct-identification",
+        "WHAT:game-vegetables-12": "game-vegetables-12@direct-identification",
+        "WHAT:game-vegetables-13": "game-vegetables-13@direct-identification",
+        "WHAT:game-vegetables-15": "game-vegetables-15@direct-identification",
+        "WHAT:game-vegetables-16": "game-vegetables-16@direct-identification",
+        "WHAT:game-vegetables-17": "game-vegetables-17@direct-identification",
+        "WHAT:game-vegetables-18": "game-vegetables-18@direct-identification",
+        "WHAT:game-vegetables-19": "game-vegetables-19@direct-identification",
+        "WHAT:game-vegetables-2": "game-vegetables-2@direct-identification",
+        "WHAT:game-vegetables-20": "game-vegetables-20@direct-identification",
+        "WHAT:game-vegetables-21": "game-vegetables-21@direct-identification",
+        "WHAT:game-vegetables-22": "game-vegetables-22@direct-identification",
+        "WHAT:game-vegetables-23": "game-vegetables-23@direct-identification",
+        "WHAT:game-vegetables-24": "game-vegetables-24@direct-identification",
+        "WHAT:game-vegetables-25": "game-vegetables-25@direct-identification",
+        "WHAT:game-vegetables-26": "game-vegetables-26@direct-identification",
+        "WHAT:game-vegetables-27": "game-vegetables-27@direct-identification",
+        "WHAT:game-vegetables-28": "game-vegetables-28@direct-identification",
+        "WHAT:game-vegetables-29": "game-vegetables-29@direct-identification",
+        "WHAT:game-vegetables-30": "game-vegetables-30@direct-identification",
+        "WHAT:game-vegetables-4": "game-vegetables-4@direct-identification",
+        "WHAT:game-vegetables-5": "game-vegetables-5@direct-identification",
+        "WHAT:game-vegetables-6": "game-vegetables-6@direct-identification",
+        "WHAT:game-vegetables-9": "game-vegetables-9@direct-identification",
+        "WHAT:where-ghar": "where-ghar@direct-identification",
+        "WHAT:who-bacce": "who-bacce@direct-identification",
+        "WHAT:who-bhai": "who-bhai@direct-identification",
+        "WHAT:who-bhain": "who-bhain@direct-identification",
+        "WHAT:who-dost": "who-dost@direct-identification",
+        "WHAT:who-lok": "who-lok@direct-identification",
+        "WHAT:who-ma": "who-ma@direct-identification",
+        "WHAT:who-mape": "who-mape@direct-identification",
+        "WHAT:who-parivar": "who-parivar@direct-identification",
+        "WHAT:who-pio": "who-pio@direct-identification",
+        "WHAT:who-sathi": "who-sathi@direct-identification",
+        "WHAT:wt-pa-db09762016208fb4a6e8@wt-sense-7ba5e1a61d1b737a68b3": "wt-pa-db09762016208fb4a6e8",
+        "WHAT:wt-pa-db09762016208fb4a6e8@wt-sense-e08817b7f6da1932c74b": "wt-pa-db09762016208fb4a6e8",
+        "WHAT:wt-pa-db09762016208fb4a6e8@wt-sense-348de644d40758de8186": "wt-pa-db09762016208fb4a6e8",
+        "WHAT:wt-pa-5959f821b3f8079ecfbd": "game-body-5@direct-identification",
+        "WHAT:wt-pa-cbc38806a26537b4dcb6": "game-education-15@direct-identification",
+        "WHAT:wt-pa-04a0254cd82e85019d2e@wt-sense-15b5c9fa9d7aa426759a": "game-education-8@direct-identification",
+        "WHAT:wt-pa-e6b2ccdd960dec0c8a99@wt-sense-81cb12b7601ac644f231": "game-clothes-6@direct-identification",
+        "WHAT:wt-pa-68d25f0aabfbe0f31f8f@wt-sense-57cf7f0bb660760dda8e": "game-everyday-10@direct-identification",
+        "WHAT:wt-pa-0aadc03ace34c3001a27@wt-sense-59800893c93787a94609": "game-fruits-29@direct-identification",
+        "WHAT:wt-pa-80badfd60e4843edff9d": "what-jawab",
+        "WHAT:wt-pa-4dfde4f3968b2755b5dd": "what-darwaza",
+        "WHAT:wt-pa-1924ce3df5e04b66d7ff": "game-body-9@direct-identification",
+        "WHAT:wt-pa-afa6d262fd2c72007c96@wt-sense-542b7ebf52a297aae18a": "game-fruits-19@direct-identification",
+        "WHAT:wt-pa-4ff736470aefb32341eb": "what-animal-bird",
+        "WHAT:wt-pa-640cd23914c4cf8d86e7": "game-clothes-13@direct-identification",
+        "WHAT:wt-pa-728e6397b0e5cefc817f": "what-film",
+        "WHAT:wt-pa-7bbd80ee04b5df827674@wt-sense-5d26f93e51ffb79ae55e": "game-nature-7@direct-identification",
+        "WHAT:wt-pa-3fb6bc6f94cc7aa662b8": "what-animal-monkey",
+        "WHAT:wt-pa-d00a3d86ceed71194eb3": "what-animal-goat",
+        "WHAT:wt-pa-a70fe962aecaf10da096@wt-sense-d92be3cb88b4f30eb693": "wt-pa-a70fe962aecaf10da096",
+        "WHAT:wt-pa-af73cd303fba7039ce98@wt-sense-094a64f0c8ac2cf60893": "game-nature-23@direct-identification",
+        "WHAT:wt-pa-a8f1cad4f4c52d12b71e@wt-sense-1eff9f47ea586ebe5c38": "game-body-11@direct-identification",
+        "WHAT:wt-pa-aa1adce6e80c04e0a22d": "game-body-17@direct-identification",
+        "WHAT:wt-pa-e55f5b656683ad240126": "what-animal-fish",
+        "WHAT:wt-pa-eb52530f7eca7f3b672b@wt-sense-8a29a06df5a7b3220bbf": "wt-pa-eb52530f7eca7f3b672b",
+        "WHAT:wt-pa-2b0be51f9d7107311661": "game-nature-30@direct-identification",
+        "WHAT:wt-pa-a3eef3c10bc996c0ac14": "what-samassia",
+        "WHAT:wt-pa-e31d2d6af4ae110db6d3@wt-sense-3f0d6cb0381733c7877e": "game-everyday-11@direct-identification",
+        "WHAT:wt-pa-dc1ab1467c4aee5a2323": "what-animal-lion",
+        "WHAT:wt-pa-775a0931555dd00f77e0@wt-sense-e049698d9bb0d76af2a6": "game-nature-8@direct-identification",
+        "WHAT:wt-pa-7cc519063b87669f7b99": "what-animal-elephant",
+        "WHEN:when-ajj@wt-sense-f8ae66f5a2e9194222d2": "when-ajj",
+        "WHEN:when-hun@wt-sense-a618e243b287b14cdaf1": "when-hun",
+        "WHEN:when-aksar@wt-sense-8c773fcdf309d60b9700": "when-aksar",
+        "WHEN:when-hamesha@wt-sense-4fcfbdee92cbc0b22baa": "when-hamesha",
+        "WHEN:wt-pa-fff7ffefa35ab8d8a3a4@wt-sense-b2512bbdc30ac9ce1b3e": "when-savere",
+        "WHY:why-kiuki": "c-kiuki",
+        "WHY:c-kiuki@sense:lex:why-kiuki:legacy-1": "c-kiuki",
+        "WORD:wt-pa-5959f821b3f8079ecfbd@word-practice": "game-body-5@word-practice",
+        "WORD:wt-pa-cbc38806a26537b4dcb6@word-practice": "game-education-15@word-practice",
+        "WORD:wt-pa-04a0254cd82e85019d2e@word-practice": "game-education-8@word-practice",
+        "WORD:wt-pa-c970efe61404121b7eed@word-practice": "what-kitab@word-practice",
+        "WORD:wt-pa-e6b2ccdd960dec0c8a99@word-practice": "game-clothes-6@word-practice",
+        "WORD:wt-pa-199dff4b701edf9906cc@word-practice": "what-khidki@word-practice",
+        "WORD:wt-pa-91b749161b3d3e16f4ae@word-practice": "what-animal-horse@word-practice",
+        "WORD:wt-pa-68d25f0aabfbe0f31f8f@word-practice": "game-everyday-10@word-practice",
+        "WORD:wt-pa-0aadc03ace34c3001a27@word-practice": "game-fruits-29@word-practice",
+        "WORD:wt-pa-80badfd60e4843edff9d@word-practice": "what-jawab@word-practice",
+        "WORD:wt-pa-4dfde4f3968b2755b5dd@word-practice": "what-darwaza@word-practice",
+        "WORD:wt-pa-1924ce3df5e04b66d7ff@word-practice": "game-body-9@word-practice",
+        "WORD:wt-pa-afa6d262fd2c72007c96@word-practice": "game-fruits-19@word-practice",
+        "WORD:wt-pa-4ff736470aefb32341eb@word-practice": "what-animal-bird@word-practice",
+        "WORD:wt-pa-640cd23914c4cf8d86e7@word-practice": "game-clothes-13@word-practice",
+        "WORD:wt-pa-728e6397b0e5cefc817f@word-practice": "what-film@word-practice",
+        "WORD:wt-pa-7bbd80ee04b5df827674@word-practice": "game-nature-7@word-practice",
+        "WORD:wt-pa-3fb6bc6f94cc7aa662b8@word-practice": "what-animal-monkey@word-practice",
+        "WORD:wt-pa-d00a3d86ceed71194eb3@word-practice": "what-animal-goat@word-practice",
+        "WORD:wt-pa-af73cd303fba7039ce98@word-practice": "game-nature-23@word-practice",
+        "WORD:wt-pa-a8f1cad4f4c52d12b71e@word-practice": "game-body-11@word-practice",
+        "WORD:wt-pa-aa1adce6e80c04e0a22d@word-practice": "game-body-17@word-practice",
+        "WORD:wt-pa-e55f5b656683ad240126@word-practice": "what-animal-fish@word-practice",
+        "WORD:wt-pa-c619afa7cc43d90a193d@word-practice": "game-education-11@word-practice",
+        "WORD:wt-pa-a70663fbfa3a0eb85f98@word-practice": "v-vekna@word-practice",
+        "WORD:wt-pa-2b0be51f9d7107311661@word-practice": "game-nature-30@word-practice",
+        "WORD:wt-pa-a3eef3c10bc996c0ac14@word-practice": "what-samassia@word-practice",
+        "WORD:wt-pa-fff7ffefa35ab8d8a3a4@word-practice": "when-savere@word-practice",
+        "WORD:wt-pa-e31d2d6af4ae110db6d3@word-practice": "game-everyday-11@word-practice",
+        "WORD:wt-pa-dc1ab1467c4aee5a2323@word-practice": "what-animal-lion@word-practice",
+        "WORD:wt-pa-775a0931555dd00f77e0@word-practice": "game-nature-8@word-practice",
+        "WORD:wt-pa-7cc519063b87669f7b99@word-practice": "what-animal-elephant@word-practice"
+      },
+      "labelsUpdated": 3580,
+      "deletionIdentities": 0
+    },
+    "recordIdsSha256": "3712274c65aef1a66e0794dfa25c3a300317526e5daa309835fb116ca866de2e",
+    "manualBrowserState": "Unavailable: repository-default inventory only. Actual user browser deletions were not inspected.",
+    "normalization": "NFC, whitespace and English article/case normalization for comparison only. Gurmukhi diacritics and original spellings remain unchanged. Roman near-variants are candidates, not automatic identity proof."
+  },
+  "metadataRecordsUpdated": 2890,
+  "lexicalMetadataRecordsUpdated": 223,
+  "bindingMetadataRecordsUpdated": 2888,
+  "exactConsolidations": 32,
+  "synonymConsolidations": 81,
+  "fringeRemoved": 15,
+  "exactExamples": [
+    {
+      "id": "lex:wt-pa-a8f1cad4f4c52d12b71e",
+      "target": "lex:game-body-11",
+      "gurmukhi": "ਮੂੰਹ",
+      "english": "face, countenance",
+      "roman": "mū̃h"
+    },
+    {
+      "id": "lex:wt-pa-aa1adce6e80c04e0a22d",
+      "target": "lex:game-body-17",
+      "gurmukhi": "ਮੋਢਾ",
+      "english": "The shoulder",
+      "roman": "moḍhā"
+    },
+    {
+      "id": "lex:wt-pa-5959f821b3f8079ecfbd",
+      "target": "lex:game-body-5",
+      "gurmukhi": "ਅੱਖ",
+      "english": "the eye",
+      "roman": "akkh"
+    },
+    {
+      "id": "lex:wt-pa-1924ce3df5e04b66d7ff",
+      "target": "lex:game-body-9",
+      "gurmukhi": "ਨੱਕ",
+      "english": "the nose",
+      "roman": "nakka"
+    },
+    {
+      "id": "lex:wt-pa-640cd23914c4cf8d86e7",
+      "target": "lex:game-clothes-13",
+      "gurmukhi": "ਪੱਗ",
+      "english": "a turban",
+      "roman": "pagg"
+    },
+    {
+      "id": "lex:wt-pa-e6b2ccdd960dec0c8a99",
+      "target": "lex:game-clothes-6",
+      "gurmukhi": "ਕੋਟ",
+      "english": "fort, fortress, castle",
+      "roman": "koṭ"
+    },
+    {
+      "id": "lex:wt-pa-c619afa7cc43d90a193d",
+      "target": "lex:game-education-11",
+      "gurmukhi": "ਰਬੜ",
+      "english": "rubber (UK), eraser (US)",
+      "roman": "rabaṛ"
+    },
+    {
+      "id": "lex:wt-pa-cbc38806a26537b4dcb6",
+      "target": "lex:game-education-15",
+      "gurmukhi": "ਇਮਤਿਹਾਨ",
+      "english": "an examination",
+      "roman": "imtihān"
+    },
+    {
+      "id": "lex:wt-pa-04a0254cd82e85019d2e",
+      "target": "lex:game-education-8",
+      "gurmukhi": "ਕਾਪੀ",
+      "english": "copy",
+      "roman": "kāpī"
+    },
+    {
+      "id": "lex:wt-pa-68d25f0aabfbe0f31f8f",
+      "target": "lex:game-everyday-10",
+      "gurmukhi": "ਘੜੀ",
+      "english": "a time period of 22.5 minutes",
+      "roman": "ghaṛī"
+    },
+    {
+      "id": "lex:wt-pa-e31d2d6af4ae110db6d3",
+      "target": "lex:game-everyday-11",
+      "gurmukhi": "ਸ਼ੀਸ਼ਾ",
+      "english": "glass",
+      "roman": "śīśā"
+    },
+    {
+      "id": "lex:wt-pa-afa6d262fd2c72007c96",
+      "target": "lex:game-fruits-19",
+      "gurmukhi": "ਪਪੀਤਾ",
+      "english": "papaya tree (Carica papaya).",
+      "roman": "papītā"
+    },
+    {
+      "id": "lex:wt-pa-0aadc03ace34c3001a27",
+      "target": "lex:game-fruits-29",
+      "gurmukhi": "ਚਕੋਤਰਾ",
+      "english": "pomelo",
+      "roman": "cakotrā"
+    },
+    {
+      "id": "lex:wt-pa-af73cd303fba7039ce98",
+      "target": "lex:game-nature-23",
+      "gurmukhi": "ਮਿੱਟੀ",
+      "english": "clay",
+      "roman": "miṭṭī"
+    },
+    {
+      "id": "lex:wt-pa-2b0be51f9d7107311661",
+      "target": "lex:game-nature-30",
+      "gurmukhi": "ਸਤਰੰਗੀ ਪੀਂਘ",
+      "english": "A rainbow",
+      "roman": "satraṅgī pīṅgh"
+    },
+    {
+      "id": "lex:wt-pa-7bbd80ee04b5df827674",
+      "target": "lex:game-nature-7",
+      "gurmukhi": "ਬਰਫ਼",
+      "english": "ice",
+      "roman": "barf"
+    },
+    {
+      "id": "lex:wt-pa-775a0931555dd00f77e0",
+      "target": "lex:game-nature-8",
+      "gurmukhi": "ਹਵਾ",
+      "english": "air",
+      "roman": "havā"
+    },
+    {
+      "id": "lex:wt-pa-a70663fbfa3a0eb85f98",
+      "target": "lex:v-vekna",
+      "gurmukhi": "ਵੇਖਣਾ",
+      "english": "to look",
+      "roman": "vekhṇā"
+    },
+    {
+      "id": "lex:wt-pa-4ff736470aefb32341eb",
+      "target": "lex:what-animal-bird",
+      "gurmukhi": "ਪੰਛੀ",
+      "english": "bird",
+      "roman": "pañchī"
+    },
+    {
+      "id": "lex:wt-pa-7cc519063b87669f7b99",
+      "target": "lex:what-animal-elephant",
+      "gurmukhi": "ਹਾਥੀ",
+      "english": "elephant",
+      "roman": "hāthī"
+    },
+    {
+      "id": "lex:wt-pa-e55f5b656683ad240126",
+      "target": "lex:what-animal-fish",
+      "gurmukhi": "ਮੱਛੀ",
+      "english": "fish",
+      "roman": "macchī"
+    },
+    {
+      "id": "lex:wt-pa-d00a3d86ceed71194eb3",
+      "target": "lex:what-animal-goat",
+      "gurmukhi": "ਬੱਕਰੀ",
+      "english": "goat; she-goat",
+      "roman": "bakkarī"
+    },
+    {
+      "id": "lex:wt-pa-91b749161b3d3e16f4ae",
+      "target": "lex:what-animal-horse",
+      "gurmukhi": "ਘੋੜਾ",
+      "english": "horse, stallion",
+      "roman": "ghoṛā"
+    },
+    {
+      "id": "lex:wt-pa-dc1ab1467c4aee5a2323",
+      "target": "lex:what-animal-lion",
+      "gurmukhi": "ਸ਼ੇਰ",
+      "english": "lion; tiger.",
+      "roman": "śer"
+    },
+    {
+      "id": "lex:wt-pa-3fb6bc6f94cc7aa662b8",
+      "target": "lex:what-animal-monkey",
+      "gurmukhi": "ਬਾਂਦਰ",
+      "english": "monkey, ape",
+      "roman": "bāndar"
+    },
+    {
+      "id": "lex:wt-pa-4dfde4f3968b2755b5dd",
+      "target": "lex:what-darwaza",
+      "gurmukhi": "ਦਰਵਾਜ਼ਾ",
+      "english": "door, entrance",
+      "roman": "darvāzā"
+    },
+    {
+      "id": "lex:wt-pa-728e6397b0e5cefc817f",
+      "target": "lex:what-film",
+      "gurmukhi": "ਫ਼ਿਲਮ",
+      "english": "film, movie",
+      "roman": "filam"
+    },
+    {
+      "id": "lex:wt-pa-80badfd60e4843edff9d",
+      "target": "lex:what-jawab",
+      "gurmukhi": "ਜਵਾਬ",
+      "english": "answer, response",
+      "roman": "javāb"
+    },
+    {
+      "id": "lex:wt-pa-199dff4b701edf9906cc",
+      "target": "lex:what-khidki",
+      "gurmukhi": "ਖਿੜਕੀ",
+      "english": "back door",
+      "roman": "khiṛkī"
+    },
+    {
+      "id": "lex:wt-pa-c970efe61404121b7eed",
+      "target": "lex:what-kitab",
+      "gurmukhi": "ਕਿਤਾਬ",
+      "english": "book",
+      "roman": "kitāb"
+    },
+    {
+      "id": "lex:wt-pa-a3eef3c10bc996c0ac14",
+      "target": "lex:what-samassia",
+      "gurmukhi": "ਸਮੱਸਿਆ",
+      "english": "problem, puzzle, conundrum",
+      "roman": "samassiā"
+    },
+    {
+      "id": "lex:wt-pa-fff7ffefa35ab8d8a3a4",
+      "target": "lex:when-savere",
+      "gurmukhi": "ਸਵੇਰੇ",
+      "english": "at dawn",
+      "roman": "savere"
+    }
+  ],
+  "synonymExamples": [
+    {
+      "id": "lex:wt-pa-9c104f175fe4b5f5f4d3",
+      "target": "lex:game-nature-4",
+      "from": "ਆਕਾਸ਼",
+      "to": "ਅਸਮਾਨ",
+      "english": "sky"
+    },
+    {
+      "id": "lex:wt-pa-5458d98982be51558976",
+      "target": "lex:game-nature-4",
+      "from": "ਆਸਮਾਨ",
+      "to": "ਅਸਮਾਨ",
+      "english": "sky"
+    },
+    {
+      "id": "lex:wt-pa-54d2bbaf96b4873c13e6",
+      "target": "lex:what-khidki",
+      "from": "ਤਾਕੀ",
+      "to": "ਖਿੜਕੀ",
+      "english": "window"
+    },
+    {
+      "id": "lex:wt-pa-94024e35d31d33877e86",
+      "target": "lex:what-khidki",
+      "from": "ਬਾਰੀ",
+      "to": "ਖਿੜਕੀ",
+      "english": "window"
+    },
+    {
+      "id": "lex:wt-pa-fe865c2b3dc01b1e3f91",
+      "target": "lex:wt-pa-36e7c09f2d1aaee59d58",
+      "from": "ਮਰਗ",
+      "to": "ਮੌਤ",
+      "english": "death"
+    },
+    {
+      "id": "lex:wt-pa-d515f1226c6fc68f3077",
+      "target": "lex:wt-pa-e3628e1e32e2cb0e3166",
+      "from": "ਪੁੰਡਰ",
+      "to": "ਚਿੱਟਾ",
+      "english": "white"
+    },
+    {
+      "id": "lex:wt-pa-272b0dbaaef8bceaf5ac",
+      "target": "lex:wt-pa-e3628e1e32e2cb0e3166",
+      "from": "ਬੱਗਾ",
+      "to": "ਚਿੱਟਾ",
+      "english": "white"
+    },
+    {
+      "id": "lex:wt-pa-dac7b56d5e4b4c99f31f",
+      "target": "lex:wt-pa-f0ccbff10af7411aab55",
+      "from": "ਚੈੱਸ",
+      "to": "ਸ਼ਤਰੰਜ",
+      "english": "chess"
+    },
+    {
+      "id": "lex:wt-pa-7ee13f2a09ea3822b7df",
+      "target": "lex:wt-pa-f0ccbff10af7411aab55",
+      "from": "ਸਤਰੰਜ",
+      "to": "ਸ਼ਤਰੰਜ",
+      "english": "chess"
+    },
+    {
+      "id": "lex:wt-pa-49113179308356ad8b9b",
+      "target": "lex:wt-pa-7e14d785abd27be4acd7",
+      "from": "ਪਤਣੀ",
+      "to": "ਪਤਨੀ",
+      "english": "wife"
+    },
+    {
+      "id": "lex:wt-pa-c95388b667a8fdd5a97a",
+      "target": "lex:wt-pa-7e14d785abd27be4acd7",
+      "from": "ਵਹੁਟੀ",
+      "to": "ਪਤਨੀ",
+      "english": "wife"
+    },
+    {
+      "id": "lex:wt-pa-a36bd5a858e43fb70d21",
+      "target": "lex:wt-pa-1db2098cdae611e7ae3a",
+      "from": "ਸਵਖਤਾ",
+      "to": "ਸਵੇਰ",
+      "english": "morning"
+    },
+    {
+      "id": "lex:wt-pa-88740133fac60f4d243f",
+      "target": "lex:wt-pa-1db2098cdae611e7ae3a",
+      "from": "ਸਾਝਰਾ",
+      "to": "ਸਵੇਰ",
+      "english": "morning"
+    },
+    {
+      "id": "lex:wt-pa-b4fcb36b616aee3ab2b4",
+      "target": "lex:wt-pa-1db2098cdae611e7ae3a",
+      "from": "ਸੁਬ੍ਹਾ",
+      "to": "ਸਵੇਰ",
+      "english": "morning"
+    },
+    {
+      "id": "lex:wt-pa-49709183c8fdc0e2f09d",
+      "target": "lex:game-body-11",
+      "from": "ਮੁਖ",
+      "to": "ਮੂੰਹ",
+      "english": "mouth"
+    },
+    {
+      "id": "lex:wt-pa-5e9367f62cf4f421c4ae",
+      "target": "lex:game-education-19",
+      "from": "ਕਿਤਾਬ-ਘਰ",
+      "to": "ਲਾਇਬ੍ਰੇਰੀ",
+      "english": "library"
+    },
+    {
+      "id": "lex:wt-pa-74e59e3e2aad4c93bc9d",
+      "target": "lex:game-education-19",
+      "from": "ਪੁਸਤਕਾਲਾ",
+      "to": "ਲਾਇਬ੍ਰੇਰੀ",
+      "english": "library"
+    },
+    {
+      "id": "lex:wt-pa-0000d2b83400bfb3b9b3",
+      "target": "lex:game-everyday-11",
+      "from": "ਆਈਨਾ",
+      "to": "ਸ਼ੀਸ਼ਾ",
+      "english": "mirror"
+    },
+    {
+      "id": "lex:wt-pa-5802c4e2cd7f9b41ddeb",
+      "target": "lex:game-everyday-11",
+      "from": "ਦਰਪਣ",
+      "to": "ਸ਼ੀਸ਼ਾ",
+      "english": "mirror"
+    },
+    {
+      "id": "lex:wt-pa-3d2f778c268263f0917b",
+      "target": "lex:game-nature-29",
+      "from": "ਰੇਗਿਸਤਾਨ",
+      "to": "ਮਾਰੂਥਲ",
+      "english": "desert"
+    },
+    {
+      "id": "lex:wt-pa-4e5da1f677e3d496820d",
+      "target": "lex:what-animal-bird",
+      "from": "ਪੰਖੀ",
+      "to": "ਪੰਛੀ",
+      "english": "bird"
+    },
+    {
+      "id": "lex:wt-pa-87a92203c4dc4d1df118",
+      "target": "lex:what-kitab",
+      "from": "ਪੁਸਤਕ",
+      "to": "ਕਿਤਾਬ",
+      "english": "book"
+    },
+    {
+      "id": "lex:wt-pa-026024af8d88abd51542",
+      "target": "lex:wt-pa-bfdd5f992ddb81a31360",
+      "from": "ਉਲਥਾ",
+      "to": "ਅਨੁਵਾਦ",
+      "english": "translation"
+    },
+    {
+      "id": "lex:wt-pa-9a24223e54310893ee4b",
+      "target": "lex:wt-pa-bfdd5f992ddb81a31360",
+      "from": "ਤਰਜਮਾ",
+      "to": "ਅਨੁਵਾਦ",
+      "english": "translation"
+    },
+    {
+      "id": "lex:wt-pa-2751d9fd6d693392762b",
+      "target": "lex:wt-pa-ce8839525a394b47575c",
+      "from": "ਆਗਾਜ਼",
+      "to": "ਸ਼ੁਰੂ",
+      "english": "beginning"
+    },
+    {
+      "id": "lex:wt-pa-eb9f9334a6a270a24256",
+      "target": "lex:wt-pa-ce8839525a394b47575c",
+      "from": "ਆਦਿ",
+      "to": "ਸ਼ੁਰੂ",
+      "english": "the beginning"
+    },
+    {
+      "id": "lex:wt-pa-20aeb168763a90adaa4d",
+      "target": "lex:wt-pa-23c43ce3c967f3b502fa",
+      "from": "ਕਊਆ",
+      "to": "ਕਾਂ",
+      "english": "crow"
+    },
+    {
+      "id": "lex:wt-pa-b57212a8eb58d89314e3",
+      "target": "lex:wt-pa-23c43ce3c967f3b502fa",
+      "from": "ਕਾਓਂ",
+      "to": "ਕਾਂ",
+      "english": "crow"
+    },
+    {
+      "id": "lex:wt-pa-104b44ac37457d28434a",
+      "target": "lex:wt-pa-ddc57f93ed9a7fcde6fe",
+      "from": "ਲਾਈਫ਼",
+      "to": "ਜ਼ਿੰਦਗੀ",
+      "english": "life"
+    },
+    {
+      "id": "lex:wt-pa-d28fc8f17b942a76aed0",
+      "target": "lex:wt-pa-a4ede38e2cffe3c469e7",
+      "from": "ਫ਼ਿਹਰਿਸਤ",
+      "to": "ਸੂਚੀ",
+      "english": "list"
+    },
+    {
+      "id": "lex:wt-pa-163cfc1c08d45002e1a4",
+      "target": "lex:wt-pa-a4ede38e2cffe3c469e7",
+      "from": "ਲਿਸਟ",
+      "to": "ਸੂਚੀ",
+      "english": "list"
+    },
+    {
+      "id": "lex:wt-pa-a1ec5c5c246d5dba4509",
+      "target": "lex:game-body-10",
+      "from": "ਰੁਖ਼ਸਾਰ",
+      "to": "ਗੱਲ੍ਹ",
+      "english": "cheek"
+    },
+    {
+      "id": "lex:wt-pa-797449e86bde5d3f330a",
+      "target": "lex:game-nature-21",
+      "from": "ਗੁਲ",
+      "to": "ਫੁੱਲ",
+      "english": "flower"
+    },
+    {
+      "id": "lex:wt-pa-0b55ef86fb1971738f8e",
+      "target": "lex:game-nature-24",
+      "from": "ਬਾਲੂ",
+      "to": "ਰੇਤ",
+      "english": "sand"
+    },
+    {
+      "id": "lex:wt-pa-90d628d9fa32501bd224",
+      "target": "lex:game-nature-3",
+      "from": "ਸਿਤਾਰਾ",
+      "to": "ਤਾਰਾ",
+      "english": "star"
+    },
+    {
+      "id": "lex:wt-pa-b92a7c4997af78f0eff9",
+      "target": "lex:game-nature-6",
+      "from": "ਵਰਖਾ",
+      "to": "ਮੀਂਹ",
+      "english": "rain"
+    },
+    {
+      "id": "lex:wt-pa-00d037fe4ca8bee4d774",
+      "target": "lex:game-spices-2",
+      "from": "ਕਾਲ਼ੀ ਮਿਰਚ",
+      "to": "ਕਾਲੀ ਮਿਰਚ",
+      "english": "black pepper"
+    },
+    {
+      "id": "lex:wt-pa-714fda68cbdef70d5bbf",
+      "target": "lex:game-vegetables-10",
+      "from": "ਬਤਾਊਂ",
+      "to": "ਬੈਂਗਣ",
+      "english": "eggplant"
+    },
+    {
+      "id": "lex:wt-pa-996753503136e320a258",
+      "target": "lex:game-vegetables-3",
+      "from": "ਟਮਾਟਾ",
+      "to": "ਟਮਾਟਰ",
+      "english": "tomato"
+    },
+    {
+      "id": "lex:wt-pa-8c0b2c7628af623b63ec",
+      "target": "lex:state-extra-easy",
+      "from": "ਅਸਾਨ",
+      "to": "ਸੌਖਾ",
+      "english": "easy"
+    },
+    {
+      "id": "lex:wt-pa-a4d410852b93bcee0313",
+      "target": "lex:what-animal-dog",
+      "from": "ਕੂਕਰ",
+      "to": "ਕੁੱਤਾ",
+      "english": "dog"
+    },
+    {
+      "id": "lex:wt-pa-d38eab261245bfb86ec7",
+      "target": "lex:what-tv",
+      "from": "ਟੈਲੀਵਿਜ਼ਨ",
+      "to": "ਟੀਵੀ",
+      "english": "television"
+    },
+    {
+      "id": "lex:wt-pa-315d86b3e8852c0f5333",
+      "target": "lex:wt-pa-7642609ca4dae38f24d3",
+      "from": "ਅਚਨਚੇਤ",
+      "to": "ਅਚਾਨਕ",
+      "english": "suddenly, all of a sudden"
+    },
+    {
+      "id": "lex:wt-pa-91976059b0588c1c023e",
+      "target": "lex:wt-pa-cfca713c78270f8ba219",
+      "from": "ਅਫਸੋਸ",
+      "to": "ਅਫ਼ਸੋਸ",
+      "english": "sorrow, lamentation, concern, vexation, grief, regret"
+    },
+    {
+      "id": "lex:wt-pa-f5d2eaa24d4371cf4aa6",
+      "target": "lex:wt-pa-7f4f0ea9ef0b871a0388",
+      "from": "ਅੱਭਯਾਗਤ",
+      "to": "ਪਰਾਹੁਣਾ",
+      "english": "guest, visitor"
+    },
+    {
+      "id": "lex:wt-pa-6224d213fdb204bcff74",
+      "target": "lex:wt-pa-d367aa198154bd1ae476",
+      "from": "ਮੁਦਰਾ",
+      "to": "ਕਰੰਸੀ",
+      "english": "currency"
+    },
+    {
+      "id": "lex:wt-pa-7bd49aef448befb30661",
+      "target": "lex:wt-pa-d789f03358a989910da7",
+      "from": "ਸਟੋਰੀ",
+      "to": "ਕਹਾਣੀ",
+      "english": "story"
+    },
+    {
+      "id": "lex:wt-pa-02fc13d3ccd1755b3a3c",
+      "target": "lex:wt-pa-e2852e20c15f958e3c4e",
+      "from": "ਕ਼ੁਲਫ਼ੀ",
+      "to": "ਕੁਲਫ਼ੀ",
+      "english": "kulfi (kind of ice cream)"
+    },
+    {
+      "id": "lex:wt-pa-a36851208f9f6a58e51c",
+      "target": "lex:wt-pa-c74b996bccbb060d5172",
+      "from": "ਕੋੱਠਾ",
+      "to": "ਕੋਠਾ",
+      "english": "a house"
+    },
+    {
+      "id": "lex:wt-pa-eaedb890e68afbb5b92c",
+      "target": "lex:wt-pa-855f7cc53cb0b881cadc",
+      "from": "ਦੀਵਾਰ",
+      "to": "ਕੰਧ",
+      "english": "wall"
+    },
+    {
+      "id": "lex:wt-pa-61bf5ea3811dbffe6bf5",
+      "target": "lex:wt-pa-c475e5b4f6d79b5cbd62",
+      "from": "ਖਿਆਲ",
+      "to": "ਖ਼ਿਆਲ",
+      "english": "thought, idea"
+    },
+    {
+      "id": "lex:wt-pa-11d21f364991fa9cee19",
+      "target": "lex:wt-pa-fa67a1c65b2a45ff2788",
+      "from": "ਖੋਦ",
+      "to": "ਹੈਲਮਟ",
+      "english": "helmet"
+    },
+    {
+      "id": "lex:wt-pa-28bc4b83ca39e4c917ce",
+      "target": "lex:wt-pa-9bbf893dff628cdd4ee0",
+      "from": "ਜਮਹੂਰ",
+      "to": "ਗਣਤੰਤਰ",
+      "english": "republic"
+    },
+    {
+      "id": "lex:wt-pa-c8aa168b208a28acc0a9",
+      "target": "lex:wt-pa-255d79f3365823bac857",
+      "from": "ਗਿਰਜਾ",
+      "to": "ਚਰਚ",
+      "english": "church"
+    },
+    {
+      "id": "lex:wt-pa-5e6c28b4373ff1219657",
+      "target": "lex:wt-pa-42d275353d55349ef502",
+      "from": "ਗਿਰਝ",
+      "to": "ਗਿੱਧ",
+      "english": "vulture"
+    },
+    {
+      "id": "lex:wt-pa-15b2195e8790a2c0e41a",
+      "target": "lex:wt-pa-738bd9e63e181b5185db",
+      "from": "ਗੋਰੂ",
+      "to": "ਡੰਗਰ",
+      "english": "cattle"
+    },
+    {
+      "id": "lex:wt-pa-1d9a59e4c780a29094fc",
+      "target": "lex:wt-pa-99d94f22d9fe82f056d7",
+      "from": "ਗੋਸ਼ਤ",
+      "to": "ਮਾਸ",
+      "english": "meat"
+    },
+    {
+      "id": "lex:wt-pa-4a9ef5df4cc4da75b792",
+      "target": "lex:wt-pa-cf858c576c92287df43c",
+      "from": "ਜਨੂਬ",
+      "to": "ਦੱਖਣ",
+      "english": "south"
+    },
+    {
+      "id": "lex:wt-pa-62bcba0cab8694a3280b",
+      "target": "lex:wt-pa-ef95ed4599c6efb2bb2b",
+      "from": "ਦਾਮਾਦ",
+      "to": "ਜਵਾਈ",
+      "english": "son-in-law"
+    },
+    {
+      "id": "lex:wt-pa-966dcd386b9a055a0a23",
+      "target": "lex:wt-pa-01bba8b078207d6f66d2",
+      "from": "ਬੰਦੀਖਾਨਾ",
+      "to": "ਜੇਲ੍ਹ",
+      "english": "jail"
+    },
+    {
+      "id": "lex:wt-pa-c2c4019df3d1808d4f9a",
+      "target": "lex:wt-pa-ba566d5b514027c75aa6",
+      "from": "ਜੌ",
+      "to": "ਜੌਂ",
+      "english": "barley"
+    },
+    {
+      "id": "lex:wt-pa-a140db77103c6282e240",
+      "target": "lex:wt-pa-848dcb5c0a90650388f1",
+      "from": "ਡਰਾਉਣਾ",
+      "to": "ਡਰੌਣਾ",
+      "english": "scarecrow"
+    },
+    {
+      "id": "lex:wt-pa-24f3b3939d8e431cf49b",
+      "target": "lex:wt-pa-bb2bb19f5813a43094d3",
+      "from": "ਰੋਜ਼",
+      "to": "ਦਿਨ",
+      "english": "day"
+    },
+    {
+      "id": "lex:wt-pa-b6c119039adcac30b8e0",
+      "target": "lex:wt-pa-3e62e9fc24c3cf49187b",
+      "from": "ਦੁਖ",
+      "to": "ਦੁੱਖ",
+      "english": "sorrow, grief, suffering"
+    },
+    {
+      "id": "lex:wt-pa-b3e630e3b4412c27d8c0",
+      "target": "lex:wt-pa-e6b099040dd90b8e4af8",
+      "from": "ਨਾਖ",
+      "to": "ਨਾਸ਼ਪਾਤੀ",
+      "english": "pear (fruit)"
+    },
+    {
+      "id": "lex:wt-pa-e9c11413f1d5a1771048",
+      "target": "lex:wt-pa-64b125cbe18f69cc7880",
+      "from": "ਸ਼ਹਿਰੀ",
+      "to": "ਨਾਗਰਿਕ",
+      "english": "citizen"
+    },
+    {
+      "id": "lex:wt-pa-53f3c1a3b23d8100608f",
+      "target": "lex:wt-pa-db51d1d70a82757b60d3",
+      "from": "ਸ਼ਹਿਰੀਅਤ",
+      "to": "ਨਾਗਰਿਕਤਾ",
+      "english": "citizenship"
+    },
+    {
+      "id": "lex:wt-pa-e6e9a0d44f7f06c6d972",
+      "target": "lex:wt-pa-0cc9bae9eede8fe8d228",
+      "from": "ਪਰੀਤ",
+      "to": "ਪ੍ਰੀਤ",
+      "english": "love, attachment"
+    },
+    {
+      "id": "lex:wt-pa-1ac46c59ba85f255fa84",
+      "target": "lex:wt-pa-45f260e12870de84ef18",
+      "from": "ਮੂਤਰ",
+      "to": "ਪਿਸ਼ਾਬ",
+      "english": "urine"
+    },
+    {
+      "id": "lex:wt-pa-9b9e507edd241854b0e8",
+      "target": "lex:wt-pa-a6844a6c54644f053aa8",
+      "from": "ਪਿੱਤਲ਼",
+      "to": "ਪਿੱਤਲ",
+      "english": "brass"
+    },
+    {
+      "id": "lex:wt-pa-2dd070cdc3f11a8e5056",
+      "target": "lex:wt-pa-ec5d49baaec657d3328e",
+      "from": "ਪ੍ਰਸ਼ਨ",
+      "to": "ਸਵਾਲ",
+      "english": "question (query)"
+    },
+    {
+      "id": "lex:wt-pa-ab7c21404aed651840fd",
+      "target": "lex:wt-pa-49ef417a1683a7e7853f",
+      "from": "ਪ੍ਰਸ਼ਨ ਚਿੰਨ੍ਹ",
+      "to": "ਸਵਾਲੀਆ ਨਿਸ਼ਾਨ",
+      "english": "question mark"
+    },
+    {
+      "id": "lex:wt-pa-88e224a36b5bc59e67d6",
+      "target": "lex:wt-pa-bda2325f3fc5645a7bed",
+      "from": "ਬਲੂੰਗਾ",
+      "to": "ਬਲੂੰਗੜਾ",
+      "english": "kitten"
+    },
+    {
+      "id": "lex:wt-pa-667da3a84d93f39d567f",
+      "target": "lex:wt-pa-e30b7c27a76d1c4d3252",
+      "from": "ਮਾਹ",
+      "to": "ਮਹੀਨਾ",
+      "english": "month"
+    },
+    {
+      "id": "lex:wt-pa-3bbff8b3571c4babd3e8",
+      "target": "lex:wt-pa-013844a0b9264bd946d9",
+      "from": "ਮੁਰਗ",
+      "to": "ਮੁਰਗ਼ਾ",
+      "english": "cock, rooster"
+    },
+    {
+      "id": "lex:wt-pa-5be1ac71870d7ff70803",
+      "target": "lex:wt-pa-ebda7e1cab84e6f5a65d",
+      "from": "ਮ੍ਹੈਂਸ",
+      "to": "ਮੱਝ",
+      "english": "water buffalo (adult female)"
+    },
+    {
+      "id": "lex:wt-pa-797992a2c7fa9b169aae",
+      "target": "lex:wt-pa-5caff9e9bb71628a8809",
+      "from": "ਰਾਜਨੀਤੀਵਾਨ",
+      "to": "ਸਿਆਸਤਦਾਨ",
+      "english": "politician"
+    },
+    {
+      "id": "lex:wt-pa-30c410bc275acccba61e",
+      "target": "lex:wt-pa-81da64ecc3643eedceaf",
+      "from": "ਸ਼ਬ",
+      "to": "ਰਾਤ",
+      "english": "night"
+    },
+    {
+      "id": "lex:wt-pa-7b7aa0c0af98815ea3da",
+      "target": "lex:wt-pa-188df3688e4934ba73c6",
+      "from": "ਵਰ੍ਹਾ",
+      "to": "ਸਾਲ",
+      "english": "year"
+    },
+    {
+      "id": "lex:wt-pa-ce6ff91bb068c8f05538",
+      "target": "lex:wt-pa-a76e15284f6ba20c16cf",
+      "from": "ਸਵਰਨ",
+      "to": "ਸੋਨਾ",
+      "english": "gold"
+    },
+    {
+      "id": "lex:wt-pa-9fb89af4b6a5fe15a637",
+      "target": "lex:wt-pa-b62cd5ebf7246d401273",
+      "from": "ਸੂਰਜ ਮੰਡਲ",
+      "to": "ਸੂਰਜੀ ਮੰਡਲ",
+      "english": "solar system"
+    }
+  ],
+  "fringeExamples": [
+    {
+      "id": "lex:wt-pa-34f374ec15e2e73eb40d",
+      "gurmukhi": "ਇਤਿਹਾਸ ਪਦਾਰਥਵਾਦ",
+      "english": "historical materialism",
+      "reason": "Specialised political-philosophical doctrine rather than general conversational vocabulary."
+    },
+    {
+      "id": "lex:wt-pa-f841b9dcd62478e0023a",
+      "gurmukhi": "ਇਤਿਹਾਸੀ ਪਦਾਰਥਵਾਦ",
+      "english": "historical materialism",
+      "reason": "Specialised political-philosophical doctrine rather than general conversational vocabulary."
+    },
+    {
+      "id": "lex:wt-pa-62a8f9e7b7f33b7fa728",
+      "gurmukhi": "ਕਟਾਰ",
+      "english": "katara (type of dagger)",
+      "reason": "A narrowly specified weapon subtype; culturally useful kirpan and general sword vocabulary remain."
+    },
+    {
+      "id": "lex:wt-pa-5222b775f6850c61fa46",
+      "gurmukhi": "ਕਣ ਭੌਤਿਕ ਵਿਗਿਆਨ",
+      "english": "particle physics",
+      "reason": "Specialised academic subdiscipline; general science vocabulary remains."
+    },
+    {
+      "id": "lex:wt-pa-db73e29c257e66188735",
+      "gurmukhi": "ਕਿਲ੍ਹੇਦਾਰ",
+      "english": "kiladar (commander of a fort)",
+      "reason": "Historical military-administrative office."
+    },
+    {
+      "id": "lex:wt-pa-27a7be70c924c7028bd0",
+      "gurmukhi": "ਕੋਸ਼ਕਾਰੀ",
+      "english": "lexicography",
+      "reason": "Specialist dictionary-compilation discipline; ordinary dictionary and language words remain."
+    },
+    {
+      "id": "lex:wt-pa-ddb4daa420c710da6daa",
+      "gurmukhi": "ਖਗੋਲੀ ਇਕਾਈ",
+      "english": "astronomical unit",
+      "reason": "Specialised astronomical distance unit."
+    },
+    {
+      "id": "lex:wt-pa-244b670005bd8a56c266",
+      "gurmukhi": "ਗੁਪਤੀ",
+      "english": "swordstick (sword concealed inside a stick)",
+      "reason": "Specialised concealed weapon."
+    },
+    {
+      "id": "lex:wt-pa-82e376756ff62d497bd8",
+      "gurmukhi": "ਚੂਲ",
+      "english": "tenon",
+      "reason": "Specific joinery joint component; general household and tool vocabulary remains."
+    },
+    {
+      "id": "lex:wt-pa-4e42ee9949cd69ca2ad5",
+      "gurmukhi": "ਲਘੂਗਣਕ",
+      "english": "logarithm",
+      "reason": "Specialised mathematical function beyond ordinary arithmetic and shopping quantities."
+    },
+    {
+      "id": "lex:wt-pa-0f6c539f377fa1f824da",
+      "gurmukhi": "ਲਾਗਰਿਥਮ",
+      "english": "logarithm",
+      "reason": "Specialised mathematical function beyond ordinary arithmetic and shopping quantities."
+    },
+    {
+      "id": "lex:wt-pa-9d57b495bd2f4cab312a",
+      "gurmukhi": "ਸ਼ਬਦਕੋਸ਼ੀ",
+      "english": "lexicography",
+      "reason": "Specialist dictionary-compilation discipline; ordinary dictionary and language words remain."
+    },
+    {
+      "id": "lex:wt-pa-3d105c3796415a69eb0a",
+      "gurmukhi": "ਸਾਮੰਤ",
+      "english": "vassal, feudal lord",
+      "reason": "The source entry denotes a historical feudal social rank."
+    },
+    {
+      "id": "lex:wt-pa-a962b9085d557c28b3d3",
+      "gurmukhi": "ਸਾਮੰਤਵਾਦ",
+      "english": "feudalism",
+      "reason": "Specialised historical social-system term."
+    },
+    {
+      "id": "lex:wt-pa-7d3f3bbcb1a449bb4af6",
+      "gurmukhi": "ਸੁਰਮੀ",
+      "english": "an inferior ore of antimony",
+      "reason": "Specific mineral/ore terminology; ordinary metals and materials remain."
+    }
+  ],
+  "validation": {
+    "originalRecordsAudited": 3111,
+    "finalRecordsAudited": 3111,
+    "materialMetadataRegressions": [],
+    "unresolvedOriginalIds": [],
+    "unwantedExactRecords": 0,
+    "unwantedBindingDuplicates": 0
+  },
+  "assessment": "All records were programmatically inventoried and assigned a conservative utility outcome. AI reviewed candidate definition groups and semantic distinctions; this is not a measured-frequency or native-speaker certification."
+}

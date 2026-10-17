@@ -478,7 +478,9 @@
 <script src="./data/sentence-semantic-parameters.js?v=1"></script>
 <script src="./lexical-semantics.js?v=1"></script>
 <script src="./learning-context.js?v=3"></script>
-<script src="./linguistic-system.js?v=3"></script>
+<script src="./data/vocabulary-cleanup-policy.js?v=1"></script>
+<script src="./vocabulary-cleanup.js?v=1"></script>
+<script src="./linguistic-system.js?v=4"></script>
 <script src="./data/verb-morphology-profiles.js?v=1"></script>
 <script src="./grammar-engine.js?v=3"></script>
 <script src="./data/source-evidence.js?v=1"></script>
@@ -3503,7 +3505,7 @@
   function renderWordGame(){if(gameSession.phase==='setup')renderGameSetup();else if(gameSession.phase==='round')renderGameRound();}
   function initializeLearning(){
     installScriptData();
-    window.PunjabiLinguisticSystem.install(state,{categories:window.PunjabiLearningContext.categories,expansion:bundledVocabulary,audit:window.PunjabiVocabularyAudit,grammar:window.PunjabiGrammarEngine,catalogPolicy:window.PUNJABI_SENTENCE_CATALOG_POLICY,beforeCatalogChange:function(){
+    window.PunjabiLinguisticSystem.install(state,{categories:window.PunjabiLearningContext.categories,expansion:bundledVocabulary,audit:window.PunjabiVocabularyAudit,grammar:window.PunjabiGrammarEngine,contractTemplates:window.PunjabiSentenceLearning.templates,catalogPolicy:window.PUNJABI_SENTENCE_CATALOG_POLICY,beforeCatalogChange:function(){
       const key='punjabi-app-state-before-sentence-catalog-v1';return window.PunjabiCatalogBackup.save(localStorage,key,JSON.stringify(window.PunjabiLinguisticSystem.snapshot(state,{compact:true})));
     }});
     window.PunjabiGrammarEngine.templates.forEach(template=>{
