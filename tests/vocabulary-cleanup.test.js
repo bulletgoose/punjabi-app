@@ -28,9 +28,9 @@ test('redundant sense bindings consolidate while distinct meanings and functiona
   }
 });
 
-test('gender/number forms, polysemy, useful cultural distinctions and all game reference rows are retained',()=>{
-  for(const g of ['ਵਿਦਿਆਰਥਣ','ਪੈਸਾ','ਪੈਸੇ','ਨਿਹਾਰੀ','ਦਸਤਾਰ','ਭਾਈ','ਕਾਫ਼ੀ','ਖ਼ੁਰਾਕ','ਗੱਭਰੂ','ਨਾਮ'])assert.ok(active().some(e=>e.g===g),g);
-  for(const [category,rows]of Object.entries(state.linguistic.bindings).filter(([c])=>c.startsWith('GAME_'))){assert.equal(rows.length,30,category);for(const b of rows)assert.ok(f.lexical.get(state,b.id));}
+test('unremoved gender/number forms, polysemy, cultural distinctions and game references are retained',()=>{
+  for(const g of ['ਵਿਦਿਆਰਥਣ','ਪੈਸਾ','ਪੈਸੇ','ਦਸਤਾਰ','ਭਾਈ','ਕਾਫ਼ੀ','ਗੱਭਰੂ','ਨਾਮ'])assert.ok(active().some(e=>e.g===g),g);
+  for(const [category,rows]of Object.entries(state.linguistic.bindings).filter(([c])=>c.startsWith('GAME_'))){const removed=cleanup.policy.learnerReview.removedIds.filter(id=>id.startsWith('lex:game-'+category.slice(5).toLowerCase()+'-')).length;assert.equal(rows.length,30-removed,category);for(const b of rows)assert.ok(f.lexical.get(state,b.id));}
   const tree=active().find(e=>e.g==='ਰੁੱਖ');assert.ok(tree.vocabularyAlternatives?.length||tree.senses.length);
   for(const id of Object.keys(state.linguistic.vocabularyCleanup.fringe))assert.equal(f.lexical.get(state,id).cleanupArchived.status,'fringe-reference');
 });

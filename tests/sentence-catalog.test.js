@@ -3,20 +3,21 @@ const test=require('node:test'),assert=require('node:assert/strict');
 const {applicationFixture}=require('../scripts/application-fixture');
 const f=applicationFixture(),{state,lexical,context,window}=f;
 const policy=window.PUNJABI_SENTENCE_CATALOG_POLICY;
-test('authorized catalog removes precisely the old No entries and consolidates breakfast without deleting nihari',()=>{
+test('authorized catalog removes precisely the old No entries and consolidates breakfast and preserves nihari for saved references',()=>{
  assert.equal(state.linguistic.catalogMigration.removed,2469);assert.equal(state.linguistic.catalogMigration.merged,79);
  for(const id of policy.excluded)assert.equal(lexical.get(state,id),null);
  const breakfast=lexical.vocabulary(state).filter(w=>w.gurmukhi==='ਨਾਸ਼ਤਾ');assert.equal(breakfast.length,1);
  assert.equal(lexical.resolveId(state,'lex:wt-pa-af615c59cb56381cbd36'),'lex:what-nashta');
- assert.ok(lexical.vocabulary(state).some(w=>w.gurmukhi==='ਨਿਹਾਰੀ'));
- assert.equal(lexical.vocabulary(state).length,2983);
+ assert.equal(lexical.get(state,'lex:wt-pa-7d1acf8006463976c172').g,'ਨਿਹਾਰੀ');
+ assert.equal(lexical.vocabulary(state).some(w=>w.gurmukhi==='ਨਿਹਾਰੀ'),false);
+ assert.equal(lexical.vocabulary(state).length,1562);
 });
 test('every retained entry has a valid explicit word-practice sentence without guessed morphology',()=>{
  const api=window.PunjabiSentenceLearning,t=api.templates.find(t=>t.id==='P88');
  let count=0;for(const word of state.vocab.WORD){
   const projected={vocab:{WORD:[word]},verbs:[]},sentence=api.generate(t,projected,rows=>rows[0],{lexical,grammar:f.grammar,semantics:window.PunjabiLexicalSemantics});
   assert.ok(sentence&&sentence.gurmukhi);assert.equal(sentence.sentenceBreakdown[0].vocabularyId,word.vocabularyId);assert.match(sentence.sentenceBreakdown[0].grammarNote,/no inflection/);count++;
- }assert.equal(count,2983);
+ }assert.equal(count,1562);
 });
 test('all fifteen connectors occur as lexical parts in their actual generated constructions',()=>{
  for(const t of window.PunjabiSentenceLearning.templates.filter(t=>t.connectorId)){
@@ -40,7 +41,7 @@ test('cleanup hydration preserves saved data and stable compact IDs without recr
  const snapshot=lexical.snapshot(state,{compact:true});snapshot.saved=[{id:'keep-sentence',roman:'meri kitāb',english:'my book'}];snapshot.savedWords=[{id:'keep-word',english:'my edited word',roman:'merā'}];
  snapshot.linguistic.bindings.WHY.find(b=>b.id==='why-islai').enabled=false;
  const next=applicationFixture({generation:false,storage:[['punjabi-app-state-v1',JSON.stringify(snapshot)]]});
- assert.equal(next.state.saved[0].id,'keep-sentence');assert.equal(next.state.savedWords[0].id,'keep-word');assert.equal(next.lexical.vocabulary(next.state).length,2983);
+ assert.equal(next.state.saved[0].id,'keep-sentence');assert.equal(next.state.savedWords[0].id,'keep-word');assert.equal(next.lexical.vocabulary(next.state).length,1562);
  assert.equal(next.state.vocab.WHY.find(b=>b.id==='why-islai').enabled,false);
  const again=next.lexical.snapshot(next.state,{compact:true});for(const [id,old] of Object.entries(snapshot.linguistic.entries)){const current=again.linguistic.entries[id];assert.ok(current,id);assert.equal(current.p,old.p,id);assert.equal(current.g,old.g,id);assert.equal(current.e,old.e,id);}
  for(const id of policy.excluded)assert.equal(next.lexical.get(next.state,id),null);
@@ -94,7 +95,7 @@ test('a disabled imported word-practice binding stays disabled across successive
   current=applicationFixture({generation:false,storage:[['punjabi-app-state-v1',JSON.stringify(stored)]]});
   assert.equal(current.state.vocab.WORD.find(row=>row.id===word.id).enabled,false);
   assert.equal(current.lexical.resolveId(current.state,word.id),word.vocabularyId);
-  assert.equal(current.lexical.vocabulary(current.state).length,2983);
+  assert.equal(current.lexical.vocabulary(current.state).length,1562);
  }
  word.enabled=true;
 });

@@ -250,7 +250,13 @@
     // meanings. Multiple senses need a unique contextual match or explicit ID.
     if(!requested&&candidates[1]&&candidates[1].score===best.score)return {ok:false,senseId:null,contextualMeaning:null,reason:'Multiple dictionary senses remain ambiguous in this construction.',evidence:[]};
     if(!best.meaning)return {ok:false,senseId:best.sense.id,contextualMeaning:null,reason:'The compatible sense lacks a source-supported concise sentence meaning.',evidence:best.evidence};
-    return {ok:true,sense:best.sense,senseId:best.sense.id,contextualMeaning:best.meaning,reason:requested?'Explicit construction sense selected.':'Unique compatible contextual meaning.',evidence:best.evidence};
+    let displayMeaning=best.meaning;
+    const override=entry.translationOverride,userMeaning=override&&override.source==='user'&&[best.sense.id,best.sense.sourceSenseId].includes(override.senseId);
+    // Learner-approved label cleanup happens after compatibility and ranking.
+    // It cannot authorize another sense or alter the dictionary definition.
+    if(!userMeaning)for(const annotation of list(entry.omittedDictionaryAnnotations))displayMeaning=clean(displayMeaning.split(annotation).join(''));
+    if(displayMeaning!==best.meaning)best.evidence.push('learner-approved-dictionary-label-omission');
+    return {ok:true,sense:best.sense,senseId:best.sense.id,contextualMeaning:displayMeaning,reason:requested?'Explicit construction sense selected.':'Unique compatible contextual meaning.',evidence:best.evidence};
   }
   function lexicalSelection(entry,context){const result=selectSense(entry,context);return result.ok?{vocabularyId:lexicalId(entry),senseId:result.senseId,contextualMeaning:result.contextualMeaning,evidence:result.evidence}:null;}
   function contextualEntry(entry,context){

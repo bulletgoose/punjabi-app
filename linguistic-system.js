@@ -478,7 +478,7 @@
     }
     prepareDeletionIdentities(rt);
     const plan=cleanup.plan(l.entries,required),before=new Map(Object.values(l.entries).map(e=>[e.id,clone(e)]));
-    const report={version:plan.version,exactMerges:{},synonymAlternatives:{},fringe:{},bindingAliases:{},labelsUpdated:0,deletionIdentities:rt.deletionIdentities.size};
+    const report={version:plan.version,exactMerges:{},synonymAlternatives:{},fringe:{},reviewRemoved:[],reviewLabelsUpdated:0,bindingAliases:{},labelsUpdated:0,deletionIdentities:rt.deletionIdentities.size};
     function archive(entry,status,canonicalId,reason){
       entry.cleanupArchived={status,canonicalId:canonicalId||null,reason,version:plan.version};indexEntry(rt,entry);
     }
@@ -514,6 +514,16 @@
       archive(entry,'synonym-alternative',targetId,'Reviewed interchangeable ordinary primary concept; original word, senses and paradigm retained for references.');report.synonymAlternatives[id]=targetId;
     }
     for(const [id,reason]of Object.entries(plan.excluded)){const e=l.entries[id];if(e&&!e.deleted){archive(e,'fringe-reference',null,reason);report.fringe[id]=reason;}}
+    // Apply the learner's explicit decisions after automatic consolidation so
+    // removing a canonical word cannot promote one of its duplicate imports.
+    // Original records remain addressable by saved content and progress IDs.
+    for(const id of cleanup.policy.learnerReview?.removedIds||[]){
+      const entry=l.entries[id];if(!entry)continue;
+      archive(entry,'learner-review-removed',null,'Explicit Remove decision in the completed vocabulary review.');report.reviewRemoved.push(id);
+    }
+    for(const [id,canonicalId]of Object.entries(cleanup.policy.learnerReview?.removedAlternatives||{})){
+      const entry=l.entries[id];if(entry)archive(entry,'learner-review-removed-alternative',canonicalId,'Preserve the existing exclusion of an alternative to a reviewed removal.');
+    }
     for(const target of Object.values(l.entries))delete target.vocabularyAlternatives;
     for(const entry of Object.values(l.entries))if(entry.cleanupArchived?.canonicalId){
       let id=entry.cleanupArchived.canonicalId;while(l.entries[id]?.cleanupArchived?.canonicalId)id=l.entries[id].cleanupArchived.canonicalId;
@@ -542,6 +552,12 @@
         report.bindingAliases[category+':'+loser.id]=winner.id;
       }
       for(const b of kept){const entry=l.entries[b.vocabularyId],label=cleanup.label(entry,b,category);if(label&&!cleanup.protectedEntry(entry)&&b.auditOwned&&b.e!==label){b.e=label;report.labelsUpdated++;}}
+      for(const b of kept){
+        const entry=l.entries[b.vocabularyId],edit=cleanup.policy.learnerReview?.labels[entry.id];
+        if(b.phraseTranslationOverride)continue;
+        if(edit&&!cleanup.protectedEntry(entry))b.omittedDictionaryAnnotations=edit.annotations.slice();
+        const value=rowView(rt,category,b).e,display=cleanup.reviewedLabel(entry,value);if(display!==value){b.e=display;report.reviewLabelsUpdated++;}
+      }
       l.bindings[category]=kept;rt.bindingIndexes.set(category,new Map(kept.map(b=>[b.id,b])));rt.roleEntries.set(category,new Set(kept.map(b=>b.vocabularyId)));
     }
     // Historical synonym IDs keep their original spelling and paradigm; they
@@ -1072,8 +1088,9 @@
         }
       }
       view.dictionaryEnglish=view.english;
+      if(cleanup)view.english=cleanup.reviewedLabel(entry,view.english);
       if(rt.linguistic.catalogVersion)view.english=shortTitle(view.english, entry.displayLabel);
-      view.meaning=(view.dictionaryEnglish||'').split(/\s+/).slice(0,10).join(' ');
+      view.meaning=(cleanup?cleanup.reviewedLabel(entry,view.dictionaryEnglish):view.dictionaryEnglish||'').split(/\s+/).slice(0,10).join(' ');
       output.push(view);
     }
     return output;
