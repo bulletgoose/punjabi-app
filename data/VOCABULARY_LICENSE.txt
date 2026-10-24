@@ -1,26 +1,17 @@
-Expanded Punjabi dictionary data — CC BY-SA 4.0
+Reviewed Punjabi vocabulary — CC BY-SA 4.0
 
-The vocabulary-expansion.js dataset and grammar-ready-vocabulary.js
-construction metadata are adapted from English Wiktionary contributors,
-using Kaikki's Wiktextract extraction. The authors of each entry are
-attributed through the linked Wiktionary page and its history.
+Dictionary definitions and grammatical forms in vocabulary-catalog.js are
+adapted from English Wiktionary contributors through Kaikki/Wiktextract.
+Each retained dictionary entry includes its Wiktionary source attribution.
 
 Source: https://kaikki.org/dictionary/Punjabi/index.html
-Input: https://kaikki.org/dictionary/Punjabi/kaikki.org-dictionary-Punjabi.jsonl
 License: https://creativecommons.org/licenses/by-sa/4.0/
 Legal code: https://creativecommons.org/licenses/by-sa/4.0/legalcode
 
-Modifications: filtered to Punjabi Gurmukhi base entries with explicit
-source romanization and English glosses; grouped meanings; assigned stable
-IDs and provisional topic tags; omitted quotations, audio and conjugations;
-manually reviewed direct-object metadata for a separately identified subset.
-See vocabulary-import-report.json and ../docs/VOCABULARY_SOURCES.md for the
-input checksum, snapshot dates, counts, exclusions and quality limitations.
+Modifications: a learner-selected catalog of 1,562 records, normalized source
+senses, semantic parameters, grammatical forms and concise display labels.
+Excluded dictionary records and historical import/audit data are not included.
 
 Redistribution requires attribution, a license link and an indication of
 modifications. Adaptations must use CC BY-SA 4.0 or a compatible license.
-No additional legal or technical restrictions may be imposed on this data.
-Commercial use is permitted when the license conditions are followed.
-
-This notice applies to the adapted expanded dictionary dataset. It does not
-change the license of application source code or original authored entries.
+This notice does not change the license of original application source code.

@@ -4,9 +4,9 @@
    §§5.4–5.5, 5.18–5.25, 8.2–8.5. This is a bounded learner grammar, not a
    claim that arbitrary imported dictionary entries can generate sentences. */
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lexical-semantics'), require('./data/verb-morphology-profiles'));
-  else root.PunjabiGrammarEngine = factory(root.PunjabiLexicalSemantics, root.PUNJABI_VERB_MORPHOLOGY_PROFILES);
-})(typeof globalThis !== 'undefined' ? globalThis : this, function (semantics, profileDataset) {
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./lexical-semantics'));
+  else root.PunjabiGrammarEngine = factory(root.PunjabiLexicalSemantics);
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (semantics) {
   'use strict';
   const REFERENCE = 'https://pt.learnpunjabi.org/assets/a%20reference%20grammar_final.pdf';
   const PERSONS = ['1sg', '2sg', '3sg', '1pl', '2pl', '3pl'];
@@ -37,7 +37,6 @@
   register('v-karna', 'karṇā', 'ਕਰਨਾ', true, 'kītā|kītī|kīte|kītīā̃', 'ਕੀਤਾ|ਕੀਤੀ|ਕੀਤੇ|ਕੀਤੀਆਂ');
   register('v-dena', 'deṇā', 'ਦੇਣਾ', true, 'dittā|dittī|ditte|dittīā̃', 'ਦਿੱਤਾ|ਦਿੱਤੀ|ਦਿੱਤੇ|ਦਿੱਤੀਆਂ');
   register('v-laina', 'laiṇā', 'ਲੈਣਾ', true, 'liā|laī|lae|laīā̃', 'ਲਿਆ|ਲਈ|ਲਏ|ਲਈਆਂ');
-  register('v-parhna', 'paṛhṇā', 'ਪੜ੍ਹਨਾ', true, 'paṛhiā|paṛhī|paṛhe|paṛhīā̃', 'ਪੜ੍ਹਿਆ|ਪੜ੍ਹੀ|ਪੜ੍ਹੇ|ਪੜ੍ਹੀਆਂ');
   register('v-likhna', 'likhṇā', 'ਲਿਖਣਾ', true, 'likhiā|likhī|likhe|likhīā̃', 'ਲਿਖਿਆ|ਲਿਖੀ|ਲਿਖੇ|ਲਿਖੀਆਂ');
   register('v-vekna', 'vekhṇā', 'ਵੇਖਣਾ', true, 'vekhiā|vekhī|vekhe|vekhīā̃', 'ਵੇਖਿਆ|ਵੇਖੀ|ਵੇਖੇ|ਵੇਖੀਆਂ');
   register('v-sunna', 'suṇṇā', 'ਸੁਣਨਾ', true, 'suṇiā|suṇī|suṇe|suṇīā̃', 'ਸੁਣਿਆ|ਸੁਣੀ|ਸੁਣੇ|ਸੁਣੀਆਂ');
@@ -55,45 +54,11 @@
     const personMap = values => Object.fromEntries(PERSONS.map((p, i) => [p, values[i]]));
     morphology[id].future = { roman: { m: personMap(rm), f: personMap(rf) }, gurmukhi: { m: personMap(gm), f: personMap(gf) } };
   });
-  const sourceProfiles = new Map((profileDataset && profileDataset.profiles || []).map(p => [p.g, p]));
-  function enrichVerb(entry) {
-    if (!entry || entry.partOfSpeech !== 'verb') return null;
-    const profile = sourceProfiles.get(entry.g);
-    if (!profile) return null;
-    const imported = /^wt-pa-/.test(entry.primaryId || entry.id || '');
-    // Only untouched dictionary identities are authorized by an imported
-    // profile. User-edited stems, translations and inflections are preserved.
-    if (imported && (entry.p !== profile.p || entry.e !== profile.sourceEnglish)) return null;
-    const result = { grammarReview: JSON.parse(JSON.stringify(profile.grammarReview)) };
-    if (imported) {
-      Object.assign(result, { root: profile.root, infinitive: entry.p, imperative: profile.imperative, forms: profile.forms, habitual: profile.habitual,
-        gScript: { ...profile.gScript }, verifiedGrammar: profile.verifiedGrammar === true,
-        eligibleSenses: profile.eligibleSenses, morphologicalValidation: { status: 'source-crosschecked-rule', habitual: true, future: !!profile.future, perfective: !!profile.perfective, imperative: 'reference-rule-consonantal-plural' } });
-      if (profile.verifiedGrammar) Object.assign(result, { base: profile.base, selectedSenseId: profile.selectedSenseId,
-        transitive: profile.transitive, takesTags: profile.takesTags, subjectClass: profile.subjectClass });
-    } else {
-      // Seed entries already contain authored valency and habitual paradigms.
-      // Crosscheck the same Gurmukhi lemma before extending tense coverage.
-      if (!entry.gScript || entry.gScript.infinitive !== profile.g || !entry.infinitive) return null;
-      result.gScript = { ...entry.gScript };
-    }
-    // An existing seed paradigm may have been edited before lexical edit
-    // tracking existed. Extend missing tense fields without replacing it.
-    const owns = (value, field) => Object.prototype.hasOwnProperty.call(value || {}, field);
-    if (profile.future) {
-      if (imported || !owns(entry, 'future')) result.future = profile.future;
-      if (imported || !owns(entry.gScript, 'future')) result.gScript.future = profile.gFuture;
-    }
-    if (profile.perfective && !(morphology[entry.primaryId || entry.id] && morphology[entry.primaryId || entry.id].perfective)) {
-      if (imported || !owns(entry, 'perfective')) result.perfective = profile.perfective;
-      if (imported || !owns(entry.gScript, 'perfective')) result.gScript.perfective = profile.gPerfective;
-    }
-    if (result.verifiedGrammar) { result.type = 'simple'; result.isModalComplement = true; }
-    return JSON.parse(JSON.stringify(result));
-  }
-  function profileForEntry(entry) { return enrichVerb(entry); }
+  // The kept catalog already owns its explicit, reviewed verb forms.
+  function enrichVerb(){return null;}
+  function profileForEntry(entry){return enrichVerb(entry);}
   const subjectCases = {
-    'who-main': ['main', 'ਮੈਂ', 'main', 'ਮੈਂ'], 'who-tu': ['tū̃', 'ਤੂੰ', 'tū̃', 'ਤੂੰ'], 'who-tusi': ['tusī̃', 'ਤੁਸੀਂ', 'tusī̃', 'ਤੁਸੀਂ'], 'who-asi': ['asī̃', 'ਅਸੀਂ', 'asī̃', 'ਅਸੀਂ'],
+    'who-main': ['main', 'ਮੈਂ', 'main', 'ਮੈਂ'],  'who-tusi': ['tusī̃', 'ਤੁਸੀਂ', 'tusī̃', 'ਤੁਸੀਂ'], 'who-asi': ['asī̃', 'ਅਸੀਂ', 'asī̃', 'ਅਸੀਂ'],
     'who-oh': ['oh', 'ਉਹ', 'us', 'ਉਸ'], 'who-ohlok': ['oh lok', 'ਉਹ ਲੋਕ', 'ohnā̃', 'ਉਨ੍ਹਾਂ'], 'who-lok': ['lok', 'ਲੋਕ', 'lokā̃', 'ਲੋਕਾਂ'],
     'who-bhai': ['merā bhāī', 'ਮੇਰਾ ਭਾਈ', 'mere bhāī', 'ਮੇਰੇ ਭਾਈ'], 'who-bhain': ['merī bhaiṇ', 'ਮੇਰੀ ਭੈਣ', 'merī bhaiṇ', 'ਮੇਰੀ ਭੈਣ'],
     'who-ma': ['merī mā̃', 'ਮੇਰੀ ਮਾਂ', 'merī mā̃', 'ਮੇਰੀ ਮਾਂ'], 'who-pio': ['mere piō', 'ਮੇਰੇ ਪਿਓ', 'mere piō', 'ਮੇਰੇ ਪਿਓ'],
@@ -103,7 +68,7 @@
   };
   const placeCases = {
     'where-ghar': ['ghar', 'ਘਰ'], 'where-dafter': ['dafter', 'ਦਫ਼ਤਰ'], 'where-school': ['school', 'ਸਕੂਲ'], 'where-college': ['college', 'ਕਾਲਜ'],
-    'where-hospital': ['haspatāl', 'ਹਸਪਤਾਲ'], 'where-park': ['park', 'ਪਾਰਕ'], 'where-gym': ['gym', 'ਜਿਮ'], 'where-punjab': ['Punjab', 'ਪੰਜਾਬ'], 'where-sahar': ['shehar', 'ਸ਼ਹਿਰ']
+    'where-hospital': ['haspatāl', 'ਹਸਪਤਾਲ'], 'where-park': ['park', 'ਪਾਰਕ'], 'where-gym': ['gym', 'ਜਿਮ'],  'where-sahar': ['shehar', 'ਸ਼ਹਿਰ']
   };
   const nounCases = {
     'what-pani': ['pāṇī', 'ਪਾਣੀ', 'pāṇī', 'ਪਾਣੀ'], 'what-cah': ['cāh', 'ਚਾਹ', 'cāh', 'ਚਾਹ'],
@@ -735,5 +700,5 @@
   }
   function destinationEnglish(item) { const meaning = String(item.e || '').replace(/^(at|in|on) /, ''); return meaning === 'home' || ['outside', 'inside', 'here', 'there', 'nearby'].includes(meaning) ? meaning : 'to ' + nounEnglish({...item,e:meaning},true); }
   function originEnglish(item) { const meaning=String(item.e || '').replace(/^(at|in|on) /, '');return meaning==='home'?meaning:nounEnglish({...item,e:meaning},true); }
-  return { version: 2, enrichVerb, profileForEntry, profileMetadata: profileDataset && profileDataset.metadata, reference: REFERENCE, concepts, templates, metadataFor, dependenciesFor, conjugate, nounPhrase, compatible, validateSentenceContext, morphologyFor, verbRulesFor, generate, isHumanSubject: human, isStructuredTemplate: template => !!newById[template && template.id], lexicalId };
+  return { version: 2, enrichVerb, profileForEntry, profileMetadata: null, reference: REFERENCE, concepts, templates, metadataFor, dependenciesFor, conjugate, nounPhrase, compatible, validateSentenceContext, morphologyFor, verbRulesFor, generate, isHumanSubject: human, isStructuredTemplate: template => !!newById[template && template.id], lexicalId };
 });
