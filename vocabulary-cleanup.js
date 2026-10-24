@@ -103,5 +103,13 @@
     // behaviour (including primary-lemma guards for extended noun senses).
     return before.ok===after.ok&&before.senseId===after.senseId&&before.contextualMeaning===after.contextualMeaning?value:null;
   }
-  return Object.freeze({version:policy.version,policy,norm,meaning,concept,stable,lexicalKey,definitionKeys,morphology,morphologyCompatible,protectedEntry,utility,plan,identityKeys,bindingKey,compatibleBindings,bindingScore,label});
+  function reviewedLabel(e,value){
+    const edit=policy.learnerReview?.labels[e.id];if(!edit||protectedEntry(e))return value;
+    if(norm(value)===norm(edit.from))return edit.to;
+    // Only the exact annotations explicitly approved for this lexical record
+    // may be omitted. Dictionary senses and other words' parentheses survive.
+    let display=String(value||'');for(const annotation of edit.annotations)display=display.split(annotation).join('');
+    return norm(display).replace(/\s+([,;])/g,'$1');
+  }
+  return Object.freeze({version:policy.version,policy,norm,meaning,concept,stable,lexicalKey,definitionKeys,morphology,morphologyCompatible,protectedEntry,utility,plan,identityKeys,bindingKey,compatibleBindings,bindingScore,label,reviewedLabel});
 });
