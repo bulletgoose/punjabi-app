@@ -4,12 +4,12 @@ const system = require('../linguistic-system');
 
 function starter() {
   return { schemaVersion: 6, vocab: {
-    WHAT: [{ id: 'what-kitab', p: 'kitāb', g: 'ਕਿਤਾਬ', e: 'a book', gender: 'f', number: 'sg', tags: ['readable'], enabled: false }],
+    WHAT: [{ id: 'what-kitab', p: 'kitāb', g: 'ਕਿਤਾਬ', e: 'a book', gender: 'f', number: 'sg', tags: ['writable'], enabled: false }],
     GAME_EDUCATION: [{ id: 'game-education-7', p: 'kitāb', g: 'ਕਿਤਾਬ', e: 'book', enabled: true, gameCategory: 'Education' }],
     WHERE: [],
     WHO: [{ id: 'who-main', p: 'main', g: 'ਮੈਂ', e: 'I', person: '1sg', gender: 'f', enabled: true }]
-  }, verbs: [{ id: 'v-parhna', infinitive: 'paṛhṇā', english: 'to read', root: 'paṛh', type: 'simple', forms: { '3sg': 'paṛhdā hai' },
-    gScript: { infinitive: 'ਪੜ੍ਹਨਾ', forms: { '3sg': 'ਪੜ੍ਹਦਾ ਹੈ' } }, takesTags: ['readable'], enabled: true }],
+  }, verbs: [{ id: 'v-likhna', infinitive: 'likhṇā', english: 'to write', root: 'likh', type: 'simple', forms: { '3sg': 'likhdā hai' },
+    gScript: { infinitive: 'ਲਿਖਨਾ', forms: { '3sg': 'ਲਿਖਦਾ ਹੈ' } }, takesTags: ['writable'], enabled: true }],
     templates: [{ id: 'custom-template', enabled: false }], saved: [{ id: 'saved-one', english: 'My sentence' }],
     savedWords: [{ id: 'my-word', roman: 'custom' }], customSettings: { roman: false },
     wordProgress: { 'game-education-7': { correct: 8 } }
@@ -26,26 +26,26 @@ test('legacy sources become one central store while every feature retains live r
   assert.equal(state.vocab.WHAT[0].e, 'a book');
   assert.equal(state.vocab.GAME_EDUCATION[0].e, 'book');
   assert.equal(system.get(state, 'game-education-7').gender, 'f');
-  assert.deepEqual(state.vocab.GAME_EDUCATION[0].tags, ['readable']);
+  assert.deepEqual(state.vocab.GAME_EDUCATION[0].tags, ['writable']);
   assert.equal(system.get(state, 'what-kitab').source.status, 'unreviewed');
-  assert.equal(system.get(state, 'v-parhna').partOfSpeech, 'verb');
-  assert.equal(state.verbs[0].infinitive, 'paṛhṇā');
-  assert.equal(state.verbs[0].english, 'to read');
+  assert.equal(system.get(state, 'v-likhna').partOfSpeech, 'verb');
+  assert.equal(state.verbs[0].infinitive, 'likhṇā');
+  assert.equal(state.verbs[0].english, 'to write');
 });
 
 test('persistence excludes duplicated legacy words and restores all compatibility views', () => {
   const state = starter();
   system.install(state);
   state.vocab.GAME_EDUCATION[0].p = 'edited kitāb';
-  state.verbs[0].english = 'to read carefully';
+  state.verbs[0].english = 'to write carefully';
   const saved = system.snapshot(state);
   assert.equal('vocab' in saved, false);
   assert.equal('verbs' in saved, false);
-  assert.equal(saved.linguistic.entries['lex:v-parhna'].e, 'to read carefully');
-  assert.equal('english' in saved.linguistic.entries['lex:v-parhna'], false);
+  assert.equal(saved.linguistic.entries['lex:v-likhna'].e, 'to write carefully');
+  assert.equal('english' in saved.linguistic.entries['lex:v-likhna'], false);
   const fresh = system.install(JSON.parse(JSON.stringify(saved)));
   assert.equal(fresh.vocab.WHAT[0].p, 'edited kitāb');
-  assert.equal(fresh.verbs[0].english, 'to read carefully');
+  assert.equal(fresh.verbs[0].english, 'to write carefully');
   assert.equal(fresh.vocab.WHAT[0].enabled, false);
   assert.equal(system.resolveId(fresh, 'game-education-7'), 'lex:what-kitab');
   assert.deepEqual(fresh.wordProgress, { 'game-education-7': { correct: 8 } });
@@ -94,14 +94,14 @@ test('editor push, filter assignment, splice, nested forms, enable and delete ar
   assert.equal(state.vocab.WHAT.length, 2);
   state.vocab.WHAT[1].tags.push('bringable');
   state.verbs[0].forms['3sg'] = 'user form';
-  state.verbs[0].gScript.infinitive = 'ਪੜ੍ਹਣਾ';
+  state.verbs[0].gScript.infinitive = 'ਲਿਖਣਾ';
   state.vocab.WHAT = state.vocab.WHAT.filter(row => row.id !== 'custom');
   assert.equal(state.vocab.WHAT.length, 1);
   assert.equal(system.get(state, 'custom').deleted, true);
   state.verbs.splice(0, 1);
   assert.equal(state.verbs.length, 0);
   assert.deepEqual(state.linguistic.verbIds, []);
-  assert.equal(system.get(state, 'v-parhna').deleted, true);
+  assert.equal(system.get(state, 'v-likhna').deleted, true);
   const fresh = system.install(system.snapshot(state));
   assert.equal(fresh.vocab.WHAT.length, 1);
   assert.equal(fresh.verbs.length, 0);
@@ -139,13 +139,13 @@ test('new entries are immediately discoverable in vocabulary and games; only rev
 
 test('verbs join the game store and retain edit compatibility without guessing conjugations for new verbs', () => {
   const state = system.install(starter());
-  const known = system.vocabulary(state).find(row => row.id === 'v-parhna');
-  assert.equal(known.roman, 'paṛhṇā');
-  assert.equal(known.gurmukhi, 'ਪੜ੍ਹਨਾ');
+  const known = system.vocabulary(state).find(row => row.id === 'v-likhna');
+  assert.equal(known.roman, 'likhṇā');
+  assert.equal(known.gurmukhi, 'ਲਿਖਨਾ');
   state.verbs[0].infinitive = 'new infinitive';
   state.verbs[0].english = 'new meaning';
-  assert.equal(system.get(state, 'v-parhna').p, 'new infinitive');
-  assert.equal(system.get(state, 'v-parhna').e, 'new meaning');
+  assert.equal(system.get(state, 'v-likhna').p, 'new infinitive');
+  assert.equal(system.get(state, 'v-likhna').e, 'new meaning');
   const added = system.upsert(state, { id: 'custom-verb', p: 'karṇā', g: 'ਕਰਨਾ', e: 'to do', partOfSpeech: 'verb' });
   assert.ok(system.vocabulary(state).some(row => row.vocabularyId === added.id));
   assert.equal(state.verbs.some(row => row.id === 'custom-verb'), false);
@@ -153,11 +153,11 @@ test('verbs join the game store and retain edit compatibility without guessing c
 
 test('verb spelling has one authoritative value even after nested script edits and persistence', () => {
   const state = system.install(starter());
-  state.verbs[0].gScript.infinitive = 'ਪੜ੍ਹਣਾ';
-  assert.equal(system.get(state, 'v-parhna').g, 'ਪੜ੍ਹਣਾ');
-  system.get(state, 'v-parhna').g = 'ਪੜ੍ਹਨਾ';
-  assert.equal(state.verbs[0].gScript.infinitive, 'ਪੜ੍ਹਨਾ');
-  assert.equal(system.snapshot(state).linguistic.entries['lex:v-parhna'].g, 'ਪੜ੍ਹਨਾ');
+  state.verbs[0].gScript.infinitive = 'ਲਿਖਣਾ';
+  assert.equal(system.get(state, 'v-likhna').g, 'ਲਿਖਣਾ');
+  system.get(state, 'v-likhna').g = 'ਲਿਖਨਾ';
+  assert.equal(state.verbs[0].gScript.infinitive, 'ਲਿਖਨਾ');
+  assert.equal(system.snapshot(state).linguistic.entries['lex:v-likhna'].g, 'ਲਿਖਨਾ');
 });
 
 test('authored home locative migrates to a noun plus a postposition binding and derives its surface', () => {
@@ -314,41 +314,4 @@ test('explicitly authored legacy role spelling edits retain their category while
   system.upsert(state, { id: 'what-kitab', partOfSpeech: 'adjective' });
   assert.equal(state.vocab.WHAT.some(row => row.id === 'what-kitab'), false);
   assert.ok(system.vocabulary(state).some(row => row.id === 'what-kitab'));
-});
-
-test('category learning views select the matching wood and hukam senses without changing lexical IDs or source data', () => {
-  const audit = require('../vocabulary-audit'), learning = require('../learning-context');
-  const expansion = require('../data/vocabulary-expansion').entries.filter(row => ['ਕਾਠ', 'ਹੁਕਮ'].includes(row.g));
-  const state = system.install({ vocab: {}, verbs: [] }, { expansion, audit, categories: learning.categories });
-  const ordinary = system.vocabulary(state), before = JSON.stringify(system.snapshot(state, { compact: true }));
-  const find = (category, g) => system.vocabulary(state, { senseCategoryIds: [category] }).find(row => row.gurmukhi === g);
-  const body = find('body', 'ਕਾਠ'), material = find('materials', 'ਕਾਠ');
-  assert.equal(body.english, 'physique');assert.equal(body.gender, 'm');assert.ok(body.categories.includes('body'));
-  assert.equal(material.english, 'wood');assert.equal(material.gender, 'f');assert.ok(material.categories.includes('materials'));
-  assert.equal(body.id, material.id);assert.equal(body.vocabularyId, material.vocabularyId);
-  assert.notEqual(body.displaySenseId, material.displaySenseId);assert.equal(body.selectedSenseId, body.displaySenseId);
-  const culture = find('culture', 'ਹੁਕਮ'), communication = find('communication', 'ਹੁਕਮ');
-  assert.equal(culture.english, 'spades');assert.equal(communication.english, 'order');
-  assert.notEqual(culture.displaySenseId, communication.displaySenseId);
-  assert.deepEqual(system.vocabulary(state), ordinary);
-  assert.equal(JSON.stringify(system.snapshot(state, { compact: true })), before);
-  assert.equal(system.vocabulary(state, { senseCategoryIds: ['body'] }).length, ordinary.length, 'Unmatched legacy rows keep their ordinary view.');
-});
-
-test('category learning views preserve stable-sense translation edits and manual category overrides', () => {
-  const audit = require('../vocabulary-audit'), learning = require('../learning-context');
-  const expansion = require('../data/vocabulary-expansion').entries.filter(row => row.g === 'ਕਾਠ');
-  let state = system.install({ vocab: {}, verbs: [] }, { expansion, audit, categories: learning.categories });
-  const entry = system.get(state, expansion[0].id);
-  system.upsert(state, { id: expansion[0].id, e: 'my timber meaning' });
-  assert.equal(system.vocabulary(state, { senseCategoryIds: ['materials'] })[0].english, 'my timber meaning');
-  assert.equal(system.vocabulary(state)[0].english, 'my timber meaning');
-  assert.equal(system.vocabulary(state, { senseCategoryIds: ['body'] })[0].english, 'physique', 'Editing the wood sense does not replace a separate physique sense.');
-  system.upsert(state, { id: entry.id, categories: ['body', 'my-topic'] });
-  const manual = system.vocabulary(state, { senseCategoryIds: ['body'] })[0];
-  assert.equal(manual.english, 'my timber meaning');assert.deepEqual(manual.categories, ['body', 'my-topic']);
-  assert.equal(manual.displaySenseId, undefined, 'Manual category assignment does not authorize another dictionary sense.');
-  state = system.install(system.snapshot(state, { compact: true }), { expansion, audit, categories: learning.categories });
-  const restored = system.vocabulary(state, { senseCategoryIds: ['body'] })[0];
-  assert.equal(restored.english, 'my timber meaning');assert.deepEqual(restored.categories, ['body', 'my-topic']);
 });

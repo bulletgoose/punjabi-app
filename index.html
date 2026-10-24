@@ -473,25 +473,16 @@
 </div>
 
 <script src="./firebase-config.js?v=7"></script>
-<script src="./speech-client.js?v=10"></script>
-<script src="./game-vocabulary.js?v=1"></script>
-<script src="./data/sentence-semantic-parameters.js?v=1"></script>
+<script src="./data/vocabulary-catalog.js?v=1"></script>
+<script src="./catalog-state.js?v=1"></script>
+<script src="./storage-cleanup.js?v=1"></script>
+<script src="./speech-client.js?v=11"></script>
+<script src="./data/sentence-semantic-parameters.js?v=2"></script>
 <script src="./lexical-semantics.js?v=2"></script>
-<script src="./learning-context.js?v=3"></script>
-<script src="./data/vocabulary-cleanup-policy.js?v=2"></script>
-<script src="./vocabulary-cleanup.js?v=2"></script>
-<script src="./linguistic-system.js?v=5"></script>
-<script src="./data/verb-morphology-profiles.js?v=1"></script>
-<script src="./grammar-engine.js?v=3"></script>
-<script src="./data/source-evidence.js?v=1"></script>
-<script src="./data/authored-category-baselines.js?v=1"></script>
-<script src="./vocabulary-audit.js?v=2"></script>
-<script src="./data/sentence-catalog-policy.js?v=1"></script>
+<script src="./learning-context.js?v=4"></script>
+<script src="./linguistic-system.js?v=6"></script>
+<script src="./grammar-engine.js?v=4"></script>
 <script src="./sentence-learning.js?v=1"></script>
-<script src="./vendor/lz-string-1.5.0/lz-string.js"></script>
-<script src="./catalog-backup.js?v=1"></script>
-<script src="./data/vocabulary-expansion.js?v=1"></script>
-<script src="./data/grammar-ready-vocabulary.js?v=1"></script>
 <script src="./vendor/ts-fsrs-5.4.2/index.umd.js"></script>
 <script src="./fsrs-memory.js?v=1"></script>
 <script type="module">import('./firebase-auth.js').catch(function(){window.PunjabiCloudAuthLoadError=true;window.dispatchEvent(new CustomEvent('punjabi-auth-load-error'));});</script>
@@ -499,538 +490,22 @@
 (function(){
   "use strict";
 
-  const grammarReady=new Map((window.PUNJABI_GRAMMAR_READY_VOCABULARY||[]).map(row=>[row.id,row]));
-  const bundledVocabulary=(window.PUNJABI_VOCABULARY_EXPANSION||[]).map(row=>grammarReady.has(row.id)?Object.assign({},row,grammarReady.get(row.id),{quality:Object.assign({},row.quality,{grammarEligible:true})}):row);
-
   /* ---------------- Default data ---------------- */
-  function defaultData(){
-    const data = {
-      vocab: {
-        WHO: [
-          {id:'who-main', p:'main', e:'I', person:'1sg', enabled:true},
-          {id:'who-tusi', p:'tusī̃', e:'you', person:'2pl', enabled:true},
-          {id:'who-oh', p:'oh', e:'he/she', person:'3sg', enabled:true},
-          {id:'who-asi', p:'asī̃', e:'we', person:'1pl', enabled:true},
-          {id:'who-dost', p:'merā dost', e:'my friend', person:'3sg', enabled:true},
-          {id:'who-parivar', p:'merā parivār', e:'my family', person:'3sg', enabled:true}
-        ],
-        WHEN: [
-          {id:'when-ajj', p:'ajj', e:'today', enabled:true},
-          {id:'when-kal', p:'kal', e:'yesterday/tomorrow', enabled:true},
-          {id:'when-hun', p:'hun', e:'now', enabled:true},
-          {id:'when-harroz', p:'har roz', e:'every day', enabled:true},
-          {id:'when-aksar', p:'aksar', e:'often', enabled:true}
-        ],
-        WHERE: [
-          {id:'where-ghar', p:'ghar vich', e:'at home', enabled:true},
-          {id:'where-dafter', p:'dafter vich', e:'in the office', enabled:true},
-          {id:'where-auckland', p:'Auckland vich', e:'in Auckland', enabled:true},
-          {id:'where-bazar', p:'bazār vich', e:'in the market', enabled:true}
-        ],
-        WHAT: [
-          {id:'what-punjabi', p:'Punjabi', e:'Punjabi', tags:['learnable'], enabled:true},
-          {id:'what-pani', p:'pāṇī', e:'water', tags:['drinkable'], enabled:true},
-          {id:'what-cah', p:'cāh', e:'tea', tags:['drinkable'], enabled:true},
-          {id:'what-kam', p:'kam', e:'work', tags:['doable'], enabled:true},
-          {id:'what-kitab', p:'kitāb', e:'a book', tags:['readable'], enabled:true}
-        ],
-        HOW: [
-          {id:'how-bahut', p:'bahut', e:'a lot', enabled:true},
-          {id:'how-thora', p:'thoṛā', e:'a little', enabled:true},
-          {id:'how-bahutzyada', p:'bahut zyādā', e:'much more', enabled:true},
-          {id:'how-changi', p:'changī tarā̃', e:'well', enabled:true},
-          {id:'how-hauli', p:'hauli-hauli', e:'slowly', enabled:true}
-        ],
-        WHY: [
-          {id:'why-kiuki', p:'kiũki', e:'because', enabled:true},
-          {id:'why-iskarke', p:'is karke', e:'because of this / therefore', enabled:true},
-          {id:'why-islai', p:'is laī', e:'for this reason', enabled:true}
-        ],
-        ABOUT: [
-          {id:'about-ai', p:'AI bāre', e:'about AI', enabled:true},
-          {id:'about-punjabi', p:'Punjabi bāre', e:'about Punjabi', enabled:true},
-          {id:'about-kam', p:'tuhāḍe kam bāre', e:'about your work', enabled:true}
-        ],
-        QUESTION: [
-          {id:'q-ki', p:'kī', e:'what', enabled:true},
-          {id:'q-kithe', p:'kithē', e:'where', enabled:true},
-          {id:'q-kado', p:'kadō̃', e:'when', enabled:true},
-          {id:'q-kive', p:'kivẽ', e:'how', enabled:true},
-          {id:'q-kiu', p:'kiũ', e:'why', enabled:true},
-          {id:'q-kaun', p:'kaun', e:'who', enabled:true}
-        ],
-        CONNECTOR: [
-          {id:'c-ate', p:'ate', e:'and', enabled:true},
-          {id:'c-par', p:'par', e:'but', enabled:true},
-          {id:'c-tanjo', p:'tā̃ jo', e:'so that', enabled:true},
-          {id:'c-je', p:'je', e:'if', enabled:true},
-          {id:'c-jado', p:'jadō̃', e:'when', enabled:true},
-          {id:'c-phir', p:'phir', e:'then', enabled:true},
-          {id:'c-lekin', p:'lekin', e:'however', enabled:true}
-        ]
-      },
-      verbs: [
-        {id:'v-sikhna', infinitive:'sikhṇā', english:'to learn', base:'learn', prefix:'', type:'simple', isModalComplement:true, takesTag:'learnable', forms:{'1sg':'sikhdā hā̃','2pl':'sikhde ho','3sg':'sikhdā hai','1pl':'sikhde hāṃ'}, enabled:true},
-        {id:'v-samajhna', infinitive:'samajhṇā', english:'to understand', base:'understand', prefix:'', type:'simple', isModalComplement:true, takesTag:'learnable', forms:{'1sg':'samajhdā hā̃','2pl':'samajhde ho','3sg':'samajhdā hai','1pl':'samajhde hāṃ'}, enabled:true},
-        {id:'v-gallkarna', infinitive:'gall karṇā', english:'to talk', base:'talk with you', prefix:'gall', type:'simple', isModalComplement:true, takesTag:'', forms:{'1sg':'kardā hā̃','2pl':'karde ho','3sg':'kardā hai','1pl':'karde hāṃ'}, enabled:true},
-        {id:'v-kamkarna', infinitive:'kam karṇā', english:'to work', base:'work', prefix:'kam', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'kardā hā̃','2pl':'karde ho','3sg':'kardā hai','1pl':'karde hāṃ'}, enabled:true},
-        {id:'v-khana', infinitive:'khāṇā', english:'to eat', base:'eat', prefix:'', type:'simple', isModalComplement:true, takesTag:'edible', forms:{'1sg':'khāndā hā̃','2pl':'khānde ho','3sg':'khāndā hai','1pl':'khānde hāṃ'}, enabled:true},
-        {id:'v-pina', infinitive:'pīṇā', english:'to drink', base:'drink', prefix:'', type:'simple', isModalComplement:true, takesTag:'drinkable', forms:{'1sg':'pīndā hā̃','2pl':'pīnde ho','3sg':'pīndā hai','1pl':'pīnde hāṃ'}, enabled:true},
-        {id:'v-jana', infinitive:'jāṇā', english:'to go', base:'go', prefix:'', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'jāndā hā̃','2pl':'jānde ho','3sg':'jāndā hai','1pl':'jānde hāṃ'}, enabled:true},
-        {id:'v-auna', infinitive:'āuṇā', english:'to come', base:'come', prefix:'', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'āũdā hā̃','2pl':'āũde ho','3sg':'āũdā hai','1pl':'āũde hāṃ'}, enabled:true},
-        {id:'v-sochna', infinitive:'sochṇā', english:'to think', base:'think', prefix:'', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'sochdā hā̃','2pl':'sochde ho','3sg':'sochdā hai','1pl':'sochde hāṃ'}, enabled:true},
-        {id:'v-parhna', infinitive:'paṛhṇā', english:'to read', base:'read', prefix:'', type:'simple', isModalComplement:true, takesTag:'readable', forms:{'1sg':'paṛhdā hā̃','2pl':'paṛhde ho','3sg':'paṛhdā hai','1pl':'paṛhde hāṃ'}, enabled:true},
-        {id:'v-chahuna', infinitive:'chāhuṇā', english:'to want', base:'want', prefix:'', type:'modal', isModalComplement:false, takesTag:'', forms:{'1sg':'chāhũdā hā̃','2pl':'chāhũde ho','3sg':'chāhũdā hai','1pl':'chāhũde hāṃ'}, enabled:true},
-        {id:'v-karna', infinitive:'karṇā', english:'to do/make', base:'do', prefix:'', type:'simple', isModalComplement:true, takesTag:'doable', forms:{'1sg':'kardā hā̃','2pl':'karde ho','3sg':'kardā hai','1pl':'karde hāṃ'}, enabled:true},
-        {id:'v-dena', infinitive:'deṇā', english:'to give', base:'give', prefix:'', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'dindā hā̃','2pl':'dinde ho','3sg':'dindā hai','1pl':'dinde hāṃ'}, enabled:true},
-        {id:'v-laina', infinitive:'laiṇā', english:'to take', base:'take', prefix:'', type:'simple', isModalComplement:false, takesTag:'', forms:{'1sg':'laindā hā̃','2pl':'lainde ho','3sg':'laindā hai','1pl':'lainde hāṃ'}, enabled:true}
-      ],
-      templates: [
-        {id:'T1', name:'Simple action', difficulty:1, probability:15, enabled:true, slots:[{t:'WHO'},{t:'VERB', mode:'simple'}]},
-        {id:'T2', name:'Wants to do something', difficulty:2, probability:20, enabled:true, slots:[{t:'WHO'},{t:'WHAT'},{t:'VERB', mode:'modal'}]},
-        {id:'T3', name:'Simple action with time', difficulty:3, probability:15, enabled:true, slots:[{t:'WHO'},{t:'WHEN'},{t:'VERB', mode:'simple'}]},
-        {id:'T4', name:'Wants to, with place', difficulty:4, probability:20, enabled:true, slots:[{t:'WHO'},{t:'WHERE'},{t:'WHAT'},{t:'VERB', mode:'modal'}]},
-        {id:'T5', name:'Wants to, with time and place', difficulty:5, probability:15, enabled:true, slots:[{t:'WHO'},{t:'WHEN'},{t:'WHERE'},{t:'WHAT'},{t:'VERB', mode:'modal'}]},
-        {id:'T6', name:'Because clause', difficulty:6, probability:10, enabled:true, slots:[{t:'WHO'},{t:'WHAT'},{t:'VERB', mode:'modal'},{t:'WHY'},{t:'WHO'},{t:'VERB', mode:'modal', noObject:true}]},
-        {id:'T7', name:'Detailed plan', difficulty:6, probability:5, enabled:true, slots:[{t:'WHO'},{t:'WHEN'},{t:'WHERE'},{t:'WHAT'},{t:'HOW'},{t:'VERB', mode:'modal'}]}
-      ],
-      saved: [],
-      schemaVersion: 3
-    };
-    return enrichData(data);
-  }
-
-  function enrichData(data){
-    function addMany(category, items){
-      if(!data.vocab[category]) data.vocab[category] = [];
-      const ids = {};
-      data.vocab[category].forEach(function(x){ ids[x.id] = true; });
-      items.forEach(function(x){ if(!ids[x.id]) data.vocab[category].push(x); });
-    }
-    function who(id,p,e,person,gender,number,dative,withPossession){
-      return {id:id,p:p,e:e,person:person,gender:gender||'m',number:number||'sg',dative:dative,withPossession:withPossession,enabled:true};
-    }
-    function word(id,p,e,extra){ return Object.assign({id:id,p:p,e:e,enabled:true},extra||{}); }
-    function makeVerb(id,infinitive,english,base,root,habitSg,habitPl,tags,imperative,extra){
-      return Object.assign({
-        id:id, infinitive:infinitive, english:english, base:base, root:root,
-        type:'simple', prefix:'', isModalComplement:!!(tags&&tags.length),
-        takesTag:(tags&&tags[0])||'', takesTags:tags||[], imperative:imperative||root,
-        forms:{'1sg':habitSg+' hā̃','2sg':habitSg+' haĩ','2pl':habitPl+' ho','3sg':habitSg+' hai','1pl':habitPl+' hā̃','3pl':habitPl+' han'},
-        enabled:true
-      },extra||{});
-    }
-
-    addMany('WHO', [
-      who('who-tu','tū̃','you (informal)','2sg','m','sg','tainū̃','tere kol'),
-      who('who-ohlok','oh lok','they','3pl','m','pl','ohnā̃ nū̃','ohnā̃ kol'),
-      who('who-koi','koī','someone','3sg','m','sg','kisē nū̃','kisē kol'),
-      who('who-harkoi','har koī','everyone','3sg','m','sg','har kisē nū̃','har kisē kol'),
-      who('who-lok','lok','people','3pl','m','pl','lokā̃ nū̃','lokā̃ kol'),
-      who('who-bhai','merā bhāī','my brother','3sg','m','sg','mere bhāī nū̃','mere bhāī kol'),
-      who('who-bhain','merī bhaiṇ','my sister','3sg','f','sg','merī bhaiṇ nū̃','merī bhaiṇ kol'),
-      who('who-ma','merī mā̃','my mother','3sg','f','sg','merī mā̃ nū̃','merī mā̃ kol'),
-      who('who-pio','mere piō','my father','3sg','m','sg','mere piō nū̃','mere piō kol'),
-      who('who-mape','mere mā̃-piō','my parents','3pl','m','pl','mere mā̃-piō nū̃','mere mā̃-piō kol'),
-      who('who-bacce','bacce','the children','3pl','m','pl','bacciā̃ nū̃','bacciā̃ kol'),
-      who('who-sathi','merā sāthī','my partner','3sg','m','sg','mere sāthī nū̃','mere sāthī kol')
-    ]);
-    const whoDefaults = {
-      'who-main':{gender:'m',number:'sg',dative:'mainū̃',withPossession:'mere kol'},
-      'who-tusi':{gender:'m',number:'pl',dative:'tuhānū̃',withPossession:'tuhāḍe kol'},
-      'who-oh':{gender:'m',number:'sg',dative:'ohnū̃',withPossession:'ohde kol'},
-      'who-asi':{gender:'m',number:'pl',dative:'sānū̃',withPossession:'sāḍe kol'},
-      'who-dost':{gender:'m',number:'sg',dative:'mere dost nū̃',withPossession:'mere dost kol'},
-      'who-parivar':{gender:'m',number:'sg',dative:'mere parivār nū̃',withPossession:'mere parivār kol'}
-    };
-    data.vocab.WHO.forEach(function(x){ Object.assign(x,whoDefaults[x.id]||{}); });
-
-    addMany('WHEN', [
-      word('when-hune','huṇe','right now',{time:'present'}), word('when-savere','savere','in the morning',{time:'any'}),
-      word('when-dupahir','dupahir nū̃','in the afternoon',{time:'any'}), word('when-sham','shām nū̃','in the evening',{time:'any'}),
-      word('when-raat','rāt nū̃','at night',{time:'any'}), word('when-ajraat','ajj rāt','tonight',{time:'future'}),
-      word('when-kalsavere','kal savere','tomorrow morning',{time:'future'}), word('when-isweek','is hafte','this week',{time:'any'}),
-      word('when-aglaweek','agle hafte','next week',{time:'future'}), word('when-weekend','haftē de ant te','at the weekend',{time:'future'}),
-      word('when-hamesha','hameshā','always',{time:'habit'}), word('when-kadekade','kade-kade','sometimes',{time:'habit'}),
-      word('when-aamtaur','ām taur te','usually',{time:'habit'}), word('when-pehla','pehlā̃','earlier',{time:'past'}),
-      word('when-baad','bāad vich','later',{time:'future'}), word('when-jaldi','jaldi','soon',{time:'future'}),
-      word('when-samete','samẽ te','on time',{time:'any'}), word('when-pichleweek','pichle hafte','last week',{time:'past'})
-    ]);
-    data.vocab.WHEN.forEach(function(x){
-      if(x.id==='when-kal')x.time='relative';
-      else if(x.id==='when-ajj')x.time='present';
-      else if(!x.time)x.time = x.id==='when-harroz'||x.id==='when-aksar'?'habit':(x.id==='when-hun'?'present':'any');
-    });
-
-    addMany('WHERE', [
-      word('where-kam','kam te','at work',{dest:'kam te'}), word('where-school','school vich','at school',{dest:'school'}),
-      word('where-college','college vich','at university',{dest:'college'}), word('where-dukan','dukān vich','in the shop',{dest:'dukān te'}),
-      word('where-restaurant','restaurant vich','in the restaurant',{dest:'restaurant'}), word('where-cafe','café vich','in the café',{dest:'café'}),
-      word('where-hospital','haspatāl vich','in the hospital',{dest:'haspatāl'}), word('where-station','station te','at the station',{dest:'station te'}),
-      word('where-airport','airport te','at the airport',{dest:'airport te'}), word('where-car','gaḍḍī vich','in the car',{dest:'gaḍḍī val'}),
-      word('where-bus','bus vich','on the bus',{dest:'bus val'}), word('where-park','park vich','in the park',{dest:'park'}),
-      word('where-gym','gym vich','at the gym',{dest:'gym'}), word('where-kitchen','rasoī vich','in the kitchen',{dest:'rasoī vich'}),
-      word('where-room','kamre vich','in the room',{dest:'kamre vich'}), word('where-bahar','bāhar','outside',{dest:'bāhar'}),
-      word('where-andar','andar','inside',{dest:'andar'}), word('where-ithe','ithe','here',{dest:'ithe'}),
-      word('where-uthe','uthe','there',{dest:'uthe'}), word('where-nerhe','neṛe','nearby',{dest:'neṛe'}),
-      word('where-punjab','Punjab vich','in Punjab',{dest:'Punjab'}), word('where-sahar','shehar vich','in the city',{dest:'shehar'}),
-      word('where-dostghar','dost de ghar','at a friend’s house',{dest:'dost de ghar'})
-    ]);
-    const destDefaults={'where-ghar':'ghar','where-dafter':'dafter','where-auckland':'Auckland','where-bazar':'bazār'};
-    data.vocab.WHERE.forEach(function(x){ if(!x.dest) x.dest=destDefaults[x.id]||x.p; });
-
-    addMany('WHAT', [
-      word('what-roti','roṭī','flatbread',{tags:['edible','cookable'],gender:'f'}), word('what-khana','khāṇā','food',{tags:['edible','cookable','needable'],gender:'m'}),
-      word('what-phal','phal','fruit',{tags:['edible','buyable'],gender:'m'}), word('what-sabzi','sabzī','vegetables',{tags:['edible','buyable','cookable'],gender:'f',englishNumber:'pl'}),
-      word('what-nashta','nāshtā','breakfast',{tags:['edible','cookable'],gender:'m'}), word('what-dudh','dudh','milk',{tags:['drinkable','buyable'],gender:'m'}),
-      word('what-coffee','kāfī','coffee',{tags:['drinkable','buyable'],gender:'f'}), word('what-juice','jūs','juice',{tags:['drinkable','buyable'],gender:'m'}),
-      word('what-khabra','khabrā̃','the news',{tags:['readable','watchable','listenable'],gender:'f',number:'pl',englishNumber:'sg'}),
-      word('what-message','sunehā','a message',{tags:['readable','writable','sendable'],gender:'m'}), word('what-email','email','an email',{tags:['readable','writable','sendable'],gender:'f'}),
-      word('what-film','film','a film',{tags:['watchable'],gender:'f'}), word('what-tv','TV','television',{tags:['watchable'],gender:'m'}),
-      word('what-video','video','a video',{tags:['watchable','sendable'],gender:'m'}), word('what-match','match','the match',{tags:['watchable'],gender:'m'}),
-      word('what-gana','gāṇā','a song',{tags:['listenable'],gender:'m'}), word('what-podcast','podcast','a podcast',{tags:['listenable'],gender:'m'}),
-      word('what-kapre','kapṛe','clothes',{tags:['buyable','washable'],gender:'m',number:'pl'}), word('what-davai','davāī','medicine',{tags:['buyable','needable','bringable'],gender:'f'}),
-      word('what-ticket','ṭikaṭ','a ticket',{tags:['buyable','needable','bringable'],gender:'f'}), word('what-tohfa','tohfā','a gift',{tags:['buyable','giveable','bringable'],gender:'m'}),
-      word('what-gharkam','ghar dā kam','housework',{tags:['doable'],gender:'m'}), word('what-exercise','kasrat','exercise',{tags:['doable'],gender:'f'}),
-      word('what-practice','abhiās','some practice',{tags:['doable'],gender:'m'}), word('what-english','angrezī','English',{tags:['learnable','speakable','understandable'],gender:'f'}),
-      word('what-newthing','navī̃ cīz','something new',{tags:['learnable','understandable'],gender:'f'}), word('what-gall','gall','the point',{tags:['understandable'],gender:'f'}),
-      word('what-sawal','savāl','the question',{tags:['understandable','answerable'],gender:'m'}), word('what-samassia','samassiā','the problem',{tags:['understandable','solvable'],gender:'f'}),
-      word('what-photo','photo','a photo',{tags:['sendable'],gender:'f'}), word('what-madad','madad','help',{tags:['needable','giveable'],gender:'f'}),
-      word('what-jawab','javāb','an answer',{tags:['giveable','writable'],gender:'m'}), word('what-chabian','cābīā̃','the keys',{tags:['findable','bringable'],gender:'f',number:'pl'}),
-      word('what-phone','fon','a phone',{tags:['findable','buyable','bringable'],gender:'m'}), word('what-darwaza','darvāzā','the door',{tags:['openable','closable'],gender:'m'}),
-      word('what-khidki','khiṛkī','the window',{tags:['openable','closable'],gender:'f'}), word('what-paisa','paise','money',{tags:['needable','bringable'],gender:'m',number:'pl'})
-    ]);
-    const whatDefaults={
-      'what-punjabi':{tags:['learnable','speakable','understandable'],gender:'f'}, 'what-pani':{tags:['drinkable','needable','bringable','giveable'],gender:'m'},
-      'what-cah':{tags:['drinkable','buyable','bringable','giveable'],gender:'f'}, 'what-kam':{tags:['doable'],gender:'m'},
-      'what-kitab':{tags:['readable','buyable','bringable','giveable'],gender:'f'}
-    };
-    data.vocab.WHAT.forEach(function(x){ Object.assign(x,whatDefaults[x.id]||{}); if(!x.gender)x.gender='m'; if(!x.number)x.number='sg'; });
-    const possessableIds=['what-pani','what-cah','what-kitab','what-roti','what-khana','what-phal','what-sabzi','what-dudh','what-coffee','what-juice','what-kapre','what-davai','what-ticket','what-tohfa','what-photo','what-chabian','what-phone','what-paisa'];
-    data.vocab.WHAT.forEach(function(x){ if(possessableIds.indexOf(x.id)!==-1 && x.tags.indexOf('possessable')===-1)x.tags.push('possessable'); });
-    const likeableIds=['what-punjabi','what-cah','what-kitab','what-roti','what-khana','what-phal','what-sabzi','what-nashta','what-dudh','what-coffee','what-juice','what-film','what-tv','what-video','what-match','what-gana','what-podcast','what-kapre','what-english','what-photo'];
-    data.vocab.WHAT.forEach(function(x){ if(likeableIds.indexOf(x.id)!==-1 && x.tags.indexOf('likeable')===-1)x.tags.push('likeable'); });
-
-    addMany('HOW', [
-      word('how-dhiyan','dhiyān nāl','carefully'), word('how-ikathe','ikaṭṭhe','together'), word('how-ikalle','ikallē','alone'),
-      word('how-online','online','online'), word('how-asani','āsānī nāl','easily'), word('how-mushkil','mushkil nāl','with difficulty'),
-      word('how-khushi','khushī nāl','happily'), word('how-dubara','dubārā','again'), word('how-saf','sāf taur te','clearly'),
-      word('how-chup','chup-cāp','quietly'), word('how-sidhe','siddhe taur te','directly'), word('how-phone','fon te','by phone')
-    ]);
-    addMany('WHY', [
-      word('why-important','kiũki eh zarūrī hai','because it is important'), word('why-time','kiũki samā̃ ghatt hai','because there is little time'),
-      word('why-weather','kiũki mausam changā hai','because the weather is good'), word('why-holiday','kiũki ajj chhuṭṭī hai','because today is a holiday'),
-      word('why-easy','kiũki eh saukhā hai','because it is easy'), word('why-useful','kiũki eh faidemand hai','because it is useful'),
-      word('why-late','kiũki der ho rahī hai','because it is getting late'), word('why-needed','kiũki is dī lōṛ hai','because it is needed')
-    ]);
-    data.vocab.WHY.forEach(function(x){ if(['why-kiuki','why-iskarke','why-islai'].indexOf(x.id)!==-1)x.enabled=false; });
-    addMany('ABOUT', [
-      word('about-family','parivār bāre','about family'), word('about-work','kam bāre','about work'), word('about-weather','mausam bāre','about the weather'),
-      word('about-travel','safar bāre','about travel'), word('about-food','khāṇe bāre','about food'), word('about-health','sehat bāre','about health'),
-      word('about-money','paisē bāre','about money'), word('about-plan','yojanā bāre','about the plan'), word('about-problem','samassiā bāre','about the problem'),
-      word('about-news','khabrā̃ bāre','about the news'), word('about-movie','film bāre','about the film'), word('about-study','paṛhāī bāre','about studying')
-    ]);
-    const questionExtras=[
-      word('q-kehra','kehṛā','which',{role:'which'}), word('q-kinna','kinnā','how much',{role:'amount'}), word('q-kinne','kinne','how many',{role:'count'}),
-      word('q-kisnu','kis nū̃','whom',{role:'personObject'}), word('q-kisda','kis dā','whose',{role:'possessive'}), word('q-kihor','hor kī','what else',{role:'thing'}),
-      word('q-kinnichir','kinnā cir','how long',{role:'duration'}), word('q-kiniduur','kinnī dūr','how far',{role:'distance'})
-    ];
-    addMany('QUESTION',questionExtras);
-    const qRoles={'q-ki':'thing','q-kithe':'place','q-kado':'time','q-kive':'manner','q-kiu':'reason','q-kaun':'person'};
-    data.vocab.QUESTION.forEach(function(x){ if(!x.role)x.role=qRoles[x.id]||'thing'; });
-    addMany('CONNECTOR', [
-      word('c-ja','jā̃','or',{role:'alternative'}), word('c-kiuki','kiũki','because',{role:'reason'}), word('c-iskarke','is karke','so / therefore',{role:'result'}),
-      word('c-bhave','bhāvē̃','although',{role:'contrast'}), word('c-vi','vī','also',{role:'addition'}), word('c-pehla','pehlā̃','first',{role:'sequence'}),
-      word('c-usbaad','us tō̃ bāad','after that',{role:'sequence'}), word('c-akhir','ākhar vich','finally',{role:'sequence'})
-    ]);
-
-    addMany('STATE', [
-      word('state-fine','ṭhīk','fine',{forms:{m:'ṭhīk',f:'ṭhīk',pl:'ṭhīk'}}), word('state-happy','khush','happy',{forms:{m:'khush',f:'khush',pl:'khush'}}),
-      word('state-busy','rujhiā','busy',{forms:{m:'rujhiā',f:'rujhī',pl:'rujhe'}}), word('state-tired','thakkiā','tired',{forms:{m:'thakkiā',f:'thakkī',pl:'thakke'}}),
-      word('state-ready','tiār','ready',{forms:{m:'tiār',f:'tiār',pl:'tiār'}}), word('state-hungry','bhukkhā','hungry',{forms:{m:'bhukkhā',f:'bhukkhī',pl:'bhukkhe'}}),
-      word('state-thirsty','piāsā','thirsty',{forms:{m:'piāsā',f:'piāsī',pl:'piāse'}}), word('state-sick','bimār','sick',{forms:{m:'bimār',f:'bimār',pl:'bimār'}}),
-      word('state-free','vehlā','free',{forms:{m:'vehlā',f:'vehlī',pl:'vehle'}}), word('state-late','late','late',{forms:{m:'late',f:'late',pl:'late'}}),
-      word('state-sure','pakkā','sure',{forms:{m:'pakkā',f:'pakkī',pl:'pakke'}}), word('state-worried','fikarmand','worried',{forms:{m:'fikarmand',f:'fikarmand',pl:'fikarmand'}})
-    ]);
-
-    const newVerbs = [
-      makeVerb('v-vekna','vekhṇā','to watch/see','watch','vekh','vekhdā','vekhde',['watchable'],'vekho'),
-      makeVerb('v-sunna','suṇṇā','to listen','listen to','suṇ','suṇdā','suṇde',['listenable'],'suṇo'),
-      makeVerb('v-kharidna','kharīdṇā','to buy','buy','kharīd','kharīddā','kharīdde',['buyable'],'kharīdo'),
-      makeVerb('v-pakauna','pakāuṇā','to cook','cook','pakā','pakāũdā','pakāũde',['cookable'],'pakāo'),
-      makeVerb('v-likhna','likhṇā','to write','write','likh','likhdā','likhde',['writable'],'likho'),
-      makeVerb('v-bhejna','bhejṇā','to send','send','bhej','bhejdā','bhejde',['sendable'],'bhejo'),
-      makeVerb('v-liauna','liāuṇā','to bring','bring','liā','liāũdā','liāũde',['bringable'],'liāo'),
-      makeVerb('v-labhna','labhṇā','to find','find','labh','labhdā','labhde',['findable'],'labho'),
-      makeVerb('v-kholna','kholṇā','to open','open','khol','kholdā','kholde',['openable'],'kholo'),
-      makeVerb('v-bandkarna','band karṇā','to close','close','band kar','band kardā','band karde',['closable'],'band karo'),
-      makeVerb('v-halna','hall karṇā','to solve','solve','hall kar','hall kardā','hall karde',['solvable'],'hall karo'),
-      makeVerb('v-jawabdena','javāb deṇā','to answer','answer','javāb de','javāb dindā','javāb dinde',['answerable'],'javāb deo'),
-      makeVerb('v-bolna','bolṇā','to speak','speak','bol','boldā','bolde',['speakable'],'bolo'),
-      makeVerb('v-sona','sauṇā','to sleep','sleep','sau','saundā','saunde',[],'sau jāo'),
-      makeVerb('v-uthna','uṭhṇā','to get up','get up','uṭh','uṭhdā','uṭhde',[],'uṭho'),
-      makeVerb('v-baithna','baiṭhṇā','to sit','sit','baiṭh','baiṭhdā','baiṭhde',[],'baiṭho'),
-      makeVerb('v-hasna','hasṇā','to laugh','laugh','has','hasdā','hasde',[],'haso'),
-      makeVerb('v-khedna','kheḍṇā','to play','play','kheḍ','kheḍdā','kheḍde',[],'kheḍo'),
-      makeVerb('v-intazar','intazār karṇā','to wait','wait','intazār kar','intazār kardā','intazār karde',[],'intazār karo'),
-      makeVerb('v-sair','sair karṇā','to go for a walk','go for a walk','sair kar','sair kardā','sair karde',[],'sair karo'),
-      makeVerb('v-drive','gaḍḍī calāuṇā','to drive','drive','gaḍḍī calā','gaḍḍī calāũdā','gaḍḍī calāũde',[],'gaḍḍī calāo'),
-      makeVerb('v-phone','fon karṇā','to call','call','fon kar','fon kardā','fon karde',[],'fon karo')
-    ];
-    const verbIds={}; data.verbs.forEach(function(v){verbIds[v.id]=true;}); newVerbs.forEach(function(v){if(!verbIds[v.id])data.verbs.push(v);});
-    const grammar = {
-      'v-sikhna':{root:'sikh',imperative:'sikho',takesTags:['learnable']}, 'v-samajhna':{root:'samajh',imperative:'samjho',takesTags:['understandable']},
-      'v-gallkarna':{root:'gall kar',imperative:'gall karo',takesTags:[]}, 'v-kamkarna':{root:'kam kar',imperative:'kam karo',takesTags:[]},
-      'v-khana':{root:'khā',imperative:'khāo',takesTags:['edible']}, 'v-pina':{root:'pī',imperative:'pīo',takesTags:['drinkable']},
-      'v-jana':{root:'jā',imperative:'jāo',takesTags:[]}, 'v-auna':{root:'ā',imperative:'āo',takesTags:[]},
-      'v-sochna':{root:'soch',imperative:'socho',takesTags:[]}, 'v-parhna':{root:'paṛh',imperative:'paṛho',takesTags:['readable']},
-      'v-chahuna':{root:'chāh',imperative:'',takesTags:[]}, 'v-karna':{root:'kar',imperative:'karo',takesTags:['doable']},
-      'v-dena':{root:'de',imperative:'deo',takesTags:['giveable']}, 'v-laina':{root:'lai',imperative:'lao',takesTags:[]}
-    };
-    data.verbs.forEach(function(v){
-      const g=grammar[v.id]||{}; Object.keys(g).forEach(function(k){v[k]=g[k];});
-      if(!v.root)v.root=v.infinitive.replace(/ṇā$/,'');
-      if(!v.takesTags)v.takesTags=v.takesTag?[v.takesTag]:[];
-      if(!v.forms['2sg'])v.forms['2sg']=(v.forms['3sg']||'').replace(/ hai$/,' haĩ');
-      if(!v.forms['3pl'])v.forms['3pl']=(v.forms['2pl']||'').replace(/ ho$/,' han');
-    });
-
-    const patterns = [
-      ['P01','Everyday action','Present routines',1,8,'habitObject','WHO + WHAT + VERB'],
-      ['P02','Everyday action (no object)','Present routines',1,7,'habitBare','WHO + VERB'],
-      ['P03','Action with time and place','Present routines',2,6,'habitDetailed','WHO + WHEN + WHERE + WHAT + VERB'],
-      ['P04','Negative routine','Negatives',2,5,'habitNegative','WHO + WHAT + NOT + VERB'],
-      ['P05','Yes/no routine question','Questions',2,5,'habitQuestion','KĪ + WHO + WHAT + VERB?'],
-      ['P06','Doing something now','Present progressive',2,8,'progressObject','WHO + WHAT + VERB-ing'],
-      ['P07','Current action (no object)','Present progressive',2,6,'progressBare','WHO + VERB-ing'],
-      ['P08','Not doing it now','Negatives',3,4,'progressNegative','WHO + WHAT + NOT + VERB-ing'],
-      ['P09','What are you doing?','Questions',1,7,'whatDoing','WHO + WHAT? + VERB-ing'],
-      ['P10','Where are you going?','Questions',1,6,'whereGoing','WHO + WHERE? + GOING'],
-      ['P11','When are you coming?','Questions',1,5,'whenComing','WHO + WHEN? + COMING'],
-      ['P12','Why are you doing it?','Questions',2,5,'whyDoing','WHO + WHY? + DOING'],
-      ['P13','How do you do it?','Questions',2,4,'howDoing','WHO + HOW? + DO'],
-      ['P14','Want to do something','Wants and plans',2,8,'wantObject','WHO + WHAT + ACTION + WANT'],
-      ['P15','Do not want to','Wants and plans',3,4,'wantNegative','WHO + WHAT + ACTION + NOT WANT'],
-      ['P16','Want to go somewhere','Wants and plans',2,6,'wantGo','WHO + DESTINATION + GO + WANT'],
-      ['P17','Can do something','Ability',2,7,'canObject','WHO + WHAT + ACTION + CAN'],
-      ['P18','Cannot do something','Ability',3,5,'cannotObject','WHO + WHAT + ACTION + CANNOT'],
-      ['P19','Can you…?','Requests',2,8,'canYou','KĪ + TUSĪ̃ + WHAT + ACTION + CAN?'],
-      ['P20','Polite request','Requests',2,7,'politeRequest','PLEASE + WHAT + IMPERATIVE'],
-      ['P21','Need to do something','Needs and duties',3,6,'needTo','WHO-DATIVE + WHAT + ACTION + NEED'],
-      ['P22','Should do something','Advice',3,5,'shouldDo','WHO-DATIVE + WHAT + ACTION + SHOULD'],
-      ['P23','Likes something','Preferences',1,7,'likes','WHO-DATIVE + WHAT + LIKES'],
-      ['P24','Does not like something','Preferences',2,4,'dislikes','WHO-DATIVE + WHAT + NOT LIKE'],
-      ['P25','Has something','Possession',1,7,'hasObject','WHO + HAS + WHAT'],
-      ['P26','Does not have something','Possession',2,5,'hasNegative','WHO + DOES NOT HAVE + WHAT'],
-      ['P27','Do you have…?','Questions',1,7,'haveQuestion','KĪ + WHO + HAS + WHAT?'],
-      ['P28','Current state or feeling','States',1,8,'state','WHO + STATE'],
-      ['P29','Negative state','States',2,4,'stateNegative','WHO + NOT + STATE'],
-      ['P30','Are you…?','Questions',1,6,'stateQuestion','KĪ + WHO + STATE?'],
-      ['P31','There is something somewhere','Existence',2,6,'thereIs','WHERE + WHAT + EXISTS'],
-      ['P32','There is nothing there','Existence',2,4,'thereIsNot','WHERE + WHAT + DOES NOT EXIST'],
-      ['P33','Going to do something','Future plans',3,7,'plannedFuture','WHO + FUTURE TIME + WHAT + GOING TO ACTION'],
-      ['P34','Talk about a topic','Conversation',2,6,'talkAbout','WHO + ABOUT + TALKS'],
-      ['P35','Ask about a topic','Conversation',3,5,'askAbout','WHO + ABOUT + WANTS TO TALK'],
-      ['P36','Action with a reason','Reasons',3,6,'because','CLAUSE + BECAUSE + REASON'],
-      ['P37','Two linked actions','Connectors',4,5,'andActions','ACTION + AND + ACTION'],
-      ['P38','Contrast: but','Connectors',4,4,'butContrast','CLAUSE + BUT + NEGATIVE CLAUSE'],
-      ['P39','If…then…','Conditions',5,4,'conditional','IF + CONDITION + THEN + PLAN'],
-      ['P40','Choice: this or that?','Choices',2,5,'choiceQuestion','WHAT + OR + WHAT?'],
-      ['P41','Which one do you want?','Questions',2,5,'whichWant','WHICH + WHAT + WANT?'],
-      ['P42','How much / how many?','Questions',2,5,'amountQuestion','HOW MUCH/MANY + WHAT?'],
-      ['P43','Was in a state','Past conversation',2,5,'pastState','WHO + PAST TIME + STATE + WAS'],
-      ['P44','Was doing something','Past conversation',3,6,'pastProgressObject','WHO + PAST TIME + WHAT + WAS DOING'],
-      ['P45','Used to do something','Past conversation',3,5,'pastHabit','WHO + WHEN + WHAT + USED TO DO'],
-      ['P46','Went somewhere','Past conversation',2,6,'pastWent','WHO + PAST TIME + DESTINATION + WENT']
-    ].map(function(p){return {id:p[0],name:p[1],family:p[2],difficulty:p[3],probability:p[4],pattern:p[5],description:p[6],enabled:true,slots:[]};});
-    data.templates.forEach(function(t){ if(/^T[1-7]$/.test(t.id))t.enabled=false; });
-    const tplIds={};data.templates.forEach(function(t){tplIds[t.id]=true;});patterns.forEach(function(t){if(!tplIds[t.id])data.templates.push(t);});
-    return data;
-  }
-
+  const keptCatalog=window.PUNJABI_VOCABULARY_CATALOG;
+  function defaultData(){return window.PunjabiCatalogState.restore({},keptCatalog);}
   /* ---------------- State load/save ---------------- */
-  const STORAGE_KEY = 'punjabi-app-state-v1';
-  let state = null;
+  const STORAGE_KEY='punjabi-app-state-v1';
+  let previousState=null;
+  try{previousState=JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(error){}
+  let state=window.PunjabiCatalogState.restore(previousState,keptCatalog);
   try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(raw){ state = JSON.parse(raw); }
-  }catch(e){ console.warn('Could not read saved data, starting fresh.', e); }
-  // Keep a recoverable pre-migration copy before any older repair writes.
-  let linguisticMigrationAllowed=true;
-  if(state&&!state.linguistic){
-    try{
-      if(!localStorage.getItem('punjabi-app-state-before-linguistic-v1'))
-        localStorage.setItem('punjabi-app-state-before-linguistic-v1',JSON.stringify(state));
-    }catch(error){linguisticMigrationAllowed=false;console.warn('Migration backup unavailable; using the existing library for this session.',error);}
-  }
-  if(state&&state.linguistic&&(state.linguistic.schemaVersion||1)<2){
-    try{
-      if(!localStorage.getItem('punjabi-app-state-before-linguistic-v2'))
-        localStorage.setItem('punjabi-app-state-before-linguistic-v2',JSON.stringify(state));
-    }catch(error){linguisticMigrationAllowed=false;console.warn('Vocabulary audit backup unavailable; changes cannot be persisted this session.',error);}
-  }
-  if(state&&state.linguistic)window.PunjabiLinguisticSystem.install(state,{categories:window.PunjabiLearningContext.categories,expansion:bundledVocabulary});
-  if(!state || !state.vocab || !state.verbs || !state.templates){ state = defaultData(); }
-  if(!state.saved){ state.saved = []; }
-
-  // One-time, non-destructive repair for the original starter data. Existing
-  // custom words stay intact; only the known starter rows that caused bad
-  // pairings are corrected.
-  if((state.schemaVersion || 1) < 2){
-    const book = state.vocab.WHAT.find(function(x){ return x.id === 'what-kitab'; });
-    if(book) book.tags = (book.tags || []).filter(function(tag){ return tag !== 'learnable'; });
-    const work = state.vocab.WHAT.find(function(x){ return x.id === 'what-kam'; });
-    if(work && (work.tags || []).length === 0) work.tags = ['doable'];
-    const doVerb = state.verbs.find(function(x){ return x.id === 'v-karna'; });
-    if(doVerb){ doVerb.isModalComplement = true; doVerb.takesTag = 'doable'; }
-    const oldDetailed = state.templates.find(function(x){ return x.id === 'T7'; });
-    if(oldDetailed){
-      oldDetailed.name = 'Detailed plan';
-      oldDetailed.difficulty = 6;
-      oldDetailed.slots = [{t:'WHO'},{t:'WHEN'},{t:'WHERE'},{t:'WHAT'},{t:'HOW'},{t:'VERB', mode:'modal'}];
-    }
-    state.schemaVersion = 2;
-    save();
-  }
-
-  if((state.schemaVersion || 1) < 3){
-    const expanded = defaultData();
-    Object.keys(expanded.vocab).forEach(function(category){
-      if(!state.vocab[category]) state.vocab[category] = [];
-      const existing = {};
-      state.vocab[category].forEach(function(x){ existing[x.id] = x; });
-      expanded.vocab[category].forEach(function(source){
-        const target = existing[source.id];
-        if(!target){
-          state.vocab[category].push(source);
-          return;
-        }
-        Object.keys(source).forEach(function(key){
-          if(typeof target[key] === 'undefined') target[key] = source[key];
-        });
-        if(category === 'WHAT' && source.tags){
-          target.tags = Array.from(new Set((target.tags || []).concat(source.tags)));
-        }
-      });
-    });
-    ['why-kiuki','why-iskarke','why-islai'].forEach(function(id){
-      const oldReason=state.vocab.WHY.find(function(x){return x.id===id;});
-      if(oldReason)oldReason.enabled=false;
-    });
-    const existingVerbs = {};
-    state.verbs.forEach(function(v){ existingVerbs[v.id] = v; });
-    expanded.verbs.forEach(function(source){
-      const target = existingVerbs[source.id];
-      if(!target){ state.verbs.push(source); return; }
-      ['root','imperative','takesTags'].forEach(function(key){ if(typeof target[key] === 'undefined') target[key] = source[key]; });
-      target.forms = Object.assign({},source.forms,target.forms||{});
-    });
-    const existingTemplates = {};
-    state.templates.forEach(function(t){ existingTemplates[t.id] = true; if(/^T[1-7]$/.test(t.id)) t.enabled = false; });
-    expanded.templates.forEach(function(t){ if(!existingTemplates[t.id] && t.pattern) state.templates.push(t); });
-    state.schemaVersion = 3;
-    save();
-  }
-
-  // Extend the user's existing library by ID. Numbers are deliberately game
-  // vocabulary: sentence templates have no number agreement rule yet.
-  if((state.schemaVersion || 1) < 4){
-    const additions={
-      NUMBER:[
-        ['zero','sifar','ਸਿਫ਼ਰ','zero'],['one','ikk','ਇੱਕ','one'],['two','do','ਦੋ','two'],['three','tinn','ਤਿੰਨ','three'],
-        ['four','cār','ਚਾਰ','four'],['five','pañj','ਪੰਜ','five'],['six','chhe','ਛੇ','six'],['seven','satt','ਸੱਤ','seven'],
-        ['eight','aṭṭh','ਅੱਠ','eight'],['nine','naũ','ਨੌਂ','nine'],['ten','das','ਦਸ','ten'],['eleven','giārā','ਗਿਆਰਾਂ','eleven'],
-        ['twelve','bārā','ਬਾਰਾਂ','twelve'],['thirteen','terā','ਤੇਰਾਂ','thirteen'],['fourteen','caudā','ਚੌਦਾਂ','fourteen'],
-        ['fifteen','pandarā','ਪੰਦਰਾਂ','fifteen'],['sixteen','solā','ਸੋਲਾਂ','sixteen'],['seventeen','satārā','ਸਤਾਰਾਂ','seventeen'],
-        ['eighteen','aṭhārā','ਅਠਾਰਾਂ','eighteen'],['nineteen','unnī','ਉੱਨੀ','nineteen'],['twenty','vīh','ਵੀਹ','twenty']
-      ].map(([id,p,g,e])=>({id:'number-'+id,p,g,e,enabled:true,gameCategory:'Numbers'})),
-      WHAT:[
-        ['dog','kuttā','ਕੁੱਤਾ','a dog','m'],['cat','billī','ਬਿੱਲੀ','a cat','f'],['bird','pakkhī','ਪੰਛੀ','a bird','m'],
-        ['horse','ghoṛā','ਘੋੜਾ','a horse','m'],['cow','gā̃','ਗਾਂ','a cow','f'],['buffalo','majjh','ਮੱਝ','a buffalo','f'],
-        ['goat','bakkarī','ਬੱਕਰੀ','a goat','f'],['elephant','hāthī','ਹਾਥੀ','an elephant','m'],['lion','sher','ਸ਼ੇਰ','a lion','m'],
-        ['fish','machhī','ਮੱਛੀ','a fish','f'],['rabbit','khargosh','ਖਰਗੋਸ਼','a rabbit','m'],['monkey','bandar','ਬਾਂਦਰ','a monkey','m']
-      ].map(([id,p,g,e,gender])=>({id:'what-animal-'+id,p,g,e,gender,number:'sg',tags:['likeable','findable'],enabled:true,gameCategory:'Animals'})),
-      WHEN:[
-        ['monday','somvār nū̃','ਸੋਮਵਾਰ ਨੂੰ','on Monday'],['tuesday','maṅgalvār nū̃','ਮੰਗਲਵਾਰ ਨੂੰ','on Tuesday'],
-        ['wednesday','budhvār nū̃','ਬੁੱਧਵਾਰ ਨੂੰ','on Wednesday'],['thursday','vīrvār nū̃','ਵੀਰਵਾਰ ਨੂੰ','on Thursday'],
-        ['friday','shukkarvār nū̃','ਸ਼ੁੱਕਰਵਾਰ ਨੂੰ','on Friday'],['saturday','shanīvār nū̃','ਸ਼ਨੀਵਾਰ ਨੂੰ','on Saturday'],
-        ['sunday','aitvār nū̃','ਐਤਵਾਰ ਨੂੰ','on Sunday'],['noon','dupahirē','ਦੁਪਹਿਰੇ','at noon'],
-        ['midnight','addhī rāt nū̃','ਅੱਧੀ ਰਾਤ ਨੂੰ','at midnight'],['dawn','saver-sār','ਸਵੇਰ-ਸਾਰ','at dawn']
-      ].map(([id,p,g,e])=>({id:'when-extra-'+id,p,g,e,time:'any',enabled:true,gameCategory:'Time'})),
-      HOW:[
-        ['kindly','piār nāl','ਪਿਆਰ ਨਾਲ','kindly'],['angrily','gusse nāl','ਗੁੱਸੇ ਨਾਲ','angrily'],
-        ['gently','narmī nāl','ਨਰਮੀ ਨਾਲ','gently'],['loudly','zor nāl','ਜ਼ੋਰ ਨਾਲ','loudly'],
-        ['softly','hōlē nāl','ਹੌਲੇ ਨਾਲ','softly'],['patiently','dhīraj nāl','ਧੀਰਜ ਨਾਲ','patiently'],
-        ['respectfully','izzat nāl','ਇੱਜ਼ਤ ਨਾਲ','respectfully'],['confidently','vishvās nāl','ਵਿਸ਼ਵਾਸ ਨਾਲ','confidently'],
-        ['enthusiastically','utsāh nāl','ਉਤਸ਼ਾਹ ਨਾਲ','enthusiastically'],['jokingly','mazāk nāl','ਮਜ਼ਾਕ ਨਾਲ','jokingly']
-      ].map(([id,p,g,e])=>({id:'how-tone-'+id,p,g,e,enabled:true,gameCategory:'Tone & manner'})),
-      ADJECTIVE:[
-        ['clean','sāf','ਸਾਫ਼','clean','sāf|sāf|sāf|sāf','ਸਾਫ਼|ਸਾਫ਼|ਸਾਫ਼|ਸਾਫ਼'],
-        ['hot','garam','ਗਰਮ','hot','garam|garam|garam|garam','ਗਰਮ|ਗਰਮ|ਗਰਮ|ਗਰਮ'],
-        ['cold','ṭhaṇḍā','ਠੰਢਾ','cold','ṭhaṇḍā|ṭhaṇḍī|ṭhaṇḍe|ṭhaṇḍīā̃','ਠੰਢਾ|ਠੰਢੀ|ਠੰਢੇ|ਠੰਢੀਆਂ'],
-        ['big','vaḍḍā','ਵੱਡਾ','big','vaḍḍā|vaḍḍī|vaḍḍe|vaḍḍīā̃','ਵੱਡਾ|ਵੱਡੀ|ਵੱਡੇ|ਵੱਡੀਆਂ'],
-        ['small','choṭā','ਛੋਟਾ','small','choṭā|choṭī|choṭe|choṭīā̃','ਛੋਟਾ|ਛੋਟੀ|ਛੋਟੇ|ਛੋਟੀਆਂ'],
-        ['sweet','miṭhā','ਮਿੱਠਾ','sweet','miṭhā|miṭhī|miṭhe|miṭhīā̃','ਮਿੱਠਾ|ਮਿੱਠੀ|ਮਿੱਠੇ|ਮਿੱਠੀਆਂ'],
-        ['fast','tez','ਤੇਜ਼','fast','tez|tez|tez|tez','ਤੇਜ਼|ਤੇਜ਼|ਤੇਜ਼|ਤੇਜ਼'],
-        ['difficult','aukhā','ਔਖਾ','difficult','aukhā|aukhī|aukhe|aukhīā̃','ਔਖਾ|ਔਖੀ|ਔਖੇ|ਔਖੀਆਂ'],
-        ['easy','saukhā','ਸੌਖਾ','easy','saukhā|saukhī|saukhe|saukhīā̃','ਸੌਖਾ|ਸੌਖੀ|ਸੌਖੇ|ਸੌਖੀਆਂ'],
-        ['beautiful','sohṇā','ਸੋਹਣਾ','beautiful','sohṇā|sohṇī|sohṇe|sohṇīā̃','ਸੋਹਣਾ|ਸੋਹਣੀ|ਸੋਹਣੇ|ਸੋਹਣੀਆਂ'],
-        ['expensive','mahiṅgā','ਮਹਿੰਗਾ','expensive','mahiṅgā|mahiṅgī|mahiṅge|mahiṅgīā̃','ਮਹਿੰਗਾ|ਮਹਿੰਗੀ|ਮਹਿੰਗੇ|ਮਹਿੰਗੀਆਂ'],
-        ['cheap','sastā','ਸਸਤਾ','cheap','sastā|sastī|saste|sastīā̃','ਸਸਤਾ|ਸਸਤੀ|ਸਸਤੇ|ਸਸਤੀਆਂ']
-      ].map(([id,p,g,e,romanForms,gurmukhiForms])=>{
-        const toForms=value=>{const [m,f,pl,fpl]=value.split('|');return {m,f,pl,fpl};};
-        return {id:'state-extra-'+id,p,g,e,forms:toForms(romanForms),gScript:{forms:toForms(gurmukhiForms)},enabled:true,gameCategory:'Adjectives'};
-      })
-    };
-    Object.keys(additions).forEach(category=>{
-      if(!state.vocab[category])state.vocab[category]=[];
-      const known=new Set(state.vocab[category].map(item=>item.id));
-      additions[category].forEach(item=>{if(!known.has(item.id))state.vocab[category].push(item);});
-    });
-    state.schemaVersion=4;
-    save();
-  }
-  // Move adjectives out of the state template for anyone who opened an early
-  // local preview. Those templates describe people, not arbitrary objects.
-  if((state.schemaVersion || 1) < 5){
-    if(!state.vocab.ADJECTIVE)state.vocab.ADJECTIVE=[];
-    const known=new Set(state.vocab.ADJECTIVE.map(item=>item.id));
-    const moved=(state.vocab.STATE||[]).filter(item=>/^state-extra-/.test(item.id));
-    moved.forEach(item=>{if(!known.has(item.id))state.vocab.ADJECTIVE.push(item);});
-    state.vocab.STATE=(state.vocab.STATE||[]).filter(item=>!/^state-extra-/.test(item.id));
-    state.schemaVersion=5;
-    save();
-  }
-  // These nouns stay out of sentence templates until their grammar and
-  // semantic compatibility have been authored. IDs are stable by row order.
-  if((state.schemaVersion || 1) < 6 && window.PUNJABI_GAME_VOCAB){
-    const labels={VEGETABLES:'Vegetables',FRUITS:'Fruits',SPICES:'Spices',EDUCATION:'Education',CLOTHES:'Clothes',BODY:'Parts of the body',NATURE:'Nature',EVERYDAY:'Everyday items'};
-    Object.keys(labels).forEach(key=>{
-      const category='GAME_'+key;
-      if(!state.vocab[category])state.vocab[category]=[];
-      const known=new Set(state.vocab[category].map(item=>item.id));
-      (window.PUNJABI_GAME_VOCAB[key]||[]).forEach(([p,g,e],index)=>{
-        const id='game-'+key.toLowerCase()+'-'+(index+1);
-        if(!known.has(id))state.vocab[category].push({id,p,g,e,enabled:true,gameCategory:labels[key]});
-      });
-    });
-    state.schemaVersion=6;
-    save();
-  }
-  ['VEGETABLES','FRUITS','SPICES','EDUCATION','CLOTHES','BODY','NATURE','EVERYDAY'].forEach(key=>{if(!state.vocab['GAME_'+key])state.vocab['GAME_'+key]=[];});
-  if(!Array.isArray(state.savedWords))state.savedWords=[];
-
-  function save(){
-    if(state.linguistic)window.PunjabiLinguisticSystem.sync(state);
-    if(state.linguistic&&!linguisticMigrationAllowed)return;
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state.linguistic?window.PunjabiLinguisticSystem.snapshot(state,{compact:true}):state)); }
-    catch(e){ console.warn('Could not save data.', e); }
-  }
-
-  const CATEGORY_LABELS = {LEXICON:'Dictionary words',WHO:'Who', WHEN:'When', WHERE:'Where', WHAT:'What', HOW:'How', WHY:'Reasons', ABOUT:'About', QUESTION:'Question words', CONNECTOR:'Connectors', STATE:'States & feelings', WORD:'Word practice',ADJECTIVE:'Adjectives', NUMBER:'Numbers', GAME_VEGETABLES:'Vegetables (word game)',GAME_FRUITS:'Fruits (word game)',GAME_SPICES:'Spices (word game)',GAME_EDUCATION:'Education (word game)',GAME_CLOTHES:'Clothes (word game)',GAME_BODY:'Parts of the body (word game)',GAME_NATURE:'Nature (word game)',GAME_EVERYDAY:'Everyday items (word game)'};
-  const CATEGORY_ORDER = ['WHO','WHEN','WHERE','WHAT','HOW','WHY','ABOUT','QUESTION','CONNECTOR','STATE','ADJECTIVE','NUMBER','WORD'];
-
-  function uid(prefix){ return prefix + '-' + Math.random().toString(36).slice(2,9); }
+    window.PunjabiStorageCleanup.cleanStorage(localStorage,keptCatalog,window.PunjabiCatalogState);
+    window.PunjabiStorageReady=window.PunjabiStorageCleanup.run(window,localStorage,keptCatalog);
+  }catch(error){window.PunjabiStorageReady=Promise.reject(error);}
+  window.PunjabiStorageReady.catch(error=>console.warn('Device cleanup needs attention:',error.message));
+  window.PunjabiLinguisticSystem.install(state,{catalog:keptCatalog,categories:window.PunjabiLearningContext.categories,grammar:window.PunjabiGrammarEngine});
+  function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(window.PunjabiLinguisticSystem.snapshot(state,{compact:true})));}catch(error){console.warn('Could not save Punjabi library.',error);}}
+  save();
 
   /* ---------------- Generation engine ---------------- */
   function enabledOf(list){ return list.filter(function(x){ return x.enabled; }); }
@@ -1592,7 +1067,7 @@
         add('Question',L('kehṛī cīz'),'QUESTION');who2=whoPool.find(function(x){return x.id==='who-tusi';});if(!who2)return null;verb=byId('v-chahuna');
         return result([subjectPart(who2),phrase(L('kehṛī cīz'),'which thing','QUESTION'),phrase(habitual(verb,who2),'do you want','VERB','agreeing form of “want” in a question')],'which thing do you want',true);
       case 'amountQuestion':
-        item=pickRandom(whatPool.filter(function(x){return ['what-pani','what-dudh','what-coffee','what-juice','what-paisa'].indexOf(x.id)!==-1;}));if(!item)return null;add('Question',item.number==='pl'?L('kinne'):L('kinnā'),'QUESTION');add('What',item.p,'WHAT',item.id);
+        item=pickRandom(whatPool.filter(function(x){return ['what-pani','what-dudh','what-juice','what-paisa'].indexOf(x.id)!==-1;}));if(!item)return null;add('Question',item.number==='pl'?L('kinne'):L('kinnā'),'QUESTION');add('What',item.p,'WHAT',item.id);
         const amountWord=item.number==='pl'?(item.gender==='f'?L('kinnīā̃'):L('kinne')):(item.gender==='f'?L('kinnī'):L('kinnā'));
         return result([phrase(L('tuhānū̃'),'to you','WHO','dative experiencer'),phrase(amountWord,item.number==='pl'?'how many':'how much','QUESTION','agrees with the noun'),objectPart(item.p,item),phrase(chahida(item),'do you need','VERB','need construction; agrees with the noun')],(englishExistenceIs(item)?'how much ':'how many ')+bareEnglishObject(item)+' do you need',true);
       case 'pastState':
@@ -2452,38 +1927,6 @@
 
   /* Script data are authored lexemes and grammatical forms, never a transliterator.
      IDs join the scripts. Existing edits and enabled flags are retained. */
-  const gurmukhiSeeds = {
-    WHO:'ਮੈਂ|ਤੁਸੀਂ|ਉਹ|ਅਸੀਂ|ਮੇਰਾ ਦੋਸਤ|ਮੇਰਾ ਪਰਿਵਾਰ|ਤੂੰ|ਉਹ ਲੋਕ|ਕੋਈ|ਹਰ ਕੋਈ|ਲੋਕ|ਮੇਰਾ ਭਾਈ|ਮੇਰੀ ਭੈਣ|ਮੇਰੀ ਮਾਂ|ਮੇਰੇ ਪਿਓ|ਮੇਰੇ ਮਾਂ-ਪਿਓ|ਬੱਚੇ|ਮੇਰਾ ਸਾਥੀ',
-    WHEN:'ਅੱਜ|ਕੱਲ੍ਹ|ਹੁਣ|ਹਰ ਰੋਜ਼|ਅਕਸਰ|ਹੁਣੇ|ਸਵੇਰੇ|ਦੁਪਹਿਰ ਨੂੰ|ਸ਼ਾਮ ਨੂੰ|ਰਾਤ ਨੂੰ|ਅੱਜ ਰਾਤ|ਕੱਲ੍ਹ ਸਵੇਰੇ|ਇਸ ਹਫ਼ਤੇ|ਅਗਲੇ ਹਫ਼ਤੇ|ਹਫ਼ਤੇ ਦੇ ਅੰਤ ਤੇ|ਹਮੇਸ਼ਾ|ਕਦੇ-ਕਦੇ|ਆਮ ਤੌਰ ਤੇ|ਪਹਿਲਾਂ|ਬਾਅਦ ਵਿੱਚ|ਜਲਦੀ|ਸਮੇਂ ਤੇ|ਪਿਛਲੇ ਹਫ਼ਤੇ',
-    WHERE:'ਘਰ ਵਿੱਚ|ਦਫ਼ਤਰ ਵਿੱਚ|ਆਕਲੈਂਡ ਵਿੱਚ|ਬਾਜ਼ਾਰ ਵਿੱਚ|ਕੰਮ ਤੇ|ਸਕੂਲ ਵਿੱਚ|ਕਾਲਜ ਵਿੱਚ|ਦੁਕਾਨ ਵਿੱਚ|ਰੈਸਟੋਰੈਂਟ ਵਿੱਚ|ਕੈਫ਼ੇ ਵਿੱਚ|ਹਸਪਤਾਲ ਵਿੱਚ|ਸਟੇਸ਼ਨ ਤੇ|ਏਅਰਪੋਰਟ ਤੇ|ਗੱਡੀ ਵਿੱਚ|ਬੱਸ ਵਿੱਚ|ਪਾਰਕ ਵਿੱਚ|ਜਿਮ ਵਿੱਚ|ਰਸੋਈ ਵਿੱਚ|ਕਮਰੇ ਵਿੱਚ|ਬਾਹਰ|ਅੰਦਰ|ਇੱਥੇ|ਉੱਥੇ|ਨੇੜੇ|ਪੰਜਾਬ ਵਿੱਚ|ਸ਼ਹਿਰ ਵਿੱਚ|ਦੋਸਤ ਦੇ ਘਰ',
-    WHAT:'ਪੰਜਾਬੀ|ਪਾਣੀ|ਚਾਹ|ਕੰਮ|ਕਿਤਾਬ|ਰੋਟੀ|ਖਾਣਾ|ਫਲ|ਸਬਜ਼ੀ|ਨਾਸ਼ਤਾ|ਦੁੱਧ|ਕੌਫ਼ੀ|ਜੂਸ|ਖ਼ਬਰਾਂ|ਸੁਨੇਹਾ|ਈਮੇਲ|ਫ਼ਿਲਮ|ਟੀਵੀ|ਵੀਡੀਓ|ਮੈਚ|ਗਾਣਾ|ਪੌਡਕਾਸਟ|ਕੱਪੜੇ|ਦਵਾਈ|ਟਿਕਟ|ਤੋਹਫ਼ਾ|ਘਰ ਦਾ ਕੰਮ|ਕਸਰਤ|ਅਭਿਆਸ|ਅੰਗਰੇਜ਼ੀ|ਨਵੀਂ ਚੀਜ਼|ਗੱਲ|ਸਵਾਲ|ਸਮੱਸਿਆ|ਫ਼ੋਟੋ|ਮਦਦ|ਜਵਾਬ|ਚਾਬੀਆਂ|ਫ਼ੋਨ|ਦਰਵਾਜ਼ਾ|ਖਿੜਕੀ|ਪੈਸੇ',
-    HOW:'ਬਹੁਤ|ਥੋੜ੍ਹਾ|ਬਹੁਤ ਜ਼ਿਆਦਾ|ਚੰਗੀ ਤਰ੍ਹਾਂ|ਹੌਲੀ-ਹੌਲੀ|ਧਿਆਨ ਨਾਲ|ਇਕੱਠੇ|ਇਕੱਲੇ|ਆਨਲਾਈਨ|ਆਸਾਨੀ ਨਾਲ|ਮੁਸ਼ਕਲ ਨਾਲ|ਖ਼ੁਸ਼ੀ ਨਾਲ|ਦੁਬਾਰਾ|ਸਾਫ਼ ਤੌਰ ਤੇ|ਚੁੱਪ-ਚਾਪ|ਸਿੱਧੇ ਤੌਰ ਤੇ|ਫ਼ੋਨ ਤੇ',
-    WHY:'ਕਿਉਂਕਿ|ਇਸ ਕਰਕੇ|ਇਸ ਲਈ|ਕਿਉਂਕਿ ਇਹ ਜ਼ਰੂਰੀ ਹੈ|ਕਿਉਂਕਿ ਸਮਾਂ ਘੱਟ ਹੈ|ਕਿਉਂਕਿ ਮੌਸਮ ਚੰਗਾ ਹੈ|ਕਿਉਂਕਿ ਅੱਜ ਛੁੱਟੀ ਹੈ|ਕਿਉਂਕਿ ਇਹ ਸੌਖਾ ਹੈ|ਕਿਉਂਕਿ ਇਹ ਫ਼ਾਇਦੇਮੰਦ ਹੈ|ਕਿਉਂਕਿ ਦੇਰ ਹੋ ਰਹੀ ਹੈ|ਕਿਉਂਕਿ ਇਸ ਦੀ ਲੋੜ ਹੈ',
-    ABOUT:'ਏਆਈ ਬਾਰੇ|ਪੰਜਾਬੀ ਬਾਰੇ|ਤੁਹਾਡੇ ਕੰਮ ਬਾਰੇ|ਪਰਿਵਾਰ ਬਾਰੇ|ਕੰਮ ਬਾਰੇ|ਮੌਸਮ ਬਾਰੇ|ਸਫ਼ਰ ਬਾਰੇ|ਖਾਣੇ ਬਾਰੇ|ਸਿਹਤ ਬਾਰੇ|ਪੈਸੇ ਬਾਰੇ|ਯੋਜਨਾ ਬਾਰੇ|ਸਮੱਸਿਆ ਬਾਰੇ|ਖ਼ਬਰਾਂ ਬਾਰੇ|ਫ਼ਿਲਮ ਬਾਰੇ|ਪੜ੍ਹਾਈ ਬਾਰੇ',
-    QUESTION:'ਕੀ|ਕਿੱਥੇ|ਕਦੋਂ|ਕਿਵੇਂ|ਕਿਉਂ|ਕੌਣ|ਕਿਹੜਾ|ਕਿੰਨਾ|ਕਿੰਨੇ|ਕਿਸ ਨੂੰ|ਕਿਸ ਦਾ|ਹੋਰ ਕੀ|ਕਿੰਨਾ ਚਿਰ|ਕਿੰਨੀ ਦੂਰ',
-    CONNECTOR:'ਅਤੇ|ਪਰ|ਤਾਂ ਜੋ|ਜੇ|ਜਦੋਂ|ਫਿਰ|ਲੇਕਿਨ|ਜਾਂ|ਕਿਉਂਕਿ|ਇਸ ਕਰਕੇ|ਭਾਵੇਂ|ਵੀ|ਪਹਿਲਾਂ|ਉਸ ਤੋਂ ਬਾਅਦ|ਆਖ਼ਰ ਵਿੱਚ',
-    STATE:'ਠੀਕ|ਖ਼ੁਸ਼|ਰੁੱਝਿਆ|ਥੱਕਿਆ|ਤਿਆਰ|ਭੁੱਖਾ|ਪਿਆਸਾ|ਬਿਮਾਰ|ਵੇਹਲਾ|ਲੇਟ|ਪੱਕਾ|ਫ਼ਿਕਰਮੰਦ'
-  };
-  const subjectG = [
-    ['ਮੈਨੂੰ','ਮੇਰੇ ਕੋਲ'],['ਤੁਹਾਨੂੰ','ਤੁਹਾਡੇ ਕੋਲ'],['ਉਹਨੂੰ','ਉਹਦੇ ਕੋਲ'],['ਸਾਨੂੰ','ਸਾਡੇ ਕੋਲ'],['ਮੇਰੇ ਦੋਸਤ ਨੂੰ','ਮੇਰੇ ਦੋਸਤ ਕੋਲ'],['ਮੇਰੇ ਪਰਿਵਾਰ ਨੂੰ','ਮੇਰੇ ਪਰਿਵਾਰ ਕੋਲ'],
-    ['ਤੈਨੂੰ','ਤੇਰੇ ਕੋਲ'],['ਉਹਨਾਂ ਨੂੰ','ਉਹਨਾਂ ਕੋਲ'],['ਕਿਸੇ ਨੂੰ','ਕਿਸੇ ਕੋਲ'],['ਹਰ ਕਿਸੇ ਨੂੰ','ਹਰ ਕਿਸੇ ਕੋਲ'],['ਲੋਕਾਂ ਨੂੰ','ਲੋਕਾਂ ਕੋਲ'],['ਮੇਰੇ ਭਾਈ ਨੂੰ','ਮੇਰੇ ਭਾਈ ਕੋਲ'],['ਮੇਰੀ ਭੈਣ ਨੂੰ','ਮੇਰੀ ਭੈਣ ਕੋਲ'],['ਮੇਰੀ ਮਾਂ ਨੂੰ','ਮੇਰੀ ਮਾਂ ਕੋਲ'],['ਮੇਰੇ ਪਿਓ ਨੂੰ','ਮੇਰੇ ਪਿਓ ਕੋਲ'],['ਮੇਰੇ ਮਾਂ-ਪਿਓ ਨੂੰ','ਮੇਰੇ ਮਾਂ-ਪਿਓ ਕੋਲ'],['ਬੱਚਿਆਂ ਨੂੰ','ਬੱਚਿਆਂ ਕੋਲ'],['ਮੇਰੇ ਸਾਥੀ ਨੂੰ','ਮੇਰੇ ਸਾਥੀ ਕੋਲ']
-  ];
-  const destinationG='ਘਰ|ਦਫ਼ਤਰ|ਆਕਲੈਂਡ|ਬਾਜ਼ਾਰ|ਕੰਮ ਤੇ|ਸਕੂਲ|ਕਾਲਜ|ਦੁਕਾਨ ਤੇ|ਰੈਸਟੋਰੈਂਟ|ਕੈਫ਼ੇ|ਹਸਪਤਾਲ|ਸਟੇਸ਼ਨ ਤੇ|ਏਅਰਪੋਰਟ ਤੇ|ਗੱਡੀ ਵੱਲ|ਬੱਸ ਵੱਲ|ਪਾਰਕ|ਜਿਮ|ਰਸੋਈ ਵਿੱਚ|ਕਮਰੇ ਵਿੱਚ|ਬਾਹਰ|ਅੰਦਰ|ਇੱਥੇ|ਉੱਥੇ|ਨੇੜੇ|ਪੰਜਾਬ|ਸ਼ਹਿਰ|ਦੋਸਤ ਦੇ ਘਰ'.split('|');
-  const stateVariantsG=['ਠੀਕ|ਠੀਕ|ਠੀਕ|ਠੀਕ','ਖ਼ੁਸ਼|ਖ਼ੁਸ਼|ਖ਼ੁਸ਼|ਖ਼ੁਸ਼','ਰੁੱਝਿਆ|ਰੁੱਝੀ|ਰੁੱਝੇ|ਰੁੱਝੀਆਂ','ਥੱਕਿਆ|ਥੱਕੀ|ਥੱਕੇ|ਥੱਕੀਆਂ','ਤਿਆਰ|ਤਿਆਰ|ਤਿਆਰ|ਤਿਆਰ','ਭੁੱਖਾ|ਭੁੱਖੀ|ਭੁੱਖੇ|ਭੁੱਖੀਆਂ','ਪਿਆਸਾ|ਪਿਆਸੀ|ਪਿਆਸੇ|ਪਿਆਸੀਆਂ','ਬਿਮਾਰ|ਬਿਮਾਰ|ਬਿਮਾਰ|ਬਿਮਾਰ','ਵੇਹਲਾ|ਵੇਹਲੀ|ਵੇਹਲੇ|ਵੇਹਲੀਆਂ','ਲੇਟ|ਲੇਟ|ਲੇਟ|ਲੇਟ','ਪੱਕਾ|ਪੱਕੀ|ਪੱਕੇ|ਪੱਕੀਆਂ','ਫ਼ਿਕਰਮੰਦ|ਫ਼ਿਕਰਮੰਦ|ਫ਼ਿਕਰਮੰਦ|ਫ਼ਿਕਰਮੰਦ'];
-  // id, infinitive, root, masculine habitual, plural habitual, polite imperative.
-  const verbG = [
-    ['v-sikhna','ਸਿੱਖਣਾ','ਸਿੱਖ','ਸਿੱਖਦਾ','ਸਿੱਖਦੇ','ਸਿੱਖੋ'],['v-samajhna','ਸਮਝਣਾ','ਸਮਝ','ਸਮਝਦਾ','ਸਮਝਦੇ','ਸਮਝੋ'],
-    ['v-gallkarna','ਗੱਲ ਕਰਨਾ','ਗੱਲ ਕਰ','ਕਰਦਾ','ਕਰਦੇ','ਗੱਲ ਕਰੋ','ਗੱਲ'],['v-kamkarna','ਕੰਮ ਕਰਨਾ','ਕੰਮ ਕਰ','ਕਰਦਾ','ਕਰਦੇ','ਕੰਮ ਕਰੋ','ਕੰਮ'],
-    ['v-khana','ਖਾਣਾ','ਖਾ','ਖਾਂਦਾ','ਖਾਂਦੇ','ਖਾਓ'],['v-pina','ਪੀਣਾ','ਪੀ','ਪੀਂਦਾ','ਪੀਂਦੇ','ਪੀਓ'],['v-jana','ਜਾਣਾ','ਜਾ','ਜਾਂਦਾ','ਜਾਂਦੇ','ਜਾਓ'],['v-auna','ਆਉਣਾ','ਆ','ਆਉਂਦਾ','ਆਉਂਦੇ','ਆਓ'],
-    ['v-sochna','ਸੋਚਣਾ','ਸੋਚ','ਸੋਚਦਾ','ਸੋਚਦੇ','ਸੋਚੋ'],['v-parhna','ਪੜ੍ਹਨਾ','ਪੜ੍ਹ','ਪੜ੍ਹਦਾ','ਪੜ੍ਹਦੇ','ਪੜ੍ਹੋ'],['v-chahuna','ਚਾਹੁਣਾ','ਚਾਹ','ਚਾਹੁੰਦਾ','ਚਾਹੁੰਦੇ',''],
-    ['v-karna','ਕਰਨਾ','ਕਰ','ਕਰਦਾ','ਕਰਦੇ','ਕਰੋ'],['v-dena','ਦੇਣਾ','ਦੇ','ਦਿੰਦਾ','ਦਿੰਦੇ','ਦਿਓ'],['v-laina','ਲੈਣਾ','ਲੈ','ਲੈਂਦਾ','ਲੈਂਦੇ','ਲਓ'],
-    ['v-vekna','ਵੇਖਣਾ','ਵੇਖ','ਵੇਖਦਾ','ਵੇਖਦੇ','ਵੇਖੋ'],['v-sunna','ਸੁਣਨਾ','ਸੁਣ','ਸੁਣਦਾ','ਸੁਣਦੇ','ਸੁਣੋ'],['v-kharidna','ਖ਼ਰੀਦਣਾ','ਖ਼ਰੀਦ','ਖ਼ਰੀਦਦਾ','ਖ਼ਰੀਦਦੇ','ਖ਼ਰੀਦੋ'],
-    ['v-pakauna','ਪਕਾਉਣਾ','ਪਕਾ','ਪਕਾਉਂਦਾ','ਪਕਾਉਂਦੇ','ਪਕਾਓ'],['v-likhna','ਲਿਖਣਾ','ਲਿਖ','ਲਿਖਦਾ','ਲਿਖਦੇ','ਲਿਖੋ'],['v-bhejna','ਭੇਜਣਾ','ਭੇਜ','ਭੇਜਦਾ','ਭੇਜਦੇ','ਭੇਜੋ'],['v-liauna','ਲਿਆਉਣਾ','ਲਿਆ','ਲਿਆਉਂਦਾ','ਲਿਆਉਂਦੇ','ਲਿਆਓ'],
-    ['v-labhna','ਲੱਭਣਾ','ਲੱਭ','ਲੱਭਦਾ','ਲੱਭਦੇ','ਲੱਭੋ'],['v-kholna','ਖੋਲ੍ਹਣਾ','ਖੋਲ੍ਹ','ਖੋਲ੍ਹਦਾ','ਖੋਲ੍ਹਦੇ','ਖੋਲ੍ਹੋ'],['v-bandkarna','ਬੰਦ ਕਰਨਾ','ਬੰਦ ਕਰ','ਬੰਦ ਕਰਦਾ','ਬੰਦ ਕਰਦੇ','ਬੰਦ ਕਰੋ'],
-    ['v-halna','ਹੱਲ ਕਰਨਾ','ਹੱਲ ਕਰ','ਹੱਲ ਕਰਦਾ','ਹੱਲ ਕਰਦੇ','ਹੱਲ ਕਰੋ'],['v-jawabdena','ਜਵਾਬ ਦੇਣਾ','ਜਵਾਬ ਦੇ','ਜਵਾਬ ਦਿੰਦਾ','ਜਵਾਬ ਦਿੰਦੇ','ਜਵਾਬ ਦਿਓ'],
-    ['v-bolna','ਬੋਲਣਾ','ਬੋਲ','ਬੋਲਦਾ','ਬੋਲਦੇ','ਬੋਲੋ'],['v-sona','ਸੌਣਾ','ਸੌਂ','ਸੌਂਦਾ','ਸੌਂਦੇ','ਸੌਂ ਜਾਓ'],['v-uthna','ਉੱਠਣਾ','ਉੱਠ','ਉੱਠਦਾ','ਉੱਠਦੇ','ਉੱਠੋ'],['v-baithna','ਬੈਠਣਾ','ਬੈਠ','ਬੈਠਦਾ','ਬੈਠਦੇ','ਬੈਠੋ'],['v-hasna','ਹੱਸਣਾ','ਹੱਸ','ਹੱਸਦਾ','ਹੱਸਦੇ','ਹੱਸੋ'],['v-khedna','ਖੇਡਣਾ','ਖੇਡ','ਖੇਡਦਾ','ਖੇਡਦੇ','ਖੇਡੋ'],
-    ['v-intazar','ਇੰਤਜ਼ਾਰ ਕਰਨਾ','ਇੰਤਜ਼ਾਰ ਕਰ','ਇੰਤਜ਼ਾਰ ਕਰਦਾ','ਇੰਤਜ਼ਾਰ ਕਰਦੇ','ਇੰਤਜ਼ਾਰ ਕਰੋ'],['v-sair','ਸੈਰ ਕਰਨਾ','ਸੈਰ ਕਰ','ਸੈਰ ਕਰਦਾ','ਸੈਰ ਕਰਦੇ','ਸੈਰ ਕਰੋ'],['v-drive','ਗੱਡੀ ਚਲਾਉਣਾ','ਗੱਡੀ ਚਲਾ','ਗੱਡੀ ਚਲਾਉਂਦਾ','ਗੱਡੀ ਚਲਾਉਂਦੇ','ਗੱਡੀ ਚਲਾਓ'],['v-phone','ਫ਼ੋਨ ਕਰਨਾ','ਫ਼ੋਨ ਕਰ','ਫ਼ੋਨ ਕਰਦਾ','ਫ਼ੋਨ ਕਰਦੇ','ਫ਼ੋਨ ਕਰੋ']
-  ];
   const grammarG = {
     'hā̃':'ਹਾਂ','haĩ':'ਹੈਂ','ho':'ਹੋ','hai':'ਹੈ','han':'ਹਨ','sī':'ਸੀ','sī̃':'ਸੀ','san':'ਸਨ',
     'rihā':'ਰਿਹਾ','rahī':'ਰਹੀ','rahe':'ਰਹੇ','rahīā̃':'ਰਹੀਆਂ','nahī̃':'ਨਹੀਂ',
@@ -2508,50 +1951,7 @@
     if(!Object.prototype.hasOwnProperty.call(grammarG,key))throw Error('Missing authored Gurmukhi grammar: '+key);
     return s.replace(key,grammarG[key]);
   }
-  function installScriptData(){
-    const defaults=defaultData();
-    Object.keys(gurmukhiSeeds).forEach(cat=>{
-      const forms=gurmukhiSeeds[cat].split('|');
-      if(forms.length!==defaults.vocab[cat].length)throw Error('Script seed count: '+cat);
-      defaults.vocab[cat].forEach((base,i)=>{
-        const item=state.vocab[cat].find(x=>x.id===base.id);
-        if(!item)return;
-        if(item.g===undefined && item.p===base.p)item.g=forms[i];
-        if(item.gScript===undefined){
-          item.gScript={};
-          if(cat==='WHO' && item.p===base.p)item.gScript={dative:subjectG[i][0],withPossession:subjectG[i][1]};
-          if(cat==='WHERE' && item.p===base.p)item.gScript={dest:destinationG[i]};
-          if(cat==='STATE' && item.p===base.p){const f=stateVariantsG[i].split('|');item.gScript={forms:{m:f[0],f:f[1],pl:f[2],fpl:f[3]}};}
-        }
-      });
-    });
-    verbG.forEach(a=>{
-      const v=state.verbs.find(x=>x.id===a[0]), base=defaults.verbs.find(x=>x.id===a[0]);
-      if(!v||v.gScript!==undefined||v.infinitive!==base.infinitive)return;
-      const sg=a[3],pl=a[4],oblique=a[1].slice(0,-1);
-      v.gScript={infinitive:a[1],root:a[2],prefix:a[6]||'',imperative:a[5],
-        inflections:{f:oblique+'ੀ',plm:oblique+'ੇ',plf:oblique+'ੀਆਂ',oblique:oblique},
-        forms:{'1sg':sg+' ਹਾਂ','2sg':sg+' ਹੈਂ','2pl':pl+' ਹੋ','3sg':sg+' ਹੈ','1pl':pl+' ਹਾਂ','3pl':pl+' ਹਨ'}};
-    });
-    if(!state.grammarUpgrade1){
-      const father=state.vocab.WHO.find(x=>x.id==='who-pio');
-      if(father&&father.p==='mere piō'&&father.person==='3sg'){father.person='3pl';father.number='pl';father.englishPerson='3sg';}
-      const take=state.verbs.find(x=>x.id==='v-laina');
-      if(take&&!(take.takesTags||[]).length){take.takesTags=['takeable'];take.isModalComplement=true;}
-      const answer=state.verbs.find(x=>x.id==='v-jawabdena');
-      if(answer){answer.objectPostposition='dā';if(answer.gScript)answer.gScript.objectPostposition='ਦਾ';}
-      const doVerb=state.verbs.find(x=>x.id==='v-karna');if(doVerb)doVerb.englishByObject={'what-madad':'give'};
-      state.vocab.WHAT.forEach(x=>{
-        if(['what-davai','what-ticket','what-tohfa','what-kitab','what-paisa','what-phone','what-chabian'].includes(x.id)&&!x.tags.includes('takeable'))x.tags.push('takeable');
-        if(x.id==='what-madad'&&x.tags.includes('giveable')){x.tags=x.tags.filter(t=>t!=='giveable');x.tags.push('doable');}
-      });
-      const fpl=['ṭhīk','khush','rujhīā̃','thakkīā̃','tiār','bhukkhīā̃','piāsīā̃','bimār','vehlīā̃','late','pakkīā̃','fikarmand'];
-      defaults.vocab.STATE.forEach((b,i)=>{const x=state.vocab.STATE.find(x=>x.id===b.id);if(x&&x.forms&&x.p===b.p&&!x.forms.fpl)x.forms.fpl=fpl[i];});
-      state.grammarUpgrade1=true;
-    }
-    state.scriptSchemaVersion=1;
-    save();
-  }
+  function installScriptData(){state.scriptSchemaVersion=2;}
   function scriptProjection(source){
     const projected=Object.assign({},source,{vocab:{},verbs:[]});
     Object.keys(source.vocab).forEach(cat=>{
@@ -2564,7 +1964,7 @@
     }));
     return projected;
   }
-  const SENTENCE_ROW_FIELDS=['id','vocabularyId','primaryId','enabled','p','g','e','english','partOfSpeech','pos','selectedSenseId','senseId','senses','meanings','source','translationOverride','phraseTranslationOverride','contextualGloss','construction','semanticTags','tags','gender','number','countability','englishCountability','englishNumber','englishArticle','definiteness','person','englishPerson','semanticProperties','semantic','semantics','ageClass','grammar','roleEligibility','verifiedGrammar','inflections','nounForms','gScript','root','infinitive','base','forms','type','prefix','habitual','future','perfective','takesTags','takesTag','subjectClass','isModalComplement','imperative','objectPostposition','englishByObject','dest','dative','withPossession','time','timeContexts','modifierTargets','modifierKind','indeclinable'];
+  const SENTENCE_ROW_FIELDS=['omittedDictionaryAnnotations','id','vocabularyId','primaryId','enabled','p','g','e','english','partOfSpeech','pos','selectedSenseId','senseId','senses','meanings','source','translationOverride','phraseTranslationOverride','contextualGloss','construction','semanticTags','tags','gender','number','countability','englishCountability','englishNumber','englishArticle','definiteness','person','englishPerson','semanticProperties','semantic','semantics','ageClass','grammar','roleEligibility','verifiedGrammar','inflections','nounForms','gScript','root','infinitive','base','forms','type','prefix','habitual','future','perfective','takesTags','takesTag','subjectClass','isModalComplement','imperative','objectPostposition','englishByObject','dest','dative','withPossession','time','timeContexts','modifierTargets','modifierKind','indeclinable'];
   function sentenceRowView(entry,overrides,fields){
     // Read only sentence fields from the live registry. Materialize them once
     // so compatibility loops use ordinary objects rather than nested proxies.
@@ -3505,9 +2905,7 @@
   function renderWordGame(){if(gameSession.phase==='setup')renderGameSetup();else if(gameSession.phase==='round')renderGameRound();}
   function initializeLearning(){
     installScriptData();
-    window.PunjabiLinguisticSystem.install(state,{categories:window.PunjabiLearningContext.categories,expansion:bundledVocabulary,audit:window.PunjabiVocabularyAudit,grammar:window.PunjabiGrammarEngine,contractTemplates:window.PunjabiSentenceLearning.templates,catalogPolicy:window.PUNJABI_SENTENCE_CATALOG_POLICY,beforeCatalogChange:function(){
-      const key='punjabi-app-state-before-sentence-catalog-v1';return window.PunjabiCatalogBackup.save(localStorage,key,JSON.stringify(window.PunjabiLinguisticSystem.snapshot(state,{compact:true})));
-    }});
+    window.PunjabiLinguisticSystem.install(state,{catalog:keptCatalog,categories:window.PunjabiLearningContext.categories,grammar:window.PunjabiGrammarEngine});
     window.PunjabiGrammarEngine.templates.forEach(template=>{
       if(!state.templates.some(t=>t.id===template.id))state.templates.push(JSON.parse(JSON.stringify(template)));
     });
@@ -3515,10 +2913,8 @@
       if(!state.templates.some(t=>t.id===template.id))state.templates.push(JSON.parse(JSON.stringify(template)));
     });
     window.PunjabiLearningContext.connect(state,window.PunjabiGrammarEngine,window.PunjabiLinguisticSystem);
-    state.schemaVersion=6;
+    state.schemaVersion=7;
     save();
-    if(!linguisticMigrationAllowed)showSpeechStatus('Your library is available for this session. Browser storage could not save a migration backup; new library changes cannot be saved until device storage is available.');
-    if(state.linguistic.catalogMigrationBlocked)showSpeechStatus('Your previous vocabulary has been preserved because the browser could not save a cleanup backup. Free browser storage and reload to apply the catalog update.');
     initializeFlashcardEvents();
     document.addEventListener('click',async event=>{
       const savePart=event.target.closest('[data-save-word]');

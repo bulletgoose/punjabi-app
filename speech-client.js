@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const DB_NAME = 'punjabi-speech-cache-v1';
+  const DB_NAME = 'punjabi-speech-cache-v2';
   const STORE_NAME = 'audio';
   const DB_VERSION = 1;
   const activeRequests = new Map();
@@ -30,7 +30,7 @@
         const db = request.result;
         if (!db.objectStoreNames.contains(STORE_NAME)) db.createObjectStore(STORE_NAME, { keyPath: 'key' });
       };
-      request.onsuccess = () => resolve(request.result);
+      request.onsuccess = () => {request.result.onversionchange=()=>request.result.close();resolve(request.result);};
       request.onerror = () => reject(request.error || new Error('IndexedDB could not be opened.'));
     });
   }
@@ -152,6 +152,7 @@
   }
 
   async function getAudio(text, mode, voice, background = false) {
+    if(window.PunjabiStorageReady)await window.PunjabiStorageReady;
     const selected = selectedVoice(voice);
     const key = await cacheKey(text, mode, selected);
     const cached = await getCached(key);
@@ -162,6 +163,7 @@
   }
 
   async function hasCached(text, mode, voice) {
+    if(window.PunjabiStorageReady)await window.PunjabiStorageReady;
     const record = await getCached(await cacheKey(text, mode, voice));
     return Boolean(record && record.blob instanceof Blob && record.blob.size);
   }

@@ -108,8 +108,8 @@ test('successful section downloads have no fixed delay between different words',
   const client = makeClient(async () => { requests++; return audioResponse(); }, {
     setTimeout() { throw new Error('A successful download must not sleep.'); }
   });
-  await client.prefetch('ਪਹਿਲਾ', 'normal', 'female');
-  await client.prefetch('ਦੂਜਾ', 'normal', 'female');
+  await client.prefetch('ਨਮਕ', 'normal', 'female');
+  await client.prefetch('ਚਾਹ', 'normal', 'female');
   assert.equal(requests, 2);
 });
 
@@ -125,7 +125,7 @@ test('a per-minute 429 waits for the next minute then retries', async () => {
     Date: class extends Date { static now() { return now; } },
     setTimeout(resolve, wait) { waits.push(wait); now += wait; queueMicrotask(resolve); }
   });
-  assert.equal((await client.prefetch('ਪਹਿਲਾ', 'normal', 'female')).source, 'cloud');
+  assert.equal((await client.prefetch('ਨਮਕ', 'normal', 'female')).source, 'cloud');
   assert.equal(speechRequests, 2);
   assert.deepEqual(waits, [41000]);
 });
@@ -137,6 +137,6 @@ test('a character-limit 429 does not keep retrying', async () => {
     speechRequests++;
     return { ok: false, status: 429 };
   }, { setTimeout() { throw new Error('Character limits must not trigger a wait.'); } });
-  await assert.rejects(client.prefetch('ਪਹਿਲਾ', 'normal', 'female'), /Daily or monthly pronunciation limit reached/);
+  await assert.rejects(client.prefetch('ਨਮਕ', 'normal', 'female'), /Daily or monthly pronunciation limit reached/);
   assert.equal(speechRequests, 1);
 });

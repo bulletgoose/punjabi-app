@@ -66,8 +66,7 @@
       empty:['container','space'],full:['container','space'],thorny:['plant'],prickly:['plant']
     },
     senseReviews:{
-      'en-ਦੇਵਰ-pa-noun-c-mhp4HH':{gender:'m',status:'development-AI-correction;native-review-pending',reason:'The kinship noun devar takes masculine agreement; the imported feminine label is retained in the dictionary tags.'},
-      'wt-sense-8682427d7b690bf22fee':{sentenceEligible:false,status:'unresolved-English-part-of-speech',reason:'The supplied English gloss renown is nominal; no source-supported predicative adjective realization is recorded.'}
+      'en-ਦੇਵਰ-pa-noun-c-mhp4HH':{gender:'m',status:'development-AI-correction;native-review-pending',reason:'The kinship noun devar takes masculine agreement; the imported feminine label is retained in the dictionary tags.'}
     }
   };
 });

@@ -60,7 +60,7 @@
     ['restaurant-order','Ask politely for food or drink',['what-pani','what-khana','v-dena'],['imperatives','questions','modals'],['P19','P20','P23']],
     ['directions','Ask where someone is going',['q-kithe','v-jana'],['questions','postpositions'],['P10','P16','P46']],
     ['daily-routine','Describe daily activities',['when-harroz','v-karna'],['habitual-present'],['P01','P03']],
-    ['health-needs','Describe a state or need',['what-davai'],['dative','gender-agreement'],['P21','P28']],
+    ['health-needs','Describe a state or need',[],['dative','gender-agreement'],['P21','P28']],
     ['future-plans','Talk about intended actions',['v-chahuna'],['modals','future'],['P14','P33']],
     ['past-experience','Talk about past activities',['v-jana'],['past','perfective'],['P43','P44','P46']],
     ['family-discussions','Talk about family and give things to someone',['who-bhain','v-dena'],['dative','postpositions'],['P53','P54','P56']],
